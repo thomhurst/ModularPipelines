@@ -14,7 +14,7 @@ using ModularPipelines.Validation;
 
 namespace ModularPipelines.Distributed.UnitTests.Configuration;
 
-[TUnit.Core.NotInParallel(nameof(DistributedOptionsTests))]
+[TUnit.Core.NotInParallel("ProcessEnvironment")]
 public class DistributedOptionsTests
 {
     [Test]
