@@ -4,6 +4,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines.Minikube\ModularPipelines.Minikube.csproj" />
+    <EmbeddedResource Include="..\..\src\ModularPipelines.Minikube\Generated\Minikube.CommandCoverage.json"
+                      LogicalName="Minikube.CommandCoverage.json" />
   </ItemGroup>
   <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.props" />
 </Project>
