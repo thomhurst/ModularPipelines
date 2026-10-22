@@ -94,6 +94,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         _masterTimeout = distributedOptions?.MasterTimeout ?? TimeSpan.FromMinutes(1);
         _onWaitReady = onWaitReady;
         _logger = logger;
+        // The coordinator owns and disposes diagnostics, including an injected instance.
         _diagnostics = diagnostics ?? new RedisCoordinationDiagnostics(options, logger);
         ValidateKeyExpiration(options, distributedOptions);
     }

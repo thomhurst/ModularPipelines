@@ -93,6 +93,49 @@ public class RedisCoordinationDiagnosticsTests
     }
 
     [Test]
+    public async Task Disposal_Waits_For_Active_Probe_And_Its_Client_Disposal()
+    {
+        var (client, _) = CreateClient();
+        var probeStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var connection = new TaskCompletionSource<IRespireClient>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var clientDisposalStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var allowClientDisposal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        client.Setup(value => value.DisposeAsync()).Returns(() =>
+        {
+            clientDisposalStarted.TrySetResult();
+            return new ValueTask(allowClientDisposal.Task);
+        });
+        var diagnostics = new RedisCoordinationDiagnostics(_ =>
+        {
+            probeStarted.TrySetResult();
+            return connection.Task;
+        }, new CapturingLogger());
+        var probe = diagnostics.ReportFailure("heartbeat");
+        try
+        {
+            await probeStarted.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            var disposal = diagnostics.DisposeAsync().AsTask();
+
+            await Assert.That(disposal.IsCompleted).IsFalse();
+            client.Verify(value => value.DisposeAsync(), Times.Never);
+            connection.SetResult(client.Object);
+            await clientDisposalStarted.Task.WaitAsync(TimeSpan.FromSeconds(10));
+
+            await Assert.That(disposal.IsCompleted).IsFalse();
+            allowClientDisposal.SetResult();
+            await disposal.WaitAsync(TimeSpan.FromSeconds(10));
+            await Assert.That(probe.IsCompletedSuccessfully).IsTrue();
+            client.Verify(value => value.DisposeAsync(), Times.Once);
+        }
+        finally
+        {
+            connection.TrySetResult(client.Object);
+            allowClientDisposal.TrySetResult();
+            await diagnostics.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(10));
+        }
+    }
+
+    [Test]
     public async Task Disposal_And_Disabled_Logging_Prevent_New_Probes()
     {
         var attempts = 0;
