@@ -66,8 +66,10 @@ incomplete validation, regardless of the exit code. A missing F# assembly now
 also produces an explicit instruction to build the matching configuration.
 
 The CI regression check builds and runs a small C#/F# fixture, verifies that
-semantic formatting detects an unused import, applies its fix, then verifies the
-result. Run it locally with the pinned SDK:
+semantic formatting detects an unused import (IDE0005) and an instance member
+that can be static (CA1822), applies both fixes, then verifies the result. It also
+checks that both the code-style and analyzer-reference passes run on the C#
+project. Run it locally with the pinned SDK:
 
 ```powershell
 ./scripts/Test-FSharpFormatting.ps1

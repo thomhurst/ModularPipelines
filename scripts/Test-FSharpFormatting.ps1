@@ -29,6 +29,7 @@ Set-Content -LiteralPath (Join-Path $fixtureRoot '.editorconfig') -Value @'
 root = true
 [*.cs]
 dotnet_diagnostic.IDE0005.severity = warning
+dotnet_diagnostic.CA1822.severity = warning
 '@
 Set-Content -LiteralPath (Join-Path $fixtureRoot 'fsharp/Fixture.fsproj') -Value @'
 <Project Sdk="Microsoft.NET.Sdk">
@@ -59,6 +60,11 @@ Set-Content -LiteralPath $source -Value @'
 using System.Text;
 
 return new FormattingRegression.Fixture().Value == 42 ? 0 : 1;
+
+internal class AnalyzerFixture
+{
+    public int GetValue() => 42;
+}
 '@
 
 Push-Location $fixtureRoot
@@ -68,20 +74,23 @@ try {
     $build = Invoke-FormattingCheckDotNet @('run', '--project', $project) 'run.log'
     if ($build.ExitCode -ne 0) { throw "F# runtime reference failed: $($build.Output)" }
 
-    $formatArguments = @('format', 'style', $project, '--no-restore', '--severity', 'info',
-        '--diagnostics', 'IDE0005', '--verbosity', 'diagnostic', '--include', 'csharp/Program.cs')
+    $formatArguments = @('format', $project, '--no-restore', '--severity', 'info',
+        '--diagnostics', 'IDE0005', 'CA1822', '--verbosity', 'diagnostic', '--include', 'csharp/Program.cs')
+    $bothPasses = '(?s)Running Code Style analysis\..*?Running [1-9]\d* analyzers on FormattingRegression\..*?Running Analyzer Reference analysis\..*?Running [1-9]\d* analyzers on FormattingRegression\.'
     $verify = Invoke-FormattingCheckDotNet ($formatArguments + '--verify-no-changes') 'verify-before.log'
-    if ($verify.ExitCode -ne 2 -or $verify.Output -notmatch 'IDE0005' -or
-        $verify.Output -notmatch 'Running \d+ analyzers on FormattingRegression' -or
+    if ($verify.ExitCode -ne 2 -or $verify.Output -notmatch 'IDE0005' -or $verify.Output -notmatch 'CA1822' -or
+        $verify.Output -notmatch $bothPasses -or
         $verify.Output -match 'Required references did not load|Msbuild failed') {
-        throw "Semantic formatting did not detect the unused import (exit $($verify.ExitCode)): $($verify.Output)"
+        throw "Semantic formatting did not detect both style and analyzer diagnostics (exit $($verify.ExitCode)): $($verify.Output)"
     }
     $apply = Invoke-FormattingCheckDotNet $formatArguments 'apply.log'
-    if ($apply.ExitCode -ne 0 -or (Get-Content -LiteralPath $source -Raw) -match 'using System.Text') {
-        throw "Semantic formatting did not remove the unused import: $($apply.Output)"
+    $formattedSource = Get-Content -LiteralPath $source -Raw
+    if ($apply.ExitCode -ne 0 -or $formattedSource -match 'using System.Text' -or
+        $formattedSource -notmatch 'public static int GetValue\(') {
+        throw "Semantic formatting did not apply both style and analyzer fixes: $($apply.Output)"
     }
     $verify = Invoke-FormattingCheckDotNet ($formatArguments + '--verify-no-changes') 'verify-after.log'
-    if ($verify.ExitCode -ne 0 -or $verify.Output -notmatch 'Running \d+ analyzers on FormattingRegression' -or
+    if ($verify.ExitCode -ne 0 -or $verify.Output -notmatch $bothPasses -or
         $verify.Output -match 'Required references did not load|Msbuild failed') {
         throw "Semantic formatting verification failed: $($verify.Output)"
     }
