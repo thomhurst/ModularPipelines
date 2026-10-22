@@ -3,6 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ModularPipelines;
 
+/// <summary>
+/// Represents the outcome of a command execution, including captured output, exit code, timing, and execution context.
+/// </summary>
 public record CommandResult
 {
     private static readonly IReadOnlyDictionary<string, string?> EmptyEnvironmentVariables =
