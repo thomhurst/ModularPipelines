@@ -2546,6 +2546,76 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("await a; _ = a.Result;")]
+    [DataRow("await a.ConfigureAwait(false); _ = a.Result;")]
+    [DataRow("await Task.WhenAll(a, b); _ = a.Result; _ = b.Result;")]
+    [DataRow("await Task.WhenAll([a, b]); _ = a.Result; _ = b.Result;")]
+    [DataRow("await Task.WhenAll<int>(a, b); _ = a.Result; _ = b.Result;")]
+    [DataRow("await Task.WhenAll(new[] { a, b }).ConfigureAwait(false); _ = a.Result; _ = b.Result;")]
+    [DataRow("if (a.IsCompleted) { _ = a.Result; }")]
+    [DataRow("if (a.IsCompletedSuccessfully && b.IsCompleted) { _ = a.Result; _ = b.Result; }")]
+    [DataRow("if (!a.IsCompleted) return null!; _ = a.Result;")]
+    [DataRow("if (a.IsFaulted || a.IsCanceled) { _ = a.Result; }")]
+    [DataRow("if (context != null) await a; else await a; _ = a.Result;")]
+    [DataRow("var winner = await Task.WhenAny(a, b); _ = winner.Result;")]
+    [DataRow("var winner = await Task.WhenAny(a, b).ConfigureAwait(false); _ = winner.Result;")]
+    [DataRow("await a; var alias = a; _ = alias.Result;")]
+    [DataRow("async Task Read(Task<int> task) { await task; _ = task.Result; } await Read(a);")]
+    [DataRow("Func<Task> read = async () => { var task = GetTask(); await task; _ = task.Result; }; await read();")]
+    [DataRow("await a; while (context != null) { _ = a.Result; }")]
+    public async Task Does_Not_Report_Result_When_Task_Completion_Is_Proven(string statements)
+    {
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements));
+    }
+
+    [TestMethod]
+    [DataRow("await a; _ = {|#0:b.Result|};")]
+    [DataRow("await a; a = GetTask(); _ = {|#0:a.Result|};")]
+    [DataRow("await a; if (context != null) a = GetTask(); _ = {|#0:a.Result|};")]
+    [DataRow("if (context != null) await a; _ = {|#0:a.Result|};")]
+    [DataRow("if (a.IsCompleted || b.IsCompleted) { _ = {|#0:a.Result|}; }")]
+    [DataRow("if (!a.IsCompleted) { _ = {|#0:a.Result|}; }")]
+    [DataRow("await Task.WhenAny(a, b); _ = {|#0:a.Result|};")]
+    [DataRow("var winner = await Task.WhenAny(a, b); _ = {|#0:b.Result|};")]
+    [DataRow("try { if (context != null) throw new Exception(); await a; } catch { } _ = {|#0:a.Result|};")]
+    [DataRow("try { await a; } finally { _ = {|#0:b.Result|}; }")]
+    [DataRow("try { await a; } finally { a = GetTask(); } _ = {|#0:a.Result|};")]
+    [DataRow("await a; (a, b) = (GetTask(), GetTask()); _ = {|#0:a.Result|};")]
+    [DataRow("try { if (!a.IsCompleted) return null!; } finally { a = GetTask(); } _ = {|#0:a.Result|};")]
+    [DataRow("await a; while (context != null) { _ = {|#0:a.Result|}; a = GetTask(); }")]
+    [DataRow("async Task Read() { await a; } _ = {|#0:a.Result|}; await Read();")]
+    [DataRow("while (context != null) { _ = {|#0:a.Result|}; await a; }")]
+    [DataRow("try { throw new Exception(); } catch { while (context != null) { await a; } _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await Task.Yield(); } finally { while (context != null) { await a; } _ = {|#0:a.Result|}; }")]
+    [DataRow("await a; void Replace() { a = GetTask(); } Replace(); _ = {|#0:a.Result|};")]
+    [DataRow("await a; Replace(ref a); _ = {|#0:a.Result|};")]
+    [DataRow("var value = new ValueTask<int>(1); await value; _ = {|#0:value.Result|};")]
+    [DataRow("await CurrentTask; _ = {|#0:CurrentTask.Result|};")]
+    public async Task Reports_Result_When_Task_Completion_Is_Not_Proven(string statements)
+    {
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
+            .WithLocation(0)
+            .WithArguments("Result");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), expected);
+    }
+
+    private static string CompletedTaskSource(string statements) => ModuleSource($$"""
+        protected override async Task<List<string>> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var a = GetTask();
+            var b = GetTask();
+            {{statements}}
+            return null!;
+        }
+
+        private static Task<int> GetTask() => Task.FromResult(1);
+        private static Task<int> CurrentTask => GetTask();
+        private static void Replace(ref Task<int> task) => task = GetTask();
+        """);
+
+    [TestMethod]
     public async Task Reports_Unflowed_CancellationToken()
     {
         var source = ModuleSource("""
