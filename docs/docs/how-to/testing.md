@@ -189,8 +189,10 @@ await Assert.That(run.Commands[0].CommandLine.Arguments)
 
 Each `RecordedCommand` contains the parsed `CommandInvocation` and the simulated
 `CommandResult`. This avoids assertions against a quoted display string.
-Intercepted nonzero exit codes follow `CommandExecutionOptions` normally and
-throw `CommandException` when `ThrowOnNonZeroExitCode` is enabled.
+Intercepted exit codes follow `CommandExecutionOptions` normally and throw
+`CommandException` when `ThrowOnNonZeroExitCode` is enabled and the exit code is
+outside `SuccessExitCodes` (which defaults to `[0]`). See
+[Accepted exit codes](custom-commands.md#accepted-exit-codes) to accept additional codes.
 
 Use `CommandResult.Fail(exitCode: 17, standardError: "build failed")` for failed
 commands. It defaults to exit code 1 and rejects zero; standard output and standard
@@ -229,9 +231,9 @@ with a modified `CommandLine`, `ExecutionOptions`, or `WorkingDirectory`.
 `CommandInput` and `EnvironmentVariables` are secret-masked views that the framework
 regenerates; change environment variables through `ExecutionOptions`. Return a
 result without calling `next` to short-circuit: the framework applies command
-metadata, logs it, and throws `CommandException` for a nonzero exit code when
-`ThrowOnNonZeroExitCode` is enabled. The execution timeout starts before the
-interceptors run and cannot be changed by them.
+metadata, logs it, and throws `CommandException` for an exit code outside
+`SuccessExitCodes` when `ThrowOnNonZeroExitCode` is enabled. The execution timeout
+starts before the interceptors run and cannot be changed by them.
 
 ## Intercept HTTP
 
