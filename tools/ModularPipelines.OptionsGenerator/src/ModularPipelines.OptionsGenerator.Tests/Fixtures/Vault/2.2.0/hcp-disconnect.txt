@@ -1,0 +1,5 @@
+Usage: vault hcp disconnect [options]
+
+  Cleans up the cache with the HCP credentials used to connect to a HCP Vault cluster.
+
+      $ vault hcp disconnect
