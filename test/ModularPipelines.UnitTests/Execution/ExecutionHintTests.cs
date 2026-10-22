@@ -1,9 +1,14 @@
 using System.Collections.Concurrent;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -14,6 +19,7 @@ public class ExecutionHintTests : TestBase
     private static int _cpuConcurrency;
     private static int _maxCpuConcurrency;
     private static TaskCompletionSource? _twoCpuModulesStarted;
+    private static TaskCompletionSource? _thirdCpuModuleBlocked;
 
     private static async Task<string> ExecuteCpuBoundModuleAsync(string moduleName, CancellationToken cancellationToken)
     {
@@ -48,7 +54,12 @@ public class ExecutionHintTests : TestBase
                 await twoCpuModulesStarted.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
             }
 
-            await Task.Delay(50, cancellationToken);
+            if (_thirdCpuModuleBlocked is { } thirdCpuModuleBlocked)
+            {
+                // The scheduler must consider and block the third module before either slot is released.
+                await thirdCpuModuleBlocked.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
+            }
+
             return moduleName;
         }
         finally
@@ -112,6 +123,7 @@ public class ExecutionHintTests : TestBase
         while (CpuViolations.TryTake(out _)) { }
         _maxCpuConcurrency = 0;
         _twoCpuModulesStarted = null;
+        _thirdCpuModuleBlocked = null;
     }
 
     [Test]
@@ -151,15 +163,34 @@ public class ExecutionHintTests : TestBase
     public async Task CpuBoundModules_AreThrottled()
     {
         _twoCpuModulesStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var result = await TestPipelineBuilder.Create()
+        var thirdCpuModuleBlocked = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _thirdCpuModuleBlocked = thirdCpuModuleBlocked;
+        var evaluator = new ModuleConstraintEvaluator(NullLogger<ModuleConstraintEvaluator>.Instance);
+        var observer = new Mock<IModuleConstraintEvaluator>();
+        observer.Setup(x => x.CanQueue(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()))
+            .Returns((ModuleState module, IEnumerable<ModuleState> active) =>
+            {
+                var canQueue = evaluator.CanQueue(module, active);
+                if (!canQueue)
+                {
+                    thirdCpuModuleBlocked.TrySetResult();
+                }
+
+                return canQueue;
+            });
+        observer.Setup(x => x.CanStartExecution(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()))
+            .Returns((ModuleState module, IEnumerable<ModuleState> active) => evaluator.CanStartExecution(module, active));
+
+        var builder = TestPipelineBuilder.Create()
             .AddModule<CpuBoundModule1>()
             .AddModule<CpuBoundModule2>()
             .AddModule<CpuBoundModule3>()
             .ConfigureOptions(options => options with
             {
                 Concurrency = options.Concurrency with { MaxParallelism = 3, MaxCpuIntensiveModules = 2 },
-            })
-            .RunAsync();
+            });
+        builder.Services.AddSingleton(observer.Object);
+        var result = await builder.RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(CpuViolations).IsEmpty();
