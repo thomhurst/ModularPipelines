@@ -63,7 +63,7 @@ public record KubernetesLogsOptions(
     /// Maximum bytes of logs to return. Defaults to no limit.
     /// </summary>
     [CliOption("--limit-bytes", Format = OptionFormat.EqualsSeparated)]
-    public int? LimitBytes { get; set; }
+    public long? LimitBytes { get; set; }
 
     /// <summary>
     /// Specify maximum number of concurrent logs to follow when using by a selector. Defaults to 5.
