@@ -1156,13 +1156,17 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             AppendGeneratedFilePreamble(sb, uniqueItems, includeIncompleteMetadataAttributes: false);
             sb.AppendLine("namespace ModularPipelines.Generated;");
             sb.AppendLine();
-            sb.AppendLine($"internal static class {className}");
+            sb.AppendLine("internal static partial class RuntimeMetadataRegistration");
             sb.AppendLine("{");
+            // Private nesting keeps helpers invisible even to friend assemblies.
+            sb.AppendLine($"    private static class {className}");
+            sb.AppendLine("    {");
             foreach (var part in chunk)
             {
                 appendPart(sb, part.Key, part.Value);
             }
 
+            sb.AppendLine("    }");
             sb.AppendLine("}");
             yield return ($"ModularPipelines.RuntimeMetadata.{className}.g.cs", sb.ToString());
         }
@@ -1170,14 +1174,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static void AppendSharedCommandPart(StringBuilder sb, PropertyMetadata property, int index)
     {
-        sb.AppendLine($"    internal static readonly global::ModularPipelines.Generated.PropertyCommandLinePart {SharedParts.FieldName(index)} =");
-        AppendCommandPart(sb, property, "        ", ";");
+        sb.AppendLine($"        internal static readonly global::ModularPipelines.Generated.PropertyCommandLinePart {SharedParts.FieldName(index)} =");
+        AppendCommandPart(sb, property, "            ", ";");
     }
 
     private static void AppendSharedSecretPart(StringBuilder sb, PropertyMetadata property, int index)
     {
-        sb.AppendLine($"    internal static readonly global::ModularPipelines.Generated.SecretPropertyAccessor {SharedParts.FieldName(index)} =");
-        sb.AppendLine($"        {GetSecretPartExpression(property)};");
+        sb.AppendLine($"        internal static readonly global::ModularPipelines.Generated.SecretPropertyAccessor {SharedParts.FieldName(index)} =");
+        sb.AppendLine($"            {GetSecretPartExpression(property)};");
     }
 
     private static List<(string HintName, string Source)> GenerateChunkedSources(
@@ -1271,7 +1275,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
-        sb.AppendLine("internal static class RuntimeMetadataRegistration");
+        sb.AppendLine("internal static partial class RuntimeMetadataRegistration");
         sb.AppendLine("{");
         sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
         sb.AppendLine($"    public const int CommandSchemaVersion = {CommandMetadataSchemaVersion};");
@@ -1313,7 +1317,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
-        sb.AppendLine("internal static class RuntimeMetadataRegistration");
+        sb.AppendLine("internal static partial class RuntimeMetadataRegistration");
         sb.AppendLine("{");
         sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
         sb.AppendLine($"    public const int CommandSchemaVersion = {CommandMetadataSchemaVersion};");
@@ -1341,7 +1345,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         for (var index = 0; index < chunkCount; index++)
         {
             sb.AppendLine(
-                $"        RuntimeMetadataRegistrationChunk{index:D4}.Register(assembly);");
+                $"        RegisterChunk{index:D4}(assembly);");
         }
 
         sb.AppendLine("    }");
@@ -1356,10 +1360,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
-        sb.AppendLine($"internal static class RuntimeMetadataRegistrationChunk{index:D4}");
+        sb.AppendLine("internal static partial class RuntimeMetadataRegistration");
         sb.AppendLine("{");
         AppendCommandMetadataDependencies(sb, items);
-        sb.AppendLine("    internal static void Register(global::System.Reflection.Assembly assembly)");
+        sb.AppendLine($"    private static void RegisterChunk{index:D4}(global::System.Reflection.Assembly assembly)");
         sb.AppendLine("    {");
         AppendRuntimeTypeRegistrations(sb, items, sharedParts);
         sb.AppendLine("    }");
