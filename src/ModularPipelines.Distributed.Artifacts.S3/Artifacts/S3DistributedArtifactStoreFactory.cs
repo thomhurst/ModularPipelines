@@ -7,7 +7,7 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 
 /// <summary>
 /// Factory that creates a <see cref="S3DistributedArtifactStore"/> by initializing the S3 client.
-/// Optionally merges a lifecycle rule for automatic artifact expiration into the bucket's configuration.
+/// Optionally checks an externally provisioned lifecycle rule for automatic artifact expiration.
 /// </summary>
 internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactStoreFactory
 {
@@ -47,7 +47,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
         {
             if (_options.SetLifecycleRule)
             {
-                await EnsureLifecycleRuleAsync(s3, cancellationToken).ConfigureAwait(false);
+                await CheckLifecycleRuleAsync(s3, cancellationToken).ConfigureAwait(false);
             }
 
             return new S3DistributedArtifactStore(s3, _options, _distributedOptions.RunId, _logger);
@@ -59,7 +59,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
         }
     }
 
-    private async Task EnsureLifecycleRuleAsync(IAmazonS3 s3, CancellationToken cancellationToken)
+    private async Task CheckLifecycleRuleAsync(IAmazonS3 s3, CancellationToken cancellationToken)
     {
         var rule = CreateRule();
         try
@@ -71,24 +71,21 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
                 return;
             }
 
-            // PutLifecycleConfiguration replaces the whole configuration, so keep every other rule.
-            var rules = existingRules.Where(existing => existing.Id != rule.Id).Append(rule).ToList();
-            await s3.PutLifecycleConfigurationAsync(
-                    new PutLifecycleConfigurationRequest
-                    {
-                        BucketName = _options.BucketName,
-                        Configuration = new LifecycleConfiguration { Rules = rules },
-                    },
-                    cancellationToken)
-                .ConfigureAwait(false);
+            // S3 replaces the entire configuration on each write. Independent runs cannot
+            // safely merge rules at startup, so infrastructure owns all lifecycle writes.
+            _logger.LogWarning(
+                "S3 lifecycle rule {RuleId} on bucket {BucketName} is missing or differs from the expected prefix, enabled status, {ExpirationDays}-day expiration, or one-day multipart-abort action. Provision the rule outside pipeline startup; bucket lifecycle configuration was not changed.",
+                rule.Id,
+                _options.BucketName,
+                rule.Expiration.Days);
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            // Lifecycle configuration may be unsupported by the provider or not permitted for
-            // these credentials. Artifacts still work; they just do not expire automatically.
+            // Lifecycle configuration may be unsupported or unreadable with these credentials.
+            // Artifacts still work, but the external expiration policy could not be checked.
             _logger.LogWarning(
                 exception,
-                "Could not configure S3 lifecycle rule {RuleId} on bucket {BucketName}; artifacts will not expire automatically.",
+                "Could not check S3 lifecycle rule {RuleId} on bucket {BucketName}. Provision and manage lifecycle rules outside pipeline startup; bucket lifecycle configuration was not changed.",
                 rule.Id,
                 _options.BucketName);
         }

@@ -99,14 +99,50 @@ service URL when targeting an S3-compatible provider, for example `options => op
 | `ForcePathStyle` | `bool` | `false` | Path-style addressing, required by MinIO and some providers. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for every object key. Artifacts use `{KeyPrefix}/artifacts/{RunId}/...` and module cache entries `{KeyPrefix}/module-cache/...`. |
 | `MultipartPartSizeBytes` | `int` | 16 MB | Part size for large uploads (5 MB to 1 GB). Content larger than one part uses a multipart upload, so objects are not capped at 5 GB. |
-| `SetLifecycleRule` | `bool` | `false` | Add or update a bucket lifecycle rule that expires artifacts after `TimeToLive` and aborts their incomplete multipart uploads after one day. |
-| `TimeToLive` | `TimeSpan` | 1 day | Artifact lifetime used by the lifecycle rule, rounded up to whole days. [Run data cleanup](../distributed/configuration.md#run-data-cleanup) deletes a finished run's artifacts earlier. |
+| `SetLifecycleRule` | `bool` | `false` | Check an externally provisioned artifact lifecycle rule at startup and warn if it is missing or differs. Never writes bucket configuration. |
+| `TimeToLive` | `TimeSpan` | 1 day | Expected artifact lifetime checked when `SetLifecycleRule` is enabled, rounded up to whole days (minimum one day). [Run data cleanup](../distributed/configuration.md#run-data-cleanup) deletes a finished run's artifacts earlier. |
 
-`SetLifecycleRule` reads the bucket's lifecycle configuration and merges one rule, identified by the artifact prefix,
-into it; other rules are preserved. It needs the `s3:GetLifecycleConfiguration` and `s3:PutLifecycleConfiguration`
-permissions. If the provider does not support lifecycle configuration or access is denied, a warning is logged and
-artifacts simply do not expire automatically. Because every process runs this check at startup, prefer configuring
-the rule once in your infrastructure code and leaving `SetLifecycleRule` off.
+### Provision lifecycle rules outside pipeline startup
+
+Manage the bucket's complete lifecycle configuration through one infrastructure owner, such as your Terraform or
+CloudFormation deployment. Pipeline startup never creates, updates, or deletes lifecycle rules, even when
+`SetLifecycleRule = true`. Concurrent processes and independent runs with different prefixes therefore cannot
+overwrite each other's rules or admin rules. Infrastructure deployments must coordinate their own configuration
+changes: S3 replaces the entire lifecycle configuration on each write.
+
+Provision an enabled rule for each artifact prefix. For the default `KeyPrefix = "modpipe"` and one-day
+`TimeToLive`, include this rule in the bucket's lifecycle configuration alongside all other required rules:
+
+```json
+{
+  "Rules": [
+    {
+      "ID": "modpipe-artifact-expiration:modpipe/artifacts/",
+      "Status": "Enabled",
+      "Filter": { "Prefix": "modpipe/artifacts/" },
+      "Expiration": { "Days": 1 },
+      "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 1 }
+    }
+  ]
+}
+```
+
+Replace both occurrences of `modpipe/artifacts/` with your normalized artifact prefix: trim leading and trailing
+slashes from `KeyPrefix`, then append `/artifacts/`. Set `Expiration.Days` to `TimeToLive` rounded up to whole days,
+with a minimum of one day. The rule ID must be `modpipe-artifact-expiration:` followed by that prefix for the
+optional startup check to recognize it. This rule covers artifacts; provision module-cache retention separately.
+In versioned buckets, also configure noncurrent-version expiration when old data must be removed.
+
+Despite its historical name, `SetLifecycleRule = true` now only reads the configuration and checks the rule's ID,
+enabled status, exact prefix filter, expiration days, and one-day multipart-abort action. It requires only
+`s3:GetLifecycleConfiguration`; the pipeline no longer needs `s3:PutLifecycleConfiguration`. A missing or different
+rule, unsupported lifecycle API, or denied read logs a warning and allows startup to continue. Cancellation still
+stops startup. This is a startup snapshot, not ongoing monitoring or a guarantee that artifacts will expire;
+external changes and provider behavior remain the infrastructure owner's responsibility.
+
+With the default `SetLifecycleRule = false`, startup makes no lifecycle API requests. Externally provisioned rules
+still apply. Changing `TimeToLive` never changes the bucket policy. When migrating from automatic lifecycle writes,
+keep any existing rules under infrastructure management and provision missing rules before starting pipelines.
 
 [Run data cleanup](../distributed/configuration.md#run-data-cleanup) runs on the master when a distributed run ends.
 It lists every object version under `{KeyPrefix}/artifacts/{RunId}/` and deletes each one, so the master's credentials

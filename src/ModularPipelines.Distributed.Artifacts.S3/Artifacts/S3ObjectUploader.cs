@@ -148,8 +148,8 @@ internal static class S3ObjectUploader
         {
             // Best effort: an abort failure must not replace the upload failure the caller
             // rethrows. Parts left behind are only removed by a bucket lifecycle rule with an
-            // AbortIncompleteMultipartUpload clause, which S3StorageOptions.SetLifecycleRule
-            // configures for artifact uploads.
+            // AbortIncompleteMultipartUpload clause. Provision that rule outside pipeline
+            // startup; S3StorageOptions.SetLifecycleRule only checks it for artifact uploads.
         }
     }
 

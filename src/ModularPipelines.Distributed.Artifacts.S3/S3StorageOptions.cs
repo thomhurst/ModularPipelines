@@ -67,16 +67,22 @@ public sealed record S3StorageOptions
     public int MultipartPartSizeBytes { get; init; } = 16 * 1024 * 1024;
 
     /// <summary>
-    /// Gets whether to add or update a bucket lifecycle rule that expires artifacts under
-    /// <c>{KeyPrefix}/artifacts/</c> after <see cref="TimeToLive"/>. Existing rules are preserved.
-    /// Requires the <c>s3:GetLifecycleConfiguration</c> and <c>s3:PutLifecycleConfiguration</c>
-    /// permissions; failures are logged as warnings. Default: false.
+    /// Gets whether to check an externally provisioned artifact lifecycle rule at startup.
+    /// Despite its historical name, this option never writes bucket lifecycle configuration.
+    /// The expected rule ID is <c>modpipe-artifact-expiration:{KeyPrefix}/artifacts/</c>, with
+    /// leading and trailing slashes trimmed from <see cref="KeyPrefix"/>. It must be enabled,
+    /// filter that artifact prefix, expire objects after <see cref="TimeToLive"/> rounded up to
+    /// whole days (minimum one day), and abort incomplete multipart uploads after one day.
+    /// Requires <c>s3:GetLifecycleConfiguration</c>; a missing or different rule or a read failure
+    /// logs a warning and allows startup to continue. Provision rules through your infrastructure
+    /// owner before startup. Default: false (no lifecycle API requests).
     /// </summary>
     public bool SetLifecycleRule { get; init; }
 
     /// <summary>
-    /// Gets how long artifacts are kept when <see cref="SetLifecycleRule"/> is enabled.
-    /// S3 lifecycle expiration is day-granular, so this rounds up to whole days. Default: 1 day.
+    /// Gets the expected artifact lifetime checked when <see cref="SetLifecycleRule"/> is enabled.
+    /// Rounds up to whole days, with a minimum of one day. Does not change the externally
+    /// provisioned lifecycle rule or expire objects itself. Default: 1 day.
     /// </summary>
     public TimeSpan TimeToLive { get; init; } = TimeSpan.FromDays(1);
 
