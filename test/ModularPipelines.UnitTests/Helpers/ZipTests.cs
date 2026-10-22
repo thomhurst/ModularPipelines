@@ -282,6 +282,12 @@ public class ZipTests : TestBase
                     It.IsAny<FileAccess>()))
                 .Returns((string path, FileMode mode, FileAccess access) =>
                     System.IO.File.Open(path, mode, access, FileShare.None));
+            fileSystemProvider
+                .Setup(provider => provider.MoveFile(It.IsAny<string>(), It.IsAny<string>(), false))
+                .Callback((string source, string destination, bool overwrite) => System.IO.File.Move(source, destination, overwrite));
+            fileSystemProvider
+                .Setup(provider => provider.DeleteFile(It.IsAny<string>()))
+                .Callback((string path) => System.IO.File.Delete(path));
             var zip = new Zip(fileSystemProvider.Object, new PipelineWorkingDirectory(root));
 
             await Assert.That(() =>

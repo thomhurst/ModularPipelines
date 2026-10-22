@@ -418,8 +418,8 @@ public class ZipReliabilityTests
 
             var destination = Path.Combine(root.FullName, "destination", "input.txt");
             var provider = CreateProvider();
-            provider.Setup(fileSystem => fileSystem.Open(destination, FileMode.CreateNew, FileAccess.Write))
-                .Returns(() =>
+            provider.Setup(fileSystem => fileSystem.MoveFile(It.IsAny<string>(), destination, false))
+                .Callback(() =>
                 {
                     File.WriteAllText(destination, "competing contents");
                     throw new IOException("Die Datei ist bereits vorhanden.");
@@ -454,6 +454,8 @@ public class ZipReliabilityTests
         provider.Setup(fileSystem => fileSystem.OpenRead(It.IsAny<string>())).Returns((string path) => File.OpenRead(path));
         provider.Setup(fileSystem => fileSystem.MoveFile(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string source, string destination) => File.Move(source, destination));
+        provider.Setup(fileSystem => fileSystem.MoveFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
+            .Callback((string source, string destination, bool overwrite) => File.Move(source, destination, overwrite));
         provider.Setup(fileSystem => fileSystem.DeleteFile(It.IsAny<string>())).Callback((string path) => File.Delete(path));
         return provider;
     }
