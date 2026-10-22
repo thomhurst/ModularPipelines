@@ -11,6 +11,44 @@ namespace ModularPipelines.Distributed.UnitTests.Artifacts;
 public class ArtifactLifecycleLinkTests
 {
     [Test]
+    [TUnit.Core.NotInParallel]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Artifacts_Roundtrip_Below_A_Linked_Workspace_Ancestor(bool directory)
+    {
+        var originalWorkingDirectory = Directory.GetCurrentDirectory();
+        var root = Directory.CreateTempSubdirectory("artifact-workspace-alias-");
+        try
+        {
+            var real = root.CreateSubdirectory("real");
+            real.CreateSubdirectory("workspace");
+            var alias = Path.Combine(root.FullName, "alias");
+            CreateLink(() => DirectoryLink(alias, real.FullName, OperatingSystem.IsWindows()));
+            Directory.SetCurrentDirectory(Path.Combine(alias, "workspace"));
+            var working = Directory.GetCurrentDirectory();
+            var source = Path.Combine(working, "test-output");
+            if (directory)
+            {
+                Directory.CreateDirectory(source);
+                source = Path.Combine(source, "payload.txt");
+            }
+            await File.WriteAllTextAsync(source, "workspace contents");
+            var manager = Manager(new InMemoryDistributedArtifactStore(), working);
+
+            await manager.UploadProducedArtifactsAsync(typeof(ProducerModule), CancellationToken.None);
+            await manager.DownloadConsumedArtifactsAsync(typeof(ConsumerModule), CancellationToken.None);
+
+            var restored = Path.Combine(working, "restored", directory ? "payload.txt" : "build-output");
+            await Assert.That(await File.ReadAllTextAsync(restored)).IsEqualTo("workspace contents");
+        }
+        finally
+        {
+            Directory.SetCurrentDirectory(originalWorkingDirectory);
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     [Arguments("file", false)]
     [Arguments("directory", false)]
     [Arguments("nested-file", false)]

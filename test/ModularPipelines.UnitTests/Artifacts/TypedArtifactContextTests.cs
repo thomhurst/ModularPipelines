@@ -13,6 +13,39 @@ namespace ModularPipelines.UnitTests.Artifacts;
 public class TypedArtifactContextTests
 {
     [Test]
+    public async Task Path_Archive_Validates_And_Reads_Repeated_Paths_Once()
+    {
+        var source = Path.GetFullPath("repeated-artifact-source");
+        var file = Path.Combine(source, "payload.txt");
+        var archivePath = Path.Combine(Path.GetTempPath(), $"artifact-repeated-paths-{Guid.NewGuid():N}.zip");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        var linkChecks = 0;
+        provider.Setup(p => p.GetAttributes(file)).Returns(FileAttributes.Normal).Callback(() => linkChecks++);
+        provider.Setup(p => p.GetRelativePath(source, file)).Returns("payload.txt");
+        provider.Setup(p => p.GetLastWriteTimeUtc(file)).Returns(new DateTime(2026, 10, 4, 12, 0, 0, DateTimeKind.Utc));
+        provider.Setup(p => p.OpenRead(file)).Returns(() => new MemoryStream("payload"u8.ToArray()));
+        try
+        {
+            await ArtifactContextImpl.CreatePathArchiveAsync(
+                archivePath, source, Enumerable.Repeat((file, false), 10_000),
+                CompressionLevel.Fastest, CancellationToken.None, provider.Object);
+
+            using var archive = ZipFile.OpenRead(archivePath);
+            await Assert.That(archive.Entries.Select(entry => entry.FullName)).IsEquivalentTo(["payload.txt"]);
+            using var reader = new StreamReader(archive.GetEntry("payload.txt")!.Open());
+            await Assert.That(await reader.ReadToEndAsync()).IsEqualTo("payload");
+            await Assert.That(linkChecks).IsEqualTo(1);
+            provider.Verify(p => p.GetRelativePath(source, file), Times.Once);
+            provider.Verify(p => p.OpenRead(file), Times.Once);
+        }
+        finally
+        {
+            File.Delete(archivePath);
+        }
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Directory_Archive_Rejects_Provider_Links_Before_Descent_Or_Read(bool directoryLink)

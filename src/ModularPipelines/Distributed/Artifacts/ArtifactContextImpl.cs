@@ -158,7 +158,10 @@ internal class ArtifactContextImpl(
     {
         provider ??= SystemFileSystemProvider.Instance;
         // Complete validation before opening an archive or reading any source file.
-        var entries = paths.ToList();
+        var entries = paths.DistinctBy(entry => entry.Path,
+            GetArchivePathComparison(provider) == StringComparison.OrdinalIgnoreCase
+                ? StringComparer.OrdinalIgnoreCase
+                : StringComparer.Ordinal).ToList();
         cancellationToken.ThrowIfCancellationRequested();
         var archivedEntries = new HashSet<string>(StringComparer.Ordinal);
         using var archive = ZipFile.Open(archivePath, ZipArchiveMode.Create);
@@ -509,21 +512,38 @@ internal class ArtifactContextImpl(
 
     private static void EnsurePathContainsNoLinks(IFileSystemProvider provider, string destinationDirectory, string path)
     {
+        var trustedRoot = false;
         if (provider is SystemFileSystemProvider)
         {
             path = Path.GetFullPath(path);
-            // Include ancestors above the requested root, even when that root does not exist yet.
             destinationDirectory = Path.GetPathRoot(path)!;
+            // The host already trusts its working and temporary directories. Their ancestors
+            // may be system aliases (for example /var on macOS) or workspace junctions.
+            // Still validate every segment below these roots, including missing destinations.
+            foreach (var root in new[] { Directory.GetCurrentDirectory(), Path.GetTempPath() })
+            {
+                var fullRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(root));
+                if (fullRoot.Length > destinationDirectory.Length
+                    && (path.Equals(fullRoot, GetArchivePathComparison(provider))
+                        || path.StartsWith(fullRoot + provider.DirectorySeparatorChar, GetArchivePathComparison(provider))))
+                {
+                    destinationDirectory = fullRoot;
+                    trustedRoot = true;
+                }
+            }
         }
 
         var currentPath = destinationDirectory;
-        try
+        if (!trustedRoot)
         {
-            EnsurePathIsNotLink(provider, currentPath);
-        }
-        catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
-        {
-            return;
+            try
+            {
+                EnsurePathIsNotLink(provider, currentPath);
+            }
+            catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
+            {
+                return;
+            }
         }
 
         var relativePath = provider is SystemFileSystemProvider
