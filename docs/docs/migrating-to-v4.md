@@ -1271,6 +1271,73 @@ switches described in [HTTP logging](./how-to/logging.md#http-logging). Use `Htt
 to disable HTTP logging for a request. HTTP responses stream their bodies; dispose responses and
 pass cancellation tokens to body-reading operations too.
 
+### HTTP resilience
+
+V3 retried all HTTP methods. V4's default client retries only `GET`, `HEAD`, `PUT`,
+`DELETE`, `OPTIONS`, and `TRACE` by default. `POST`, `PATCH`, and custom methods are
+sent once unless explicitly opted in. The default policy allows three retries after
+the initial attempt, with exponential backoff and jitter, for network failures,
+timeout failures, and status codes `408`, `500`, `502`, `503`, and `504`.
+
+Requests with bodies can retry only when their content is `ByteArrayContent`
+(including `StringContent` and `FormUrlEncodedContent`) with a known length of at
+most 1 MiB (1,048,576 bytes). Streamed content, other content types, unknown lengths,
+and larger bodies are sent once without replay buffering, even for `PUT` or an
+explicit retry opt-in. Replay buffering also enforces the limit against the actual
+serialized body; exceeding it falls back to a single send.
+
+Audit `POST`/`PATCH` calls that relied on V3 retries. Set the per-request
+`HttpResilienceOptions.RetryEnabled` option only when the server guarantees that
+repeating the operation is safe, for example through a supported idempotency key:
+
+```csharp
+using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
+{
+    Content = new StringContent(payload),
+};
+// The endpoint must support this key; reuse it for the same logical operation.
+request.Headers.Add("Idempotency-Key", operationId);
+request.Options.Set(HttpResilienceOptions.RetryEnabled, true);
+
+using var response = await context.Network.Http.SendAsync(request, cancellationToken);
+```
+
+Set `RetryEnabled` to `false` to disable retries for an individual request, including
+an otherwise retryable method. Setting it to `true` overrides only the method
+default: it cannot bypass body restrictions or a global `MaxRetryAttempts = 0`
+(also available as `HttpResilienceOptions.None`).
+
+Configure the default client's policy through `PipelineOptions.Http.Resilience`,
+or the builder's `ConfigureHttp` shortcut:
+
+```csharp
+builder.ConfigureHttp(http => http with
+{
+    Timeout = TimeSpan.FromSeconds(30),
+    Resilience = new HttpResilienceOptions
+    {
+        MaxRetryAttempts = 3,
+        AttemptTimeout = TimeSpan.FromSeconds(5),
+        RetryOnTimeout = true,
+    },
+});
+```
+
+`AttemptTimeout` defaults to `null`, adding no per-attempt deadline. When set, it
+must be positive and no greater than 4,294,967,294 milliseconds; use `null` to disable
+it. It covers sending the request and receiving response headers, not consuming
+the response body. Each attempt gets a fresh deadline, including the initial send
+when retries are disabled or the request is ineligible for retries. An expired
+attempt can retry when `RetryOnTimeout` is `true` and the request is eligible;
+setting it to `false` prevents timeout retries.
+
+Caller cancellation and the overall request timeout still bound the whole retry
+sequence, including backoff, and are not retried. `HttpOptions.Timeout` overrides
+`PipelineOptions.Http.Timeout`; otherwise the client's timeout supplies the limit.
+A short overall timeout can therefore end the request before all configured retries
+run. These resilience settings, including `AttemptTimeout`, apply only to the
+default client; configure resilience yourself when supplying `HttpOptions.HttpClient`.
+
 ## Files, Working Directories, and Utility APIs
 
 ### File paths and working directories
@@ -1506,6 +1573,7 @@ These changes need behavioral checks even after the code compiles:
 | Required dependencies that are skipped now cascade-skip their consumers | Mark a dependency optional only if the consumer can actually proceed without its result; handle missing/skipped results explicitly |
 | Fluent and attribute conditions share the execution pipeline after dependency waiting | Verify condition ordering, skip hooks, and inherited condition composition |
 | Dependencies are validated even when a condition would skip a module | Register required dependencies or use the intended conditional/optional declaration |
+| HTTP retries now default to idempotent methods and require replayable bodies of at most 1 MiB; V3 retried all methods | Audit `POST`/`PATCH` and upload calls; opt in with `HttpResilienceOptions.RetryEnabled` only when repeating the operation is safe. See [HTTP resilience](#http-resilience) for body limits and `AttemptTimeout` |
 | Commands keep a 30-minute default `ExecutionTimeout`, but `ExecutionTimeout = null` now removes the limit (V3 treated `null` as 30 minutes) | Set a longer per-command `ExecutionTimeout`, or `null` for no command limit. The `TimeoutException` names the limit and this option. The module default is still 30 minutes, now configurable with `DefaultModuleTimeout` |
 | Module timeouts apply to each retry attempt, not the whole retry sequence | Include attempts and backoff in the total runtime budget; forward cancellation into work |
 | `WithTimeout(TimeSpan.Zero)` meant "no timeout" in V3; V4 rejects zero and negative values | Use `WithTimeout(Timeout.InfiniteTimeSpan)` to disable a module timeout |

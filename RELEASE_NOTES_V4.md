@@ -469,6 +469,35 @@ Slack webhook calls now throw on unsuccessful responses as well. The Slack wrapp
 does not return a response; use the HTTP context directly with the explicit opt-out
 when you need to handle an unsuccessful webhook response yourself.
 
+## HTTP resilience
+
+V3 retried all HTTP methods. V4's default client retries only `GET`, `HEAD`, `PUT`,
+`DELETE`, `OPTIONS`, and `TRACE` unless the request explicitly opts in. Audit
+`POST`/`PATCH` calls that relied on retries: set
+`request.Options.Set(HttpResilienceOptions.RetryEnabled, true)` only when repeating
+the operation is safe, such as when the server supports an idempotency key. Set it
+to `false` to disable retries on an individual request.
+
+Bodies can retry only for `ByteArrayContent` (including `StringContent` and
+`FormUrlEncodedContent`) with a known length of at most 1 MiB (1,048,576 bytes).
+Streamed content, other content types, unknown lengths, and larger bodies are sent
+once without replay buffering. The actual replay buffer is capped too. An explicit
+opt-in does not bypass these restrictions or globally disabled retries
+(`MaxRetryAttempts = 0` / `HttpResilienceOptions.None`).
+
+Configure resilience through `PipelineOptions.Http.Resilience` or `ConfigureHttp`.
+`HttpResilienceOptions.AttemptTimeout` adds an optional deadline per send attempt,
+including the initial send when retries are disabled. Its default is `null`; a
+configured value must be positive and at most 4,294,967,294 milliseconds. It covers
+sending and receiving response headers, not reading the response body. Eligible
+requests can retry an expired attempt when `RetryOnTimeout` is `true` (the default).
+Caller cancellation and the overall request timeout still bound all attempts and
+backoff, and are not retried. Custom `HttpOptions.HttpClient` instances need their
+own resilience configuration.
+
+See [HTTP resilience in the migration guide](docs/docs/migrating-to-v4.md#http-resilience)
+for opt-in and timeout configuration examples.
+
 ## Hashing, ZIP, and Base64 APIs
 
 Text and file hashing now share `context.Security.Hash` (`IHashContext`). Use
