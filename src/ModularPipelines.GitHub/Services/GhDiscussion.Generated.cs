@@ -92,7 +92,7 @@ public class GhDiscussion : IGhDiscussion
     }
 
     /// <summary>
-    /// List discussions in a GitHub repository. By default, only open discussions
+    /// List discussions in a GitHub repository. By default, only open discussions are shown.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

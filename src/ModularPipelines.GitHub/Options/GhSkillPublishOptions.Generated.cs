@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Validate a local repository's skills against the Agent Skills specification
+/// Validate a local repository's skills against the Agent Skills specification and publish them by creating a GitHub release.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

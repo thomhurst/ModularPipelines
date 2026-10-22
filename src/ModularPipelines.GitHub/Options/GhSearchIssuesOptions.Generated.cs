@@ -60,7 +60,7 @@ public record GhSearchIssuesOptions : GhOptions
     /// Filter on number of comments
     /// </summary>
     [CliOption("--comments", Format = OptionFormat.EqualsSeparated)]
-    public int? Comments { get; set; }
+    public string? Comments { get; set; }
 
     /// <summary>
     /// Filter based on created at date
@@ -78,7 +78,7 @@ public record GhSearchIssuesOptions : GhOptions
     /// Filter on number of reactions and comments
     /// </summary>
     [CliOption("--interactions", Format = OptionFormat.EqualsSeparated)]
-    public int? Interactions { get; set; }
+    public string? Interactions { get; set; }
 
     /// <summary>
     /// Filter based on involvement of user
@@ -186,7 +186,7 @@ public record GhSearchIssuesOptions : GhOptions
     /// Filter on number of reactions
     /// </summary>
     [CliOption("--reactions", Format = OptionFormat.EqualsSeparated)]
-    public int? Reactions { get; set; }
+    public string? Reactions { get; set; }
 
     /// <summary>
     /// Filter on repository, in OWNER/REPO format

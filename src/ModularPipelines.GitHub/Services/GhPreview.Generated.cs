@@ -32,7 +32,7 @@ public class GhPreview : IGhPreview
     #region Commands
 
     /// <summary>
-    /// Preview commands are for testing, demonstrative, and development purposes only.
+    /// Preview commands are for testing, demonstrative, and development purposes only. They should be considered unstable and can change at any time.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GhPreview : IGhPreview
     }
 
     /// <summary>
-    /// Execute a test program to preview the prompter.
+    /// Execute a test program to preview the prompter. Without an argument, all prompts will be run.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

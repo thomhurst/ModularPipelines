@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Verify the integrity and provenance of an artifact using its associated
+/// Verify the integrity and provenance of an artifact using its associated cryptographically signed attestations.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

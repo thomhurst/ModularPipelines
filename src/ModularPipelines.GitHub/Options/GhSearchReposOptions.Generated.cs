@@ -36,25 +36,25 @@ public record GhSearchReposOptions : GhOptions
     /// Filter based on number of followers
     /// </summary>
     [CliOption("--followers", Format = OptionFormat.EqualsSeparated)]
-    public int? Followers { get; set; }
+    public string? Followers { get; set; }
 
     /// <summary>
     /// Filter on number of forks
     /// </summary>
     [CliOption("--forks", Format = OptionFormat.EqualsSeparated)]
-    public int? Forks { get; set; }
+    public string? Forks { get; set; }
 
     /// <summary>
     /// Filter on number of issues with the 'good first issue' label
     /// </summary>
     [CliOption("--good-first-issues", Format = OptionFormat.EqualsSeparated)]
-    public int? GoodFirstIssues { get; set; }
+    public string? GoodFirstIssues { get; set; }
 
     /// <summary>
     /// Filter on number of issues with the 'help wanted' label
     /// </summary>
     [CliOption("--help-wanted-issues", Format = OptionFormat.EqualsSeparated)]
-    public int? HelpWantedIssues { get; set; }
+    public string? HelpWantedIssues { get; set; }
 
     /// <summary>
     /// Include forks in fetched repositories: {false|true|only}
@@ -102,7 +102,7 @@ public record GhSearchReposOptions : GhOptions
     /// Filter on number of topics
     /// </summary>
     [CliOption("--number-topics", Format = OptionFormat.EqualsSeparated)]
-    public int? NumberTopics { get; set; }
+    public string? NumberTopics { get; set; }
 
     /// <summary>
     /// Order of repositories returned, ignored unless '--sort' flag is specified: {asc|desc} (default "desc")
@@ -132,7 +132,7 @@ public record GhSearchReposOptions : GhOptions
     /// Filter on number of stars
     /// </summary>
     [CliOption("--stars", Format = OptionFormat.EqualsSeparated)]
-    public int? Stars { get; set; }
+    public string? Stars { get; set; }
 
     /// <summary>
     /// Format JSON output using a Go template; see "gh help formatting"

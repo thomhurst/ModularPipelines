@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// This command sets the default remote repository to use when querying the
+/// This command sets the default remote repository to use when querying the GitHub API for the locally cloned repository.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

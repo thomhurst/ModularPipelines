@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+/// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

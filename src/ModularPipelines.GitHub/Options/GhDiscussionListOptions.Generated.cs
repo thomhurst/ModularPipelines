@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// List discussions in a GitHub repository. By default, only open discussions
+/// List discussions in a GitHub repository. By default, only open discussions are shown.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

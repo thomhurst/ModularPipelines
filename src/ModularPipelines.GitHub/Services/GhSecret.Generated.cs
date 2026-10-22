@@ -32,7 +32,7 @@ public class GhSecret : IGhSecret
     #region Commands
 
     /// <summary>
-    /// Secrets can be set at the repository, or organization level for use in
+    /// Secrets can be set at the repository, or organization level for use in GitHub Actions, Agents, or Dependabot. User, organization, and repository secrets can be set for use in GitHub Codespaces. Environment secrets can be set for use in GitHub Actions. Run `gh help secret set` to learn how to get started.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GhSecret : IGhSecret
     }
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs, Agents sessions, or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs, Agents sessions, or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs, Agents sessions, Dependabot, or Codespaces within an organization - user: available to Codespaces for your user
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class GhSecret : IGhSecret
     }
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs, Agents sessions, or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs, Agents sessions, or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs, Agents sessions, Dependabot, or Codespaces within an organization - user: available to Codespaces for your user
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class GhSecret : IGhSecret
     }
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs, Agents sessions, or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs, Agents sessions, or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs, Agents sessions, Dependabot, or Codespaces within an organization - user: available to Codespaces for your user
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

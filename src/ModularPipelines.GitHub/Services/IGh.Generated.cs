@@ -164,7 +164,7 @@ public partial interface IGh
     public Task<CommandResult> ApiAsync(GhApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// - Issues
+    /// - Issues - Pull requests - Repository content - Repository home page - Repository settings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -191,7 +191,7 @@ public partial interface IGh
     public Task<CommandResult> LicensesAsync(GhLicensesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// - Assigned Issues
+    /// - Assigned Issues - Assigned Pull Requests - Review Requests - Mentions - Repository Activity (new issues/pull requests, comments)
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

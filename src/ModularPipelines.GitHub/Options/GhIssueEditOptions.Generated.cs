@@ -58,13 +58,13 @@ public record GhIssueEditOptions : GhOptions
     /// Add 'blocked by' relationships by issue number or URL
     /// </summary>
     [CliOption("--add-blocked-by", Format = OptionFormat.EqualsSeparated)]
-    public int? AddBlockedBy { get; set; }
+    public string? AddBlockedBy { get; set; }
 
     /// <summary>
     /// Add 'blocking' relationships by issue number or URL
     /// </summary>
     [CliOption("--add-blocking", Format = OptionFormat.EqualsSeparated)]
-    public int? AddBlocking { get; set; }
+    public string? AddBlocking { get; set; }
 
     /// <summary>
     /// Add labels by name
@@ -82,7 +82,7 @@ public record GhIssueEditOptions : GhOptions
     /// Add sub-issues by number or URL
     /// </summary>
     [CliOption("--add-sub-issue", Format = OptionFormat.EqualsSeparated)]
-    public int? AddSubIssue { get; set; }
+    public string? AddSubIssue { get; set; }
 
     /// <summary>
     /// Attach an image or video file, in '&lt;file&gt;#&lt;image alt text&gt;' format
@@ -112,7 +112,7 @@ public record GhIssueEditOptions : GhOptions
     /// Set the parent issue by number or URL
     /// </summary>
     [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
-    public int? Parent { get; set; }
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Remove assigned users by their login. Use "@me" to unassign yourself, or "@copilot" to unassign Copilot.
@@ -124,13 +124,13 @@ public record GhIssueEditOptions : GhOptions
     /// Remove 'blocked by' relationships by issue number or URL
     /// </summary>
     [CliOption("--remove-blocked-by", Format = OptionFormat.EqualsSeparated)]
-    public int? RemoveBlockedBy { get; set; }
+    public string? RemoveBlockedBy { get; set; }
 
     /// <summary>
     /// Remove 'blocking' relationships by issue number or URL
     /// </summary>
     [CliOption("--remove-blocking", Format = OptionFormat.EqualsSeparated)]
-    public int? RemoveBlocking { get; set; }
+    public string? RemoveBlocking { get; set; }
 
     /// <summary>
     /// Remove labels by name
@@ -160,7 +160,7 @@ public record GhIssueEditOptions : GhOptions
     /// Remove sub-issues by number or URL
     /// </summary>
     [CliOption("--remove-sub-issue", Format = OptionFormat.EqualsSeparated)]
-    public int? RemoveSubIssue { get; set; }
+    public string? RemoveSubIssue { get; set; }
 
     /// <summary>
     /// Remove the issue type from the issue

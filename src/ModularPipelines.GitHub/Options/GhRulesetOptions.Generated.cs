@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Repository rulesets are a way to define a set of rules that apply to a repository.
+/// Repository rulesets are a way to define a set of rules that apply to a repository. These commands allow you to view information about them.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

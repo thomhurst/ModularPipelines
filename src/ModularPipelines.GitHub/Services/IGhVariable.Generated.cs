@@ -22,7 +22,7 @@ namespace ModularPipelines.GitHub.Services;
 public interface IGhVariable
 {
     /// <summary>
-    /// Variables can be set at the repository, environment or organization level for use in
+    /// Variables can be set at the repository, environment or organization level for use in GitHub Actions or Dependabot. Run `gh help variable set` to learn how to get started.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -31,7 +31,7 @@ public interface IGhVariable
     public Task<CommandResult> ExecuteAsync(GhVariableOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -40,7 +40,7 @@ public interface IGhVariable
     public Task<CommandResult> DeleteAsync(GhVariableDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -49,7 +49,7 @@ public interface IGhVariable
     public Task<CommandResult> GetAsync(GhVariableGetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -58,7 +58,7 @@ public interface IGhVariable
     public Task<CommandResult> ListAsync(GhVariableListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

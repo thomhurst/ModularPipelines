@@ -31,7 +31,7 @@ public interface IGhExtension
     public Task<CommandResult> ExecuteAsync(GhExtensionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command will take over your terminal and run a fully interactive
+    /// This command will take over your terminal and run a fully interactive interface for browsing, adding, and removing gh extensions. A terminal width greater than 100 columns is recommended.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

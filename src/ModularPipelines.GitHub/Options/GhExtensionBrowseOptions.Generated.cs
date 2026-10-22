@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// This command will take over your terminal and run a fully interactive
+/// This command will take over your terminal and run a fully interactive interface for browsing, adding, and removing gh extensions. A terminal width greater than 100 columns is recommended.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

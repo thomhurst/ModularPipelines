@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Sync destination repository from source repository. Syncing uses the default branch
+/// Sync destination repository from source repository. Syncing uses the default branch of the source repository to update the matching branch on the destination repository so they are equal. A fast forward update will be used except when the `--force` flag is specified, then the two branches will be synced using a hard reset.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

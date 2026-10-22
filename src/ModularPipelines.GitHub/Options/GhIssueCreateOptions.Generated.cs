@@ -78,7 +78,7 @@ public record GhIssueCreateOptions : GhOptions
     /// Add the new issue as a sub-issue of the specified parent number or URL
     /// </summary>
     [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
-    public int? Parent { get; set; }
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Add the issue to projects by title

@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Preview commands are for testing, demonstrative, and development purposes only.
+/// Preview commands are for testing, demonstrative, and development purposes only. They should be considered unstable and can change at any time.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

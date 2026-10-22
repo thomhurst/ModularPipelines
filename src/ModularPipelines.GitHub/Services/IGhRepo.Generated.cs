@@ -60,7 +60,7 @@ public interface IGhRepo
     public Task<CommandResult> ArchiveAsync(GhRepoArchiveOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Clone a GitHub repository locally. Pass additional `git clone` flags by listing
+    /// Clone a GitHub repository locally. Pass additional `git clone` flags by listing them after `--`.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -141,7 +141,7 @@ public interface IGhRepo
     public Task<CommandResult> RenameAsync(GhRepoRenameOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command sets the default remote repository to use when querying the
+    /// This command sets the default remote repository to use when querying the GitHub API for the locally cloned repository.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -150,7 +150,7 @@ public interface IGhRepo
     public Task<CommandResult> SetDefaultAsync(GhRepoSetDefaultOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sync destination repository from source repository. Syncing uses the default branch
+    /// Sync destination repository from source repository. Syncing uses the default branch of the source repository to update the matching branch on the destination repository so they are equal. A fast forward update will be used except when the `--force` flag is specified, then the two branches will be synced using a hard reset.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

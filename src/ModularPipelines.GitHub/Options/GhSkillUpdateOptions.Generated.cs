@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Checks installed skills for available updates by comparing the local
+/// Checks installed skills for available updates by comparing the local tree SHA (from `SKILL.md` frontmatter) against the remote repository.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
