@@ -49,6 +49,15 @@ public interface IMinikubeNode
     public Task<CommandResult> DeleteAsync(MinikubeNodeDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// List existing minikube nodes.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListAsync(MinikubeNodeListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Starts an existing stopped node in a cluster.
     /// </summary>
     /// <param name="options">The command options.</param>
