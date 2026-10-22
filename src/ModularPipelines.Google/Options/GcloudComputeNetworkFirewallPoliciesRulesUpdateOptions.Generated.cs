@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -55,7 +57,7 @@ public record GcloudComputeNetworkFirewallPoliciesRulesUpdateOptions : GcloudOpt
     /// Action to take if the request matches the match condition. ACTION must be one of: allow, deny, goto_next, apply_security_profile_group.
     /// </summary>
     [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
-    public GcloudComputeNetworkFirewallPoliciesRulesUpdateAction? Action { get; set; }
+    public string? Action { get; set; }
 
     /// <summary>
     /// An optional, textual description for the rule.

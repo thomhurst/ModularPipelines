@@ -83,7 +83,7 @@ public record GcloudActiveDirectoryDomainsTrustsCreateOptions : GcloudOptions
     /// Direction of the trust. Must be one of: INBOUND, OUTBOUND, BIDIRECTIONAL. Default is BIDIRECTIONAL. DIRECTION must be one of: bidirectional, inbound, outbound, trust-direction-unspecified.
     /// </summary>
     [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
-    public GcloudActiveDirectoryDomainsTrustsCreateDirection? Direction { get; set; }
+    public string? Direction { get; set; }
 
     /// <summary>
     /// Trust handshake secret with target domain. The secret will not be stored. If not specified, command will prompt user for secret.

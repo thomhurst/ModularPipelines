@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -143,7 +144,7 @@ public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions, IValida
     public IReadOnlyList<KeyValue>? InputValues
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
     }
 
     /// <summary>
@@ -165,7 +166,7 @@ public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions, IValida
         {
             yield return new ValidationResult("At most one of GcsSource, (GitSourceDirectory, GitSourceRef, or GitSourceRepo), or (IgnoreFile or LocalSource) may be specified.", [nameof(GcsSource), nameof(GitSourceDirectory), nameof(GitSourceRef), nameof(GitSourceRepo), nameof(IgnoreFile), nameof(LocalSource)]);
         }
-        if ((((object?)InputValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)InputValues is not string || !string.IsNullOrWhiteSpace(InputValues?.ToString()) : ((object?)InputValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InputValues, static item => item is not null) : (InputValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InputValues), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InputsFile) ? 1 : 0) > 1)
+        if ((((object?)InputValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)InputValues is not string || !string.IsNullOrWhiteSpace(InputValues?.ToString()) : ((object?)InputValues is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)InputValues, static item => item is not null) : (InputValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InputValues), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InputsFile) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of InputValues or InputsFile may be specified.", [nameof(InputValues), nameof(InputsFile)]);
         }

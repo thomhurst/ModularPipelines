@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -49,7 +48,7 @@ public record GcloudBackupDrBackupVaultsUpdateOptions : GcloudOptions
     /// Authorize certain sources and destinations for data being sent into, or restored from the current backup vault. Access restrictions can be modified to be more or less restrictive. ::: More restrictive access restriction update will fail by default if there will be non compliant Data Sources. To allow such updates, use the --force-update-access-restriction flag. ::: For Google Cloud Console resources, the following changes are allowed to make access restrictions more restrictive: * `UNRESTRICTED` to `WITHIN_PROJECT` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` / `WITHIN_ORGANIZATION` * `WITHIN_PROJECT` to `WITHIN_ORGANIZATION` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` ::: For Management Server resources, the following changes are allowed to make access restrictions more restrictive: * `UNRESTRICTED` to `WITHIN_PROJECT` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` / `WITHIN_ORGANIZATION` * `WITHIN_PROJECT` to `WITHIN_ORGANIZATION` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` ::: For both Google Cloud Console and Management Server resources, the following changes are allowed to make access restrictions more restrictive: * `UNRESTRICTED` to `WITHIN_PROJECT` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` / `WITHIN_ORGANIZATION` * `WITHIN_PROJECT` to `WITHIN_ORGANIZATION` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` ::: For Google Cloud Console resources, the following changes are allowed to make access restrictions less restrictive: * `WITHIN_ORGANIZATION` to `UNRESTRICTED` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` * `WITHIN_PROJECT` to `UNRESTRICTED` * `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` to `UNRESTRICTED` ::: For Management Server resources, the following changes are allowed to make access restrictions less restrictive: * `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` to `UNRESTRICTED` ACCESS_RESTRICTION must be one of: within-project, within-org, unrestricted, within-org-but-unrestricted-for-ba.
     /// </summary>
     [CliOption("--access-restriction", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBackupDrBackupVaultsUpdateAccessRestriction? AccessRestriction { get; set; }
+    public string? AccessRestriction { get; set; }
 
     /// <summary>
     /// Wait for the operation in progress to complete.

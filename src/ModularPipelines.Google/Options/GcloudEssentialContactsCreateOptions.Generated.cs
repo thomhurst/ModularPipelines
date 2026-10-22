@@ -10,8 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -28,11 +29,11 @@ public record GcloudEssentialContactsCreateOptions : GcloudOptions, IValidatable
     /// </summary>
     /// <param name="Email">email address of contact.</param>
     /// <param name="Language">preferred language of contact. Must be a valid ISO 639-1 language code.</param>
-    /// <param name="NotificationCategories">list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.</param>
+    /// <param name="NotificationCategories">list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
     public GcloudEssentialContactsCreateOptions(
         string Email,
         string Language,
-        IEnumerable<GcloudEssentialContactsCreateNotificationCategories> NotificationCategories
+        IEnumerable<string> NotificationCategories
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Email);
@@ -41,7 +42,7 @@ public record GcloudEssentialContactsCreateOptions : GcloudOptions, IValidatable
         this.Language = Language;
         {
             global::System.ArgumentNullException.ThrowIfNull(NotificationCategories);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudEssentialContactsCreateNotificationCategories>(NotificationCategories));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NotificationCategories));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -54,7 +55,7 @@ public record GcloudEssentialContactsCreateOptions : GcloudOptions, IValidatable
         this.NotificationCategories = NotificationCategories;
     }
 
-    public void Deconstruct(out string Email, out string Language, out IEnumerable<GcloudEssentialContactsCreateNotificationCategories> NotificationCategories)
+    public void Deconstruct(out string Email, out string Language, out IEnumerable<string> NotificationCategories)
     {
         Email = this.Email;
         Language = this.Language;
@@ -74,10 +75,10 @@ public record GcloudEssentialContactsCreateOptions : GcloudOptions, IValidatable
     public string Language { get; private init; }
 
     /// <summary>
-    /// list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.
+    /// list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudEssentialContactsCreateNotificationCategories> NotificationCategories { get; private init; }
+    public IEnumerable<string> NotificationCategories { get; private init; }
 
     /// <summary>
     /// At most one of these can be specified: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.

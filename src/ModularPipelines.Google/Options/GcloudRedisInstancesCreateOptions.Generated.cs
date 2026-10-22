@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
@@ -92,7 +93,7 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     /// Day of week for maintenance window, in UTC time zone. MAINTENANCE_WINDOW_DAY must be one of: SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY. MAINTENANCE_WINDOW_DAY must be one of: day-of-week-unspecified, friday, monday, saturday, sunday, thursday, tuesday, wednesday.
     /// </summary>
     [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
-    public GcloudRedisInstancesCreateMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+    public string? MaintenanceWindowDay { get; set; }
 
     /// <summary>
     /// Hour of day (0 to 23) for maintenance window, in UTC time zone.

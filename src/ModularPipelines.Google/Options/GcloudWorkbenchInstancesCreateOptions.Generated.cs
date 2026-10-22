@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
@@ -159,7 +160,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions, IValidatabl
     /// Type of boot disk attached to this instance. Defaults to standard persistent disk (PD_STANDARD) on machine types that support Persistent Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g. N4, C4, C4A, M4). BOOT_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED, HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML.
     /// </summary>
     [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudWorkbenchInstancesCreateBootDiskType? BootDiskType { get; set; }
+    public string? BootDiskType { get; set; }
 
     /// <summary>
     /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --boot-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -249,7 +250,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions, IValidatabl
     /// Type of data disk attached to this instance. Defaults to standard persistent disk (PD_STANDARD) on machine types that support Persistent Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g. N4, C4, C4A, M4). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED, HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML, HYPERDISK_EXTREME, HYPERDISK_THROUGHPUT.
     /// </summary>
     [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudWorkbenchInstancesCreateDataDiskType? DataDiskType { get; set; }
+    public string? DataDiskType { get; set; }
 
     /// <summary>
     /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --data-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.

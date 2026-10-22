@@ -10,9 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -54,10 +54,10 @@ public record GcloudKmsKeysUpdateOptions : GcloudOptions, IValidatableObject
     public string? Location { get; set; }
 
     /// <summary>
-    /// The list of allowed Key Access Justifications access reasons on the key. The key must be enrolled in Key Access Justifications to configure this field. By default, this field is absent, and all justification codes are allowed. For more information about justification codes, see https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes. ALLOWED_ACCESS_REASONS must be one of: customer-authorized-workflow-servicing, customer-initiated-access, customer-initiated-support, google-initiated-review, google-initiated-service, google-initiated-system-operation, google-response-to-production-alert, modified-customer-initiated-access, modified-google-initiated-system-operation, reason-not-expected, reason-unspecified, third-party-data-request.
+    /// The list of allowed Key Access Justifications access reasons on the key. The key must be enrolled in Key Access Justifications to configure this field. By default, this field is absent, and all justification codes are allowed. For more information about justification codes, see https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes. ALLOWED_ACCESS_REASONS must be one of: customer-authorized-workflow-servicing, customer-initiated-access, customer-initiated-support, google-initiated-review, google-initiated-service, google-initiated-system-operation, google-response-to-production-alert, modified-customer-initiated-access, modified-google-initiated-system-operation, reason-not-expected, reason-unspecified, third-party-data-request. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--allowed-access-reasons", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudKmsKeysUpdateAllowedAccessReasons>? AllowedAccessReasons { get; set; }
+    public IEnumerable<string>? AllowedAccessReasons { get; set; }
 
     /// <summary>
     /// The default algorithm for the crypto key. For more information about choosing an algorithm, see https://cloud.google.com/kms/docs/algorithms. DEFAULT_ALGORITHM must be one of: aes-128-cbc, aes-128-ctr, aes-128-gcm, aes-256-cbc, aes-256-ctr, aes-256-gcm, aes-256-kwp, ec-sign-ed25519, ec-sign-p256-sha256, ec-sign-p384-sha384, ec-sign-secp256k1-sha256, external-symmetric-encryption, google-symmetric-encryption, hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha384, hmac-sha512, kem-xwing, ml-kem-1024, ml-kem-768, pq-sign-hash-slh-dsa-sha2-128s-sha256, pq-sign-ml-dsa-44, pq-sign-ml-dsa-44-external-mu, pq-sign-ml-dsa-65, pq-sign-ml-dsa-65-external-mu, pq-sign-ml-dsa-87, pq-sign-ml-dsa-87-external-mu, pq-sign-slh-dsa-sha2-128s, rsa-decrypt-oaep-2048-sha1, rsa-decrypt-oaep-2048-sha256, rsa-decrypt-oaep-3072-sha1, rsa-decrypt-oaep-3072-sha256, rsa-decrypt-oaep-4096-sha1, rsa-decrypt-oaep-4096-sha256, rsa-decrypt-oaep-4096-sha512, rsa-sign-pkcs1-2048-sha256, rsa-sign-pkcs1-3072-sha256, rsa-sign-pkcs1-4096-sha256, rsa-sign-pkcs1-4096-sha512, rsa-sign-pss-2048-sha256, rsa-sign-pss-3072-sha256, rsa-sign-pss-4096-sha256, rsa-sign-pss-4096-sha512, rsa-sign-raw-pkcs1-2048, rsa-sign-raw-pkcs1-3072, rsa-sign-raw-pkcs1-4096.
@@ -114,15 +114,15 @@ public record GcloudKmsKeysUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? RemoveLabels
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __RemoveLabelsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -130,9 +130,9 @@ public record GcloudKmsKeysUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -144,7 +144,7 @@ public record GcloudKmsKeysUpdateOptions : GcloudOptions, IValidatableObject
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
         }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
@@ -120,7 +121,7 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
     public IReadOnlyList<KeyValue>? Labels
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
     }
 
     /// <summary>
@@ -142,15 +143,15 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
     public IEnumerable<string>? NetworkPerformanceConfigs
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NetworkPerformanceConfigsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __NetworkPerformanceConfigsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __NetworkPerformanceConfigsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -158,9 +159,9 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -176,15 +177,15 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
     public IEnumerable<string>? NodeLabels
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NodeLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __NodeLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __NodeLabelsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -192,9 +193,9 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -204,15 +205,15 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
     public IEnumerable<string>? NodeLocations
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NodeLocationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __NodeLocationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __NodeLocationsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -220,9 +221,9 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -232,15 +233,15 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
     public IEnumerable<string>? NodeTaints
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NodeTaintsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __NodeTaintsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __NodeTaintsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -248,9 +249,9 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -260,7 +261,7 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
     public IReadOnlyList<KeyValue>? ResourceManagerTags
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
     }
 
     /// <summary>
@@ -270,15 +271,15 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
     public IEnumerable<string>? StoragePools
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __StoragePoolsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __StoragePoolsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __StoragePoolsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -286,9 +287,9 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -304,15 +305,15 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
     public IEnumerable<string>? Tags
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __TagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __TagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __TagsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -320,9 +321,9 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -532,7 +533,7 @@ public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatabl
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((!string.IsNullOrWhiteSpace(Accelerator) ? 1 : 0) + ((object?)ConfidentialNodeType is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConsolidationDelay) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerdConfigFromFile) ? 1 : 0) + (EnableConfidentialNodes == true ? 1 : 0) + (EnableGvnic == true ? 1 : 0) + ((object?)EnableImageStreaming is not null ? 1 : 0) + ((object?)EnableInsecureKubeletReadonlyPort is not null ? 1 : 0) + ((object?)EnableKernelModuleSignatureEnforcement is not null ? 1 : 0) + (EnablePrivateNodes == true ? 1 : 0) + (EnableQueuedProvisioning == true ? 1 : 0) + (FlexStart == true ? 1 : 0) + (((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(LoggingVariant) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRunDuration) ? 1 : 0) + (((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkPerformanceConfigs is not string || !string.IsNullOrWhiteSpace(NetworkPerformanceConfigs?.ToString()) : ((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkPerformanceConfigs, static item => item is not null) : (NetworkPerformanceConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkPerformanceConfigs), static item => item is not null)))) ? 1 : 0) + ((object?)NodeArchitectureTaintBehavior is not null ? 1 : 0) + (((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLabels is not string || !string.IsNullOrWhiteSpace(NodeLabels?.ToString()) : ((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLabels, static item => item is not null) : (NodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLabels), static item => item is not null)))) ? 1 : 0) + (((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLocations is not string || !string.IsNullOrWhiteSpace(NodeLocations?.ToString()) : ((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLocations, static item => item is not null) : (NodeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLocations), static item => item is not null)))) ? 1 : 0) + (((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeTaints is not string || !string.IsNullOrWhiteSpace(NodeTaints?.ToString()) : ((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeTaints, static item => item is not null) : (NodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeTaints), static item => item is not null)))) ? 1 : 0) + (((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceManagerTags is not string || !string.IsNullOrWhiteSpace(ResourceManagerTags?.ToString()) : ((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ResourceManagerTags, static item => item is not null) : (ResourceManagerTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceManagerTags), static item => item is not null)))) ? 1 : 0) + (((object?)StoragePools is global::System.Collections.Generic.IEnumerable<char> ? (object?)StoragePools is not string || !string.IsNullOrWhiteSpace(StoragePools?.ToString()) : ((object?)StoragePools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)StoragePools, static item => item is not null) : (StoragePools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)StoragePools), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SystemConfigFromFile) ? 1 : 0) + (((object?)Tags is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tags is not string || !string.IsNullOrWhiteSpace(Tags?.ToString()) : ((object?)Tags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tags, static item => item is not null) : (Tags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tags), static item => item is not null)))) ? 1 : 0) + ((object?)WindowsOsVersion is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkloadMetadata) ? 1 : 0) + (AddMaintenanceExclusionUntilEndOfSupport == true ? 1 : 0) + (RemoveMaintenanceExclusionUntilEndOfSupport == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscaledRolloutPolicy) || EnableBlueGreenUpgrade == true || EnableSurgeUpgrade == true || !string.IsNullOrWhiteSpace(MaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(MaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(NodePoolSoakDuration) || !string.IsNullOrWhiteSpace(StandardRolloutPolicy)) ? 1 : 0) + (((object?)BootDiskProvisionedIops is not null || !string.IsNullOrWhiteSpace(BootDiskProvisionedThroughput) || (object?)DiskSize is not null || (object?)DiskType is not null || !string.IsNullOrWhiteSpace(MachineType)) ? 1 : 0) + ((EnableAutoprovisioning == true || EnableAutoscaling == true || (object?)LocationPolicy is not null || !string.IsNullOrWhiteSpace(MaxNodes) || !string.IsNullOrWhiteSpace(MinNodes) || !string.IsNullOrWhiteSpace(TotalMaxNodes) || !string.IsNullOrWhiteSpace(TotalMinNodes)) ? 1 : 0) + ((EnableAutorepair == true || EnableAutoupgrade == true) ? 1 : 0) + (((object?)NodeDrainGracePeriodSeconds is not null || (object?)NodeDrainPdbTimeoutSeconds is not null || RespectPdbDuringNodePoolDeletion == true) ? 1 : 0) != 1)
+        if ((!string.IsNullOrWhiteSpace(Accelerator) ? 1 : 0) + ((object?)ConfidentialNodeType is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConsolidationDelay) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerdConfigFromFile) ? 1 : 0) + (EnableConfidentialNodes == true ? 1 : 0) + (EnableGvnic == true ? 1 : 0) + ((object?)EnableImageStreaming is not null ? 1 : 0) + ((object?)EnableInsecureKubeletReadonlyPort is not null ? 1 : 0) + ((object?)EnableKernelModuleSignatureEnforcement is not null ? 1 : 0) + (EnablePrivateNodes == true ? 1 : 0) + (EnableQueuedProvisioning == true ? 1 : 0) + (FlexStart == true ? 1 : 0) + (((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(LoggingVariant) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRunDuration) ? 1 : 0) + (((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkPerformanceConfigs is not string || !string.IsNullOrWhiteSpace(NetworkPerformanceConfigs?.ToString()) : ((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)NetworkPerformanceConfigs, static item => item is not null) : (NetworkPerformanceConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkPerformanceConfigs), static item => item is not null)))) ? 1 : 0) + ((object?)NodeArchitectureTaintBehavior is not null ? 1 : 0) + (((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLabels is not string || !string.IsNullOrWhiteSpace(NodeLabels?.ToString()) : ((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)NodeLabels, static item => item is not null) : (NodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLabels), static item => item is not null)))) ? 1 : 0) + (((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLocations is not string || !string.IsNullOrWhiteSpace(NodeLocations?.ToString()) : ((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)NodeLocations, static item => item is not null) : (NodeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLocations), static item => item is not null)))) ? 1 : 0) + (((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeTaints is not string || !string.IsNullOrWhiteSpace(NodeTaints?.ToString()) : ((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)NodeTaints, static item => item is not null) : (NodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeTaints), static item => item is not null)))) ? 1 : 0) + (((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceManagerTags is not string || !string.IsNullOrWhiteSpace(ResourceManagerTags?.ToString()) : ((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)ResourceManagerTags, static item => item is not null) : (ResourceManagerTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceManagerTags), static item => item is not null)))) ? 1 : 0) + (((object?)StoragePools is global::System.Collections.Generic.IEnumerable<char> ? (object?)StoragePools is not string || !string.IsNullOrWhiteSpace(StoragePools?.ToString()) : ((object?)StoragePools is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)StoragePools, static item => item is not null) : (StoragePools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)StoragePools), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SystemConfigFromFile) ? 1 : 0) + (((object?)Tags is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tags is not string || !string.IsNullOrWhiteSpace(Tags?.ToString()) : ((object?)Tags is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)Tags, static item => item is not null) : (Tags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tags), static item => item is not null)))) ? 1 : 0) + ((object?)WindowsOsVersion is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkloadMetadata) ? 1 : 0) + (AddMaintenanceExclusionUntilEndOfSupport == true ? 1 : 0) + (RemoveMaintenanceExclusionUntilEndOfSupport == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscaledRolloutPolicy) || EnableBlueGreenUpgrade == true || EnableSurgeUpgrade == true || !string.IsNullOrWhiteSpace(MaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(MaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(NodePoolSoakDuration) || !string.IsNullOrWhiteSpace(StandardRolloutPolicy)) ? 1 : 0) + (((object?)BootDiskProvisionedIops is not null || !string.IsNullOrWhiteSpace(BootDiskProvisionedThroughput) || (object?)DiskSize is not null || (object?)DiskType is not null || !string.IsNullOrWhiteSpace(MachineType)) ? 1 : 0) + ((EnableAutoprovisioning == true || EnableAutoscaling == true || (object?)LocationPolicy is not null || !string.IsNullOrWhiteSpace(MaxNodes) || !string.IsNullOrWhiteSpace(MinNodes) || !string.IsNullOrWhiteSpace(TotalMaxNodes) || !string.IsNullOrWhiteSpace(TotalMinNodes)) ? 1 : 0) + ((EnableAutorepair == true || EnableAutoupgrade == true) ? 1 : 0) + (((object?)NodeDrainGracePeriodSeconds is not null || (object?)NodeDrainPdbTimeoutSeconds is not null || RespectPdbDuringNodePoolDeletion == true) ? 1 : 0) != 1)
         {
             yield return new ValidationResult("Exactly one of Accelerator, ConfidentialNodeType, ConsolidationDelay, ContainerdConfigFromFile, EnableConfidentialNodes, EnableGvnic, EnableImageStreaming, EnableInsecureKubeletReadonlyPort, EnableKernelModuleSignatureEnforcement, EnablePrivateNodes, EnableQueuedProvisioning, FlexStart, Labels, LoggingVariant, MaxRunDuration, NetworkPerformanceConfigs, NodeArchitectureTaintBehavior, NodeLabels, NodeLocations, NodeTaints, ResourceManagerTags, StoragePools, SystemConfigFromFile, Tags, WindowsOsVersion, WorkloadMetadata, AddMaintenanceExclusionUntilEndOfSupport, RemoveMaintenanceExclusionUntilEndOfSupport, (AutoscaledRolloutPolicy, EnableBlueGreenUpgrade, EnableSurgeUpgrade, MaxSurgeUpgrade, MaxUnavailableUpgrade, NodePoolSoakDuration, or StandardRolloutPolicy), (BootDiskProvisionedIops, BootDiskProvisionedThroughput, DiskSize, DiskType, or MachineType), (EnableAutoprovisioning, EnableAutoscaling, LocationPolicy, MaxNodes, MinNodes, TotalMaxNodes, or TotalMinNodes), (EnableAutorepair or EnableAutoupgrade), or (NodeDrainGracePeriodSeconds, NodeDrainPdbTimeoutSeconds, or RespectPdbDuringNodePoolDeletion) must be specified.", [nameof(Accelerator), nameof(ConfidentialNodeType), nameof(ConsolidationDelay), nameof(ContainerdConfigFromFile), nameof(EnableConfidentialNodes), nameof(EnableGvnic), nameof(EnableImageStreaming), nameof(EnableInsecureKubeletReadonlyPort), nameof(EnableKernelModuleSignatureEnforcement), nameof(EnablePrivateNodes), nameof(EnableQueuedProvisioning), nameof(FlexStart), nameof(Labels), nameof(LoggingVariant), nameof(MaxRunDuration), nameof(NetworkPerformanceConfigs), nameof(NodeArchitectureTaintBehavior), nameof(NodeLabels), nameof(NodeLocations), nameof(NodeTaints), nameof(ResourceManagerTags), nameof(StoragePools), nameof(SystemConfigFromFile), nameof(Tags), nameof(WindowsOsVersion), nameof(WorkloadMetadata), nameof(AddMaintenanceExclusionUntilEndOfSupport), nameof(RemoveMaintenanceExclusionUntilEndOfSupport), nameof(AutoscaledRolloutPolicy), nameof(EnableBlueGreenUpgrade), nameof(EnableSurgeUpgrade), nameof(MaxSurgeUpgrade), nameof(MaxUnavailableUpgrade), nameof(NodePoolSoakDuration), nameof(StandardRolloutPolicy), nameof(BootDiskProvisionedIops), nameof(BootDiskProvisionedThroughput), nameof(DiskSize), nameof(DiskType), nameof(MachineType), nameof(EnableAutoprovisioning), nameof(EnableAutoscaling), nameof(LocationPolicy), nameof(MaxNodes), nameof(MinNodes), nameof(TotalMaxNodes), nameof(TotalMinNodes), nameof(EnableAutorepair), nameof(EnableAutoupgrade), nameof(NodeDrainGracePeriodSeconds), nameof(NodeDrainPdbTimeoutSeconds), nameof(RespectPdbDuringNodePoolDeletion)]);
         }
