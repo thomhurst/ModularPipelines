@@ -97,9 +97,9 @@
   },
   "pnpm": {
     "version": "12.11.2",
-    "url": "https://registry.npmjs.org/pnpm/-/pnpm-12.11.2.tgz",
-    "sha256": "eb57341b8b54fddaeededb15dbb77cc30a11750cecca301bfda02478fdff3a00",
-    "checksumSource": "https://registry.npmjs.org/pnpm/12.11.2"
+    "url": "https://registry.npmjs.org/@pnpm/exe.linux-x64/-/exe.linux-x64-12.11.2.tgz",
+    "sha256": "79008d3130845ee8a0fe4381e6b81815e80e1bd411702f34721b1cc63e6e20bf",
+    "checksumSource": "https://registry.npmjs.org/@pnpm/exe.linux-x64/12.11.2"
   },
   "pulumi": {
     "version": "v3.268.0",

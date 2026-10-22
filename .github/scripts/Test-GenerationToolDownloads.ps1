@@ -102,6 +102,7 @@ try {
         }
     }
 
+    & "$PSScriptRoot/Test-GenerationLinuxX64Executable.ps1"
     & "$PSScriptRoot/Test-GenerationWinGet.ps1"
     Write-Host 'Generation download tests passed.'
 }
