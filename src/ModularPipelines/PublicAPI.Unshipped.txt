@@ -3360,6 +3360,10 @@ virtual ModularPipelines.ModuleResult.PrintMembers(System.Text.StringBuilder! bu
 virtual ModularPipelines.ModuleResult<T>.Equals(ModularPipelines.ModuleResult<T>? other) -> bool
 virtual ModularPipelines.Options.PowerShellFileOptions.Equals(ModularPipelines.Options.PowerShellFileOptions? other) -> bool
 virtual ModularPipelines.Options.PowerShellOptions.Equals(ModularPipelines.Options.PowerShellOptions? other) -> bool
+virtual ModularPipelines.Options.PowerShellOptions.NoProfile.get -> bool
+virtual ModularPipelines.Options.PowerShellOptions.NoProfile.init -> void
+virtual ModularPipelines.Options.PowerShellOptions.NonInteractive.get -> bool
+virtual ModularPipelines.Options.PowerShellOptions.NonInteractive.init -> void
 virtual ModularPipelines.Options.PowerShellScriptOptions.Equals(ModularPipelines.Options.PowerShellScriptOptions? other) -> bool
 virtual ModularPipelines.Reporting.ModuleTimeline.<Clone>$() -> ModularPipelines.Reporting.ModuleTimeline!
 virtual ModularPipelines.Reporting.ModuleTimeline.EqualityContract.get -> System.Type!
