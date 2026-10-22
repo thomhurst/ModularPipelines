@@ -1,0 +1,16 @@
+Usage: vault hcp connect [options]
+
+  Authenticates users or machines to HCP using either provided arguments or retrieved token through
+  browser login. A successful authentication results in an HCP token and an HCP Vault address being
+  locally cached.
+
+  The default authentication method is an interactive one, redirecting users to the HCP login browser.
+  If a set of service principal credential is supplied, which is generated through the HCP portal with
+  the necessary capabilities to access the organization, project, and HCP Vault cluster chosen.
+
+      $ vault hcp connect -client-id=client-id-value -secret-id=secret-id-value
+
+  Additionally, the organization identification, project identification, and cluster name can be passed in to
+  directly connect to a specific HCP Vault cluster without interacting with the CLI.
+
+      $ vault hcp connect -client-id=client-id-value -secret-id=secret-id-value -organization-id=org-UUID -project-id=proj-UUID -cluster-id=cluster-name

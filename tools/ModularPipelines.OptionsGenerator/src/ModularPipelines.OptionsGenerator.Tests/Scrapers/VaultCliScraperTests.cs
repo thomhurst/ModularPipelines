@@ -9,6 +9,73 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class VaultCliScraperTests
 {
     [Test]
+    public async Task Hcp_Connect_Example_Options_Preserve_String_Values_And_Secrets()
+    {
+        var help = File.ReadAllText(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Vault", "2.2.0", "hcp-connect.txt"));
+        var command = (await new TestVaultCliScraper().ParseGroup(["vault", "hcp", "connect"], help))!;
+
+        await Assert.That(command.Options.Select(option => option.SwitchName)).IsEquivalentTo(
+            ["-client-id", "-secret-id", "-organization-id", "-project-id", "-cluster-id"]);
+        foreach (var option in command.Options)
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+            await Assert.That(option.ValueSeparator).IsEqualTo("=");
+            await Assert.That(option.IsRequired).IsFalse();
+            await Assert.That(option.IsSecret).IsEqualTo(option.SwitchName == "-secret-id");
+        }
+
+        await Assert.That(command.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Hcp_Disconnect_Does_Not_Inherit_Http_Options()
+    {
+        var help = File.ReadAllText(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Vault", "2.2.0", "hcp-disconnect.txt"));
+        var command = (await new TestVaultCliScraper().ParseGroup(["vault", "hcp", "disconnect"], help))!;
+
+        await Assert.That(command.Options).IsEmpty();
+        await Assert.That(command.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Hcp_Example_Options_Ignore_Prose_Other_Commands_And_Quoted_Values()
+    {
+        var command = (await new TestVaultCliScraper().ParseGroup(["vault", "hcp", "connect"], """
+            Usage: vault hcp connect [options]
+
+            Mention -prose=value without advertising an invocation.
+              $ vault hcp disconnect -other=value
+              $ vault hcp connect-extra -different=value
+              $ vault hcp connect child -child=value
+              $ vault hcp connect -client-id="value -embedded=ignored" -secret-id='value -nested=ignored'
+              $ vault hcp connect -client-id=duplicate
+            """))!;
+
+        await Assert.That(command.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["-client-id", "-secret-id"]);
+    }
+
+    [Test]
+    public async Task Structured_Hcp_Options_Take_Precedence_Over_Examples()
+    {
+        var command = (await new TestVaultCliScraper().ParseGroup(["vault", "hcp", "connect"], """
+            Usage: vault hcp connect [options]
+
+              $ vault hcp connect -client-id=example -obsolete=value
+
+            Options:
+              -client-id=<string>    Client identifier from structured help.
+            """))!;
+
+        var option = command.Options.Single();
+        await Assert.That(option.SwitchName).IsEqualTo("-client-id");
+        await Assert.That(option.Description).IsEqualTo("Client identifier from structured help.");
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Shared_Traversal_Preserves_Operands_After_Flags(bool alternativeSynopsis)
