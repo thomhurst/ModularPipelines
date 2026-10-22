@@ -74,7 +74,7 @@ internal interface IConsoleCoordinator : IModuleOutputExcerptProvider, IAsyncDis
     /// <summary>
     /// Flushes retained fragments from the intercepted output and error writers.
     /// </summary>
-    /// <returns>Module buffers populated for the first time by the flush.</returns>
+    /// <returns>Module buffers that still need a completion flush, including previously buffered output.</returns>
     Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync();
 
     /// <summary>

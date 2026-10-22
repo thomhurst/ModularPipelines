@@ -591,7 +591,11 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         }
 
         return _moduleBuffers.Values
-            .Where(buffer => buffer.HasOutput && !populatedBeforeFlush.Contains(buffer))
+            // A canceled completion attempt can leave existing output (or only a
+            // final failure header) pending. Teardown must retry it with a fresh token.
+            .Where(buffer => flushKind is OutputFlushKind.Complete
+                ? buffer.NeedsCompletionFlush
+                : buffer.HasOutput && !populatedBeforeFlush.Contains(buffer))
             .Cast<IModuleOutputBuffer>()
             .ToArray();
     }
