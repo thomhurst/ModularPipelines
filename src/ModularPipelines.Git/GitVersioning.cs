@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
@@ -20,28 +21,27 @@ namespace ModularPipelines.Git;
 /// </para>
 /// <para>
 /// <b>Synchronization Strategy:</b> An instance <see cref="SemaphoreSlim"/> serializes tool
-/// installation and execution until a result is cached. Separate instances have independent
-/// results and temporary tool folders, so pipelines for different repositories do not share versions.
+/// installation and execution until a result is cached for the pipeline. Independent service
+/// providers have independent results, so pipelines for different repositories do not share versions.
+/// Scoped command services are resolved in an asynchronous scope owned by each calculation.
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
 internal class GitVersioning(
     IGitInformation gitInformation,
-    ICommandContext command,
-    IModuleLoggerAccessor moduleLoggerAccessor,
+    IServiceScopeFactory serviceScopeFactory,
     IFileSystemProvider fileSystemProvider,
     IOptions<GitVersioningOptions> options) : IGitVersioning
 {
     private readonly IGitInformation _gitInformation = gitInformation;
-    private readonly ICommandContext _command = command;
-    private readonly IModuleLoggerAccessor _moduleLoggerAccessor = moduleLoggerAccessor;
+    private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
 
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly string _toolVersion = options.Value.ToolVersion;
 
     /// <summary>
     /// Async mutex to ensure single-threaded access to GitVersion tool installation and execution.
-    /// Each instance owns its cached result and temporary tool installation.
+    /// The singleton instance shares a successful result across all module scopes in the pipeline.
     /// </summary>
     private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
     private GitVersionInformation? _prefetchedGitVersionInformation;
@@ -61,11 +61,17 @@ internal class GitVersioning(
             var repositoryInfo = await _gitInformation.GetInfoAsync(cancellationToken).ConfigureAwait(false)
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
 
+            var scope = _serviceScopeFactory.CreateAsyncScope();
+            await using var scopeLifetime = scope.ConfigureAwait(false);
+            var command = scope.ServiceProvider.GetRequiredService<ICommandContext>();
+            var moduleLoggerAccessor = scope.ServiceProvider.GetRequiredService<IModuleLoggerAccessor>();
+
             // The tool is only needed until the version has been computed and cached.
             var temporaryFolder = FolderPath.CreateTemporaryFolder(_fileSystemProvider);
             try
             {
                 return _prefetchedGitVersionInformation = await ComputeVersioningInformationAsync(
+                        command,
                         repositoryInfo.Root,
                         temporaryFolder,
                         cancellationToken)
@@ -73,7 +79,7 @@ internal class GitVersioning(
             }
             finally
             {
-                TryDeleteTemporaryFolder(temporaryFolder);
+                TryDeleteTemporaryFolder(temporaryFolder, moduleLoggerAccessor);
             }
         }
         finally
@@ -83,11 +89,12 @@ internal class GitVersioning(
     }
 
     private async Task<GitVersionInformation> ComputeVersioningInformationAsync(
+        ICommandContext command,
         FolderPath repositoryRoot,
         FolderPath temporaryFolder,
         CancellationToken cancellationToken)
     {
-        await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("dotnet")
+        await command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("dotnet")
         {
             Arguments =
             [
@@ -113,7 +120,7 @@ internal class GitVersioning(
             arguments.AddRange(["/config", configuration.Path]);
         }
 
-        var gitVersionOutput = await _command.ExecuteCommandLineToolAsync(
+        var gitVersionOutput = await command.ExecuteCommandLineToolAsync(
             new CommandLineToolOptions(Path.Combine(temporaryFolder, "dotnet-gitversion"))
             {
                 Arguments = arguments,
@@ -127,7 +134,7 @@ internal class GitVersioning(
         return JsonSerializer.Deserialize<GitVersionInformation>(gitVersionOutput.StandardOutput)!;
     }
 
-    private void TryDeleteTemporaryFolder(FolderPath temporaryFolder)
+    private static void TryDeleteTemporaryFolder(FolderPath temporaryFolder, IModuleLoggerAccessor moduleLoggerAccessor)
     {
         try
         {
@@ -135,7 +142,7 @@ internal class GitVersioning(
         }
         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
         {
-            var logger = _moduleLoggerAccessor.Logger;
+            var logger = moduleLoggerAccessor.Logger;
             if (logger.IsEnabled(LogLevel.Debug))
             {
                 logger.LogDebug(
