@@ -337,6 +337,11 @@ try {
                 -not $diagnostic.Contains($executable)) {
                 throw "Launch failure did not identify the executable: $diagnostic"
             }
+            $reasonPattern = [regex]::Escape("Agent dotnet guard failed to launch '$executable':") +
+                '[^\S\r\n]*\S'
+            if ($diagnostic -notmatch $reasonPattern) {
+                throw "Launch failure did not include a nonempty failure reason: $diagnostic"
+            }
             if ($diagnostic -match 'WaitForExit|Dispose|null-valued') {
                 throw "Launch failure included secondary null-child errors: $diagnostic"
             }
