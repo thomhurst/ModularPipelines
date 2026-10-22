@@ -13,7 +13,7 @@ using ModularPipelines.Minikube.Options;
 namespace ModularPipelines.Minikube.Options;
 
 /// <summary>
-/// Copy the specified file into minikube, it will be saved at path &lt;target file absolute path&gt; in your minikube.
+/// Copy the specified file into minikube, it will be saved at path &lt;target file absolute path&gt; in your minikube. Default target node controlplane and If &lt;source node name&gt; is omitted, It will trying to copy from host.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Minikube.Options;
 public record MinikubeCpOptions : MinikubeOptions
 {
     /// <summary>
-    /// Copy the specified file into minikube, it will be saved at path &lt;target file absolute path&gt; in your minikube.
+    /// Copy the specified file into minikube, it will be saved at path &lt;target file absolute path&gt; in your minikube. Default target node controlplane and If &lt;source node name&gt; is omitted, It will trying to copy from host.
     /// </summary>
     /// <param name="SourceNodeNameSourceFilePath">The &lt;source node name&gt;:&lt;source file path&gt; operand.</param>
     /// <param name="TargetNodeNameTargetFileAbsolutePath">The &lt;target node name&gt;:&lt;target file absolute path&gt; operand.</param>

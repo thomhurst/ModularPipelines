@@ -49,7 +49,7 @@ public interface IMinikubeConfig
     public Task<CommandResult> GetAsync(MinikubeConfigGetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sets the PROPERTY_NAME config value to PROPERTY_VALUE
+    /// Sets the PROPERTY_NAME config value to PROPERTY_VALUE These values can be overwritten by flags or environment variables at runtime.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -67,7 +67,7 @@ public interface IMinikubeConfig
     public Task<CommandResult> UnsetAsync(MinikubeConfigUnsetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Display values currently set in the minikube config file.
+    /// Display values currently set in the minikube config file. The output format can be customized using the --format flag, which accepts a Go template. The config file is typically located at "~/.minikube/config/config.json".
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

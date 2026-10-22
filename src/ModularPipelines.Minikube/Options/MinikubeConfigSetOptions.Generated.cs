@@ -13,7 +13,7 @@ using ModularPipelines.Minikube.Options;
 namespace ModularPipelines.Minikube.Options;
 
 /// <summary>
-/// Sets the PROPERTY_NAME config value to PROPERTY_VALUE
+/// Sets the PROPERTY_NAME config value to PROPERTY_VALUE These values can be overwritten by flags or environment variables at runtime.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Minikube.Options;
 public record MinikubeConfigSetOptions : MinikubeOptions
 {
     /// <summary>
-    /// Sets the PROPERTY_NAME config value to PROPERTY_VALUE
+    /// Sets the PROPERTY_NAME config value to PROPERTY_VALUE These values can be overwritten by flags or environment variables at runtime.
     /// </summary>
     /// <param name="PropertyName">The PROPERTY_NAME operand.</param>
     /// <param name="PropertyValue">The PROPERTY_VALUE operand.</param>
