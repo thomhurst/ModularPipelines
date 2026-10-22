@@ -91,7 +91,7 @@ public record PodmanKubePlayOptions : PodmanOptions
     /// Static IP addresses to assign to the pods (default [])
     /// </summary>
     [CliOption("--ip", Format = OptionFormat.EqualsSeparated)]
-    public string? Ip { get; set; }
+    public IEnumerable<string>? Ip { get; set; }
 
     /// <summary>
     /// Logging driver for the container

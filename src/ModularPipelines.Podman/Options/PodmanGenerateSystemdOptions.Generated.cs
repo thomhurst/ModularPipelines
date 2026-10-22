@@ -107,7 +107,7 @@ public record PodmanGenerateSystemdOptions : PodmanOptions
     /// Systemd restart-sec
     /// </summary>
     [CliOption("--restart-sec", Format = OptionFormat.EqualsSeparated)]
-    public int? RestartSec { get; set; }
+    public ulong? RestartSec { get; set; }
 
     /// <summary>
     /// Systemd unit name separator between name/id and prefix (default "-")
@@ -119,13 +119,13 @@ public record PodmanGenerateSystemdOptions : PodmanOptions
     /// Start timeout override
     /// </summary>
     [CliOption("--start-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? StartTimeout { get; set; }
+    public ulong? StartTimeout { get; set; }
 
     /// <summary>
     /// Stop timeout override (default 10)
     /// </summary>
     [CliOption("--stop-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? StopTimeout { get; set; }
+    public ulong? StopTimeout { get; set; }
 
     /// <summary>
     /// Make it a template file and use %i and %I specifiers. Working only for containers

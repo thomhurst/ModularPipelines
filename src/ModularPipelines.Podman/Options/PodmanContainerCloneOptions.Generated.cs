@@ -53,7 +53,7 @@ public record PodmanContainerCloneOptions : PodmanOptions
     /// Limit the CPU CFS (Completely Fair Scheduler) period
     /// </summary>
     [CliOption("--cpu-period", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuPeriod { get; set; }
+    public ulong? CpuPeriod { get; set; }
 
     /// <summary>
     /// Limit the CPU CFS (Completely Fair Scheduler) quota
@@ -65,7 +65,7 @@ public record PodmanContainerCloneOptions : PodmanOptions
     /// Limit the CPU real-time period in microseconds
     /// </summary>
     [CliOption("--cpu-rt-period", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuRtPeriod { get; set; }
+    public ulong? CpuRtPeriod { get; set; }
 
     /// <summary>
     /// Limit the CPU real-time runtime in microseconds
@@ -77,7 +77,7 @@ public record PodmanContainerCloneOptions : PodmanOptions
     /// CPU shares (relative weight)
     /// </summary>
     [CliOption("--cpu-shares", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuShares { get; set; }
+    public ulong? CpuShares { get; set; }
 
     /// <summary>
     /// Number of CPUs. The default is 0.000 which means no limit

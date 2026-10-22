@@ -30,7 +30,7 @@ public record PodmanSystemServiceOptions : PodmanOptions
     /// Time until the service session expires in seconds.  Use 0 to disable the timeout (default 5)
     /// </summary>
     [CliOption("--time", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public int? Time { get; set; }
+    public ulong? Time { get; set; }
 
     /// <summary>
     /// PEM file containing TLS serving certificate.

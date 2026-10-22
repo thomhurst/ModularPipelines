@@ -94,13 +94,13 @@ public record PodmanExecOptions : PodmanOptions
     /// Pass a list of additional file descriptors to the container (default [])
     /// </summary>
     [CliOption("--preserve-fd", Format = OptionFormat.EqualsSeparated)]
-    public string? PreserveFd { get; set; }
+    public IEnumerable<string>? PreserveFd { get; set; }
 
     /// <summary>
     /// Pass N additional file descriptors to the container
     /// </summary>
     [CliOption("--preserve-fds", Format = OptionFormat.EqualsSeparated)]
-    public int? PreserveFds { get; set; }
+    public ulong? PreserveFds { get; set; }
 
     /// <summary>
     /// Give the process extended Linux capabilities inside the container.  The default is false

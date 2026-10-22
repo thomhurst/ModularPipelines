@@ -53,7 +53,7 @@ public record PodmanContainerUpdateOptions : PodmanOptions
     /// Limit the CPU CFS (Completely Fair Scheduler) period
     /// </summary>
     [CliOption("--cpu-period", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuPeriod { get; set; }
+    public ulong? CpuPeriod { get; set; }
 
     /// <summary>
     /// Limit the CPU CFS (Completely Fair Scheduler) quota
@@ -65,7 +65,7 @@ public record PodmanContainerUpdateOptions : PodmanOptions
     /// Limit the CPU real-time period in microseconds
     /// </summary>
     [CliOption("--cpu-rt-period", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuRtPeriod { get; set; }
+    public ulong? CpuRtPeriod { get; set; }
 
     /// <summary>
     /// Limit the CPU real-time runtime in microseconds
@@ -77,7 +77,7 @@ public record PodmanContainerUpdateOptions : PodmanOptions
     /// CPU shares (relative weight)
     /// </summary>
     [CliOption("--cpu-shares", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuShares { get; set; }
+    public ulong? CpuShares { get; set; }
 
     /// <summary>
     /// Number of CPUs. The default is 0.000 which means no limit
@@ -149,13 +149,13 @@ public record PodmanContainerUpdateOptions : PodmanOptions
     /// set maximum number of attempts in the HealthCheck log file. ('0' value means an infinite number of attempts in the log file) (default 5)
     /// </summary>
     [CliOption("--health-max-log-count", Format = OptionFormat.EqualsSeparated)]
-    public int? HealthMaxLogCount { get; set; }
+    public ulong? HealthMaxLogCount { get; set; }
 
     /// <summary>
     /// set maximum length in characters of stored HealthCheck log. ('0' value means an infinite log length) (default 500)
     /// </summary>
     [CliOption("--health-max-log-size", Format = OptionFormat.EqualsSeparated)]
-    public int? HealthMaxLogSize { get; set; }
+    public ulong? HealthMaxLogSize { get; set; }
 
     /// <summary>
     /// action to take once the container turns unhealthy (default "none")
@@ -167,7 +167,7 @@ public record PodmanContainerUpdateOptions : PodmanOptions
     /// the number of retries allowed before a healthcheck is considered to be unhealthy (default 3)
     /// </summary>
     [CliOption("--health-retries", Format = OptionFormat.EqualsSeparated)]
-    public int? HealthRetries { get; set; }
+    public ulong? HealthRetries { get; set; }
 
     /// <summary>
     /// the initialization time needed for a container to bootstrap (default "0s")
@@ -191,13 +191,13 @@ public record PodmanContainerUpdateOptions : PodmanOptions
     /// Set the maximum number of retries before the startup healthcheck will restart the container
     /// </summary>
     [CliOption("--health-startup-retries", Format = OptionFormat.EqualsSeparated)]
-    public int? HealthStartupRetries { get; set; }
+    public ulong? HealthStartupRetries { get; set; }
 
     /// <summary>
     /// Set the number of consecutive successes before the startup healthcheck is marked as successful and the normal healthcheck begins (0 indicates any success will start the regular healthcheck)
     /// </summary>
     [CliOption("--health-startup-success", Format = OptionFormat.EqualsSeparated)]
-    public int? HealthStartupSuccess { get; set; }
+    public ulong? HealthStartupSuccess { get; set; }
 
     /// <summary>
     /// Set the maximum amount of time that the startup healthcheck may take before it is considered failed (default "30s")

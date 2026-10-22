@@ -48,7 +48,7 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// CPU shares (relative weight)
     /// </summary>
     [CliOption("--cpu-shares", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuShares { get; set; }
+    public ulong? CpuShares { get; set; }
 
     /// <summary>
     /// Number of CPUs. The default is 0.000 which means no limit

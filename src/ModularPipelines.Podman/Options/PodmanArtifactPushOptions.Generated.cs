@@ -73,7 +73,7 @@ public record PodmanArtifactPushOptions : PodmanOptions
     /// number of times to retry in case of failure when performing push (default 3)
     /// </summary>
     [CliOption("--retry", Format = OptionFormat.EqualsSeparated)]
-    public int? Retry { get; set; }
+    public ulong? Retry { get; set; }
 
     /// <summary>
     /// delay between retries in case of push failures
