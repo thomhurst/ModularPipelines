@@ -4,6 +4,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Enums;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -93,16 +94,21 @@ public class PrioritySchedulingTests : TestBase
     }
 
     [Test]
-    public async Task AllPriorityLevels_ExecuteSuccessfully()
+    public async Task SingleWorker_ExecutesModulesInDescendingPriorityOrder()
     {
         var result = await TestPipelineBuilder.Create()
             .AddModule<LowPriorityModule>()
             .AddModule<NormalPriorityModule>()
             .AddModule<HighPriorityModule>()
             .AddModule<CriticalPriorityModule>()
+            .ConfigureOptions(options => options with
+            {
+                Concurrency = options.Concurrency with { MaxParallelism = 1 },
+            })
             .RunAsync();
 
         await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
-        await Assert.That(ExecutionOrder.Count).IsEqualTo(4);
+        await Assert.That(ExecutionOrder)
+            .IsEquivalentTo(["Critical", "High", "Normal", "Low"], CollectionOrdering.Matching);
     }
 }
