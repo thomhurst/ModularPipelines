@@ -59,7 +59,7 @@ public record ArgoCdAppRollbackOptions : ArgoCdOptions
     /// Time out after this many seconds
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public ulong? Timeout { get; set; }
 
     /// <summary>
     /// The APPNAME operand.

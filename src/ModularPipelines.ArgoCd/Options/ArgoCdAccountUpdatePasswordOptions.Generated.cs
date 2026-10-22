@@ -14,7 +14,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// This command can be used to update the password of the currently logged on
+/// This command can be used to update the password of the currently logged on user, or an arbitrary local user account when the currently logged on user has appropriate RBAC permissions to change other accounts.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

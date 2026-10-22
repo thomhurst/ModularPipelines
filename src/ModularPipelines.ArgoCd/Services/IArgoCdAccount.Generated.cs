@@ -103,7 +103,7 @@ public interface IArgoCdAccount
     public Task<CommandResult> SessionTokenAsync(ArgoCdAccountSessionTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command can be used to update the password of the currently logged on
+    /// This command can be used to update the password of the currently logged on user, or an arbitrary local user account when the currently logged on user has appropriate RBAC permissions to change other accounts.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
