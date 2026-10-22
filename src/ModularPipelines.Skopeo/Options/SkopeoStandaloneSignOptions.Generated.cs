@@ -65,27 +65,21 @@ public record SkopeoStandaloneSignOptions : SkopeoOptions
     public string? PassphraseFile { get; set; }
 
     /// <summary>
-    /// The command options operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? CommandOptions { get; set; }
-
-    /// <summary>
     /// The MANIFEST operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Manifest { get; private init; }
 
     /// <summary>
     /// The DOCKER-REFERENCE operand.
     /// </summary>
-    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string DockerReference { get; private init; }
 
     /// <summary>
     /// The KEY-FINGERPRINT operand.
     /// </summary>
-    [CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string KeyFingerprint { get; private init; }
 
 }

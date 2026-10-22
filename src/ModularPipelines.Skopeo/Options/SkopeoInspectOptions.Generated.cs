@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Skopeo.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Skopeo.Options;
@@ -133,15 +134,9 @@ public record SkopeoInspectOptions : SkopeoOptions
     public string? Username { get; set; }
 
     /// <summary>
-    /// The command options operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? CommandOptions { get; set; }
-
-    /// <summary>
     /// The IMAGE-NAME operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string ImageName { get; private init; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Skopeo.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Skopeo.Options;
@@ -63,15 +64,9 @@ public record SkopeoLogoutOptions : SkopeoOptions
     public CliOptionValue? TlsVerify { get; set; }
 
     /// <summary>
-    /// The command options operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? CommandOptions { get; set; }
-
-    /// <summary>
     /// The REGISTRY operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Registry { get; private init; }
 
 }
