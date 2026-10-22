@@ -511,19 +511,16 @@ internal class ArtifactContextImpl(
     }
 
     internal static void EnsureSourcePathContainsNoLinks(IFileSystemProvider provider, string path, string? trustedRoot = null)
-    {
-        if (provider is SystemFileSystemProvider)
-        {
-            EnsurePathContainsNoLinks(provider, path, path, trustedRoot);
-        }
-        else
-        {
-            EnsurePathIsNotLink(provider, path);
-        }
-    }
+        => EnsurePathContainsNoLinks(provider, path, path, trustedRoot);
 
     private static void EnsurePathContainsNoLinks(IFileSystemProvider provider, string destinationDirectory, string path, string? trustedRoot)
     {
+        if (provider is not SystemFileSystemProvider)
+        {
+            EnsureProviderPathContainsNoLinks(provider, path);
+            return;
+        }
+
         var skipRootCheck = false;
         if (provider is SystemFileSystemProvider)
         {
@@ -550,6 +547,25 @@ internal class ArtifactContextImpl(
         foreach (var segment in relativePath.Split(provider.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
             currentPath = AppendProviderPath(provider, currentPath, segment);
+            if (!EnsureExistingPathIsNotLink(provider, currentPath))
+            {
+                return;
+            }
+        }
+    }
+
+    private static void EnsureProviderPathContainsNoLinks(IFileSystemProvider provider, string path)
+    {
+        var ancestors = new Stack<string>();
+        for (var currentPath = path; !string.IsNullOrEmpty(currentPath); currentPath = GetProviderParentPath(provider, currentPath))
+        {
+            ancestors.Push(currentPath);
+        }
+
+        // Custom providers have no trusted host root. Check parents first so a missing
+        // destination cannot hide an existing link higher in the provider's tree.
+        while (ancestors.TryPop(out var currentPath))
+        {
             if (!EnsureExistingPathIsNotLink(provider, currentPath))
             {
                 return;
