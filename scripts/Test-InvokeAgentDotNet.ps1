@@ -449,14 +449,14 @@ Start-Sleep -Seconds 60
     Write-Output 'OK logged timeout and memory-limit exit codes, diagnostics, and partial output.'
 
     if ($IsLinux) {
-        # A fast native child reparents before the next snapshot and starts a new
-        # session, escaping process-group cleanup while keeping both pipes open.
+        # A short-lived intermediate shell reparents the new session before the
+        # guarded shell waits or exits, leaving both pipes outside its tracked tree.
         $escapedPidPath = Join-Path $testRoot 'escaped.pid'
         foreach ($expectedExitCode in @(23, 124)) {
             try {
-                $shellCommand = 'setsid /bin/sh -c ''echo $$ > "$1"; ' +
+                $shellCommand = '(setsid /bin/sh -c ''echo $$ > "$1"; ' +
                     'printf "escaped-stdout\n"; printf "escaped-stderr\n" >&2; exec sleep 90'' ' +
-                    'sh "$1" < /dev/null & '
+                    'sh "$1" < /dev/null & ); '
                 $shellCommand += if ($expectedExitCode -eq 23) { 'exit 23' } else { 'sleep 90' }
                 # Allow the PowerShell wrapper to start even on a loaded host.
                 # The regression targets the drain deadline, not startup speed.
