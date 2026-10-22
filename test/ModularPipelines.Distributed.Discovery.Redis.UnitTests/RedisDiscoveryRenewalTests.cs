@@ -12,6 +12,67 @@ public class RedisDiscoveryRenewalTests
     private static readonly DistributedRunCleanupContext CleanupContext = new() { RunId = "test-run", PipelineSucceeded = true };
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Advertisement_Retries_A_Failed_Write_And_Renews_The_New_Endpoint(bool writeBeforeFailure)
+    {
+        var clock = new FakeTimeProvider();
+        var store = new ExpiringStore(clock) { FailNextWrite = true, WriteBeforeFailure = writeBeforeFailure };
+        await using var master = Create(store, clock);
+        await Assert.That(async () => await master.AdvertiseMasterEndpointAsync(Endpoint, CancellationToken.None))
+            .Throws<TimeoutException>();
+
+        clock.Advance(TimeSpan.FromSeconds(1));
+        await Assert.That(store.RefreshCount).IsEqualTo(0);
+        var retryEndpoint = new MasterEndpoint { Url = new Uri("https://retry.example/"), AccessToken = "new-token" };
+        await master.AdvertiseMasterEndpointAsync(retryEndpoint, CancellationToken.None);
+
+        for (var i = 0; i < 6; i++)
+        {
+            clock.Advance(TimeSpan.FromSeconds(1));
+            await store.NextRefreshAsync();
+        }
+
+        await Assert.That(await master.DiscoverMasterEndpointAsync(CancellationToken.None)).IsEqualTo(retryEndpoint);
+        await master.CleanupRunAsync(CleanupContext, CancellationToken.None);
+        await Assert.That(store.Value).IsNull();
+    }
+
+    [Test]
+    public async Task Failed_Retry_Does_Not_Orphan_An_Ambiguous_Advertisement()
+    {
+        var clock = new FakeTimeProvider();
+        var store = new ExpiringStore(clock) { FailNextWrite = true, WriteBeforeFailure = true };
+        await using var master = Create(store, clock);
+        await Assert.That(async () => await master.AdvertiseMasterEndpointAsync(Endpoint, CancellationToken.None))
+            .Throws<TimeoutException>();
+        await Assert.That(store.Value).IsNotNull();
+
+        store.FailNextWrite = true;
+        store.WriteBeforeFailure = false;
+        await Assert.That(async () => await master.AdvertiseMasterEndpointAsync(
+                new MasterEndpoint { Url = new Uri("https://retry.example/"), AccessToken = "new-token" }, CancellationToken.None))
+            .Throws<TimeoutException>();
+        await master.CleanupRunAsync(CleanupContext, CancellationToken.None);
+
+        await Assert.That(store.Value).IsNull();
+    }
+
+    [Test]
+    public async Task Successful_Advertisement_Cannot_Be_Replaced_By_The_Same_Instance()
+    {
+        var clock = new FakeTimeProvider();
+        var store = new ExpiringStore(clock);
+        await using var master = Create(store, clock);
+        await master.AdvertiseMasterEndpointAsync(Endpoint, CancellationToken.None);
+
+        await Assert.That(async () => await master.AdvertiseMasterEndpointAsync(
+                new MasterEndpoint { Url = new Uri("https://retry.example/") }, CancellationToken.None))
+            .Throws<InvalidOperationException>();
+        await Assert.That(await master.DiscoverMasterEndpointAsync(CancellationToken.None)).IsEqualTo(Endpoint);
+    }
+
+    [Test]
     public async Task Late_Worker_Discovers_Master_After_The_Original_Ttl()
     {
         var clock = new FakeTimeProvider();
@@ -162,6 +223,8 @@ public class RedisDiscoveryRenewalTests
         private string? _value;
         private DateTimeOffset _expiresAt;
         public int RefreshCount { get; private set; }
+        public bool FailNextWrite { get; set; }
+        public bool WriteBeforeFailure { get; set; }
         public bool FailNextRefresh { get; set; }
         public Task? RefreshGate { get; init; }
         public TaskCompletionSource RefreshEntered { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -171,9 +234,15 @@ public class RedisDiscoveryRenewalTests
 
         public Task SetAsync(string key, string value, TimeSpan ttl, CancellationToken cancellationToken)
         {
+            var fail = FailNextWrite;
+            FailNextWrite = false;
+            if (fail && !WriteBeforeFailure)
+            {
+                return Task.FromException(new TimeoutException("Simulated failure before the write"));
+            }
             _value = value;
             _expiresAt = clock.GetUtcNow() + ttl;
-            return Task.CompletedTask;
+            return fail ? Task.FromException(new TimeoutException("Simulated failure after the write")) : Task.CompletedTask;
         }
 
         public Task<string?> GetAsync(string key, CancellationToken cancellationToken) => Task.FromResult(Value);

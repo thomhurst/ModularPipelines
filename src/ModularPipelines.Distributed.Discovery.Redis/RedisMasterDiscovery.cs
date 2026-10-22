@@ -29,6 +29,7 @@ internal sealed class RedisMasterDiscovery(
     private readonly TimeProvider _timeProvider = timeProvider ?? TimeProvider.System;
     private Task _renewal = Task.CompletedTask;
     private string? _advertisedValue;
+    private bool _advertised;
     private bool _stopped;
 
     public async Task AdvertiseMasterEndpointAsync(MasterEndpoint endpoint, CancellationToken cancellationToken)
@@ -38,15 +39,23 @@ internal sealed class RedisMasterDiscovery(
         try
         {
             ObjectDisposedException.ThrowIf(_stopped, this);
-            if (_advertisedValue is not null)
+            if (_advertised)
             {
                 throw new InvalidOperationException("This discovery instance has already advertised a master endpoint.");
+            }
+
+            // A failed attempt may have reached Redis. Remove it before replacing the retained
+            // ownership value, so another failed write cannot orphan the previous token.
+            if (_advertisedValue is { } previousValue)
+            {
+                await _store.DeleteAsync(_masterEndpointKey, previousValue, cancellationToken).ConfigureAwait(false);
             }
 
             // Retain ownership even on an ambiguous write failure so cleanup can remove the token.
             // A unique advertisement ID distinguishes replacement masters with identical URLs and tokens.
             _advertisedValue = JsonSerializer.Serialize(new StoredEndpoint(endpoint.Url.AbsoluteUri, endpoint.AccessToken, Guid.NewGuid().ToString("N")));
             await _store.SetAsync(_masterEndpointKey, _advertisedValue, _options.TimeToLive, cancellationToken).ConfigureAwait(false);
+            _advertised = true;
             _renewal = RenewAsync(_advertisedValue, _renewalCancellation.Token);
             _logger.LogInformation(
                 "Advertised the master endpoint in Redis (time to live: {TimeToLive})",
