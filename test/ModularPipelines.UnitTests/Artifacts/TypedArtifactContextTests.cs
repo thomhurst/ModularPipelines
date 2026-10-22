@@ -13,6 +13,49 @@ namespace ModularPipelines.UnitTests.Artifacts;
 public class TypedArtifactContextTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Directory_Archive_Rejects_Provider_Links_Before_Descent_Or_Read(bool directoryLink)
+    {
+        var source = Path.GetFullPath("provider-artifact-source");
+        var link = Path.Combine(source, "link");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.Setup(p => p.GetAttributes(source)).Returns(FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(link)).Returns(FileAttributes.ReparsePoint);
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.TopDirectoryOnly))
+            .Returns(directoryLink ? [link] : []);
+        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.TopDirectoryOnly))
+            .Returns(directoryLink ? [] : [link]);
+        var archivePath = Path.Combine(Path.GetTempPath(), $"artifact-provider-link-{Guid.NewGuid():N}.zip");
+        try
+        {
+            await Assert.That(() => ArtifactContextImpl.CreateDirectoryArchiveAsync(
+                source, archivePath, CompressionLevel.Fastest, CancellationToken.None, provider.Object)).Throws<IOException>();
+            await Assert.That(File.Exists(archivePath)).IsFalse();
+        }
+        finally
+        {
+            File.Delete(archivePath);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Single_File_Restore_Rejects_Provider_Links_Before_Writing(bool directoryLink)
+    {
+        var directory = Path.GetFullPath("provider-artifact-destination");
+        var destination = Path.Combine(directory, "payload.txt");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetAttributes(directory)).Returns(directoryLink ? FileAttributes.ReparsePoint : FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(destination)).Returns(FileAttributes.ReparsePoint);
+        using var stream = new MemoryStream("replacement"u8.ToArray());
+        await Assert.That(() => ArtifactContextImpl.RestoreFileAsync(
+            stream, destination, CancellationToken.None, provider.Object)).Throws<IOException>();
+    }
+
+    [Test]
     [Arguments("/", CompressionLevel.NoCompression)]
     [Arguments("\\", CompressionLevel.NoCompression)]
     [Arguments("/", CompressionLevel.Optimal)]
@@ -27,8 +70,11 @@ public class TypedArtifactContextTests
         var canonicalFile = Path.Combine(canonicalRoot, "payload.txt");
         var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
         provider.SetupGet(p => p.DirectorySeparatorChar).Returns(separator[0]);
-        provider.Setup(p => p.EnumerateDirectories(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalDirectory]);
-        provider.Setup(p => p.EnumerateFiles(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalFile]);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Normal);
+        provider.Setup(p => p.EnumerateDirectories(canonicalDirectory, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(canonicalDirectory, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateDirectories(requestedRoot, "*", SearchOption.TopDirectoryOnly)).Returns([canonicalDirectory]);
+        provider.Setup(p => p.EnumerateFiles(requestedRoot, "*", SearchOption.TopDirectoryOnly)).Returns([canonicalFile]);
         provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalDirectory)).Returns($"nested{separator}empty");
         provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalFile)).Returns($"nested{separator}payload.txt");
         provider.Setup(p => p.GetLastWriteTimeUtc(canonicalFile)).Returns(new DateTime(2026, 10, 4, 12, 0, 0, DateTimeKind.Utc));
@@ -65,8 +111,9 @@ public class TypedArtifactContextTests
         var file = Path.Combine(root, "provider-file");
         var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
         provider.SetupGet(p => p.DirectorySeparatorChar).Returns('/');
-        provider.Setup(p => p.EnumerateDirectories(root, "*", SearchOption.AllDirectories)).Returns([]);
-        provider.Setup(p => p.EnumerateFiles(root, "*", SearchOption.AllDirectories)).Returns([file]);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Normal);
+        provider.Setup(p => p.EnumerateDirectories(root, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(root, "*", SearchOption.TopDirectoryOnly)).Returns([file]);
         provider.Setup(p => p.GetRelativePath(root, file)).Returns(@"payload\data.txt");
         provider.Setup(p => p.GetLastWriteTimeUtc(file)).Returns(new DateTime(2026, 1, 1));
         provider.Setup(p => p.OpenRead(file)).Returns(() => new MemoryStream("literal"u8.ToArray()));
@@ -93,8 +140,8 @@ public class TypedArtifactContextTests
         var parent = target[..target.LastIndexOf('/')];
         var provider = new Mock<IFileSystemProvider>();
         provider.SetupGet(p => p.DirectorySeparatorChar).Returns('/');
-        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.AllDirectories)).Returns([]);
-        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.AllDirectories)).Returns([sourceFile]);
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.TopDirectoryOnly)).Returns([sourceFile]);
         provider.Setup(p => p.GetRelativePath(source, sourceFile)).Returns(relativeName);
         provider.Setup(p => p.GetLastWriteTimeUtc(sourceFile)).Returns(new DateTime(2026, 1, 1));
         provider.Setup(p => p.OpenRead(sourceFile)).Returns(() => new MemoryStream("literal"u8.ToArray()));
