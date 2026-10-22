@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -133,7 +134,7 @@ public class BashTests : TestBase
 
             var result = await bash.RunFileAsync(options, executionOptions);
 
-            await Assert.That(result.CommandInput).Contains(useWsl ? Path.Combine(Environment.SystemDirectory, "bash.exe") : finalBash);
+            await Assert.That(result.CommandInput).Contains(useWsl ? Path.Combine(Environment.SystemDirectory, "wsl.exe") + " --exec bash" : finalBash);
             await Assert.That(result.CommandInput).Contains(useWsl ? Path.GetFullPath(options.FilePath, finalDirectory) : "nested dir/script's $value.sh");
             await Assert.That(result.CommandInput).Contains("literal argument");
             await Assert.That(interceptor.Conversions).IsEqualTo(0);
@@ -201,6 +202,32 @@ public class BashTests : TestBase
         await Assert.That(prepared.Tool).IsEqualTo(options.Tool);
         await Assert.That(prepared.FilePath).IsEqualTo(Path.GetFullPath(options.FilePath, directory));
         command.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    [WindowsOnlyTest]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task RunFileAsync_Wsl_Passes_Bash_Options_And_Literal_Operands_After_Exec(bool sudo)
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "mp bash literal dry run");
+        var path = Path.Combine(directory, "nested dir", "script's $value.sh");
+        var bash = await GetService<IBashContext>();
+
+        var result = await bash.RunFileAsync(new BashFileOptions(path)
+        {
+            Tool = Path.Combine(Environment.SystemDirectory, "bash.exe"),
+            AdditionalArguments = [new("--noprofile", CommandLinePhase.EarlyOperand)],
+            Arguments = ["argument's $value"],
+        }, new CommandExecutionOptions
+        {
+            InternalDryRun = true,
+            Sudo = sudo,
+            WorkingDirectory = directory,
+        });
+
+        var expected = $"{Path.Combine(Environment.SystemDirectory, "wsl.exe")} --exec bash --noprofile \"{path}\" \"argument's $value\"";
+        await Assert.That(result.CommandInput).IsEqualTo(sudo ? "sudo -n -- " + expected : expected);
     }
 
     [Test]
@@ -462,6 +489,7 @@ public class BashTests : TestBase
         var nestedDirectory = Path.Combine(directory, "nested dir");
         Directory.CreateDirectory(nestedDirectory);
         var path = Path.Combine(nestedDirectory, "script's $value.sh");
+        Exception? executionFailure = null;
 
         try
         {
@@ -476,9 +504,37 @@ public class BashTests : TestBase
 
             await Assert.That(result.StandardOutput).IsEqualTo("argument's $value");
         }
+        catch (Exception exception)
+        {
+            executionFailure = exception;
+            throw;
+        }
         finally
         {
-            Directory.Delete(directory, recursive: true);
+            try
+            {
+                // WSL can retain Bash's working directory briefly after its Windows launcher exits.
+                // Wait for that directory to be released without terminating shared WSL processes.
+                var cleanup = Stopwatch.StartNew();
+                while (true)
+                {
+                    try
+                    {
+                        Directory.Delete(directory, recursive: true);
+                        break;
+                    }
+                    catch (IOException exception) when (OperatingSystem.IsWindows()
+                        && (exception.HResult & 0xFFFF) is 32 or 33
+                        && cleanup.Elapsed < TimeSpan.FromSeconds(10))
+                    {
+                        await Task.Delay(25);
+                    }
+                }
+            }
+            catch (Exception cleanupFailure) when (executionFailure is not null)
+            {
+                throw new AggregateException("Bash execution and temporary directory cleanup both failed.", executionFailure, cleanupFailure);
+            }
         }
     }
 
