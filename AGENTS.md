@@ -30,6 +30,7 @@ if ($changed) {
 }
 ```
 
+- For scoped style/analyzer fixes and the IDE0130 apply-mode failure, follow [the formatting guide](scripts/Formatting.md).
 - CI scopes formatting and analyzer checks to changed files; see [the .NET workflow](.github/workflows/dotnet.yml) for the commands and severity levels. Those checks also cover style and analyzer fixes that `whitespace` does not apply. For `tools/ModularPipelines.OptionsGenerator/` changes, also run its formatting verification step locally before pushing.
 - For documentation changes, use the Node version range in `docs/package.json` and run `yarn install` and `yarn build` from `docs/`.
 
