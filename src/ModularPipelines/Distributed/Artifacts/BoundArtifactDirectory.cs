@@ -50,65 +50,7 @@ internal sealed partial class BoundArtifactDirectory : IDisposable
         var result = new BoundArtifactDirectory(fullPath);
         try
         {
-            // Resolve the trusted anchor once, as Unix open() does. All Windows IO then
-            // uses its physical path, never the original alias or alias target path.
-            if (OperatingSystem.IsWindows())
-            {
-                var followedAnchor = CheckHandle(CreateFile(anchor, 0x80, 1, 0, 3, BackupSemantics, 0), anchor, directory: true);
-                result._directories.Add(followedAnchor);
-                var relativeToAnchor = Path.GetRelativePath(anchor, fullPath);
-                anchor = GetFinalWindowsPath(followedAnchor);
-                // Extended Windows paths preserve literal '.' segments; do not append one.
-                fullPath = relativeToAnchor == "." ? anchor : Path.Combine(anchor, relativeToAnchor);
-                result.FullPath = fullPath;
-            }
-
-            var walkRoot = OperatingSystem.IsWindows() ? Path.GetPathRoot(fullPath)! : anchor;
-            result._directories.Add(OperatingSystem.IsWindows()
-                ? OpenWindowsDirectory(walkRoot)
-                : CheckHandle(OpenUnix(anchor, UnixDirectoryFlags & ~UnixNoFollow), anchor, directory: true));
-            var currentPath = walkRoot;
-            var relative = Path.GetRelativePath(walkRoot, fullPath);
-            foreach (var segment in relative.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
-            {
-                if (segment == ".")
-                {
-                    continue;
-                }
-
-                currentPath = Path.Combine(currentPath, segment);
-                SafeFileHandle handle;
-                if (OperatingSystem.IsWindows())
-                {
-                    // Each parent is locked before creating/opening its child. A concurrently
-                    // inserted reparse point is opened itself and rejected below.
-                    if (create)
-                    {
-                        Directory.CreateDirectory(currentPath);
-                    }
-
-                    handle = OpenWindowsDirectory(currentPath);
-                }
-                else
-                {
-                    // EEXIST is safe: openat still validates the entry after mkdirat.
-                    if (create && MakeDirectoryAt(result.DirectoryHandle, segment, 0x1ff) != 0
-                        && Marshal.GetLastPInvokeError() != 17)
-                    {
-                        throw NativeError(currentPath);
-                    }
-
-                    handle = CheckHandle(OpenAt(result.DirectoryHandle, segment, UnixDirectoryFlags), currentPath, directory: true);
-                }
-
-                result._directories.Add(handle);
-                if (OperatingSystem.IsWindows() && currentPath.Equals(anchor, StringComparison.OrdinalIgnoreCase)
-                    && !GetFinalWindowsPath(result._directories[0]).Equals(anchor, StringComparison.OrdinalIgnoreCase))
-                {
-                    throw new IOException("The trusted artifact directory moved while its ancestors were being bound.");
-                }
-            }
-
+            result.BindDirectoryChain(anchor, create);
             return result;
         }
         catch
@@ -116,6 +58,74 @@ internal sealed partial class BoundArtifactDirectory : IDisposable
             result.Dispose();
             throw;
         }
+    }
+
+    private string BindTrustedAnchor(string anchor)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return anchor;
+        }
+
+        // Resolve the trusted anchor once, as Unix open() does. All Windows IO then
+        // uses its physical path, never the original alias or alias target path.
+        var followedAnchor = CheckHandle(CreateFile(anchor, 0x80, 1, 0, 3, BackupSemantics, 0), anchor, directory: true);
+        _directories.Add(followedAnchor);
+        var relativeToAnchor = Path.GetRelativePath(anchor, FullPath);
+        anchor = GetFinalWindowsPath(followedAnchor);
+        // Extended Windows paths preserve literal '.' segments; do not append one.
+        FullPath = relativeToAnchor == "." ? anchor : Path.Combine(anchor, relativeToAnchor);
+        return anchor;
+    }
+
+    private void BindDirectoryChain(string anchor, bool create)
+    {
+        anchor = BindTrustedAnchor(anchor);
+        var walkRoot = OperatingSystem.IsWindows() ? Path.GetPathRoot(FullPath)! : anchor;
+        _directories.Add(OperatingSystem.IsWindows()
+            ? OpenWindowsDirectory(walkRoot)
+            : CheckHandle(OpenUnix(anchor, UnixDirectoryFlags & ~UnixNoFollow), anchor, directory: true));
+        var currentPath = walkRoot;
+        var relative = Path.GetRelativePath(walkRoot, FullPath);
+        foreach (var segment in relative.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (segment == ".")
+            {
+                continue;
+            }
+
+            currentPath = Path.Combine(currentPath, segment);
+            _directories.Add(OpenChildDirectory(currentPath, segment, create));
+            if (OperatingSystem.IsWindows() && currentPath.Equals(anchor, StringComparison.OrdinalIgnoreCase)
+                && !GetFinalWindowsPath(_directories[0]).Equals(anchor, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new IOException("The trusted artifact directory moved while its ancestors were being bound.");
+            }
+        }
+    }
+
+    private SafeFileHandle OpenChildDirectory(string currentPath, string segment, bool create)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            // Each parent is locked before creating/opening its child. A concurrently
+            // inserted reparse point is opened itself and rejected below.
+            if (create)
+            {
+                Directory.CreateDirectory(currentPath);
+            }
+
+            return OpenWindowsDirectory(currentPath);
+        }
+
+        // EEXIST is safe: openat still validates the entry after mkdirat.
+        if (create && MakeDirectoryAt(DirectoryHandle, segment, 0x1ff) != 0
+            && Marshal.GetLastPInvokeError() != 17)
+        {
+            throw NativeError(currentPath);
+        }
+
+        return CheckHandle(OpenAt(DirectoryHandle, segment, UnixDirectoryFlags), currentPath, directory: true);
     }
 
     public FileStream OpenRead(string leaf)

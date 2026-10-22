@@ -267,17 +267,7 @@ public class BoundArtifactPathTests
                 attempted = true;
                 if (replaceLeaf)
                 {
-                    // A concurrently inserted destination link must be replaced itself,
-                    // never followed to the outside file.
-                    File.Delete(Path.Combine(destination, "payload.txt"));
-                    try
-                    {
-                        File.CreateSymbolicLink(Path.Combine(destination, "payload.txt"), Path.Combine(outsideDestination, "payload.txt"));
-                    }
-                    catch (IOException exception) when (OperatingSystem.IsWindows() && exception.HResult == unchecked((int) 0x80070522))
-                    {
-                        throw new SkipTestException("Symbolic-link creation requires an unavailable Windows privilege.");
-                    }
+                    ReplaceLeafWithLink(destination, outsideDestination);
                 }
                 else
                 {
@@ -332,6 +322,21 @@ public class BoundArtifactPathTests
         {
             RemoveSubstitutedLink(root.FullName);
             root.Delete(recursive: true);
+        }
+    }
+
+    private static void ReplaceLeafWithLink(string destination, string outsideDestination)
+    {
+        // A concurrently inserted destination link must be replaced itself,
+        // never followed to the outside file.
+        File.Delete(Path.Combine(destination, "payload.txt"));
+        try
+        {
+            File.CreateSymbolicLink(Path.Combine(destination, "payload.txt"), Path.Combine(outsideDestination, "payload.txt"));
+        }
+        catch (IOException exception) when (OperatingSystem.IsWindows() && exception.HResult == unchecked((int) 0x80070522))
+        {
+            throw new SkipTestException("Symbolic-link creation requires an unavailable Windows privilege.");
         }
     }
 
