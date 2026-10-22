@@ -1747,6 +1747,67 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Flush_ProviderFailure_ContinuesRenderingWithoutRepeatingHealthyProviders(bool persistentFailure)
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var failingLogger = new RecordingLogger
+        {
+            LogException = new InvalidOperationException("provider rejected event"),
+        };
+        using var loggerFactory = new LoggerFactory([
+            new TestLoggerProvider(failingLogger),
+            new TestLoggerProvider(loggerControl),
+        ]);
+        var buffer = CreateBufferWithStructuredLog();
+        buffer.WriteLine("remaining console output");
+        var logger = loggerFactory.CreateLogger("Module");
+
+        await buffer.FlushToAsync(
+            writer, new GitHubActionsFormatter(), logger, loggerControl, OutputFlushKind.Complete);
+
+        if (!persistentFailure)
+        {
+            failingLogger.LogException = null;
+        }
+
+        await buffer.FlushToAsync(
+            writer, new GitHubActionsFormatter(), logger, loggerControl, OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).Contains("remaining console output");
+        await Assert.That(writer.ToString()).Contains("structured log");
+        await Assert.That(loggerControl.LogCallCount).IsEqualTo(1);
+        await Assert.That(failingLogger.LogCallCount).IsEqualTo(1);
+        await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
+    [Test]
+    public async Task Flush_AllProvidersFail_DirectCopyMasksEventAndException()
+    {
+        var (_, writer, loggerControl, secretObfuscator) = CreateSecretMaskingBuffer("secret");
+        var failingLogger = new RecordingLogger
+        {
+            LogException = new InvalidOperationException("provider secret rejected event"),
+        };
+        using var loggerFactory = new LoggerFactory([new TestLoggerProvider(failingLogger)]);
+        var buffer = CreateBufferWithStructuredLog(
+            message: "message secret",
+            secretObfuscator: secretObfuscator,
+            exception: new InvalidOperationException("event secret failure"));
+
+        await buffer.FlushToAsync(
+            writer, new GitHubActionsFormatter(), loggerFactory.CreateLogger("Module"),
+            loggerControl, OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).Contains("message");
+        await Assert.That(writer.ToString()).Contains("event");
+        await Assert.That(writer.ToString()).DoesNotContain("secret");
+        await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
+    [Test]
     public async Task Flush_RenderingFailure_Retains_Failed_Output()
     {
         var writer = new StringWriter();
@@ -2352,6 +2413,15 @@ public class ModuleOutputBufferTests
             GetEnumerator();
     }
 
+    private sealed class TestLoggerProvider(ILogger logger) : ILoggerProvider
+    {
+        public ILogger CreateLogger(string categoryName) => logger;
+
+        public void Dispose()
+        {
+        }
+    }
+
     private sealed class RecordingLogger : ILogger
     {
         public List<(string Message, Exception? Exception)> Entries { get; } = [];
@@ -2359,6 +2429,8 @@ public class ModuleOutputBufferTests
         public List<Type> StateTypes { get; } = [];
 
         public Exception? LogException { get; set; }
+
+        public int LogCallCount { get; private set; }
 
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
@@ -2373,6 +2445,7 @@ public class ModuleOutputBufferTests
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
+            LogCallCount++;
             if (LogException is not null)
             {
                 throw LogException;

@@ -72,7 +72,7 @@ public class OutputCoordinatorTests
     }
 
     [Test]
-    public async Task DeferredFlush_FailureRequeuesCurrentAndUnstartedOutputs()
+    public async Task DeferredFlush_FailureAttemptsLaterBuffersAndRequeuesOnlyFailedOutput()
     {
         var firstBuffer = new FailingOnceOutputBuffer();
         var secondBuffer = new CancellingOutputBuffer();
@@ -85,6 +85,9 @@ public class OutputCoordinatorTests
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             await coordinator.FlushDeferredAsync());
 
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+        await Assert.That(secondBuffer.DeferredFlushFailure).IsNull();
+
         await coordinator.FlushDeferredAsync();
 
         await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
@@ -94,7 +97,7 @@ public class OutputCoordinatorTests
     }
 
     [Test]
-    public async Task DeferredFlush_ProviderCancellationRequeuesCurrentAndUnstartedOutputs()
+    public async Task DeferredFlush_ProviderCancellationAttemptsLaterBuffersAndRequeuesOnlyFailedOutput()
     {
         var firstBuffer = new FailingOnceOutputBuffer(new OperationCanceledException("provider canceled"));
         var secondBuffer = new CancellingOutputBuffer();
@@ -107,10 +110,166 @@ public class OutputCoordinatorTests
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await coordinator.FlushDeferredAsync());
 
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+
         await coordinator.FlushDeferredAsync();
 
         await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task DeferredFlush_FormatterFailureRetainsAllDeferredBuffers()
+    {
+        var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
+        formatterProvider.SetupSequence(x => x.GetFormatter())
+            .Throws<InvalidOperationException>()
+            .Returns(new DefaultFormatter());
+        var buffer = new CancellingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null), formatterProvider.Object);
+        coordinator.SetProgressActive(true);
+        await coordinator.OnModuleCompletedAsync(buffer, buffer.ModuleType);
+        coordinator.SetProgressActive(false);
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () => await coordinator.FlushDeferredAsync());
+        await Assert.That(buffer.FlushCount).IsEqualTo(0);
+        await coordinator.FlushDeferredAsync();
+        await Assert.That(buffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task DeferredFlush_MultipleFailuresAreReportedAfterLaterBuffersAreAttempted()
+    {
+        var firstBuffer = new FailingOnceOutputBuffer();
+        var secondBuffer = new FailingOnceOutputBuffer();
+        var thirdBuffer = new CancellingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+        coordinator.SetProgressActive(true);
+        await coordinator.OnModuleCompletedAsync(firstBuffer, firstBuffer.ModuleType);
+        await coordinator.OnModuleCompletedAsync(secondBuffer, secondBuffer.ModuleType);
+        await coordinator.OnModuleCompletedAsync(thirdBuffer, thirdBuffer.ModuleType);
+        coordinator.SetProgressActive(false);
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(async () => await coordinator.FlushDeferredAsync());
+
+        await Assert.That(exception!.InnerExceptions.Count).IsEqualTo(2);
+        await Assert.That(thirdBuffer.FlushCount).IsEqualTo(1);
+        await coordinator.FlushDeferredAsync();
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(2);
+        await Assert.That(thirdBuffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task DeferredFlush_CancellationAlsoRequeuesAnEarlierFailedBuffer()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var firstBuffer = new FailingOnceOutputBuffer();
+        var secondBuffer = new CancellingOutputBuffer(cancellationTokenSource);
+        var thirdBuffer = new CancellingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+        coordinator.SetProgressActive(true);
+        await coordinator.OnModuleCompletedAsync(firstBuffer, firstBuffer.ModuleType);
+        await coordinator.OnModuleCompletedAsync(secondBuffer, secondBuffer.ModuleType);
+        await coordinator.OnModuleCompletedAsync(thirdBuffer, thirdBuffer.ModuleType);
+        coordinator.SetProgressActive(false);
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await coordinator.FlushDeferredAsync(cancellationTokenSource.Token));
+        await Assert.That(thirdBuffer.FlushCount).IsEqualTo(0);
+        await coordinator.FlushDeferredAsync();
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(2);
+        await Assert.That(thirdBuffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task DeferredFlush_PersistentBufferFailuresAttemptEveryBufferOncePerCall()
+    {
+        var firstBuffer = new Mock<IModuleOutputBuffer>();
+        firstBuffer.SetupGet(x => x.ModuleType).Returns(typeof(FailingOnceOutputBuffer));
+        firstBuffer.SetupGet(x => x.NeedsCompletionFlush).Returns(true);
+        firstBuffer.Setup(x => x.FlushToAsync(
+                It.IsAny<TextWriter>(), It.IsAny<IBuildSystemFormatter>(), It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(), OutputFlushKind.Complete,
+                It.IsAny<IReadOnlyList<ILogger>?>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("persistent buffer failure"));
+        var secondBuffer = new CancellingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+        coordinator.SetProgressActive(true);
+        await coordinator.OnModuleCompletedAsync(firstBuffer.Object, firstBuffer.Object.ModuleType);
+        await coordinator.OnModuleCompletedAsync(secondBuffer, secondBuffer.ModuleType);
+        coordinator.SetProgressActive(false);
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () => await coordinator.FlushDeferredAsync());
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+        await Assert.ThrowsAsync<InvalidOperationException>(async () => await coordinator.FlushDeferredAsync());
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+        firstBuffer.Verify(x => x.FlushToAsync(
+            It.IsAny<TextWriter>(), It.IsAny<IBuildSystemFormatter>(), It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(), OutputFlushKind.Complete,
+            It.IsAny<IReadOnlyList<ILogger>?>(), It.IsAny<CancellationToken>()), Times.Exactly(2));
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task DeferredFlush_ThrowingProviderDoesNotLoseLaterModuleConsoleOutput(bool persistentFailure)
+    {
+        var originalOut = System.Console.Out;
+        var writer = new StringWriter();
+        var provider = new FailingLoggerProvider(persistentFailure);
+        using var loggerFactory = new LoggerFactory([
+            provider,
+            new ConsoleWritingLoggerProvider(writer),
+        ]);
+        var firstBuffer = CreateStructuredBuffer(typeof(FailingOnceOutputBuffer), "first structured event");
+        firstBuffer.WriteLine("first remaining console output");
+        var secondBuffer = CreateStructuredBuffer(typeof(CancellingOutputBuffer), "second structured event");
+        secondBuffer.WriteLine("second module console output");
+        try
+        {
+#pragma warning disable TUnit0055 // Globally non-parallel test restores the process-wide writer in finally.
+            System.Console.SetOut(writer);
+#pragma warning restore TUnit0055
+            var coordinator = CreateCoordinator(loggerFactory);
+            coordinator.SetProgressActive(true);
+            await coordinator.OnModuleCompletedAsync(firstBuffer, firstBuffer.ModuleType);
+            await coordinator.OnModuleCompletedAsync(secondBuffer, secondBuffer.ModuleType);
+            coordinator.SetProgressActive(false);
+
+            await coordinator.FlushDeferredAsync();
+            await coordinator.FlushDeferredAsync();
+
+            var output = writer.ToString();
+            await Assert.That(output).Contains("first remaining console output");
+            await Assert.That(output).Contains("second module console output");
+            await Assert.That(output.IndexOf("first remaining console output", StringComparison.Ordinal))
+                .IsLessThan(output.IndexOf("second module console output", StringComparison.Ordinal));
+            await Assert.That(provider.Attempts).IsEqualTo(2);
+            await Assert.That(firstBuffer.HasOutput).IsFalse();
+            await Assert.That(secondBuffer.HasOutput).IsFalse();
+        }
+        finally
+        {
+#pragma warning disable TUnit0055 // Restore the process-wide writer before leaving the test.
+            System.Console.SetOut(originalOut);
+#pragma warning restore TUnit0055
+        }
+    }
+
+    private static ModuleOutputBuffer CreateStructuredBuffer(Type moduleType, string message)
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator.Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? input, object? _) => input ?? string.Empty);
+        var buffer = new ModuleOutputBuffer(moduleType);
+        buffer.AddLogEvent(new BufferedLogEvent<string>(
+            LogLevel.Information, default, message, message, null,
+            static (state, _) => state, secretObfuscator.Object));
+        buffer.MarkComplete();
+        return buffer;
     }
 
     [Test]
@@ -595,6 +754,46 @@ public class OutputCoordinatorTests
     private static int CountOccurrences(string value, string search) =>
         value.Split(search, StringSplitOptions.None).Length - 1;
 
+    private sealed class ConsoleWritingLoggerProvider(TextWriter writer) : ILoggerProvider
+    {
+        public ILogger CreateLogger(string categoryName) => new ConsoleWritingLogger(writer);
+
+        public void Dispose()
+        {
+        }
+    }
+
+    private sealed class FailingLoggerProvider(bool persistentFailure) : ILoggerProvider
+    {
+        private bool PersistentFailure { get; } = persistentFailure;
+
+        public int Attempts { get; private set; }
+
+        public ILogger CreateLogger(string categoryName) => new FailingLogger(this);
+
+        public void Dispose()
+        {
+        }
+
+        private sealed class FailingLogger(FailingLoggerProvider provider) : ILogger
+        {
+            public IDisposable? BeginScope<TState>(TState state)
+                where TState : notnull => null;
+
+            public bool IsEnabled(LogLevel logLevel) => true;
+
+            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state,
+                Exception? exception, Func<TState, Exception?, string> formatter)
+            {
+                provider.Attempts++;
+                if (provider.PersistentFailure || provider.Attempts == 1)
+                {
+                    throw new InvalidOperationException("provider rejected event");
+                }
+            }
+        }
+    }
+
     private sealed class ConsoleWritingLoggerFactory(TextWriter writer) : ILoggerFactory
     {
         private readonly ILogger _logger = new ConsoleWritingLogger(writer);
@@ -653,6 +852,10 @@ public class OutputCoordinatorTests
         public Type ModuleType => typeof(CancellingOutputBuffer);
 
         public int FlushCount { get; private set; }
+
+        public Exception? DeferredFlushFailure { get; private set; }
+
+        public void ReportDeferredFlushFailure(Exception exception) => DeferredFlushFailure = exception;
 
         public bool HasOutput => true;
 
