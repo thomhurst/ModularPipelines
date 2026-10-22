@@ -1,61 +1,66 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Time.Testing;
-using ModularPipelines.Attributes;
+using System.Collections.Concurrent;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
-using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Enums;
 
 namespace ModularPipelines.UnitTests.Dependencies;
 
 public class TimedDependencyTests
 {
-    private static readonly TimeSpan LongModuleDelay = TimeSpan.FromMilliseconds(100);
-    private static readonly TimeSpan ShortModuleDelay = TimeSpan.FromMilliseconds(20);
-
     [Test]
-    public async Task OneSecondModule_WillWaitForFiveSecondModule_ThenExecute()
+    public async Task DependentModule_WaitsForDependencyToComplete()
     {
-        var timeProvider = new FakeTimeProvider();
-
-        var host = await TestPipelineBuilder.Create(new TestHostSettings(), timeProvider)
-            .AddModule<FiveSecondModule>()
-            .AddModule<OneSecondModuleDependentOnFiveSecondModule>()
+        var state = new ExecutionState();
+        using var cancellation = new CancellationTokenSource(TestHostSettings.DefaultTestTimeout);
+        await using var host = await TestPipelineBuilder.Create()
+            .AddModule(new BlockingModule(state))
+            .AddModule(new DependentModule(state))
             .BuildAsync();
 
-        await host.RunAsync();
-
-        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        var fiveSecondResult = resultRegistry.GetResult(typeof(FiveSecondModule))!;
-        var oneSecondResult = resultRegistry.GetResult(typeof(OneSecondModuleDependentOnFiveSecondModule))!;
-
-        using (Assert.Multiple())
+        var execution = host.RunAsync(cancellation.Token);
+        try
         {
-            await Assert.That(oneSecondResult.Duration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
-
-            await Assert.That(oneSecondResult.EndTime).IsGreaterThanOrEqualTo(fiveSecondResult.StartTime + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
-
-            await Assert.That(oneSecondResult.StartTime).IsGreaterThanOrEqualTo(fiveSecondResult.EndTime);
+            await state.DependencyStarted.Task.WaitAsync(cancellation.Token);
+            await Assert.That(state.Events.ToArray()).IsEquivalentTo(["Dependency started"], CollectionOrdering.Matching);
         }
+        finally
+        {
+            state.ReleaseDependency.TrySetResult();
+            await execution.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        }
+
+        await Assert.That((await execution).Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(state.Events.ToArray()).IsEquivalentTo(
+            ["Dependency started", "Dependency completed", "Dependent started"], CollectionOrdering.Matching);
     }
 
-    private class FiveSecondModule : Module<bool>
+    private sealed class ExecutionState
+    {
+        public ConcurrentQueue<string> Events { get; } = new();
+        public TaskCompletionSource DependencyStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public TaskCompletionSource ReleaseDependency { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    }
+
+    private class BlockingModule(ExecutionState state) : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(LongModuleDelay, cancellationToken);
+            state.Events.Enqueue("Dependency started");
+            state.DependencyStarted.TrySetResult();
+            await state.ReleaseDependency.Task.WaitAsync(cancellationToken);
+            state.Events.Enqueue("Dependency completed");
             return true;
         }
     }
 
-    [ModularPipelines.DependsOn<FiveSecondModule>]
-    private class OneSecondModuleDependentOnFiveSecondModule : Module<bool>
+    [ModularPipelines.DependsOn<BlockingModule>]
+    private class DependentModule(ExecutionState state) : Module<bool>
     {
-        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(ShortModuleDelay, cancellationToken);
-            return true;
+            state.Events.Enqueue("Dependent started");
+            return Task.FromResult(true);
         }
     }
 }

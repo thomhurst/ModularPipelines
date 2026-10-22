@@ -54,18 +54,6 @@ public class MetricsCollectorTests : TestBase
     }
 
     [Test]
-    public async Task PipelineMetrics_HasParallelismFactor()
-    {
-        var result = await TestPipelineBuilder.Create()
-            .AddModule<QuickModule1>()
-            .AddModule<QuickModule2>()
-            .RunAsync();
-
-        await Assert.That(result.Metrics).IsNotNull();
-        await Assert.That(result.Metrics!.ParallelismFactor).IsGreaterThanOrEqualTo(0);
-    }
-
-    [Test]
     public async Task PipelineMetrics_HasPeakConcurrency()
     {
         var result = await TestPipelineBuilder.Create()
@@ -76,18 +64,6 @@ public class MetricsCollectorTests : TestBase
 
         await Assert.That(result.Metrics).IsNotNull();
         await Assert.That(result.Metrics!.PeakConcurrency).IsGreaterThanOrEqualTo(1);
-    }
-
-    [Test]
-    public async Task PipelineMetrics_HasAverageConcurrency()
-    {
-        var result = await TestPipelineBuilder.Create()
-            .AddModule<QuickModule1>()
-            .AddModule<QuickModule2>()
-            .RunAsync();
-
-        await Assert.That(result.Metrics).IsNotNull();
-        await Assert.That(result.Metrics!.AverageConcurrency).IsGreaterThanOrEqualTo(0);
     }
 
     [Test]
@@ -208,7 +184,7 @@ public class MetricsCollectorTests : TestBase
 
         await Assert.That(result.Metrics).IsNotNull();
         await Assert.That(result.Metrics!.WallClockDuration).IsGreaterThan(TimeSpan.Zero);
-        await Assert.That(result.Metrics!.TotalModuleExecutionTime).IsGreaterThanOrEqualTo(TimeSpan.Zero);
+        await Assert.That(result.Metrics!.TotalModuleExecutionTime).IsGreaterThan(TimeSpan.Zero);
     }
 
     [Test]
@@ -309,6 +285,7 @@ public class MetricsCollectorTests : TestBase
 
         using (Assert.Multiple())
         {
+            await Assert.That(metrics.ParallelismFactor).IsEqualTo(2.0);
             await Assert.That(metrics.PeakConcurrency).IsEqualTo(2);
             await Assert.That(metrics.AverageConcurrency).IsEqualTo(2.0);
             await Assert.That(metrics.Efficiency).IsEqualTo(1.0);
