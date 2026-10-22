@@ -1,6 +1,8 @@
+using System.Runtime.Loader;
 using System.Text.Json;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -391,8 +393,9 @@ public class ModuleResultContractTests
     public async Task Success_RuntimeValue_Rejects_Different_Assembly_Builds(int shape)
     {
         var assemblyName = $"RuntimeResultBuild_{Guid.NewGuid():N}";
-        Type BuildValueType()
+        Type BuildValueType(AssemblyLoadContext context)
         {
+            using var scope = context.EnterContextualReflection();
             var assembly = System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(
                 new System.Reflection.AssemblyName(assemblyName),
                 System.Reflection.Emit.AssemblyBuilderAccess.RunAndCollect);
@@ -406,19 +409,46 @@ public class ModuleResultContractTests
             };
         }
 
-        var localType = BuildValueType();
-        var remoteType = BuildValueType();
-        object CreateValue(Type type) => type.IsArray
-            ? Array.CreateInstance(type.GetElementType()!, 0)
-            : Activator.CreateInstance(type)!;
-        var localJson = JsonSerializer.Serialize(CreateRuntimeSuccess(CreateValue(localType)));
-        var localResult = JsonSerializer.Deserialize<ModuleResult<object>>(localJson);
-        await Assert.That(localResult!.Value.GetType()).IsEqualTo(localType);
+        var localContext = new AssemblyLoadContext("LocalRuntimeResult", isCollectible: true);
+        var remoteContext = new AssemblyLoadContext("RemoteRuntimeResult", isCollectible: true);
+        try
+        {
+            var localType = BuildValueType(localContext);
+            var remoteType = BuildValueType(remoteContext);
+            object CreateValue(Type type) => type.IsArray
+                ? Array.CreateInstance(type.GetElementType()!, 0)
+                : Activator.CreateInstance(type)!;
 
-        var remoteJson = JsonSerializer.Serialize(CreateRuntimeSuccess(CreateValue(remoteType)));
-        var exception = Assert.Throws<JsonException>(() =>
-            JsonSerializer.Deserialize<ModuleResult<object>>(remoteJson));
-        await Assert.That(exception!.Message).Contains("build identity");
+            // Each participant resolves its own build. Duplicate assemblies in the default
+            // context have no defined enumeration order, including inside generic arguments.
+            var localOptions = ModuleResultSerializer.CreateOptions(localContext);
+            var remoteOptions = ModuleResultSerializer.CreateOptions(remoteContext);
+            var localJson = JsonSerializer.Serialize(CreateRuntimeSuccess(CreateValue(localType)), localOptions);
+            var remoteJson = JsonSerializer.Serialize(CreateRuntimeSuccess(CreateValue(remoteType)), remoteOptions);
+            using var localDocument = JsonDocument.Parse(localJson);
+            using var remoteDocument = JsonDocument.Parse(remoteJson);
+            await Assert.That(localDocument.RootElement.GetProperty("$valueType").GetString())
+                .IsEqualTo(remoteDocument.RootElement.GetProperty("$valueType").GetString());
+            await Assert.That(localDocument.RootElement.GetProperty("$valueTypeBuild").GetString())
+                .IsNotEqualTo(remoteDocument.RootElement.GetProperty("$valueTypeBuild").GetString());
+
+            var localResult = JsonSerializer.Deserialize<ModuleResult<object>>(localJson, localOptions);
+            var remoteResult = JsonSerializer.Deserialize<ModuleResult<object>>(remoteJson, remoteOptions);
+            await Assert.That(localResult!.Value.GetType()).IsEqualTo(localType);
+            await Assert.That(remoteResult!.Value.GetType()).IsEqualTo(remoteType);
+
+            var exception = Assert.Throws<JsonException>(() =>
+                JsonSerializer.Deserialize<ModuleResult<object>>(remoteJson, localOptions));
+            await Assert.That(exception!.Message).Contains("build identity");
+            var reverseException = Assert.Throws<JsonException>(() =>
+                JsonSerializer.Deserialize<ModuleResult<object>>(localJson, remoteOptions));
+            await Assert.That(reverseException!.Message).Contains("build identity");
+        }
+        finally
+        {
+            localContext.Unload();
+            remoteContext.Unload();
+        }
     }
 
     [Test]
