@@ -102,10 +102,13 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 
 ## Azure Function
 
+The Function waits for the blob-access role assignment to succeed before provisioning. Azure RBAC changes can still take time to propagate after the assignment is created.
+
 ```csharp
 [DependsOn<ProvisionUserAssignedIdentityModule>]
 [DependsOn<ProvisionBlobStorageAccountModule>]
 [DependsOn<ProvisionBlobStorageContainerModule>]
+[DependsOn<AssignAccessToBlobStorageModule>]
 public class ProvisionAzureFunction : Module<WebSiteResource>
 {
     protected override async Task<WebSiteResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
