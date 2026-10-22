@@ -85,7 +85,18 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         var dependencies = declarations.GetOrAdd(classSymbol, module =>
             ModuleDependencyDeclarations.GetDeclarations(module, context.Compilation, context.CancellationToken));
 
-        ReportDependencyDiagnostic(context, moduleDeclaration, methodSymbol, namedTypeSymbol, dependencies);
+        DependencyDeclarationKind? declarationKind = dependencies.TryGetValue(namedTypeSymbol, out var declaredKind)
+            ? declaredKind : null;
+        if (declarationKind != DependencyDeclarationKind.Required)
+        {
+            var selectorKind = ModuleDependencySelectors.GetDeclarationKind(classSymbol, namedTypeSymbol, context.Compilation);
+            if (selectorKind is not null && (declarationKind is null || selectorKind > declarationKind))
+            {
+                declarationKind = selectorKind;
+            }
+        }
+
+        ReportDependencyDiagnostic(context, moduleDeclaration, methodSymbol, namedTypeSymbol, declarationKind);
     }
 
     private static bool TryGetInvokedModule(
@@ -128,9 +139,9 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         TypeDeclarationSyntax moduleDeclaration,
         IMethodSymbol methodSymbol,
         INamedTypeSymbol namedTypeSymbol,
-        ImmutableDictionary<ITypeSymbol, DependencyDeclarationKind> dependencies)
+        DependencyDeclarationKind? declarationKind)
     {
-        if (!dependencies.TryGetValue(namedTypeSymbol, out var declarationKind))
+        if (declarationKind is null)
         {
             var properties = new Dictionary<string, string?>
             {
