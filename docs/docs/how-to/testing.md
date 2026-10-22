@@ -20,7 +20,9 @@ provides test-safe defaults:
 - module failures are returned for assertions instead of escaping from the harness.
 
 HTTP requests use the real network by default. Call [`InterceptHttp`](#intercept-http)
-when the module sends HTTP requests or downloads files to keep those calls isolated.
+to isolate requests and downloads made through the framework's default HTTP client.
+Explicitly supplied, named, or directly created clients can still use the real
+network; configure their handlers separately.
 
 ## Generate a test project
 
@@ -245,30 +247,32 @@ effective cancellation token and returns a `ValueTask<HttpResponseMessage>`:
 ```csharp
 using System.Net;
 using System.Net.Http;
-using ModularPipelines.Context;
-using ModularPipelines.Modules;
+using ModularPipelines;
 using ModularPipelines.Testing;
 
-[Test]
-public async Task Fetch_release_uses_the_expected_endpoint()
+public class FetchReleaseTests
 {
-    var run = await ModuleTester.For<FetchReleaseModule, string>()
-        .InterceptHttp((request, cancellationToken) =>
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return ValueTask.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+    [Test]
+    public async Task Fetch_release_uses_the_expected_endpoint()
+    {
+        var run = await ModuleTester.For<FetchReleaseModule, string>()
+            .InterceptHttp((request, cancellationToken) =>
             {
-                Content = new StringContent("release-42"),
-            });
-        })
-        .ExecuteAsync();
+                cancellationToken.ThrowIfCancellationRequested();
+                return ValueTask.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent("release-42"),
+                });
+            })
+            .ExecuteAsync();
 
-    await Assert.That(run.Exception).IsNull();
-    await Assert.That(run.Value).IsEqualTo("release-42");
-    await Assert.That(run.HttpRequests.Count).IsEqualTo(1);
-    await Assert.That(run.HttpRequests[0].Method).IsEqualTo(HttpMethod.Get);
-    await Assert.That(run.HttpRequests[0].RequestUri)
-        .IsEqualTo(new Uri("https://releases.example.test/latest"));
+        await Assert.That(run.Exception).IsNull();
+        await Assert.That(run.Value).IsEqualTo("release-42");
+        await Assert.That(run.HttpRequests.Count).IsEqualTo(1);
+        await Assert.That(run.HttpRequests[0].Method).IsEqualTo(HttpMethod.Get);
+        await Assert.That(run.HttpRequests[0].RequestUri)
+            .IsEqualTo(new Uri("https://releases.example.test/latest"));
+    }
 }
 
 public sealed class FetchReleaseModule : Module<string>
