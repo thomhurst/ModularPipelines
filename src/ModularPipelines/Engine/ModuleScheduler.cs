@@ -70,7 +70,7 @@ internal class ModuleScheduler : IModuleScheduler
         _statusReporter = statusReporter;
         _estimatedTimeProvider = estimatedTimeProvider;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
-        _runtimeDependencies = new RuntimeDependencyTracker(_moduleStates);
+        _runtimeDependencies = new RuntimeDependencyTracker(_moduleStates, constraintEvaluator, _options.MaxParallelism);
         _pendingReadyModules = [];
         _queuedModules = [];
         _executingModules = [];
@@ -238,8 +238,18 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <inheritdoc />
-    public void RegisterResultWait(IModule module, IModule dependency, Task resultTask) =>
-        _runtimeDependencies.RegisterWait(module, dependency, resultTask);
+    public void RegisterResultWait(IModule module, IModule dependency, Task resultTask)
+    {
+        _stateLock.EnterReadLock();
+        try
+        {
+            _runtimeDependencies.RegisterWait(module, dependency, resultTask);
+        }
+        finally
+        {
+            _stateLock.ExitReadLock();
+        }
+    }
 
     /// <summary>
     /// Gets statistics about the current scheduler state.
