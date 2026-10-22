@@ -214,6 +214,12 @@ internal class EngineCancellationToken : IDisposable
                 // cancellation can finish execution and send the workers' final notification.
                 _applicationLifetime?.StopApplication();
             }
+            catch (Exception exception)
+            {
+                // Preserve the failure before cancellation can finish the run, while
+                // allowing signal handlers to suppress immediate process termination.
+                RecordException(exception);
+            }
             finally
             {
                 // Lifetime callbacks must not prevent engine cancellation or cancel the

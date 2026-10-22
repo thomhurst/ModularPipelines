@@ -17,13 +17,15 @@ public class ShutdownLifetimeTests
     public async Task Lifetime_Callback_Failure_Does_Not_Prevent_Engine_Cancellation()
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
+        var exception = new InvalidOperationException("lifetime callback failed");
         lifetime.Setup(application => application.StopApplication())
-            .Throws(new InvalidOperationException("lifetime callback failed"));
+            .Throws(exception);
         using var cancellation = new PipelineEngineCancellationToken(
             new ModularPipelines.Engine.PrimaryExceptionContainer(), lifetime.Object);
 
-        await Assert.That(() => cancellation.RequestShutdown()).Throws<InvalidOperationException>();
+        await Assert.That(cancellation.RequestShutdown()).IsTrue();
 
+        await Assert.That(cancellation.OriginalException).IsSameReferenceAs(exception);
         await Assert.That(cancellation.Token.IsCancellationRequested).IsTrue();
         await Assert.That(cancellation.NonFailureCancellationToken.IsCancellationRequested).IsTrue();
         await Assert.That(cancellation.ExplicitCancellationToken.IsCancellationRequested).IsFalse();
