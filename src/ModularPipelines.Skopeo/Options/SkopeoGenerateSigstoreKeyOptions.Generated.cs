@@ -49,10 +49,4 @@ public record SkopeoGenerateSigstoreKeyOptions : SkopeoOptions
     [CliOption("--passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? PassphraseFile { get; set; }
 
-    /// <summary>
-    /// The command options operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? CommandOptions { get; set; }
-
 }
