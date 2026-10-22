@@ -55,6 +55,95 @@ public class ProgressSessionTests
     }
 
     [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task StartAsync_Suppresses_Display_Exceptions_And_Only_Warns_For_Failures(
+        bool cancellationException,
+        bool cancellationRequested)
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        if (cancellationRequested)
+        {
+            cancellationTokenSource.Cancel();
+        }
+
+        Exception exception = cancellationException
+            ? new OperationCanceledException()
+            : new InvalidOperationException("Progress rendering failed");
+        var console = new Mock<IAnsiConsole>();
+        console.SetupGet(value => value.ExclusivityMode).Throws(exception);
+        var logger = new Mock<ILogger>();
+        var loggerFactory = new Mock<ILoggerFactory>();
+        loggerFactory.Setup(factory => factory.CreateLogger(It.IsAny<string>())).Returns(logger.Object);
+        var coordinator = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+        await using var session = new ProgressSession(
+            coordinator,
+            new OrganizedModules([], []),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            loggerFactory.Object,
+            console.Object,
+            cancellationTokenSource.Token);
+
+        await session.StartAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        await session.DisposeAsync();
+
+        console.VerifyGet(value => value.ExclusivityMode, Times.AtLeastOnce);
+        var expectedCancellation = cancellationException && cancellationRequested;
+        logger.Verify(value => value.Log(
+            LogLevel.Warning,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString() == "Progress display stopped unexpectedly. Pipeline execution will continue."),
+            exception,
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            expectedCancellation ? Times.Never() : Times.Once());
+        if (expectedCancellation)
+        {
+            logger.VerifyNoOtherCalls();
+        }
+    }
+
+    [Test]
+    public async Task DisposeAsync_Ends_Progress_When_Display_And_Warning_Logger_Throw()
+    {
+        var displayException = new InvalidOperationException("Progress rendering failed");
+        var console = new Mock<IAnsiConsole>();
+        console.SetupGet(value => value.ExclusivityMode).Throws(displayException);
+        var logger = new Mock<ILogger>();
+        logger.Setup(value => value.Log(
+                LogLevel.Warning,
+                It.IsAny<EventId>(),
+                It.IsAny<It.IsAnyType>(),
+                displayException,
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()))
+            .Throws(new InvalidOperationException("Warning logger failed"));
+        var loggerFactory = new Mock<ILoggerFactory>();
+        loggerFactory.Setup(factory => factory.CreateLogger(It.IsAny<string>())).Returns(logger.Object);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        var coordinator = CreateCoordinator(outputCoordinator.Object);
+        await using var session = new ProgressSession(
+            coordinator,
+            new OrganizedModules([], []),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            loggerFactory.Object,
+            console.Object,
+            CancellationToken.None);
+
+        await session.StartAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        await session.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+
+        logger.Verify(value => value.Log(
+            LogLevel.Warning,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString() == "Progress display stopped unexpectedly. Pipeline execution will continue."),
+            displayException,
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once());
+        outputCoordinator.Verify(value => value.SetProgressController(NoOpProgressController.Instance), Times.Once());
+        outputCoordinator.Verify(value => value.SetProgressActive(false), Times.Once());
+    }
+
+    [Test]
     public async Task PauseAsync_CompletesImmediatelyWhenNoRefreshIsActive()
     {
         var outputCoordinator = new Mock<IOutputCoordinator>();

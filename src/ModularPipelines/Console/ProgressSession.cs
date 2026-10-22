@@ -230,13 +230,20 @@ internal class ProgressSession : IProgressSession, IProgressController
                 })
                 .ConfigureAwait(false);
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
             // Expected on cancellation
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            // Suppress exceptions from progress display
+            try
+            {
+                _logger.LogWarning(exception, "Progress display stopped unexpectedly. Pipeline execution will continue.");
+            }
+            catch (Exception)
+            {
+                // Diagnostic logging must not prevent progress cleanup or pipeline execution.
+            }
         }
         finally
         {
