@@ -13,7 +13,7 @@ using ModularPipelines.Cosign.Options;
 namespace ModularPipelines.Cosign.Options;
 
 /// <summary>
-/// Gets a public key from the key-pair and
+/// Gets a public key from the key-pair and writes to a specified file. By default, it will write to standard out.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -15,7 +15,7 @@ using ModularPipelines.Cosign.Enums;
 namespace ModularPipelines.Cosign.Options;
 
 /// <summary>
-/// Verify signature and annotations on an image by checking the claims
+/// Verify signature and annotations on an image by checking the claims against the transparency log.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.Cosign.Options;
 public record CosignVerifyOptions : CosignOptions
 {
     /// <summary>
-    /// Verify signature and annotations on an image by checking the claims
+    /// Verify signature and annotations on an image by checking the claims against the transparency log.
     /// </summary>
     /// <param name="Images"></param>
     public CosignVerifyOptions(

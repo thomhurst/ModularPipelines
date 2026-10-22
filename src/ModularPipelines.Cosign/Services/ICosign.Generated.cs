@@ -117,7 +117,7 @@ public partial interface ICosign
     public Task<CommandResult> LoginAsync(CosignLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a public key from the key-pair and
+    /// Gets a public key from the key-pair and writes to a specified file. By default, it will write to standard out.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public partial interface ICosign
     public Task<CommandResult> TreeAsync(CosignTreeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Verify an attestation on an image by checking the claims
+    /// Verify an attestation on an image by checking the claims against the transparency log.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -171,7 +171,7 @@ public partial interface ICosign
     public Task<CommandResult> VerifyAttestationAsync(CosignVerifyAttestationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Verify an attestation on the supplied blob input using the specified key reference.
+    /// Verify an attestation on the supplied blob input using the specified key reference. You may specify either a key or a kms reference to verify against.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -180,7 +180,7 @@ public partial interface ICosign
     public Task<CommandResult> VerifyBlobAttestationAsync(CosignVerifyBlobAttestationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Verify a signature on the supplied blob input using the specified key reference.
+    /// Verify a signature on the supplied blob input using the specified key reference. You may specify either a key, a bundle (optionally with trusted root), or a kms reference to verify against. If you use a key, bundle, or trusted root, you must specify the path to them on disk.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -189,7 +189,7 @@ public partial interface ICosign
     public Task<CommandResult> VerifyBlobAsync(CosignVerifyBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Verify signature and annotations on an image by checking the claims
+    /// Verify signature and annotations on an image by checking the claims against the transparency log.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
