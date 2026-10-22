@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Distributed.SignalR.Hub;
 
 namespace ModularPipelines.Distributed.SignalR.UnitTests;
@@ -178,7 +179,9 @@ public class SignalRHubTests
     [Test]
     public async Task Heartbeat_From_Worker_Renews_Its_Lease()
     {
-        await using var test = await SignalRTestMaster.StartAsync(workerTimeout: TimeSpan.FromMilliseconds(500));
+        var clock = new FakeTimeProvider();
+        var workerTimeout = TimeSpan.FromMilliseconds(500);
+        await using var test = await SignalRTestMaster.StartAsync(workerTimeout: workerTimeout, timeProvider: clock);
         var worker = await test.ConnectWorkerAsync();
         var registration = SignalRTestMaster.Registration("worker-a");
         await worker.RegisterWorkerAsync(registration, CancellationToken.None);
@@ -188,7 +191,8 @@ public class SignalRHubTests
 
         for (var i = 0; i < 4; i++)
         {
-            await Task.Delay(250);
+            clock.Advance(TimeSpan.FromMilliseconds(250));
+            await Assert.That(await test.Master.RequeueExpiredLeasesAsync(CancellationToken.None)).IsEmpty();
             await worker.SendHeartbeatAsync(
                 new WorkerStatus
                 {
@@ -199,7 +203,13 @@ public class SignalRHubTests
                 CancellationToken.None);
         }
 
+        clock.Advance(workerTimeout - TimeSpan.FromMilliseconds(1));
         await Assert.That(await test.Master.RequeueExpiredLeasesAsync(CancellationToken.None)).IsEmpty();
+
+        // Without another heartbeat, the renewed lease expires on the same controlled clock.
+        clock.Advance(TimeSpan.FromMilliseconds(2));
+        await Assert.That(await test.Master.RequeueExpiredLeasesAsync(CancellationToken.None))
+            .IsEquivalentTo([lease!.Assignment.ModuleId]);
     }
 
     [Test]

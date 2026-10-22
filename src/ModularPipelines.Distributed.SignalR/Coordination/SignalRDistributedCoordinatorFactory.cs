@@ -21,7 +21,8 @@ internal sealed class SignalRDistributedCoordinatorFactory(
     IOptions<SignalRDistributedOptions> options,
     IOptions<DistributedOptions> distributedOptions,
     ILoggerFactory loggerFactory,
-    IMasterDiscovery? discovery = null) : IDistributedCoordinatorFactory
+    IMasterDiscovery? discovery = null,
+    TimeProvider? timeProvider = null) : IDistributedCoordinatorFactory
 {
     private readonly SignalRDistributedOptions _options = options.Value;
     private readonly DistributedOptions _distributedOptions = distributedOptions.Value;
@@ -29,7 +30,7 @@ internal sealed class SignalRDistributedCoordinatorFactory(
     public async Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
     {
         var accessToken = ResolveMasterAccessToken(_options, discovery is not null);
-        var coordinator = new InMemoryDistributedCoordinator(distributedOptions);
+        var coordinator = new InMemoryDistributedCoordinator(distributedOptions, timeProvider);
         var masterState = new SignalRMasterState(coordinator, _distributedOptions.RunId);
 
         var serverHost = new MasterServerHost();
