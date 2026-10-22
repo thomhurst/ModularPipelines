@@ -30,7 +30,7 @@ public partial interface IVault
     public Task<CommandResult> AgentGenerateConfigAsync(VaultAgentGenerateConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command starts a Vault Agent that can perform automatic authentication
+    /// This command starts a Vault Agent that can perform automatic authentication in certain environments.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -39,7 +39,7 @@ public partial interface IVault
     public Task<CommandResult> AgentAsync(VaultAgentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disables an audit device. Once an audit device is disabled, no future audit
+    /// Disables an audit device. Once an audit device is disabled, no future audit logs are dispatched to it. The data associated with the audit device is not affected.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public partial interface IVault
     public Task<CommandResult> AuditEnableAsync(VaultAuditEnableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the enabled audit devices in the Vault server. The output lists the
+    /// Lists the enabled audit devices in the Vault server. The output lists the enabled audit devices and the options for those devices.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -66,7 +66,7 @@ public partial interface IVault
     public Task<CommandResult> AuditListAsync(VaultAuditListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's audit devices.
+    /// This command groups subcommands for interacting with Vault's audit devices. Users can list, enable, and disable audit devices.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -75,7 +75,7 @@ public partial interface IVault
     public Task<CommandResult> AuditAsync(VaultAuditOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disables an existing auth method at the given PATH. The argument corresponds
+    /// Disables an existing auth method at the given PATH. The argument corresponds to the PATH of the mount, not the TYPE!. Once the auth method is disabled its path can no longer be used to authenticate.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -84,7 +84,7 @@ public partial interface IVault
     public Task<CommandResult> AuthDisableAsync(VaultAuthDisableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enables a new auth method. An auth method is responsible for authenticating
+    /// Enables a new auth method. An auth method is responsible for authenticating users or machines and assigning them policies with which they can access Vault.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -93,7 +93,7 @@ public partial interface IVault
     public Task<CommandResult> AuthEnableAsync(VaultAuthEnableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the enabled auth methods on the Vault server. This command also outputs
+    /// Lists the enabled auth methods on the Vault server. This command also outputs information about the method including configuration and human-friendly descriptions. A TTL of "system" indicates that the system default is in use.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public partial interface IVault
     public Task<CommandResult> AuthListAsync(VaultAuthListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Moves an existing auth method to a new path. Any leases from the old
+    /// Moves an existing auth method to a new path. Any leases from the old auth method are revoked, but all configuration associated with the method is preserved. It initiates the migration and intermittently polls its status, exiting if a final state is reached.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -111,7 +111,7 @@ public partial interface IVault
     public Task<CommandResult> AuthMoveAsync(VaultAuthMoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's auth methods.
+    /// This command groups subcommands for interacting with Vault's auth methods. Users can list, enable, disable, and get help for different auth methods.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -120,7 +120,7 @@ public partial interface IVault
     public Task<CommandResult> AuthAsync(VaultAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Tunes the configuration options for the auth method at the given PATH. The
+    /// Tunes the configuration options for the auth method at the given PATH. The argument corresponds to the PATH where the auth method is enabled, not the TYPE!
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -129,7 +129,7 @@ public partial interface IVault
     public Task<CommandResult> AuthTuneAsync(VaultAuthTuneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes secrets and configuration from Vault at the given path. The behavior
+    /// Deletes secrets and configuration from Vault at the given path. The behavior of "delete" is delegated to the backend corresponding to the given path.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -138,7 +138,7 @@ public partial interface IVault
     public Task<CommandResult> DeleteAsync(VaultDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Subscribe to events of the given event type (topic), which may be a glob
+    /// Subscribe to events of the given event type (topic), which may be a glob pattern (with "*" treated as a wildcard). The events will be sent to standard out.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,25 @@ public partial interface IVault
     public Task<CommandResult> EventsSubscribeAsync(VaultEventsSubscribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the data for the provided version and path in the key-value store. The
+    /// Authenticates users or machines to HCP using either provided arguments or retrieved token through browser login. A successful authentication results in an HCP token and an HCP Vault address being locally cached.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> HcpConnectAsync(VaultHcpConnectOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Cleans up the cache with the HCP credentials used to connect to a HCP Vault cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> HcpDisconnectAsync(VaultHcpDisconnectOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes the data for the provided version and path in the key-value store. The versioned data will not be fully removed, but marked as deleted and will no longer be returned in normal get requests.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -156,7 +174,7 @@ public partial interface IVault
     public Task<CommandResult> KvDeleteAsync(VaultKvDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Permanently removes the specified versions' data from the key-value store. If
+    /// Permanently removes the specified versions' data from the key-value store. If no key exists at the path, no action is taken.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -174,7 +192,7 @@ public partial interface IVault
     public Task<CommandResult> KvEnableVersioningAsync(VaultKvEnableVersioningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the value from Vault's key-value store at the given key name. If no
+    /// Retrieves the value from Vault's key-value store at the given key name. If no key exists with that name, an error is returned. If a key exists with that name but has no data, nothing is returned.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -201,7 +219,7 @@ public partial interface IVault
     public Task<CommandResult> KvMetadataDeleteAsync(VaultKvMetadataDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the metadata from Vault's key-value store at the given key name. If no
+    /// Retrieves the metadata from Vault's key-value store at the given key name. If no key exists with that name, an error is returned.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -210,7 +228,7 @@ public partial interface IVault
     public Task<CommandResult> KvMetadataGetAsync(VaultKvMetadataGetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command has subcommands for interacting with the metadata endpoint in
+    /// This command has subcommands for interacting with the metadata endpoint in Vault's key-value store. Here are some simple examples, and more detailed examples are available in the subcommands or the documentation.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -219,7 +237,7 @@ public partial interface IVault
     public Task<CommandResult> KvMetadataAsync(VaultKvMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command can be used to create a blank key in the key-value store or to
+    /// This command can be used to create a blank key in the key-value store or to update key configuration for a specified key.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -228,7 +246,7 @@ public partial interface IVault
     public Task<CommandResult> KvMetadataPatchAsync(VaultKvMetadataPatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command can be used to create a blank key in the key-value store or to
+    /// This command can be used to create a blank key in the key-value store or to update key configuration for a specified key.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +255,7 @@ public partial interface IVault
     public Task<CommandResult> KvMetadataPutAsync(VaultKvMetadataPutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command has subcommands for interacting with Vault's key-value
+    /// This command has subcommands for interacting with Vault's key-value store. Here are some simple examples, and more detailed examples are available in the subcommands or the documentation.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -255,7 +273,7 @@ public partial interface IVault
     public Task<CommandResult> KvPatchAsync(VaultKvPatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Writes the data to the given path in the key-value store. The data can be of
+    /// Writes the data to the given path in the key-value store. The data can be of any type.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -273,7 +291,7 @@ public partial interface IVault
     public Task<CommandResult> KvRollbackAsync(VaultKvRollbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Undeletes the data for the provided version and path in the key-value store.
+    /// Undeletes the data for the provided version and path in the key-value store. This restores the data, allowing it to be returned on get requests.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -291,7 +309,7 @@ public partial interface IVault
     public Task<CommandResult> LeaseLookupAsync(VaultLeaseLookupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for interacting with leases. Users can revoke
+    /// This command groups subcommands for interacting with leases. Users can revoke or renew leases.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -300,7 +318,7 @@ public partial interface IVault
     public Task<CommandResult> LeaseAsync(VaultLeaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Renews the lease on a secret, extending the time that it can be used before
+    /// Renews the lease on a secret, extending the time that it can be used before it is revoked by Vault.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -309,7 +327,7 @@ public partial interface IVault
     public Task<CommandResult> LeaseRenewAsync(VaultLeaseRenewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Revokes secrets by their lease ID. This command can revoke a single secret
+    /// Revokes secrets by their lease ID. This command can revoke a single secret or multiple secrets based on a path-matched prefix.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -318,7 +336,7 @@ public partial interface IVault
     public Task<CommandResult> LeaseRevokeAsync(VaultLeaseRevokeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists data from Vault at the given path. This can be used to list keys in a,
+    /// Lists data from Vault at the given path. This can be used to list keys in a, given secret engine.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +345,7 @@ public partial interface IVault
     public Task<CommandResult> ListAsync(VaultListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Authenticates users or machines to Vault using the provided arguments. A
+    /// Authenticates users or machines to Vault using the provided arguments. A successful authentication results in a Vault token - conceptually similar to a session token on a website. By default, this token is cached on the local machine for future requests.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -336,7 +354,7 @@ public partial interface IVault
     public Task<CommandResult> LoginAsync(VaultLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Stream log messages of a Vault server. The monitor command lets you listen
+    /// Stream log messages of a Vault server. The monitor command lets you listen for log levels that may be filtered out of the server logs. For example, the server may be logging at the INFO level, but with the monitor command you can set -log-level=DEBUG.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -345,7 +363,7 @@ public partial interface IVault
     public Task<CommandResult> MonitorAsync(VaultMonitorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Create a child namespace. The namespace created will be relative to the
+    /// Create a child namespace. The namespace created will be relative to the namespace provided in either the VAULT_NAMESPACE environment variable or -namespace CLI flag.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -354,7 +372,7 @@ public partial interface IVault
     public Task<CommandResult> NamespaceCreateAsync(VaultNamespaceCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Delete an existing namespace. The namespace deleted will be relative to the
+    /// Delete an existing namespace. The namespace deleted will be relative to the namespace provided in either the VAULT_NAMESPACE environment variable or -namespace CLI flag.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -371,26 +389,12 @@ public partial interface IVault
     /// <returns>The command result.</returns>
     public Task<CommandResult> NamespaceListAsync(VaultNamespaceListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// $ vault namespace lock
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
     public Task<CommandResult> NamespaceLockAsync(VaultNamespaceLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// $ vault namespace lookup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
     public Task<CommandResult> NamespaceLookupAsync(VaultNamespaceLookupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for interacting with Vault namespaces.
+    /// This command groups subcommands for interacting with Vault namespaces. These subcommands operate in the context of the namespace that the currently logged in token belongs to.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -399,7 +403,7 @@ public partial interface IVault
     public Task<CommandResult> NamespaceAsync(VaultNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Patch an existing namespace. The namespace patched will be relative to the
+    /// Patch an existing namespace. The namespace patched will be relative to the namespace provided in either the VAULT_NAMESPACE environment variable or -namespace CLI flag.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,17 +411,10 @@ public partial interface IVault
     /// <returns>The command result.</returns>
     public Task<CommandResult> NamespacePatchAsync(VaultNamespacePatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// $ vault namespace unlock -unlock-key=&lt;key&gt;
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
     public Task<CommandResult> NamespaceUnlockAsync(VaultNamespaceUnlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command troubleshoots Vault startup issues, such as TLS configuration or
+    /// This command troubleshoots Vault startup issues, such as TLS configuration or auto-unseal. It should be run using the same environment variables and configuration files as the "vault server" command, so that startup problems can be accurately reproduced.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -426,7 +423,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorDiagnoseAsync(VaultOperatorDiagnoseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// vault operator generate-root [options] [-nonce=... KEY]
+    /// Generates a new root token by combining a quorum of share holders.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -435,7 +432,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorGenerateRootAsync(VaultOperatorGenerateRootOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Initializes a Vault server. Initialization is the process by which Vault's
+    /// Initializes a Vault server. Initialization is the process by which Vault's storage backend is prepared to receive data. Since Vault servers share the same storage backend in HA mode, you only need to initialize one Vault to initialize the storage backend.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -444,7 +441,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorInitAsync(VaultOperatorInitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides information about the active encryption key. Specifically,
+    /// Provides information about the active encryption key. Specifically, the current key term and the key installation time.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +459,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorMembersAsync(VaultOperatorMembersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command starts a storage backend migration process to copy all data
+    /// This command starts a storage backend migration process to copy all data from one backend to another. This operates directly on encrypted data and does not require a Vault server, nor any unsealing.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -471,7 +468,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorMigrateAsync(VaultOperatorMigrateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for operators interacting with Vault. Most
+    /// This command groups subcommands for operators interacting with Vault. Most users will not need to interact with these commands. Here are a few examples of the operator commands:
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +504,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorRaftAutopilotStateAsync(VaultOperatorRaftAutopilotStateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Join the current node as a peer to the Raft cluster by providing the address
+    /// Join the current node as a peer to the Raft cluster by providing the address of the Raft leader node.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -525,7 +522,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorRaftListPeersAsync(VaultOperatorRaftListPeersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for operators interacting with the Vault raft
+    /// This command groups subcommands for operators interacting with the Vault raft storage backend. Most users will not need to interact with these commands. Here are a few examples of the raft operator commands:
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +549,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorRaftSnapshotInspectAsync(VaultOperatorRaftSnapshotInspectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for operators interacting with the snapshot
+    /// This command groups subcommands for operators interacting with the snapshot functionality of the integrated Raft storage backend. Here are a few examples of the Raft snapshot operator commands:
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -579,7 +576,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorRaftSnapshotSaveAsync(VaultOperatorRaftSnapshotSaveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Generates a new set of unseal keys. This can optionally change the total
+    /// Generates a new set of unseal keys. This can optionally change the total number of key shares or the required threshold of those key shares to reconstruct the root key. This operation is zero downtime, but it requires the Vault is unsealed and a quorum of existing unseal keys are provided.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -588,7 +585,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorRekeyAsync(VaultOperatorRekeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Rotates the underlying encryption key which is used to secure data written
+    /// Rotates the underlying encryption key which is used to secure data written to the storage backend. This installs a new key in the key ring. This new key is used to encrypted new data, while older keys in the ring are used to decrypt older data.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +594,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorRotateAsync(VaultOperatorRotateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Seals the Vault server. Sealing tells the Vault server to stop responding
+    /// Seals the Vault server. Sealing tells the Vault server to stop responding to any operations until it is unsealed. When sealed, the Vault server discards its in-memory root key to unlock the data, so it is physically blocked from responding to operations unsealed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -606,7 +603,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorSealAsync(VaultOperatorSealOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Forces the Vault server at the given address to step down from active duty.
+    /// Forces the Vault server at the given address to step down from active duty. While the affected node will have a delay before attempting to acquire the leader lock again, if no other Vault nodes acquire the lock beforehand, it is possible for the same node to re-acquire the lock and become active again.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -615,7 +612,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorStepDownAsync(VaultOperatorStepDownOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provide a portion of the root key to unseal a Vault server. Vault starts
+    /// Provide a portion of the root key to unseal a Vault server. Vault starts in a sealed state. It cannot perform operations until it is unsealed. This command accepts a portion of the root key (an "unseal key").
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +639,7 @@ public partial interface IVault
     public Task<CommandResult> OperatorUtilizationAsync(VaultOperatorUtilizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Patches data in Vault at the given path. The data can be credentials, secrets,
+    /// Patches data in Vault at the given path. The data can be credentials, secrets, configuration, or arbitrary data. The specific behavior of this command is determined at the thing mounted at the path.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -651,7 +648,7 @@ public partial interface IVault
     public Task<CommandResult> PatchAsync(VaultPatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves API help for paths. All endpoints in Vault provide built-in help
+    /// Retrieves API help for paths. All endpoints in Vault provide built-in help in markdown format. This includes system paths, secret engines, and auth methods.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -660,7 +657,7 @@ public partial interface IVault
     public Task<CommandResult> PathHelpAsync(VaultPathHelpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Reports status of the specified mount against best practices and pending
+    /// Reports status of the specified mount against best practices and pending failures. This is an informative command and not all recommendations will apply to all mounts; consider using a configuration file to tune the executed health checks.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +684,7 @@ public partial interface IVault
     public Task<CommandResult> PkiListIntermediatesAsync(VaultPkiListIntermediatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command has subcommands for interacting with Vault's PKI Secrets
+    /// This command has subcommands for interacting with Vault's PKI Secrets Engine. Here are some simple examples, and more detailed examples are available in the subcommands or the documentation.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +704,7 @@ public partial interface IVault
     public Task<CommandResult> PkiVerifySignAsync(VaultPkiVerifySignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deregister an existing plugin in the catalog. If the plugin does not exist,
+    /// Deregister an existing plugin in the catalog. If the plugin does not exist, no action is taken (the command is idempotent). The TYPE argument takes "auth", "database", or "secret".
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -716,7 +713,7 @@ public partial interface IVault
     public Task<CommandResult> PluginDeregisterAsync(VaultPluginDeregisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays information about a plugin in the catalog with the given name. If
+    /// Displays information about a plugin in the catalog with the given name. If the plugin does not exist, an error is returned. The argument of type takes "auth", "database", or "secret".
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -725,7 +722,7 @@ public partial interface IVault
     public Task<CommandResult> PluginInfoAsync(VaultPluginInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists available plugins registered in the catalog. This does not list whether
+    /// Lists available plugins registered in the catalog. This does not list whether plugins are in use, but rather just their availability. The last argument of type takes "auth", "database", or "secret".
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -734,7 +731,7 @@ public partial interface IVault
     public Task<CommandResult> PluginListAsync(VaultPluginListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's plugins and the
+    /// This command groups subcommands for interacting with Vault's plugins and the plugin catalog. The plugin catalog is divided into three types: "auth", "database", and "secret" plugins. A type must be specified on each call. Here are a few examples of the plugin commands.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -743,7 +740,7 @@ public partial interface IVault
     public Task<CommandResult> PluginAsync(VaultPluginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Registers a new plugin in the catalog. The plugin binary must exist in Vault's
+    /// Registers a new plugin in the catalog. The plugin binary must exist in Vault's configured plugin directory. The argument of type takes "auth", "database", or "secret".
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +749,7 @@ public partial interface IVault
     public Task<CommandResult> PluginRegisterAsync(VaultPluginRegisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Reloads mounted plugins. Either the plugin name or the desired plugin
+    /// Reloads mounted plugins. Either the plugin name or the desired plugin mount(s) must be provided, but not both. In case the plugin name is provided, all of its corresponding mounted paths that use the plugin backend will be reloaded.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -770,7 +767,7 @@ public partial interface IVault
     public Task<CommandResult> PluginReloadStatusAsync(VaultPluginReloadStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deregister an existing plugin runtime in the catalog with the given name. If
+    /// Deregister an existing plugin runtime in the catalog with the given name. If any registered plugin references the plugin runtime, an error is returned. If the plugin runtime does not exist, an error is returned. The -type flag currently only accepts "container".
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -779,7 +776,7 @@ public partial interface IVault
     public Task<CommandResult> PluginRuntimeDeregisterAsync(VaultPluginRuntimeDeregisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays information about a plugin runtime in the catalog with the given name. If
+    /// Displays information about a plugin runtime in the catalog with the given name. If the plugin runtime does not exist, an error is returned. The -type flag currently only accepts "container".
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -788,7 +785,7 @@ public partial interface IVault
     public Task<CommandResult> PluginRuntimeInfoAsync(VaultPluginRuntimeInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists available plugin runtimes registered in the catalog. This does not list whether
+    /// Lists available plugin runtimes registered in the catalog. This does not list whether plugin runtimes are in use, but rather just their availability.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +794,7 @@ public partial interface IVault
     public Task<CommandResult> PluginRuntimeListAsync(VaultPluginRuntimeListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's plugin runtimes and the
+    /// This command groups subcommands for interacting with Vault's plugin runtimes and the plugin runtime catalog. The plugin runtime catalog is divided into types. Currently, Vault only supports "container" plugin runtimes. A plugin runtime allows users to fine-tune the parameters with which a plugin is executed. For example, you can select a different OCI-compatible runtime, or set resource limits. A plugin runtime can optionally be referenced during plugin registration. A type must be specified on each call. Here are a few examples of the plugin runtime commands.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -815,7 +812,7 @@ public partial interface IVault
     public Task<CommandResult> PluginRuntimeRegisterAsync(VaultPluginRuntimeRegisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the policy named NAME in the Vault server. Once the policy is deleted,
+    /// Deletes the policy named NAME in the Vault server. Once the policy is deleted, all tokens associated with the policy are affected immediately.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -824,7 +821,7 @@ public partial interface IVault
     public Task<CommandResult> PolicyDeleteAsync(VaultPolicyDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Formats a local policy file to the policy specification. This command will
+    /// Formats a local policy file to the policy specification. This command will overwrite the file at the given PATH with the properly-formatted policy file contents.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +839,7 @@ public partial interface IVault
     public Task<CommandResult> PolicyListAsync(VaultPolicyListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for interacting with policies.
+    /// This command groups subcommands for interacting with policies. Users can write, read, and list policies in Vault.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -851,7 +848,7 @@ public partial interface IVault
     public Task<CommandResult> PolicyAsync(VaultPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Prints the contents and metadata of the Vault policy named NAME. If the policy
+    /// Prints the contents and metadata of the Vault policy named NAME. If the policy does not exist, an error is returned.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -860,7 +857,7 @@ public partial interface IVault
     public Task<CommandResult> PolicyReadAsync(VaultPolicyReadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Uploads a policy with name NAME from the contents of a local file PATH or
+    /// Uploads a policy with name NAME from the contents of a local file PATH or stdin. If PATH is "-", the policy is read from stdin. Otherwise, it is loaded from the file at the given path on the local disk.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -878,7 +875,16 @@ public partial interface IVault
     public Task<CommandResult> PrintAsync(VaultPrintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command starts a Vault Proxy that can perform automatic authentication
+    /// Prints the value of the Vault token that will be used for commands, after taking into account the configured token-helper and the environment.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> PrintTokenAsync(VaultPrintTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// This command starts a Vault Proxy that can perform automatic authentication in certain environments.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +893,7 @@ public partial interface IVault
     public Task<CommandResult> ProxyAsync(VaultProxyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Reads data from Vault at the given path. This can be used to read secrets,
+    /// Reads data from Vault at the given path. This can be used to read secrets, generate dynamic credentials, get configuration details, and more.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -896,7 +902,7 @@ public partial interface IVault
     public Task<CommandResult> ReadAsync(VaultReadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disables a secrets engine at the given PATH. The argument corresponds to
+    /// Disables a secrets engine at the given PATH. The argument corresponds to the enabled PATH of the engine, not the TYPE! All secrets created by this engine are revoked and its Vault data is removed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -905,7 +911,7 @@ public partial interface IVault
     public Task<CommandResult> SecretsDisableAsync(VaultSecretsDisableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enables a secrets engine. By default, secrets engines are enabled at the path
+    /// Enables a secrets engine. By default, secrets engines are enabled at the path corresponding to their TYPE, but users can customize the path using the -path option.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -914,7 +920,7 @@ public partial interface IVault
     public Task<CommandResult> SecretsEnableAsync(VaultSecretsEnableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the enabled secret engines on the Vault server. This command also
+    /// Lists the enabled secret engines on the Vault server. This command also outputs information about the enabled path including configured TTLs and human-friendly descriptions. A TTL of "system" indicates that the system default is in use.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -923,7 +929,7 @@ public partial interface IVault
     public Task<CommandResult> SecretsListAsync(VaultSecretsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Moves an existing secrets engine to a new path. Any leases from the old
+    /// Moves an existing secrets engine to a new path. Any leases from the old secrets engine are revoked, but all configuration associated with the engine is preserved. It initiates the migration and intermittently polls its status, exiting if a final state is reached.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +938,7 @@ public partial interface IVault
     public Task<CommandResult> SecretsMoveAsync(VaultSecretsMoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's secrets engines.
+    /// This command groups subcommands for interacting with Vault's secrets engines. Each secret engine behaves differently. Please see the documentation for more information.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -941,7 +947,7 @@ public partial interface IVault
     public Task<CommandResult> SecretsAsync(VaultSecretsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Tunes the configuration options for the secrets engine at the given PATH.
+    /// Tunes the configuration options for the secrets engine at the given PATH. The argument corresponds to the PATH where the secrets engine is enabled, not the TYPE!
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -950,7 +956,7 @@ public partial interface IVault
     public Task<CommandResult> SecretsTuneAsync(VaultSecretsTuneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command starts a Vault server that responds to API requests. By default,
+    /// This command starts a Vault server that responds to API requests. By default, Vault will start in a "sealed" state. The Vault cluster must be initialized before use, usually by the "vault operator init" command. Each Vault server must also be unsealed using the "vault operator unseal" command or the API before the server can respond to requests.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -968,7 +974,7 @@ public partial interface IVault
     public Task<CommandResult> SshAsync(VaultSshOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Prints the current state of Vault including whether it is sealed and if HA
+    /// Prints the current state of Vault including whether it is sealed and if HA mode is enabled. This command prints regardless of whether the Vault is sealed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +983,7 @@ public partial interface IVault
     public Task<CommandResult> StatusAsync(VaultStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Fetches the capabilities of a token or accessor for a given path. If a TOKEN
+    /// Fetches the capabilities of a token or accessor for a given path. If a TOKEN is provided as an argument, the "/sys/capabilities" endpoint is used, which returns the capabilities of the provided TOKEN. If an ACCESSOR is provided as an argument along with the -accessor option, the "/sys/capabilities-accessor" endpoint is used, which returns the capabilities of the token referenced by ACCESSOR. If no TOKEN is provided, the "/sys/capabilities-self" endpoint is used, which returns the capabilities of the locally authenticated token.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -986,7 +992,7 @@ public partial interface IVault
     public Task<CommandResult> TokenCapabilitiesAsync(VaultTokenCapabilitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new token that can be used for authentication. This token will be
+    /// Creates a new token that can be used for authentication. This token will be created as a child of the currently authenticated token. When created in the same namespace as its parent and no policies are specified, the generated token inherits the parent token's direct policies. When created in a different namespace than its parent, the generated token uses only explicitly requested target-namespace policies, plus "default" unless disabled.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -995,7 +1001,7 @@ public partial interface IVault
     public Task<CommandResult> TokenCreateAsync(VaultTokenCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Displays information about a token or accessor. If a TOKEN is not provided,
+    /// Displays information about a token or accessor. If a TOKEN is not provided, the locally authenticated token is used.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1004,7 +1010,7 @@ public partial interface IVault
     public Task<CommandResult> TokenLookupAsync(VaultTokenLookupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command groups subcommands for interacting with tokens. Users can
+    /// This command groups subcommands for interacting with tokens. Users can create, lookup, renew, and revoke tokens.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1013,7 +1019,7 @@ public partial interface IVault
     public Task<CommandResult> TokenAsync(VaultTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Renews a token's lease, extending the amount of time it can be used. If a
+    /// Renews a token's lease, extending the amount of time it can be used. If a TOKEN is not provided, the locally authenticated token is used. A token accessor can be used as well. Lease renewal will fail if the token is not renewable, the token has already been revoked, or if the token has already reached its maximum TTL.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1028,7 @@ public partial interface IVault
     public Task<CommandResult> TokenRenewAsync(VaultTokenRenewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Revokes authentication tokens and their children. If a TOKEN is not provided,
+    /// Revokes authentication tokens and their children. If a TOKEN is not provided, the locally authenticated token is used. The "-mode" flag can be used to control the behavior of the revocation. See the "-mode" flag documentation for more information.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1031,7 +1037,70 @@ public partial interface IVault
     public Task<CommandResult> TokenRevokeAsync(VaultTokenRevokeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Using the Transform key wrapping system, imports key material from
+    /// Performs TPM attestation against a Vault tpm auth method mount. The command opens the local TPM device, runs the two-phase challenge/response workflow (begin + finish), and on success writes the issued certificate and associated key material to the state directory. Additionally, it stores the private key in the TPM:
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> TpmAttestAsync(VaultTpmAttestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Removes the certificate and key material written to the state directory by "vault tpm attest". The directory itself is preserved. Any other files in the directory are not affected.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> TpmCleanupAsync(VaultTpmCleanupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Reads the endorsement key (EK) from the local TPM device and prints its public key in PEM format (type "PUBLIC KEY") along with the TPM ID.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> TpmEkAsync(VaultTpmEkOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Registers the local TPM's endorsement key (EK) with the Vault identity backend so that the TPM can later be used for attestation. By default the EK is read directly from the local TPM device; alternatively, a PEM-encoded public key can be supplied via -ekpem to pre-enroll a TPM that is not attached to the current host.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> TpmEnrollAsync(VaultTpmEnrollOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Reads the attestation state directory written by "vault tpm attest" and displays information about the stored certificate and key material without contacting Vault or opening the TPM device:
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> TpmInspectAsync(VaultTpmInspectOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Interact with Vault's TPM authentication. The primary command is "attest", which opens the local TPM device, runs the workflow against a Vault TPM auth method mount, and writes the issued certificate and key material to a state directory.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> TpmAsync(VaultTpmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Performs a fresh TPM attestation, reusing the certificate subject fields stored in the existing certificate in the state directory. This is useful when a certificate has expired or is approaching expiry and needs to be renewed without re-specifying all subject flags.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> TpmReattestAsync(VaultTpmReattestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Using the Transform key wrapping system, imports key material from the base64 encoded KEY (either directly on the CLI or via @path notation), into a new FPE or tokenization transformation whose API path is PATH.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1040,7 +1109,7 @@ public partial interface IVault
     public Task<CommandResult> TransformImportAsync(VaultTransformImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Using the Transform key wrapping system, imports new key material from
+    /// Using the Transform key wrapping system, imports new key material from the base64 encoded KEY (either directly on the CLI or via @path notation), into an existing tokenization transformation whose API path is PATH.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1049,7 +1118,7 @@ public partial interface IVault
     public Task<CommandResult> TransformImportVersionAsync(VaultTransformImportVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command has subcommands for interacting with Vault's Transform Secrets
+    /// This command has subcommands for interacting with Vault's Transform Secrets Engine. Here are some simple examples, and more detailed examples are available in the subcommands or the documentation.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1058,7 +1127,7 @@ public partial interface IVault
     public Task<CommandResult> TransformAsync(VaultTransformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Using the Transit key wrapping system, imports key material from
+    /// Using the Transit key wrapping system, imports key material from the base64 encoded KEY (either directly on the CLI or via @path notation), into a new key whose API path is PATH.  To import a new version into an existing key, use import_version.  The remaining options after KEY (key=value style) are passed on to the Transit create key endpoint.  If your system or device natively supports the RSA AES key wrap mechanism (such as the PKCS#11 mechanism CKM_RSA_AES_KEY_WRAP), you should use it directly rather than this command.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1136,7 @@ public partial interface IVault
     public Task<CommandResult> TransitImportAsync(VaultTransitImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Using the Transit key wrapping system, imports key material from
+    /// Using the Transit key wrapping system, imports key material from the base64 encoded KEY (either directly on the CLI or via @path notation), into a new key whose API path is PATH.  To import a new Transit key, use the import command instead.  The remaining options after KEY (key=value style) are passed on to the Transit create key endpoint. If your system or device natively supports the RSA AES key wrap mechanism (such as the PKCS#11 mechanism CKM_RSA_AES_KEY_WRAP), you should use it directly rather than this command.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1076,7 +1145,7 @@ public partial interface IVault
     public Task<CommandResult> TransitImportVersionAsync(VaultTransitImportVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command has subcommands for interacting with Vault's Transit Secrets
+    /// This command has subcommands for interacting with Vault's Transit Secrets Engine. Here are some simple examples, and more detailed examples are available in the subcommands or the documentation.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1085,7 +1154,7 @@ public partial interface IVault
     public Task<CommandResult> TransitAsync(VaultTransitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Unwraps a wrapped secret from Vault by the given token. The result is the
+    /// Unwraps a wrapped secret from Vault by the given token. The result is the same as the "vault read" operation on the non-wrapped secret. If no token is given, the data in the currently authenticated token is unwrapped.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1103,7 +1172,7 @@ public partial interface IVault
     public Task<CommandResult> VersionHistoryAsync(VaultVersionHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Writes data to Vault at the given path. The data can be credentials, secrets,
+    /// Writes data to Vault at the given path. The data can be credentials, secrets, configuration, or arbitrary data. The specific behavior of this command is determined at the thing mounted at the path.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

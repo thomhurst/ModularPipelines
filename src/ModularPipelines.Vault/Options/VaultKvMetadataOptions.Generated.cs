@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command has subcommands for interacting with the metadata endpoint in
+/// This command has subcommands for interacting with the metadata endpoint in Vault's key-value store. Here are some simple examples, and more detailed examples are available in the subcommands or the documentation.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultKvMetadataOptions : VaultOptions
 {
     /// <summary>
-    /// This command has subcommands for interacting with the metadata endpoint in
+    /// This command has subcommands for interacting with the metadata endpoint in Vault's key-value store. Here are some simple examples, and more detailed examples are available in the subcommands or the documentation.
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultKvMetadataOptions(

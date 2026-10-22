@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Using the Transit key wrapping system, imports key material from
+/// Using the Transit key wrapping system, imports key material from the base64 encoded KEY (either directly on the CLI or via @path notation), into a new key whose API path is PATH.  To import a new Transit key, use the import command instead.  The remaining options after KEY (key=value style) are passed on to the Transit create key endpoint. If your system or device natively supports the RSA AES key wrap mechanism (such as the PKCS#11 mechanism CKM_RSA_AES_KEY_WRAP), you should use it directly rather than this command.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultTransitImportVersionOptions : VaultOptions
 {
     /// <summary>
-    /// Using the Transit key wrapping system, imports key material from
+    /// Using the Transit key wrapping system, imports key material from the base64 encoded KEY (either directly on the CLI or via @path notation), into a new key whose API path is PATH.  To import a new Transit key, use the import command instead.  The remaining options after KEY (key=value style) are passed on to the Transit create key endpoint. If your system or device natively supports the RSA AES key wrap mechanism (such as the PKCS#11 mechanism CKM_RSA_AES_KEY_WRAP), you should use it directly rather than this command.
     /// </summary>
     /// <param name="Path">The PATH operand.</param>
     /// <param name="Key">The KEY operand.</param>
@@ -152,6 +152,18 @@ public record VaultTransitImportVersionOptions : VaultOptions
     /// </summary>
     [CliFlag("-tls-skip-verify")]
     public bool? TlsSkipVerify { get; set; }
+
+    /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
 
     /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).

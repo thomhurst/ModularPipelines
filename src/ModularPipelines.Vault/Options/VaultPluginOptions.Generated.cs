@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command groups subcommands for interacting with Vault's plugins and the
+/// This command groups subcommands for interacting with Vault's plugins and the plugin catalog. The plugin catalog is divided into three types: "auth", "database", and "secret" plugins. A type must be specified on each call. Here are a few examples of the plugin commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultPluginOptions : VaultOptions
 {
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's plugins and the
+    /// This command groups subcommands for interacting with Vault's plugins and the plugin catalog. The plugin catalog is divided into three types: "auth", "database", and "secret" plugins. A type must be specified on each call. Here are a few examples of the plugin commands.
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultPluginOptions(

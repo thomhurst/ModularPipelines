@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command groups subcommands for interacting with Vault's auth methods.
+/// This command groups subcommands for interacting with Vault's auth methods. Users can list, enable, disable, and get help for different auth methods.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultAuthOptions : VaultOptions
 {
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's auth methods.
+    /// This command groups subcommands for interacting with Vault's auth methods. Users can list, enable, disable, and get help for different auth methods.
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultAuthOptions(

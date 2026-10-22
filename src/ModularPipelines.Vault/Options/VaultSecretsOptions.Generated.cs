@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command groups subcommands for interacting with Vault's secrets engines.
+/// This command groups subcommands for interacting with Vault's secrets engines. Each secret engine behaves differently. Please see the documentation for more information.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultSecretsOptions : VaultOptions
 {
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's secrets engines.
+    /// This command groups subcommands for interacting with Vault's secrets engines. Each secret engine behaves differently. Please see the documentation for more information.
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultSecretsOptions(

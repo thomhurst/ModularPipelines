@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command groups subcommands for operators interacting with Vault. Most
+/// This command groups subcommands for operators interacting with Vault. Most users will not need to interact with these commands. Here are a few examples of the operator commands:
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultOperatorOptions : VaultOptions
 {
     /// <summary>
-    /// This command groups subcommands for operators interacting with Vault. Most
+    /// This command groups subcommands for operators interacting with Vault. Most users will not need to interact with these commands. Here are a few examples of the operator commands:
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultOperatorOptions(
