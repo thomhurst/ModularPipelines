@@ -14,6 +14,7 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class VaultCliScraperTests
 {
     private static readonly string[] TpmMetadataValues = ["owner=platform team", "region=west"];
+    private static readonly string[] TpmPassthroughValues = ["-role-name=build team", "-mount-path=auth/custom"];
 
     [Test]
     [Arguments("print token", "2.2.0", "Prints the value of the Vault token that will be used for commands, after taking into account the configured token-helper and the environment.")]
@@ -238,7 +239,8 @@ public class VaultCliScraperTests
             await Assert.That(subcommand.PropertyName).IsEqualTo("Subcommand");
             await Assert.That(subcommand.IsRequired).IsTrue();
             await Assert.That(argument.PropertyName).IsEqualTo("Args");
-            await Assert.That(argument.CSharpType).IsEqualTo("string?");
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(argument.IsVariadic).IsTrue();
             await Assert.That(argument.IsRequired).IsFalse();
             await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         }
@@ -351,6 +353,86 @@ public class VaultCliScraperTests
 
         await Assert.That(new CommandArgumentBuilder().BuildArguments([part], instance))
             .IsEquivalentTo(["-metadata=owner=platform team", "-metadata=region=west"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Tpm_Attestation_Requires_Role_Without_Requiring_Conditional_Options()
+    {
+        var help = File.ReadAllText(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Vault", "2.2.0", "tpm-attest.txt"));
+        var command = (await new TestVaultCliScraper().ParseGroup(["vault", "tpm", "attest"], help))!;
+        await Assert.That(command.Options.Where(option => option.IsRequired).Select(option => option.SwitchName))
+            .IsEquivalentTo(["-role-name"]);
+
+        var tool = new CliToolDefinition
+        {
+            ToolName = "vault",
+            NamespacePrefix = "Vault",
+            TargetNamespace = "ModularPipelines.Vault",
+            OutputDirectory = "src/ModularPipelines.Vault",
+            Commands = [command],
+        };
+        var files = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool))
+            .Concat(await new OptionsClassGenerator().GenerateAsync(tool));
+        var assembly = PackageManagerGlobalRenderingTests.Compile(files.Select(file => file.Content));
+        var type = assembly.GetType("ModularPipelines.Vault.Options.VaultTpmAttestOptions")!;
+        await Assert.That(type.GetConstructor(Type.EmptyTypes)).IsNull();
+        var constructor = type.GetConstructor([typeof(string)])!;
+        var instance = constructor.Invoke(["build"]);
+        var property = type.GetProperty("RoleName")!;
+        var part = new OptionPart(property.Name, property.GetValue, property.GetCustomAttribute<CliOptionAttribute>()!);
+        await Assert.That(new CommandArgumentBuilder().BuildArguments([part], instance))
+            .IsEquivalentTo(["-role-name=build"]);
+
+        var serviceInterface = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(serviceInterface).Contains("TpmAttestAsync(VaultTpmAttestOptions options,");
+        var service = (await new ServiceImplementationGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(service).DoesNotContain("new VaultTpmAttestOptions()");
+    }
+
+    [Test]
+    public async Task Tpm_Group_Renders_Multiple_Trailing_Arguments_As_Separate_Tokens()
+    {
+        var help = File.ReadAllText(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Vault", "2.2.0", "tpm.txt"));
+        var command = (await new TestVaultCliScraper().ParseGroup(["vault", "tpm"], help))!;
+        var subcommand = command.PositionalArguments.Single(argument => argument.PropertyName == "Subcommand");
+        await Assert.That(subcommand.IsRequired).IsTrue();
+        await Assert.That(subcommand.IsVariadic).IsFalse();
+        await Assert.That(subcommand.CSharpType).IsEqualTo("string");
+        var args = command.PositionalArguments.Single(argument => argument.PropertyName == "Args");
+        await Assert.That(args.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(args.IsRequired).IsFalse();
+        await Assert.That(args.IsVariadic).IsTrue();
+        await Assert.That(args.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+
+        var tool = new CliToolDefinition
+        {
+            ToolName = "vault",
+            NamespacePrefix = "Vault",
+            TargetNamespace = "ModularPipelines.Vault",
+            OutputDirectory = "src/ModularPipelines.Vault",
+            Commands = [command],
+        };
+        var files = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool))
+            .Concat(await new OptionsClassGenerator().GenerateAsync(tool));
+        var assembly = PackageManagerGlobalRenderingTests.Compile(files.Select(file => file.Content));
+        var type = assembly.GetType("ModularPipelines.Vault.Options.VaultTpmOptions")!;
+        var instance = Activator.CreateInstance(type, "attest")!;
+        var parts = new List<PropertyCommandLinePart>();
+        foreach (var argument in command.PositionalArguments)
+        {
+            var property = type.GetProperty(argument.PropertyName)!;
+            var attribute = property.GetCustomAttribute<CliArgumentAttribute>()!;
+            parts.Add(new ArgumentPart(property.Name, property.GetValue, attribute) { HasExplicitPosition = true });
+        }
+
+        await Assert.That(new CommandArgumentBuilder().BuildArguments(parts, instance))
+            .IsEquivalentTo(["attest"]);
+        type.GetProperty("Args")!.SetValue(instance, TpmPassthroughValues);
+        await Assert.That(new CommandArgumentBuilder().BuildArguments(parts, instance))
+            .IsEquivalentTo(["attest", "-role-name=build team", "-mount-path=auth/custom"],
                 TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
