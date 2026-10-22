@@ -868,6 +868,18 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             return 1;
         }
 
+        WriteStructuredLogWithFallback(console, directConsole, logger, logEvent, fallbackLoggers, failedStructuredDeliveries);
+        return 1;
+    }
+
+    private void WriteStructuredLogWithFallback(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        ILogger logger,
+        IBufferedLogEvent logEvent,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries)
+    {
         // Synchronous MEL.Spectre rendering preserves this buffer's position
         // while other providers (for example file logging) still receive the event.
         try
@@ -890,8 +902,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             console.WriteLine("A logging provider failed while handling buffered output; continuing with direct console rendering.");
             WriteStructuredLogDirectly(console, directConsole, logEvent, [], failedStructuredDeliveries);
         }
-
-        return 1;
     }
 
     private int TryRenderMaskableOutput(
