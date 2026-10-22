@@ -476,6 +476,11 @@ internal static class ModuleAuthoringAnalysis
             return;
         }
 
+        if (TaskCompletionAnalysis.IsCompleted(propertyReference, context.CancellationToken))
+        {
+            return;
+        }
+
         context.ReportDiagnostic(Diagnostic.Create(
             ModuleAsyncSafetyAnalyzer.BlockingCallRule,
             propertyReference.Syntax.GetLocation(),

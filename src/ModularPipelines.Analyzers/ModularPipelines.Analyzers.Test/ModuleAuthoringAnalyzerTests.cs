@@ -2546,6 +2546,264 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("try { } finally { await a; } _ = a.Result;")]
+    [DataRow("try { await Task.Yield(); } finally { a = GetTask(); await a; } _ = a.Result;")]
+    [DataRow("try { } finally { if (context != null) await a; else await a; } _ = a.Result;")]
+    [DataRow("try { } finally { try { } finally { await a; } } _ = a.Result;")]
+    [DataRow("try { try { } finally { await a; } } finally { await b; } _ = a.Result; _ = b.Result;")]
+    [DataRow("try { throw new Exception(); } catch { } finally { await a; } _ = a.Result;")]
+    [DataRow("try { } finally { if (context != null) throw new Exception(); await a; } _ = a.Result;")]
+    [DataRow("try { throw new Exception(); } catch (Exception) when (a.IsCompleted) { _ = a.Result; }")]
+    [DataRow("try { throw new Exception(); } catch (Exception) when (a.IsCompletedSuccessfully && b.IsCompleted) { _ = a.Result; _ = b.Result; }")]
+    [DataRow("try { throw new Exception(); } catch (Exception) when (!a.IsCompleted) { } catch (Exception) when (a.IsCompleted) { _ = a.Result; }")]
+    [DataRow("try { throw new Exception(); } catch (Exception) when (a.IsCompleted) { while (context != null) { _ = a.Result; } }")]
+    [DataRow("try { try { throw new Exception(); } finally { b = GetTask(); } } catch (Exception) when (a.IsCompleted) { _ = a.Result; }")]
+    [DataRow("await a; try { throw new Exception(); } catch { _ = a.Result; a = GetTask(); }")]
+    [DataRow("await a; try { throw new Exception(); } catch (Exception) when (context != null) { a = GetTask(); } catch { _ = a.Result; }")]
+    [DataRow("await a; try { throw new Exception(); } catch (Exception) when (a.Result > 0) { _ = a.Result; a = GetTask(); }")]
+    [DataRow("await a; try { throw new Exception(); } catch { _ = a.Result; (a, b) = (GetTask(), GetTask()); }")]
+    [DataRow("await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(ConfigureAwaitOptions.None); _ = a.Result;")]
+    [DataRow("await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(ConfigureAwaitOptions.ForceYielding); _ = a.Result;")]
+    [DataRow("await ((Task)a).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = a.Result;")]
+    [DataRow("await ((Task)Task.WhenAll(a, b)).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = a.Result; _ = b.Result;")]
+    [DataRow("await a; try { throw new Exception(); } catch { _ = a.Result; }")]
+    [DataRow("await a; try { throw new Exception(); } catch (Exception) when (a.Result > 0) { _ = a.Result; }")]
+    [DataRow("await a; try { await Task.Yield(); } finally { _ = a.Result; }")]
+    [DataRow("if (!a.IsCompleted) return null!; try { throw new Exception(); } catch { _ = a.Result; }")]
+    [DataRow("await a; try { throw new Exception(); } catch { while (context != null) { _ = a.Result; } }")]
+    [DataRow("await a; try { await Task.Yield(); } finally { while (context != null) { _ = a.Result; } }")]
+    [DataRow("await a; try { try { throw new Exception(); } catch { throw; } } catch { _ = a.Result; }")]
+    [DataRow("await a; try { throw new Exception(); } catch { try { throw new Exception(); } catch { _ = a.Result; } }")]
+    [DataRow("await a; try { b = GetTask(); throw new Exception(); } catch { _ = a.Result; }")]
+    [DataRow("await a.WaitAsync(cancellationToken); _ = a.Result;")]
+    [DataRow("await a.WaitAsync(TimeSpan.FromSeconds(1), TimeProvider.System, cancellationToken); _ = a.Result;")]
+    [DataRow("await (a = GetTask()).WaitAsync(cancellationToken); _ = a.Result;")]
+    [DataRow("await a.WaitAsync(TimeSpan.FromSeconds(1), cancellationToken); _ = a.Result;")]
+    [DataRow("await a.WaitAsync(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false); _ = a.Result;")]
+    [DataRow("var timeout = TimeSpan.FromSeconds(1); await a.WaitAsync(timeout, cancellationToken); _ = a.Result;")]
+    [DataRow("await ((Task)a).WaitAsync(cancellationToken); _ = a.Result;")]
+    [DataRow("await Task.WhenAll(a, b).WaitAsync(cancellationToken); _ = a.Result; _ = b.Result;")]
+    [DataRow("await a.WaitAsync(cancellationToken).WaitAsync(TimeSpan.FromSeconds(1), cancellationToken); _ = a.Result;")]
+    [DataRow("await (a = GetTask()); _ = a.Result;")]
+    [DataRow("await (a = b = GetTask()); _ = a.Result; _ = b.Result;")]
+    [DataRow("await (a = GetTask()).ConfigureAwait(false); _ = a.Result;")]
+    [DataRow("await Task.WhenAll(a, GetTask()); _ = a.Result;")]
+    [DataRow("await Task.WhenAll(GetTask(), a); _ = a.Result;")]
+    [DataRow("await Task.WhenAll(new[] { a, GetTask() }); _ = a.Result;")]
+    [DataRow("await Task.WhenAll<int>([a, GetTask()]); _ = a.Result;")]
+    [DataRow("await a; _ = a.Result;")]
+    [DataRow("await a.ConfigureAwait(false); _ = a.Result;")]
+    [DataRow("var captureContext = context != null; await a.ConfigureAwait(captureContext); _ = a.Result;")]
+    [DataRow("var options = System.Threading.Tasks.ConfigureAwaitOptions.None; await a.ConfigureAwait(options); _ = a.Result;")]
+    [DataRow("async Task Read(Task<int> task, bool captureContext) { await task.ConfigureAwait(captureContext); _ = task.Result; } await Read(a, context != null);")]
+    [DataRow("await (a); _ = a.Result;")]
+    [DataRow("await a; _ = (a).Result;")]
+    [DataRow("await ((a).ConfigureAwait(false)); _ = ((a)).Result;")]
+    [DataRow("await a; try { System.Console.WriteLine(1); } finally { System.Console.WriteLine(2); } _ = a.Result;")]
+    [DataRow("try { await a; } finally { b = GetTask(); } _ = a.Result;")]
+    [DataRow("try { if (!a.IsCompleted) return null!; } finally { b = GetTask(); } _ = a.Result;")]
+    [DataRow("await a; try { try { System.Console.WriteLine(1); } finally { b = GetTask(); } } finally { System.Console.WriteLine(2); } _ = a.Result;")]
+    [DataRow("await Task.WhenAll(a, b); _ = a.Result; _ = b.Result;")]
+    [DataRow("await Task.WhenAll([a, b]); _ = a.Result; _ = b.Result;")]
+    [DataRow("await Task.WhenAll<int>(a, b); _ = a.Result; _ = b.Result;")]
+    [DataRow("await Task.WhenAll(new[] { a, b }).ConfigureAwait(false); _ = a.Result; _ = b.Result;")]
+    [DataRow("if (a.IsCompleted) { _ = a.Result; }")]
+    [DataRow("if (a.IsCompletedSuccessfully && b.IsCompleted) { _ = a.Result; _ = b.Result; }")]
+    [DataRow("if (!a.IsCompleted) return null!; _ = a.Result;")]
+    [DataRow("if (a.IsFaulted || a.IsCanceled) { _ = a.Result; }")]
+    [DataRow("if (context != null) await a; else await a; _ = a.Result;")]
+    [DataRow("var winner = await Task.WhenAny(a, b); _ = winner.Result;")]
+    [DataRow("var winner = await Task.WhenAny(a, b).ConfigureAwait(false); _ = winner.Result;")]
+    [DataRow("await a; var alias = a; _ = alias.Result;")]
+    [DataRow("async Task Read(Task<int> task) { await task; _ = task.Result; } await Read(a);")]
+    [DataRow("Func<Task> read = async () => { var task = GetTask(); await task; _ = task.Result; }; await read();")]
+    [DataRow("await a; while (context != null) { _ = a.Result; }")]
+    public async Task Does_Not_Report_Result_When_Task_Completion_Is_Proven(string statements)
+    {
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements));
+    }
+
+    [TestMethod]
+    [DataRow("await a; try { try { throw new Exception(); } finally { _ = {|#0:a.Result|}; } } catch (Exception) when ((a = GetTask()).IsCompleted) { } catch { }")]
+    [DataRow("await a; try { try { throw new Exception(); } finally { _ = {|#0:a.Result|}; } } catch (Exception) when ((a = GetTask()).IsCompleted) { }")]
+    [DataRow("await a; try { try { throw new Exception(); } finally { _ = {|#0:a.Result|}; } } catch (Exception) when (((a, b) = (GetTask(), GetTask())).Item1.IsCompleted) { } catch { }")]
+    [DataRow("await a; try { try { try { throw new Exception(); } finally { _ = {|#0:a.Result|}; } } catch (Exception) when (context != null) { } } catch (Exception) when ((a = GetTask()).IsCompleted) { } catch { }")]
+    [DataRow("try { } finally { if (context != null) await a; } _ = {|#0:a.Result|};")]
+    [DataRow("try { } finally { await a; a = GetTask(); } _ = {|#0:a.Result|};")]
+    [DataRow("try { try { } finally { await a; } } finally { a = GetTask(); } _ = {|#0:a.Result|};")]
+    [DataRow("try { throw new Exception(); } catch (Exception) when (!a.IsCompleted) { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { throw new Exception(); } catch (Exception) when (a.IsCompleted || b.IsCompleted) { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { throw new Exception(); } catch (Exception) when (a.IsCompleted) { a = GetTask(); _ = {|#0:a.Result|}; }")]
+    [DataRow("try { throw new Exception(); } catch (Exception) when (a.IsCompleted) { while (context != null) { _ = {|#0:a.Result|}; a = GetTask(); } }")]
+    [DataRow("try { try { throw new Exception(); } finally { a = GetTask(); } } catch (Exception) when (a.IsCompleted) { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { try { throw new Exception(); } finally { if (context != null) a = GetTask(); } } catch (Exception) when (a.IsCompleted) { _ = {|#0:a.Result|}; }")]
+    [DataRow("await ((Task)a.WaitAsync(TimeSpan.Zero, cancellationToken)).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = {|#0:a.Result|};")]
+    [DataRow("var waiting = a; await ((Task)(waiting = a.WaitAsync(cancellationToken))).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = waiting.Result; _ = {|#0:a.Result|};")]
+    [DataRow("a = new TaskCompletionSource<int>().Task; cancellationToken = new CancellationToken(true); await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = {|#0:a.Result|};")]
+    [DataRow("await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing | ConfigureAwaitOptions.ForceYielding); _ = {|#0:a.Result|};")]
+    [DataRow("var options = ConfigureAwaitOptions.SuppressThrowing; await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(options); _ = {|#0:a.Result|};")]
+    [DataRow("async Task Read(Task<int> task, ConfigureAwaitOptions options) { await ((Task)task).WaitAsync(cancellationToken).ConfigureAwait(options); _ = {|#0:task.Result|}; } await Read(a, ConfigureAwaitOptions.SuppressThrowing);")]
+    [DataRow("await ((Task)Task.WhenAll(a, b)).WaitAsync(cancellationToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = {|#0:a.Result|};")]
+    [DataRow("await a; try { a = GetTask(); throw new Exception(); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("await a; try { a = GetTask(); await Task.Yield(); } finally { _ = {|#0:a.Result|}; }")]
+    [DataRow("await a; try { throw new Exception(); } catch (Exception) when ((a = GetTask()).IsCompleted) { } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("await a; try { throw new Exception(); } catch { a = GetTask(); _ = {|#0:a.Result|}; }")]
+    [DataRow("await a; try { try { throw new Exception(); } finally { a = GetTask(); } } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("if (context != null) await a; try { throw new Exception(); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("await a; try { (a, b) = (GetTask(), GetTask()); throw new Exception(); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("await a.WaitAsync(cancellationToken); _ = {|#0:b.Result|};")]
+    [DataRow("var waiting = a.WaitAsync(cancellationToken); _ = {|#0:a.Result|}; await waiting;")]
+    [DataRow("await Task.WhenAll(a, b).WaitAsync(TimeSpan.FromTicks((a = GetTask()).Id), cancellationToken); _ = {|#0:a.Result|}; _ = b.Result;")]
+    [DataRow("Task WaitAsync(Task<int> task, CancellationToken token) => Task.CompletedTask; await WaitAsync(a, cancellationToken); _ = {|#0:a.Result|};")]
+    [DataRow("await a.WaitAsync(cancellationToken); a = GetTask(); _ = {|#0:a.Result|};")]
+    [DataRow("if (context != null) await a.WaitAsync(cancellationToken); _ = {|#0:a.Result|};")]
+    [DataRow("try { await a.WaitAsync(cancellationToken); } catch { } _ = {|#0:a.Result|};")]
+    [DataRow("await a.WaitAsync(TimeSpan.FromTicks((a = GetTask()).Id), cancellationToken); _ = {|#0:a.Result|};")]
+    [DataRow("await a.WaitAsync(cancellationToken).ConfigureAwait((a = GetTask()).IsCompleted); _ = {|#0:a.Result|};")]
+    [DataRow("await CurrentTask.WaitAsync(cancellationToken); _ = {|#0:CurrentTask.Result|};")]
+    [DataRow("await a; _ = {|#0:b.Result|};")]
+    [DataRow("await (a = GetTask()); a = GetTask(); _ = {|#0:a.Result|};")]
+    [DataRow("await (a = GetTask()); _ = {|#0:b.Result|};")]
+    [DataRow("await Task.WhenAll(a, Task.FromResult((a = GetTask()).IsCompleted)); _ = {|#0:a.Result|};")]
+    [DataRow("await Task.WhenAll(new Task[] { a, Task.FromResult((a = GetTask()).IsCompleted) }); _ = {|#0:a.Result|};")]
+    [DataRow("var tasks = new[] { a }; await Task.WhenAll(tasks); _ = {|#0:a.Result|};")]
+    [DataRow("await a; a = GetTask(); _ = {|#0:a.Result|};")]
+    [DataRow("await a; if (context != null) a = GetTask(); _ = {|#0:a.Result|};")]
+    [DataRow("if (context != null) await a; _ = {|#0:a.Result|};")]
+    [DataRow("if (a.IsCompleted || b.IsCompleted) { _ = {|#0:a.Result|}; }")]
+    [DataRow("if (!a.IsCompleted) { _ = {|#0:a.Result|}; }")]
+    [DataRow("await Task.WhenAny(a, b); _ = {|#0:a.Result|};")]
+    [DataRow("var winner = await Task.WhenAny(a, b); _ = {|#0:b.Result|};")]
+    [DataRow("try { if (context != null) throw new Exception(); await a; } catch { } _ = {|#0:a.Result|};")]
+    [DataRow("try { await a; } finally { _ = {|#0:b.Result|}; }")]
+    [DataRow("try { await a; } finally { a = GetTask(); } _ = {|#0:a.Result|};")]
+    [DataRow("await a; try { System.Console.WriteLine(1); } finally { if (context != null) a = GetTask(); } _ = {|#0:a.Result|};")]
+    [DataRow("await a; try { System.Console.WriteLine(1); } finally { (a, b) = (GetTask(), GetTask()); } _ = {|#0:a.Result|};")]
+    [DataRow("await a; try { try { System.Console.WriteLine(1); } finally { a = GetTask(); } } finally { System.Console.WriteLine(2); } _ = {|#0:a.Result|};")]
+    [DataRow("await a.ConfigureAwait((a = GetTask()).IsCompleted); _ = {|#0:a.Result|};")]
+    [DataRow("await a; (a, b) = (GetTask(), GetTask()); _ = {|#0:a.Result|};")]
+    [DataRow("try { if (!a.IsCompleted) return null!; } finally { a = GetTask(); } _ = {|#0:a.Result|};")]
+    [DataRow("await a; while (context != null) { _ = {|#0:a.Result|}; a = GetTask(); }")]
+    [DataRow("async Task Read() { await a; } _ = {|#0:a.Result|}; await Read();")]
+    [DataRow("while (context != null) { _ = {|#0:a.Result|}; await a; }")]
+    [DataRow("try { throw new Exception(); } catch { while (context != null) { await a; } _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await Task.Yield(); } finally { while (context != null) { await a; } _ = {|#0:a.Result|}; }")]
+    [DataRow("await a; void Replace() { a = GetTask(); } Replace(); _ = {|#0:a.Result|};")]
+    [DataRow("await a; Replace(ref a); _ = {|#0:a.Result|};")]
+    [DataRow("await a; dynamic target = new object(); target.Replace(ref a); _ = {|#0:a.Result|};")]
+    [DataRow("await a; dynamic target = new object(); target.Replace(out a); _ = {|#0:a.Result|};")]
+    [DataRow("await a; dynamic replace = new object(); replace(ref a); _ = {|#0:a.Result|};")]
+    [DataRow("await a; dynamic replace = new object(); replace(out a); _ = {|#0:a.Result|};")]
+    [DataRow("var nested = Task.FromResult(a); await nested; _ = {|#0:nested.Result.Result|};")]
+    [DataRow("var nested = Task.FromResult(new ValueTask<int>(1)); await nested; _ = {|#0:nested.Result.Result|};")]
+    [DataRow("var value = new ValueTask<int>(1); await value; _ = {|#0:value.Result|};")]
+    [DataRow("await CurrentTask; _ = {|#0:CurrentTask.Result|};")]
+    public async Task Reports_Result_When_Task_Completion_Is_Not_Proven(string statements)
+    {
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
+            .WithLocation(0)
+            .WithArguments("Result");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), expected);
+    }
+
+    [TestMethod]
+    [DataRow("try { await a; } catch { _ = a.Result; }")]
+    [DataRow("try { await a; } finally { _ = a.Result; }")]
+    [DataRow("try { await a; } catch { } _ = a.Result;")]
+    [DataRow("try { await a.ConfigureAwait(false); } catch { _ = a.Result; }")]
+    [DataRow("var captureContext = context != null; try { await a.ConfigureAwait(captureContext); } finally { _ = a.Result; }")]
+    [DataRow("try { await a.ConfigureAwait(ConfigureAwaitOptions.None); } catch { _ = a.Result; }")]
+    [DataRow("try { await a.ConfigureAwait(ConfigureAwaitOptions.ForceYielding); } finally { _ = a.Result; }")]
+    [DataRow("try { await a; System.Console.WriteLine(1); } catch { _ = a.Result; }")]
+    [DataRow("try { await a; await b; } catch { _ = a.Result; }")]
+    [DataRow("try { await a; } catch (Exception) when (a.Result > 0) { _ = a.Result; }")]
+    [DataRow("try { await a; } catch { _ = a.Result; a = GetTask(); }")]
+    [DataRow("try { await a; } finally { _ = a.Result; a = GetTask(); }")]
+    [DataRow("try { try { await a; } catch { } } finally { _ = a.Result; }")]
+    [DataRow("try { } finally { try { await a; } catch { } } _ = a.Result;")]
+    public async Task Does_Not_Report_Result_After_Entry_Await_Throws(string statements)
+    {
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements));
+    }
+
+    [TestMethod]
+    [DataRow("try { System.Console.WriteLine(1); await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await b; await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { if (context != null) await a; } finally { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a.WaitAsync(cancellationToken); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await Task.WhenAll(a, GetTask()); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a.ConfigureAwait((ConfigureAwaitOptions)8); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("var options = ConfigureAwaitOptions.None; try { await a.ConfigureAwait(options); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a.ConfigureAwait((a = GetTask()).IsCompleted); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("object captureContext = new object(); try { await a.ConfigureAwait((bool)captureContext); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await (a = GetTask()); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a; a = GetTask(); throw new Exception(); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a; } catch (Exception) when ((a = GetTask()).IsCompleted) { } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { try { await a; } finally { _ = {|#0:a.Result|}; } } catch (Exception) when ((a = GetTask()).IsCompleted) { } catch { }")]
+    [DataRow("try { await a; } catch { _ = {|#0:b.Result|}; }")]
+    public async Task Reports_Result_When_Protected_Region_Can_Throw_Before_Completion(string statements)
+    {
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
+            .WithLocation(0)
+            .WithArguments("Result");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), expected);
+    }
+
+    [TestMethod]
+    [DataRow("try { var value = await a; } catch { _ = a.Result; }")]
+    [DataRow("try { var value = await a; } finally { _ = a.Result; }")]
+    [DataRow("try { var value = await a; } catch { } _ = a.Result;")]
+    [DataRow("try { var value = await a; } catch (Exception) when (a.Result > 0) { _ = a.Result; }")]
+    [DataRow("try { var value = await a.ConfigureAwait(false); } catch { _ = a.Result; }")]
+    [DataRow("try { var value = await a.ConfigureAwait(ConfigureAwaitOptions.ForceYielding); } finally { _ = a.Result; }")]
+    [DataRow("int value = 0; try { value = await a; } catch { _ = a.Result; }")]
+    [DataRow("int value = 0; try { value = await a; } finally { _ = a.Result; }")]
+    [DataRow("try { _ = await a; } catch { _ = a.Result; }")]
+    [DataRow("try { _ = await a; } finally { _ = a.Result; }")]
+    [DataRow("int first = 0, second = 0; try { first = second = await a; } catch { _ = a.Result; }")]
+    [DataRow("try { object value = await a; } catch { _ = a.Result; }")]
+    [DataRow("try { byte value = checked((byte)await a); } catch { _ = a.Result; }")]
+    public async Task Does_Not_Report_Result_After_Entry_Awaited_Assignment_Throws(string statements)
+    {
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements));
+    }
+
+    [TestMethod]
+    [DataRow("try { var earlier = GetTask(); var value = await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("int value = 0; try { value = System.Math.Abs(-1); value = await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("int[] values = null!; try { values[System.Math.Abs(-1)] = await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { new List<int> { 0 }[System.Math.Abs(-1)] = await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { var value = await a.WaitAsync(cancellationToken); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { var value = await a.ConfigureAwait((ConfigureAwaitOptions)8); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("object option = new object(); try { var value = await a.ConfigureAwait((bool)option); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { var value = await a; a = GetTask(); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { var value = await a; } catch { _ = {|#0:b.Result|}; }")]
+    public async Task Reports_Result_When_Entry_Assignment_Can_Throw_Before_Await(string statements)
+    {
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
+            .WithLocation(0)
+            .WithArguments("Result");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), expected);
+    }
+
+    private static string CompletedTaskSource(string statements) => ModuleSource($$"""
+        protected override async Task<List<string>> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var a = GetTask();
+            var b = GetTask();
+            {{statements}}
+            return null!;
+        }
+
+        private static Task<int> GetTask() => Task.FromResult(1);
+        private static Task<int> CurrentTask => GetTask();
+        private static void Replace(ref Task<int> task) => task = GetTask();
+        """);
+
+    [TestMethod]
     public async Task Reports_Unflowed_CancellationToken()
     {
         var source = ModuleSource("""
