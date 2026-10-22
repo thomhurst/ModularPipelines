@@ -192,6 +192,10 @@ public class BuildModule : Module<BuildOutput>
 }
 ```
 
+Use `--tags` / `--ignore-tags` or `PipelineBuilder.RunOnlyTags(...)` /
+`IgnoreTags(...)` to filter modules by these tags. See [Tags](categories#tags)
+for matching rules, validation, and `PipelineOptions` configuration.
+
 See the individual documentation pages for more details on each behavior:
 - [Skipping Modules](skipping)
 - [Retry Policies](retry-policy)

@@ -32,6 +32,8 @@ await builder.RunAsync();
 | `--skip-module <name>` | Excludes a module. Repeat the option or separate names with commas. |
 | `--categories <name>` | Runs modules in the specified categories. Repeat the option or separate names with commas. |
 | `--ignore-categories <name>` | Excludes modules in the specified categories. Repeat the option or separate names with commas. |
+| `--tags <name>` | Runs modules matching any specified tag. Repeat the option or separate names with commas. |
+| `--ignore-tags <name>` | Excludes modules matching any specified tag. Repeat the option or separate names with commas. |
 | `--validate` | Validates pipeline configuration without executing modules. |
 | `--graph <format> [path]` | Exports the dependency graph as `mermaid`, `dot`, or `json` without executing modules. |
 | `--graph-path <path>` | Sets the graph output path. Requires `--graph` and cannot be combined with its positional path. |
@@ -59,6 +61,7 @@ For example:
 dotnet run -- --module TestModule
 dotnet run -- --module BuildModule,TestModule --skip-module SlowTestModule
 dotnet run -- --categories Test --ignore-categories Integration
+dotnet run -- --tags fast,critical --ignore-tags slow
 dotnet run -- --dry-run
 dotnet run -- --no-cache
 dotnet run -- --list-modules
@@ -74,7 +77,12 @@ on the format. Both graph options accept `--option=value` syntax. Specify the fo
 and output path only once. `--graph` cannot be combined with another pipeline command,
 such as `--dry-run`, `--validate`, or `--list-modules`.
 
-Explicit skips and category filters still apply to targeted dependency closures.
+Tag names are matched case-insensitively against tags declared with `[ModuleTag]`
+or fluent `WithTags(...)` configuration. Both tag options also accept `--option=value`
+syntax. See [Tags](categories#tags) for matching rules, validation, and the
+`RunOnlyTags` and `IgnoreTags` builder methods and options.
+
+Explicit skips, category filters, and tag filters still apply to targeted dependency closures.
 If a required dependency is skipped, the existing dependency skip behavior also
 skips modules that require it.
 
