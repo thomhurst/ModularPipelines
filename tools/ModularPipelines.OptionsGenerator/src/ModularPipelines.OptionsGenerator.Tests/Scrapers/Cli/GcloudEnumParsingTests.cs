@@ -230,9 +230,13 @@ public class GcloudEnumParsingTests
     }
 
     [Test]
-    public async Task Required_Reschedule_Type_Generates_Specific_Time_Enum_Value()
+    [Arguments("RESCHEDULE_TYPE", "NEXT_AVAILABLE_WINDOW")]
+    [Arguments("Reschedule Type", "NEXT-AVAILABLE-WINDOW")]
+    [Arguments("The reschedule type", "NEXT-AVAILABLE-WINDOW")]
+    [Arguments("Reschedule\n                    Type", "NEXT-AVAILABLE-WINDOW")]
+    public async Task Required_Reschedule_Type_Generates_Specific_Time_Enum_Value(string subject, string nextWindow)
     {
-        const string help = """
+        var help = $$"""
             NAME
                 gcloud redis instances reschedule-maintenance - reschedule maintenance
             SYNOPSIS
@@ -242,14 +246,23 @@ public class GcloudEnumParsingTests
                     The Redis instance to reschedule.
             REQUIRED FLAGS
                  --reschedule-type=RESCHEDULE_TYPE
-                    RESCHEDULE_TYPE must be one of: IMMEDIATE, NEXT_AVAILABLE_WINDOW, or
+                    Reschedule type to use for the reschedule maintenance window.
+                    {{subject}} must be one of:IMMEDIATE, {{nextWindow}}, or
                     SPECIFIC-TIME.
+                    RESCHEDULE_TYPE must be one of:
+                     immediate
+                        Reschedule the maintenance window to perform now.
+                     next-available-window
+                        Reschedule the maintenance window to the next available window.
+                     specific-time
+                        Reschedule the maintenance window to a specific time.
             """;
         var command = (await GcloudResourceArgumentTests.ScrapeFixture("redis instances reschedule-maintenance", help)).Single();
         var option = command.Options.Single();
         await Assert.That(option.IsRequired).IsTrue();
+        await Assert.That(option.EnumDefinition).IsNotNull();
         await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
-            .IsEquivalentTo(["IMMEDIATE", "NEXT_AVAILABLE_WINDOW", "SPECIFIC-TIME"]);
+            .IsEquivalentTo(["IMMEDIATE", nextWindow, "SPECIFIC-TIME"]);
 
         var generated = (await new EnumGenerator().GenerateAsync(new CliToolDefinition
         {
@@ -262,5 +275,27 @@ public class GcloudEnumParsingTests
 
         await Assert.That(generated).Contains("[EnumValue(\"SPECIFIC-TIME\")]");
         await Assert.That(generated).DoesNotContain("[EnumValue(\"or\")]");
+    }
+
+    [Test]
+    [Arguments("The related Maintenance Type must be one of: IMMEDIATE, SPECIFIC-TIME.")]
+    [Arguments("Maintenance Type must be one of: IMMEDIATE, SPECIFIC-TIME.")]
+    [Arguments("If scheduling is enabled, Reschedule Type must be one of: IMMEDIATE, SPECIFIC-TIME.")]
+    [Arguments("For maintenance, Reschedule Type must be one of: IMMEDIATE, SPECIFIC-TIME.")]
+    [Arguments("If scheduling is enabled\n\nReschedule Type must be one of: IMMEDIATE, SPECIFIC-TIME.")]
+    public async Task Conditional_Or_Unrelated_Multiword_Subjects_Leave_Option_As_String(string description)
+    {
+        var help = $$"""
+            SYNOPSIS
+                gcloud redis instances reschedule-maintenance [--reschedule-type=RESCHEDULE_TYPE]
+            FLAGS
+                 --reschedule-type=RESCHEDULE_TYPE
+                    {{description}}
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("redis instances reschedule-maintenance", help)).Single();
+        var option = command.Options.Single();
+
+        await Assert.That(option.EnumDefinition).IsNull();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
     }
 }
