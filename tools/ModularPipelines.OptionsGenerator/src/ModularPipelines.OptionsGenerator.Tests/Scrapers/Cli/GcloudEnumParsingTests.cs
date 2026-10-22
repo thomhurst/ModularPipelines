@@ -6,6 +6,72 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudEnumParsingTests
 {
     [Test]
+    [Arguments("security-posture", "SECURITY_POSTURE", "disabled, standard, enterprise", "disabled,standard,enterprise")]
+    [Arguments("binauthz-evaluation-mode", "BINAUTHZ_EVALUATION_MODE", "disabled, policy-bindings", "disabled,policy-bindings")]
+    [Arguments("workload-vulnerability-scanning", "WORKLOAD_VULNERABILITY_SCANNING", "disabled, standard, enterprise", "disabled,standard,enterprise")]
+    public async Task Standalone_Declarations_After_Command_Examples_Generate_Enums(
+        string flag, string metavar, string choices, string expected)
+    {
+        var exampleValue = expected.Split(',')[^1];
+        var help = $$"""
+            SYNOPSIS
+                gcloud container fleet create [--{{flag}}={{metavar}}]
+            FLAGS
+                 --{{flag}}={{metavar}}
+                    Configure clusters to onboard the fleet:
+
+                      $ gcloud container fleet create \
+                          --{{flag}}={{exampleValue}}
+
+                    {{metavar}} must be one
+                    of:
+                    {{choices}}.
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("container fleet create", help)).Single();
+        var option = command.Options.Single();
+
+        await Assert.That(option.EnumDefinition).IsNotNull();
+        await Assert.That(option.Description).DoesNotContain("\n");
+        await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(expected.Split(','));
+        var generated = (await new EnumGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        })).Single().Content;
+        foreach (var value in expected.Split(','))
+        {
+            await Assert.That(generated).Contains($"[EnumValue(\"{value}\")]");
+        }
+    }
+
+    [Test]
+    [Arguments("If the scheme is INTERNAL,\n        PROTOCOL must be one of: TCP, UDP.")]
+    [Arguments("If the scheme is INTERNAL, PROTOCOL\n        must be one of: TCP, UDP.")]
+    [Arguments("SCHEME must be one of: INTERNAL, EXTERNAL.")]
+    public async Task Paragraphs_After_Examples_Do_Not_Promote_Conditional_Or_Unrelated_Lists(string declaration)
+    {
+        var help = $$"""
+            SYNOPSIS
+                gcloud example update [--protocol=PROTOCOL]
+            FLAGS
+                 --protocol=PROTOCOL
+                    Select a protocol:
+
+                      $ gcloud example update --protocol=TCP
+
+                    {{declaration}}
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("example update", help)).Single();
+
+        await Assert.That(command.Options.Single().EnumDefinition).IsNull();
+        await Assert.That(command.Options.Single().CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
     [Arguments("If the scheme is INTERNAL, the protocol must be one of: TCP, UDP, L3_DEFAULT.")]
     [Arguments("If the scheme is INTERNAL, IP_PROTOCOL must be one of: TCP, UDP, L3_DEFAULT.")]
     [Arguments("For internal traffic, IP_PROTOCOL must be one of: TCP, UDP, L3_DEFAULT.")]

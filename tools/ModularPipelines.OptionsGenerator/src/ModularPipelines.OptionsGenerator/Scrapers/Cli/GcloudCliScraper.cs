@@ -945,8 +945,13 @@ public partial class GcloudCliScraper : CliScraperBase
             argument, commandParts, helpText, isFlag, hasCompositeSyntax, isStructuredValue, isKeyValue);
         var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue)
                         && !DurationDescriptionPattern().IsMatch(argument.Description ?? string.Empty);
+        // A declaration can follow an unpunctuated command example in its own paragraph.
+        // Keep those boundaries for inference while generated documentation stays normalized.
+        var enumDescription = argument.RawDescription is { } rawDescription
+            ? $"{argument.GroupDescription}\n\n{rawDescription}"
+            : description;
         var enumDefinition = isStructuredValue ? null : TryDetectEnum(
-            GenerateClassName([ToolName, .. commandParts]), propertyName, longForm, valueHint, description);
+            GenerateClassName([ToolName, .. commandParts]), propertyName, longForm, valueHint, enumDescription);
 
         return new CliOptionDefinition
         {
@@ -1442,10 +1447,10 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(@"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline)]
     private static partial Regex CommandDescriptionPattern();
 
-    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?:(?:the\s+)?(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must be one of:?\s*(?<values>[a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+|\n[ \t]*\n\s*)(?:(?:the\s+)?(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must\s+be\s+one\s+of:?\s*(?<values>[a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
     private static partial Regex RequiredEnumValuesPattern();
 
-    [GeneratedRegex(@";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@";\s*one\s+of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
     private static partial Regex InlineEnumValuesPattern();
 
     [GeneratedRegex(@"^(?:or|and)\s+", RegexOptions.IgnoreCase)]

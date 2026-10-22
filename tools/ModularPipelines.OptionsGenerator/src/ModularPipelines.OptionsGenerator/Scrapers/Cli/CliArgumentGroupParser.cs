@@ -90,6 +90,7 @@ internal static partial class CliArgumentGroupParser
             var parsedArgument = declaration.Argument with
             {
                 Description = description,
+                RawDescription = string.Join('\n', lines[(declaration.LineIndex + 1)..descriptionEnd]).Trim(),
                 SourceOrder = declaration.LineIndex,
             };
             if (TryAddNestedPreludeGroup(stack, parsedArgument, preludeLines))

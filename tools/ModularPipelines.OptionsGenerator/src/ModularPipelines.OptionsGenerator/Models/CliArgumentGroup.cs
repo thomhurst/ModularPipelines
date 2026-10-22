@@ -85,6 +85,11 @@ public record CliArgumentDefinition
     public string? Description { get; init; }
 
     /// <summary>
+    /// Documentation before whitespace normalization, retaining paragraph boundaries for type inference.
+    /// </summary>
+    internal string? RawDescription { get; init; }
+
+    /// <summary>
     /// Documentation inherited from containing argument groups.
     /// </summary>
     public string? GroupDescription { get; init; }
