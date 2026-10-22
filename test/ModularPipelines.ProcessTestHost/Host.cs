@@ -158,37 +158,7 @@ public static class Host
             case "draining-parent":
             case "grace-parent":
             case "child-failure-parent":
-                var childRole = role switch
-                {
-                    "draining-parent" => "draining-child",
-                    "grace-parent" => "intermediate",
-                    "child-failure-parent" => "failing-child",
-                    _ => "child",
-                };
-                if (role is "grace-parent" or "gated-parent")
-                {
-                    // These regressions start descendants only after command containment is installed.
-                    await WaitForTrigger(directory, "start-child");
-                }
-
-                using (var child = StartChild(childRole, directory, runtimeConfiguration))
-                {
-                    if (role is "parent-exit" or "parent-error-exit" or "draining-parent")
-                    {
-                        await WaitForTrigger(directory, "parent-exit");
-                        System.Console.Out.Write("parent output");
-                        System.Console.Error.Write("parent error");
-                    }
-                    else
-                    {
-                        await child.WaitForExitAsync();
-                        if (child.ExitCode != 0)
-                        {
-                            throw new InvalidOperationException($"Fixture child {childRole} exited with code {child.ExitCode}.");
-                        }
-                    }
-                }
-
+                await RunParentRoleAsync(role, directory, runtimeConfiguration);
                 break;
             case "intermediate":
                 await WaitForTrigger(directory, "spawn");
@@ -210,6 +180,40 @@ public static class Host
                 break;
             default:
                 throw new ArgumentException($"Unknown fixture role: {role}");
+        }
+    }
+
+    private static async Task RunParentRoleAsync(string role, string directory, string runtimeConfiguration)
+    {
+        var childRole = role switch
+        {
+            "draining-parent" => "draining-child",
+            "grace-parent" => "intermediate",
+            "child-failure-parent" => "failing-child",
+            _ => "child",
+        };
+        if (role is "grace-parent" or "gated-parent")
+        {
+            // These regressions start descendants only after command containment is installed.
+            await WaitForTrigger(directory, "start-child");
+        }
+
+        using (var child = StartChild(childRole, directory, runtimeConfiguration))
+        {
+            if (role is "parent-exit" or "parent-error-exit" or "draining-parent")
+            {
+                await WaitForTrigger(directory, "parent-exit");
+                System.Console.Out.Write("parent output");
+                System.Console.Error.Write("parent error");
+            }
+            else
+            {
+                await child.WaitForExitAsync();
+                if (child.ExitCode != 0)
+                {
+                    throw new InvalidOperationException($"Fixture child {childRole} exited with code {child.ExitCode}.");
+                }
+            }
         }
     }
 

@@ -1234,7 +1234,9 @@ public class CommandTests : TestBase
         }
 
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "parent", new CommandExecutionOptions().GracefulShutdownTimeout);
+        fixture.Start(await GetService<ICommandContext>(), "gated-parent", new CommandExecutionOptions().GracefulShutdownTimeout);
+        // Start returns after Windows job attachment; isolate cancellation timing from descendant startup.
+        await fixture.TriggerAsync("start-child");
         var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(10));
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(10));
         fixture.Cancel();
