@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Adds a CloudWatch log stream to monitor application configuration er- rors. For more information about using CloudWatch log streams with Ama- zon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs . See ...
+/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Adds a CloudWatch log stream to monitor application configuration errors. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs . See also: ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,14 +27,14 @@ public record AwsKinesisanalyticsAddApplicationCloudWatchLoggingOptionOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Adds a CloudWatch log stream to monitor application configuration er- rors. For more information about using CloudWatch log streams with Ama- zon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs . See ...
+    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Adds a CloudWatch log stream to monitor application configuration errors. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs . See also: ...
     /// </summary>
-    /// <param name="ApplicationName">The Kinesis Analytics application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="CurrentApplicationVersionId">The version ID of the Kinesis Analytics application. Constraints: o min: 1 o max: 999999999</param>
-    /// <param name="CloudWatchLoggingOption">Provides the CloudWatch log stream Amazon Resource Name (ARN) and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled. LogStreamARN -&gt; (string) [required] ARN of the CloudWatch log to receive application messages. Constraints: o min: 1 o max: 2048 o pattern: arn:.* RoleARN -&gt; (string) [required] IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: LogStreamARN=string,RoleARN=string JSON Syntax: { "LogStreamARN": "string", "RoleARN": "string" }</param>
+    /// <param name="ApplicationName">The Kinesis Analytics application name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">The version ID of the Kinesis Analytics application. Constraints: • min: 1 • max: 999999999</param>
+    /// <param name="CloudWatchLoggingOption">Provides the CloudWatch log stream Amazon Resource Name (ARN) and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled. LogStreamARN -&gt; (string) [required] ARN of the CloudWatch log to receive application messages. Constraints: • min: 1 • max: 2048 • pattern: arn:.* RoleARN -&gt; (string) [required] IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: LogStreamARN=string,RoleARN=string JSON Syntax: { "LogStreamARN": "string", "RoleARN": "string" }</param>
     public AwsKinesisanalyticsAddApplicationCloudWatchLoggingOptionOptions(
         string ApplicationName,
-        int CurrentApplicationVersionId,
+        long CurrentApplicationVersionId,
         string CloudWatchLoggingOption
     )
     {
@@ -63,19 +65,19 @@ public record AwsKinesisanalyticsAddApplicationCloudWatchLoggingOptionOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Kinesis Analytics application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The Kinesis Analytics application name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The version ID of the Kinesis Analytics application. Constraints: o min: 1 o max: 999999999
+    /// The version ID of the Kinesis Analytics application. Constraints: • min: 1 • max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; private init; }
+    public long? CurrentApplicationVersionId { get; private init; }
 
     /// <summary>
-    /// Provides the CloudWatch log stream Amazon Resource Name (ARN) and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled. LogStreamARN -&gt; (string) [required] ARN of the CloudWatch log to receive application messages. Constraints: o min: 1 o max: 2048 o pattern: arn:.* RoleARN -&gt; (string) [required] IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: LogStreamARN=string,RoleARN=string JSON Syntax: { "LogStreamARN": "string", "RoleARN": "string" }
+    /// Provides the CloudWatch log stream Amazon Resource Name (ARN) and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled. LogStreamARN -&gt; (string) [required] ARN of the CloudWatch log to receive application messages. Constraints: • min: 1 • max: 2048 • pattern: arn:.* RoleARN -&gt; (string) [required] IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: LogStreamARN=string,RoleARN=string JSON Syntax: { "LogStreamARN": "string", "RoleARN": "string" }
     /// </summary>
     [CliOption("--cloud-watch-logging-option")]
     public string? CloudWatchLoggingOption { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsOpensearchCreateVpcEndpointOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainArn">The Amazon Resource Name (ARN) of the domain to create the endpoint for. Constraints: o min: 1 o max: 512 o pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:do- main\/[a-z0-9\-]+</param>
+    /// <param name="DomainArn">The Amazon Resource Name (ARN) of the domain to create the endpoint for. Constraints: • min: 1 • max: 512 • pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:domain\/[a-z0-9\-]+</param>
     /// <param name="VpcOptions">Options to specify the subnets and security groups for the endpoint. SubnetIds -&gt; (list) A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one. (string) SecurityGroupIds -&gt; (list) The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC. (string) EgressEnabled -&gt; (boolean) Controls whether egress traffic from the domain is routed through the customer VPC. When true , outbound traffic flows through the VPC. When false , outbound traffic goes through the public internet. Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string,EgressEnabled=boolean JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "EgressEnabled": true|false }</param>
     public AwsOpensearchCreateVpcEndpointOptions(
         string DomainArn,
@@ -61,7 +63,7 @@ public record AwsOpensearchCreateVpcEndpointOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the domain to create the endpoint for. Constraints: o min: 1 o max: 512 o pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:do- main\/[a-z0-9\-]+
+    /// The Amazon Resource Name (ARN) of the domain to create the endpoint for. Constraints: • min: 1 • max: 512 • pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:domain\/[a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-arn")]
     public string? DomainArn { get; private init; }
@@ -73,7 +75,7 @@ public record AwsOpensearchCreateVpcEndpointOptions : AwsOptions, IValidatableOb
     public string? VpcOptions { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

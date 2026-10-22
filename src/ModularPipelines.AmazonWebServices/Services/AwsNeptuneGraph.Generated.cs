@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws neptunegraph commands.
+/// aws neptune-graph commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsNeptuneGraph : IAwsNeptuneGraph
@@ -33,7 +33,7 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws neptune-graph wait sub-commands.
     /// </summary>
     public AwsNeptuneGraphWait Wait => _wait ??= new AwsNeptuneGraphWait(_command);
 
@@ -147,7 +147,7 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
     }
 
     /// <summary>
-    /// Deletes the specified graph. Graphs cannot be deleted if delete-protec- tion is enabled. See also: AWS API Documentation
+    /// Deletes the specified graph. Graphs cannot be deleted if delete-protection is enabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
     }
 
     /// <summary>
-    /// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query: o neptune-graph:ReadDataViaQuery o neptune-graph:WriteDataViaQuery o neptune-graph:DeleteDataViaQuery See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, number...
+    /// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query: • neptune-graph:ReadDataViaQuery • neptune-graph:WriteDataViaQuery • neptune-graph:DeleteDataViaQuery See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, number...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
     }
 
     /// <summary>
-    /// Retrieves the status of a specified query. NOTE: When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:Get- QueryStatus IAM action attached. See also: AWS API Documentation
+    /// Retrieves the status of a specified query. NOTE: When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:GetQueryStatus IAM action attached. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
     }
 
     /// <summary>
-    /// Lists available Neptune Analytics graphs. See also: AWS API Documentation list-graphs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: graphs
+    /// Lists available Neptune Analytics graphs. See also: AWS API Documentation list-graphs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: graphs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
     }
 
     /// <summary>
-    /// Lists private endpoints for a specified Neptune Analytics graph. See also: AWS API Documentation list-private-graph-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: privateGraphEndpoints
+    /// Lists private endpoints for a specified Neptune Analytics graph. See also: AWS API Documentation list-private-graph-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: privateGraphEndpoints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

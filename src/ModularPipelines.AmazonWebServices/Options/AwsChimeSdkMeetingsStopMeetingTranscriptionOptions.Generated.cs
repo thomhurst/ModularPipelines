@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkMeetingsStopMeetingTranscriptionOptions : AwsOptions, I
     /// <summary>
     /// Stops transcription for the specified meetingId . For more information, refer to Using Amazon Chime SDK live transcription in the Amazon Chime SDK Developer Guide . WARNING: By default, Amazon Transcribe may use and store audio content processed by the service to develop and improve Amazon Web Services AI/ML services as further described in section 50 of the Amazon Web Services Service Terms . Using Amazon Transcribe may be subject to federal and state laws or regulations regarding the recording...
     /// </summary>
-    /// <param name="MeetingId">The unique ID of the meeting for which you stop transcription. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="MeetingId">The unique ID of the meeting for which you stop transcription. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
     public AwsChimeSdkMeetingsStopMeetingTranscriptionOptions(
         string MeetingId
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkMeetingsStopMeetingTranscriptionOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the meeting for which you stop transcription. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The unique ID of the meeting for which you stop transcription. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--meeting-id")]
     public string? MeetingId { get; private init; }

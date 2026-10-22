@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsWafv2GetMobileSdkReleaseOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves information for the specified mobile SDK release, including release notes and tags. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Platform">The device platform. Possible values: o IOS o ANDROID</param>
-    /// <param name="ReleaseVersion">The release version. For the latest available version, specify LAT- EST . Constraints: o min: 1 o max: 64 o pattern: ^[\w#:\.\-/]+$</param>
+    /// <param name="Platform">The device platform. Possible values: • IOS • ANDROID</param>
+    /// <param name="ReleaseVersion">The release version. For the latest available version, specify LATEST . Constraints: • min: 1 • max: 64 • pattern: ^[\w#:\.\-/]+$</param>
     public AwsWafv2GetMobileSdkReleaseOptions(
         AwsWafv2GetMobileSdkReleasePlatform Platform,
         string ReleaseVersion
@@ -60,13 +62,13 @@ public record AwsWafv2GetMobileSdkReleaseOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The device platform. Possible values: o IOS o ANDROID
+    /// The device platform. Possible values: • IOS • ANDROID
     /// </summary>
     [CliOption("--platform")]
     public AwsWafv2GetMobileSdkReleasePlatform? Platform { get; private init; }
 
     /// <summary>
-    /// The release version. For the latest available version, specify LAT- EST . Constraints: o min: 1 o max: 64 o pattern: ^[\w#:\.\-/]+$
+    /// The release version. For the latest available version, specify LATEST . Constraints: • min: 1 • max: 64 • pattern: ^[\w#:\.\-/]+$
     /// </summary>
     [CliOption("--release-version")]
     public string? ReleaseVersion { get; private init; }

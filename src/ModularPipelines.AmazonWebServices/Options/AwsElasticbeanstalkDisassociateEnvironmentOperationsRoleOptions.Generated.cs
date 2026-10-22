@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permis- sions to downstream services during subsequent calls acting on this en- vironment. See also: AWS API Documentation
+/// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsElasticbeanstalkDisassociateEnvironmentOperationsRoleOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permis- sions to downstream services during subsequent calls acting on this en- vironment. See also: AWS API Documentation
+    /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentName">The name of the environment from which to disassociate the opera- tions role. Constraints: o min: 4 o max: 40</param>
+    /// <param name="EnvironmentName">The name of the environment from which to disassociate the operations role. Constraints: • min: 4 • max: 40</param>
     public AwsElasticbeanstalkDisassociateEnvironmentOperationsRoleOptions(
         string EnvironmentName
     )
@@ -56,7 +58,7 @@ public record AwsElasticbeanstalkDisassociateEnvironmentOperationsRoleOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the environment from which to disassociate the opera- tions role. Constraints: o min: 4 o max: 40
+    /// The name of the environment from which to disassociate the operations role. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; private init; }

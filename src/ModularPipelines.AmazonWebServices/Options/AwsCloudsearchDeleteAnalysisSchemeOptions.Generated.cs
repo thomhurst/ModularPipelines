@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCloudsearchDeleteAnalysisSchemeOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes an analysis scheme. For more information, see Configuring Analysis Schemes in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="AnalysisSchemeName">The name of the analysis scheme you want to delete. Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]*</param>
+    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="AnalysisSchemeName">The name of the analysis scheme you want to delete. Constraints: • min: 1 • max: 64 • pattern: [a-z][a-z0-9_]*</param>
     public AwsCloudsearchDeleteAnalysisSchemeOptions(
         string DomainName,
         string AnalysisSchemeName
@@ -60,13 +62,13 @@ public record AwsCloudsearchDeleteAnalysisSchemeOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the analysis scheme you want to delete. Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]*
+    /// The name of the analysis scheme you want to delete. Constraints: • min: 1 • max: 64 • pattern: [a-z][a-z0-9_]*
     /// </summary>
     [CliOption("--analysis-scheme-name")]
     public string? AnalysisSchemeName { get; private init; }

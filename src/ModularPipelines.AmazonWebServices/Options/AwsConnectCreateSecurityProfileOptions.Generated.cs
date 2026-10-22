@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsConnectCreateSecurityProfileOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SecurityProfileName">The name of the security profile. Constraints: o min: 1 o max: 127 o pattern: ^[ a-zA-Z0-9_@-]+$</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="SecurityProfileName">The name of the security profile. Constraints: • min: 1 • max: 127 • pattern: ^[ a-zA-Z0-9_@-]+$</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectCreateSecurityProfileOptions(
         string SecurityProfileName,
         string InstanceId
@@ -61,55 +62,55 @@ public record AwsConnectCreateSecurityProfileOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the security profile. Constraints: o min: 1 o max: 127 o pattern: ^[ a-zA-Z0-9_@-]+$
+    /// The name of the security profile. Constraints: • min: 1 • max: 127 • pattern: ^[ a-zA-Z0-9_@-]+$
     /// </summary>
     [CliOption("--security-profile-name")]
     public string? SecurityProfileName { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The description of the security profile. Constraints: o max: 250
+    /// The description of the security profile. Constraints: • max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Permissions assigned to the security profile. For a list of valid permissions, see List of security profile permissions . Constraints: o max: 500 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// Permissions assigned to the security profile. For a list of valid permissions, see List of security profile permissions . Constraints: • max: 500 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The list of tags that a security profile uses to restrict access to resources in Connect Customer. Constraints: o max: 4 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of tags that a security profile uses to restrict access to resources in Connect Customer. Constraints: • max: 4 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--allowed-access-control-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AllowedAccessControlTags { get; set; }
 
     /// <summary>
-    /// The list of resources that a security profile applies tag restric- tions to in Connect Customer. For a list of Connect Customer re- sources that you can tag, see Add tags to resources in Connect Cus- tomer in the Connect Customer Administrator Guide . Constraints: o max: 10 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The list of resources that a security profile applies tag restrictions to in Connect Customer. For a list of Connect Customer resources that you can tag, see Add tags to resources in Connect Customer in the Connect Customer Administrator Guide . Constraints: • max: 10 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-restricted-resources", GroupValues = true)]
     public IEnumerable<string>? TagRestrictedResources { get; set; }
 
     /// <summary>
-    /// A list of third-party applications or MCP Servers that the security profile will give access to. Constraints: o max: 10 (structure) This API is in preview release for Connect Customer and is sub- ject to change. A third-party application's metadata. Namespace -&gt; (string) Namespace of the application that you want to give access to. Constraints: o min: 1 o max: 128 ApplicationPermissions -&gt; (list) The permissions that the agent is granted on the application. For third-party applications, only the ACCESS permission is supported. For MCP Servers, the permissions are tool Identi- fiers accepted by MCP Server. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 Type -&gt; (string) Type of Application. Possible values: o MCP o THIRD_PARTY_APPLICATION Shorthand Syntax: Namespace=string,ApplicationPermissions=string,string,Type=string ... JSON Syntax: [ { "Namespace": "string", "ApplicationPermissions": ["string", ...], "Type": "MCP"|"THIRD_PARTY_APPLICATION" } ... ]
+    /// A list of third-party applications or MCP Servers that the security profile will give access to. Constraints: • max: 10 (structure) This API is in preview release for Connect Customer and is subject to change. A third-party application's metadata. Namespace -&gt; (string) Namespace of the application that you want to give access to. Constraints: • min: 1 • max: 128 ApplicationPermissions -&gt; (list) The permissions that the agent is granted on the application. For third-party applications, only the ACCESS permission is supported. For MCP Servers, the permissions are tool Identifiers accepted by MCP Server. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 Type -&gt; (string) Type of Application. Possible values: • MCP • THIRD_PARTY_APPLICATION Shorthand Syntax: Namespace=string,ApplicationPermissions=string,string,Type=string ... JSON Syntax: [ { "Namespace": "string", "ApplicationPermissions": ["string", ...], "Type": "MCP"|"THIRD_PARTY_APPLICATION" } ... ]
     /// </summary>
     [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string>? Applications { get; set; }
 
     /// <summary>
-    /// The list of resources that a security profile applies hierarchy re- strictions to in Connect Customer. Following are acceptable Re- sourceNames: User . (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The list of resources that a security profile applies hierarchy restrictions to in Connect Customer. Following are acceptable ResourceNames: User . (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--hierarchy-restricted-resources", GroupValues = true)]
     public IEnumerable<string>? HierarchyRestrictedResources { get; set; }
@@ -121,19 +122,19 @@ public record AwsConnectCreateSecurityProfileOptions : AwsOptions, IValidatableO
     public string? AllowedAccessControlHierarchyGroupId { get; set; }
 
     /// <summary>
-    /// A list of Flow Modules an AI Agent can invoke as a tool. Constraints: o max: 10 (structure) A list of Flow Modules an AI Agent can invoke as a tool Type -&gt; (string) Only Type we support is MCP. Possible values: o MCP FlowModuleId -&gt; (string) If of Flow Modules invocable as tool Constraints: o min: 1 o max: 128 Shorthand Syntax: Type=string,FlowModuleId=string ... JSON Syntax: [ { "Type": "MCP", "FlowModuleId": "string" } ... ]
+    /// A list of Flow Modules an AI Agent can invoke as a tool. Constraints: • max: 10 (structure) A list of Flow Modules an AI Agent can invoke as a tool Type -&gt; (string) Only Type we support is MCP. Possible values: • MCP FlowModuleId -&gt; (string) If of Flow Modules invocable as tool Constraints: • min: 1 • max: 128 Shorthand Syntax: Type=string,FlowModuleId=string ... JSON Syntax: [ { "Type": "MCP", "FlowModuleId": "string" } ... ]
     /// </summary>
     [CliOption("--allowed-flow-modules", GroupValues = true)]
     public IEnumerable<string>? AllowedFlowModules { get; set; }
 
     /// <summary>
-    /// A list of AI agents that the security profile will give access to. Constraints: o max: 100 (structure) Information about an AI agent that a security profile allows ac- cess to for Agent-to-Agent authorization. Arn -&gt; (string) The Amazon Resource Name (ARN) of the AI agent. Type -&gt; (string) The type of the AI agent. The valid value is THIRD_PARTY . Possible values: o THIRD_PARTY Shorthand Syntax: Arn=string,Type=string ... JSON Syntax: [ { "Arn": "string", "Type": "THIRD_PARTY" } ... ]
+    /// A list of AI agents that the security profile will give access to. Constraints: • max: 100 (structure) Information about an AI agent that a security profile allows access to for Agent-to-Agent authorization. Arn -&gt; (string) The Amazon Resource Name (ARN) of the AI agent. Type -&gt; (string) The type of the AI agent. The valid value is THIRD_PARTY . Possible values: • THIRD_PARTY Shorthand Syntax: Arn=string,Type=string ... JSON Syntax: [ { "Arn": "string", "Type": "THIRD_PARTY" } ... ]
     /// </summary>
     [CliOption("--allowed-ai-agents", GroupValues = true)]
     public IEnumerable<string>? AllowedAiAgents { get; set; }
 
     /// <summary>
-    /// The granular access control configuration for the security profile, including data table permissions. DataTableAccessControlConfiguration -&gt; (structure) The access control configuration for data tables. PrimaryAttributeAccessControlConfiguration -&gt; (structure) The configuration's primary attribute access control configu- ration. PrimaryAttributeValues -&gt; (list) The item's primary attribute values. Constraints: o max: 5 (structure) A primary attribute value. AccessType -&gt; (string) The value's access type. Possible values: o ALLOW AttributeName -&gt; (string) The value's attribute name. Constraints: o min: 1 o max: 127 o pattern: (?!aws:|con- nect:)[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+$ Values -&gt; (list) The value's values. Constraints: o max: 2 (string) Constraints: o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+$ JSON Syntax: { "DataTableAccessControlConfiguration": { "PrimaryAttributeAccessControlConfiguration": { "PrimaryAttributeValues": [ { "AccessType": "ALLOW", "AttributeName": "string", "Values": ["string", ...] } ... ] } } }
+    /// The granular access control configuration for the security profile, including data table permissions. DataTableAccessControlConfiguration -&gt; (structure) The access control configuration for data tables. PrimaryAttributeAccessControlConfiguration -&gt; (structure) The configuration's primary attribute access control configuration. PrimaryAttributeValues -&gt; (list) The item's primary attribute values. Constraints: • max: 5 (structure) A primary attribute value. AccessType -&gt; (string) The value's access type. Possible values: • ALLOW AttributeName -&gt; (string) The value's attribute name. Constraints: • min: 1 • max: 127 • pattern: (?!aws:|connect:)[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+$ Values -&gt; (list) The value's values. Constraints: • max: 2 (string) Constraints: • pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+$ JSON Syntax: { "DataTableAccessControlConfiguration": { "PrimaryAttributeAccessControlConfiguration": { "PrimaryAttributeValues": [ { "AccessType": "ALLOW", "AttributeName": "string", "Values": ["string", ...] } ... ] } } }
     /// </summary>
     [CliOption("--granular-access-control-configuration")]
     public string? GranularAccessControlConfiguration { get; set; }

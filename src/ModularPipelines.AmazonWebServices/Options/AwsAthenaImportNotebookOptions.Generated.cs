@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or Note- BookS3LocationUri . If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be im- ported is 10 megabytes. If an ipynb file with the same name already ex- ists in the workgroup, throws an error. See also: AWS API Documentation
+/// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or NoteBookS3LocationUri . If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsAthenaImportNotebookOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or Note- BookS3LocationUri . If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be im- ported is 10 megabytes. If an ipynb file with the same name already ex- ists in the workgroup, throws an error. See also: AWS API Documentation
+    /// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or NoteBookS3LocationUri . If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkGroup">The name of the Spark enabled workgroup to import the notebook to. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
-    /// <param name="Name">The name of the notebook to import. Constraints: o min: 1 o max: 255 o pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+</param>
-    /// <param name="Type">The notebook content type. Currently, the only valid type is IPYNB . Possible values: o IPYNB</param>
+    /// <param name="WorkGroup">The name of the Spark enabled workgroup to import the notebook to. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}</param>
+    /// <param name="Name">The name of the notebook to import. Constraints: • min: 1 • max: 255 • pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+</param>
+    /// <param name="Type">The notebook content type. Currently, the only valid type is IPYNB . Possible values: • IPYNB</param>
     public AwsAthenaImportNotebookOptions(
         string WorkGroup,
         string Name,
@@ -65,37 +67,37 @@ public record AwsAthenaImportNotebookOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Spark enabled workgroup to import the notebook to. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// The name of the Spark enabled workgroup to import the notebook to. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}
     /// </summary>
     [CliOption("--work-group")]
     public string? WorkGroup { get; private init; }
 
     /// <summary>
-    /// The name of the notebook to import. Constraints: o min: 1 o max: 255 o pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+
+    /// The name of the notebook to import. Constraints: • min: 1 • max: 255 • pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The notebook content type. Currently, the only valid type is IPYNB . Possible values: o IPYNB
+    /// The notebook content type. Currently, the only valid type is IPYNB . Possible values: • IPYNB
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The notebook content to be imported. The payload must be in ipynb format. Constraints: o min: 1 o max: 10485760
+    /// The notebook content to be imported. The payload must be in ipynb format. Constraints: • min: 1 • max: 10485760
     /// </summary>
     [CliOption("--payload")]
     public string? Payload { get; set; }
 
     /// <summary>
-    /// A URI that specifies the Amazon S3 location of a notebook file in ipynb format. Constraints: o max: 1024 o pattern: ^(https|s3|S3)://([^/]+)/?(.*)$
+    /// A URI that specifies the Amazon S3 location of a notebook file in ipynb format. Constraints: • max: 1024 • pattern: ^(https|s3|S3)://([^/]+)/?(.*)$
     /// </summary>
     [CliOption("--notebook-s3-location-uri")]
     public string? NotebookS3LocationUri { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure the request to import the notebook is idempotent (executes only once). WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must pro- vide this token or the action will fail. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// A unique case-sensitive string used to ensure the request to import the notebook is idempotent (executes only once). WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail. Constraints: • min: 1 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

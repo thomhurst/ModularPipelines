@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles. You can import both the certificate and its chain in the Certificate parameter. After importing a certificate, Transfer Family automatically creates a Amazon CloudWatch metric called DaysUntilExpiry that tracks the number of days until the certificate expires. The metric is based on the Inac- tiveDate parameter and is published daily in the AWS/Transfer name- space. WARNING: It can ...
+/// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles. You can import both the certificate and its chain in the Certificate parameter. After importing a certificate, Transfer Family automatically creates a Amazon CloudWatch metric called DaysUntilExpiry that tracks the number of days until the certificate expires. The metric is based on the InactiveDate parameter and is published daily in the AWS/Transfer namespace. WARNING: It can take...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsTransferImportCertificateOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles. You can import both the certificate and its chain in the Certificate parameter. After importing a certificate, Transfer Family automatically creates a Amazon CloudWatch metric called DaysUntilExpiry that tracks the number of days until the certificate expires. The metric is based on the Inac- tiveDate parameter and is published daily in the AWS/Transfer name- space. WARNING: It can ...
+    /// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles. You can import both the certificate and its chain in the Certificate parameter. After importing a certificate, Transfer Family automatically creates a Amazon CloudWatch metric called DaysUntilExpiry that tracks the number of days until the certificate expires. The metric is based on the InactiveDate parameter and is published daily in the AWS/Transfer namespace. WARNING: It can take...
     /// </summary>
-    /// <param name="Usage">Specifies how this certificate is used. It can be used in the fol- lowing ways: o SIGNING : For signing AS2 messages o ENCRYPTION : For encrypting AS2 messages o TLS : For securing AS2 communications sent over HTTPS Possible values: o SIGNING o ENCRYPTION o TLS</param>
-    /// <param name="Certificate">o For the CLI, provide a file path for a certificate in URI format. For example, --certificate file://encryption-cert.pem . Alterna- tively, you can provide the raw content. o For the SDK, specify the raw content of a certificate file. For example, --certificate "`cat encryption-cert.pem`" . NOTE: You can provide both the certificate and its chain in this para- meter, without needing to use the CertificateChain parameter. If you use this parameter for both the certificate and its chain, do not use the CertificateChain parameter. Constraints: o min: 1 o max: 16384 o pattern: [\t\n\r\u0020-\u00FF]+</param>
+    /// <param name="Usage">Specifies how this certificate is used. It can be used in the following ways: • SIGNING : For signing AS2 messages • ENCRYPTION : For encrypting AS2 messages • TLS : For securing AS2 communications sent over HTTPS Possible values: • SIGNING • ENCRYPTION • TLS</param>
+    /// <param name="Certificate">• For the CLI, provide a file path for a certificate in URI format. For example, --certificate file://encryption-cert.pem . Alternatively, you can provide the raw content. • For the SDK, specify the raw content of a certificate file. For example, --certificate "`cat encryption-cert.pem`" . NOTE: You can provide both the certificate and its chain in this parameter, without needing to use the CertificateChain parameter. If you use this parameter for both the certificate and its chain, do not use the CertificateChain parameter. Constraints: • min: 1 • max: 16384 • pattern: [\t\n\r\u0020-\u00FF]+</param>
     public AwsTransferImportCertificateOptions(
         AwsTransferImportCertificateUsage Usage,
         string Certificate
@@ -61,25 +63,25 @@ public record AwsTransferImportCertificateOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies how this certificate is used. It can be used in the fol- lowing ways: o SIGNING : For signing AS2 messages o ENCRYPTION : For encrypting AS2 messages o TLS : For securing AS2 communications sent over HTTPS Possible values: o SIGNING o ENCRYPTION o TLS
+    /// Specifies how this certificate is used. It can be used in the following ways: • SIGNING : For signing AS2 messages • ENCRYPTION : For encrypting AS2 messages • TLS : For securing AS2 communications sent over HTTPS Possible values: • SIGNING • ENCRYPTION • TLS
     /// </summary>
     [CliOption("--usage")]
     public AwsTransferImportCertificateUsage? Usage { get; private init; }
 
     /// <summary>
-    /// o For the CLI, provide a file path for a certificate in URI format. For example, --certificate file://encryption-cert.pem . Alterna- tively, you can provide the raw content. o For the SDK, specify the raw content of a certificate file. For example, --certificate "`cat encryption-cert.pem`" . NOTE: You can provide both the certificate and its chain in this para- meter, without needing to use the CertificateChain parameter. If you use this parameter for both the certificate and its chain, do not use the CertificateChain parameter. Constraints: o min: 1 o max: 16384 o pattern: [\t\n\r\u0020-\u00FF]+
+    /// • For the CLI, provide a file path for a certificate in URI format. For example, --certificate file://encryption-cert.pem . Alternatively, you can provide the raw content. • For the SDK, specify the raw content of a certificate file. For example, --certificate "`cat encryption-cert.pem`" . NOTE: You can provide both the certificate and its chain in this parameter, without needing to use the CertificateChain parameter. If you use this parameter for both the certificate and its chain, do not use the CertificateChain parameter. Constraints: • min: 1 • max: 16384 • pattern: [\t\n\r\u0020-\u00FF]+
     /// </summary>
     [CliOption("--certificate")]
     public string? Certificate { get; private init; }
 
     /// <summary>
-    /// An optional list of certificates that make up the chain for the cer- tificate that's being imported. Constraints: o min: 1 o max: 2097152 o pattern: [\t\n\r\u0020-\u00FF]+
+    /// An optional list of certificates that make up the chain for the certificate that's being imported. Constraints: • min: 1 • max: 2097152 • pattern: [\t\n\r\u0020-\u00FF]+
     /// </summary>
     [CliOption("--certificate-chain")]
     public string? CertificateChain { get; set; }
 
     /// <summary>
-    /// o For the CLI, provide a file path for a private key in URI format. For example, --private-key file://encryption-key.pem . Alterna- tively, you can provide the raw content of the private key file. o For the SDK, specify the raw content of a private key file. For example, --private-key "`cat encryption-key.pem`" Constraints: o min: 1 o max: 16384 o pattern: [\t\n\r\u0020-\u00FF]+
+    /// • For the CLI, provide a file path for a private key in URI format. For example, --private-key file://encryption-key.pem . Alternatively, you can provide the raw content of the private key file. • For the SDK, specify the raw content of a private key file. For example, --private-key "`cat encryption-key.pem`" Constraints: • min: 1 • max: 16384 • pattern: [\t\n\r\u0020-\u00FF]+
     /// </summary>
     [SecretValue]
     [CliOption("--private-key")]
@@ -92,19 +94,19 @@ public record AwsTransferImportCertificateOptions : AwsOptions, IValidatableObje
     public string? ActiveDate { get; set; }
 
     /// <summary>
-    /// An optional date that specifies when the certificate becomes inac- tive. If you do not specify a value, InactiveDate takes the same value as NotAfterDate , which is specified by the CA.
+    /// An optional date that specifies when the certificate becomes inactive. If you do not specify a value, InactiveDate takes the same value as NotAfterDate , which is specified by the CA.
     /// </summary>
     [CliOption("--inactive-date")]
     public string? InactiveDate { get; set; }
 
     /// <summary>
-    /// A short description that helps identify the certificate. Constraints: o min: 1 o max: 200 o pattern: [\u0021-\u007E]+
+    /// A short description that helps identify the certificate. Constraints: • min: 1 • max: 200 • pattern: [\u0021-\u007E]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Key-value pairs that can be used to group and search for certifi- cates. Constraints: o min: 1 o max: 50 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: o min: 0 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Key-value pairs that can be used to group and search for certificates. Constraints: • min: 1 • max: 50 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: • min: 0 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

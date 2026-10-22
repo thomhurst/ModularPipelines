@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables clients to reconnect to a stream session while preserving all session state and data in the disconnected session. This reconnection process can be initiated when a stream session is in either PEND- ING_CLIENT_RECONNECTION or ACTIVE status. The process works as follows: o Initial disconnect: o When a client disconnects or loses connection, the stream session transitions from CONNECTED to PENDING_CLIENT_RECONNECTION o Reconnection time window: o Clients have ConnectionTimeoutSeconds (defin...
+/// Enables clients to reconnect to a stream session while preserving all session state and data in the disconnected session. This reconnection process can be initiated when a stream session is in either PENDING_CLIENT_RECONNECTION or ACTIVE status. The process works as follows: • Initial disconnect: • When a client disconnects or loses connection, the stream session transitions from CONNECTED to PENDING_CLIENT_RECONNECTION • Reconnection time window: • Clients have ConnectionTimeoutSeconds (defined...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsGameliftstreamsCreateStreamSessionConnectionOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables clients to reconnect to a stream session while preserving all session state and data in the disconnected session. This reconnection process can be initiated when a stream session is in either PEND- ING_CLIENT_RECONNECTION or ACTIVE status. The process works as follows: o Initial disconnect: o When a client disconnects or loses connection, the stream session transitions from CONNECTED to PENDING_CLIENT_RECONNECTION o Reconnection time window: o Clients have ConnectionTimeoutSeconds (defin...
+    /// Enables clients to reconnect to a stream session while preserving all session state and data in the disconnected session. This reconnection process can be initiated when a stream session is in either PENDING_CLIENT_RECONNECTION or ACTIVE status. The process works as follows: • Initial disconnect: • When a client disconnects or loses connection, the stream session transitions from CONNECTED to PENDING_CLIENT_RECONNECTION • Reconnection time window: • Clients have ConnectionTimeoutSeconds (defined...
     /// </summary>
-    /// <param name="Identifier">Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Exam- ple ID: sg-1AB2C3De4 . The stream group that you want to run this stream session with. The stream group must be in ACTIVE status. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
-    /// <param name="StreamSessionIdentifier">Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamses- sion/sg-1AB2C3De4/ABC123def4567 . Example ID: ABC123def4567 . The stream session must be in PENDING_CLIENT_RECONNECTION or ACTIVE status. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
-    /// <param name="SignalRequest">A WebRTC ICE offer string to use when initializing a WebRTC connec- tion. The offer is a very long JSON string. Provide the string as a text value in quotes. The offer must be newly generated, not the same offer provided to StartStreamSession . Constraints: o min: 1</param>
+    /// <param name="Identifier">Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . The stream group that you want to run this stream session with. The stream group must be in ACTIVE status. Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="StreamSessionIdentifier">Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567 . Example ID: ABC123def4567 . The stream session must be in PENDING_CLIENT_RECONNECTION or ACTIVE status. Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="SignalRequest">A WebRTC ICE offer string to use when initializing a WebRTC connection. The offer is a very long JSON string. Provide the string as a text value in quotes. The offer must be newly generated, not the same offer provided to StartStreamSession . Constraints: • min: 1</param>
     public AwsGameliftstreamsCreateStreamSessionConnectionOptions(
         string Identifier,
         string StreamSessionIdentifier,
@@ -65,25 +67,25 @@ public record AwsGameliftstreamsCreateStreamSessionConnectionOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Exam- ple ID: sg-1AB2C3De4 . The stream group that you want to run this stream session with. The stream group must be in ACTIVE status. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . The stream group that you want to run this stream session with. The stream group must be in ACTIVE status. Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamses- sion/sg-1AB2C3De4/ABC123def4567 . Example ID: ABC123def4567 . The stream session must be in PENDING_CLIENT_RECONNECTION or ACTIVE status. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567 . Example ID: ABC123def4567 . The stream session must be in PENDING_CLIENT_RECONNECTION or ACTIVE status. Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--stream-session-identifier")]
     public string? StreamSessionIdentifier { get; private init; }
 
     /// <summary>
-    /// A WebRTC ICE offer string to use when initializing a WebRTC connec- tion. The offer is a very long JSON string. Provide the string as a text value in quotes. The offer must be newly generated, not the same offer provided to StartStreamSession . Constraints: o min: 1
+    /// A WebRTC ICE offer string to use when initializing a WebRTC connection. The offer is a very long JSON string. Provide the string as a text value in quotes. The offer must be newly generated, not the same offer provided to StartStreamSession . Constraints: • min: 1
     /// </summary>
     [CliOption("--signal-request")]
     public string? SignalRequest { get; private init; }
 
     /// <summary>
-    /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field. Constraints: o min: 32 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field. Constraints: • min: 32 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

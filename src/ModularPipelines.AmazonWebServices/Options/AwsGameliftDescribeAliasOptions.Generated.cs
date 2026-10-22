@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves properties for an alias. This operation returns all alias metadata and settings. To get an alias's target fleet ID only, use Re- solveAlias . To get alias properties, specify the alias ID. If successful, the re- quested alias record is returned. Related actions All APIs by task See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Retrieves properties for an alias. This operation returns all alias metadata and settings. To get an alias's target fleet ID only, use ResolveAlias . To get alias properties, specify the alias ID. If successful, the requested alias record is returned. Related actions All APIs by task See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftDescribeAliasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves properties for an alias. This operation returns all alias metadata and settings. To get an alias's target fleet ID only, use Re- solveAlias . To get alias properties, specify the alias ID. If successful, the re- quested alias record is returned. Related actions All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves properties for an alias. This operation returns all alias metadata and settings. To get an alias's target fleet ID only, use ResolveAlias . To get alias properties, specify the alias ID. If successful, the requested alias record is returned. Related actions All APIs by task See also: AWS API Documentation
     /// </summary>
-    /// <param name="AliasId">The unique identifier for the fleet alias that you want to retrieve. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$</param>
+    /// <param name="AliasId">The unique identifier for the fleet alias that you want to retrieve. You can use either the alias ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$</param>
     public AwsGameliftDescribeAliasOptions(
         string AliasId
     )
@@ -56,7 +58,7 @@ public record AwsGameliftDescribeAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the fleet alias that you want to retrieve. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
+    /// The unique identifier for the fleet alias that you want to retrieve. You can use either the alias ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }

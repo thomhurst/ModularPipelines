@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsSagemakerUpdateArtifactOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an artifact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ArtifactArn">The Amazon Resource Name (ARN) of the artifact to update. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:arti- fact/.*</param>
+    /// <param name="ArtifactArn">The Amazon Resource Name (ARN) of the artifact to update. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:artifact/.*</param>
     public AwsSagemakerUpdateArtifactOptions(
         string ArtifactArn
     )
@@ -57,25 +58,25 @@ public record AwsSagemakerUpdateArtifactOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the artifact to update. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:arti- fact/.*
+    /// The Amazon Resource Name (ARN) of the artifact to update. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:artifact/.*
     /// </summary>
     [CliOption("--artifact-arn")]
     public string? ArtifactArn { get; private init; }
 
     /// <summary>
-    /// The new name for the artifact. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The new name for the artifact. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--artifact-name")]
     public string? ArtifactName { get; set; }
 
     /// <summary>
-    /// The new list of properties. Overwrites the current property list. Constraints: o min: 0 o max: 30 key -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The new list of properties. Overwrites the current property list. Constraints: • min: 0 • max: 30 key -&gt; (string) Constraints: • min: 0 • max: 2500 • pattern: .* value -&gt; (string) Constraints: • min: 0 • max: 4096 • pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// A list of properties to remove. (string) Constraints: o min: 0 o max: 2500 o pattern: .* Syntax: "string" "string" ...
+    /// A list of properties to remove. (string) Constraints: • min: 0 • max: 2500 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--properties-to-remove", GroupValues = true)]
     public IEnumerable<string>? PropertiesToRemove { get; set; }

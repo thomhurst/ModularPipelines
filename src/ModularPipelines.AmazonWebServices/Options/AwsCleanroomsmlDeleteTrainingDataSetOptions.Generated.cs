@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCleanroomsmlDeleteTrainingDataSetOptions : AwsOptions, IValidat
     /// <summary>
     /// Specifies a training dataset that you want to delete. You can't delete a training dataset if there are any audience models that depend on the training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation. This action deletes the metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrainingDataSetArn">The Amazon Resource Name (ARN) of the training dataset that you want to delete. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:train- ing-dataset/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="TrainingDataSetArn">The Amazon Resource Name (ARN) of the training dataset that you want to delete. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:training-dataset/[-a-zA-Z0-9_/.]+</param>
     public AwsCleanroomsmlDeleteTrainingDataSetOptions(
         string TrainingDataSetArn
     )
@@ -56,7 +58,7 @@ public record AwsCleanroomsmlDeleteTrainingDataSetOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the training dataset that you want to delete. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:train- ing-dataset/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the training dataset that you want to delete. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:training-dataset/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--training-dataset-arn")]
     public string? TrainingDataSetArn { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to tem- porarily pause email sending for a configuration set when the reputa- tion metrics for that configuration set (such as your bounce on com- plaint rate) exceed certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
+/// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSesUpdateConfigurationSetSendingEnabledOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to tem- porarily pause email sending for a configuration set when the reputa- tion metrics for that configuration set (such as your bounce on com- plaint rate) exceed certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationSetName">The name of the configuration set to update.</param>
-    /// <param name="Enabled">Describes whether email sending is enabled or disabled for the con- figuration set.</param>
+    /// <param name="Enabled">Describes whether email sending is enabled or disabled for the configuration set.</param>
     public AwsSesUpdateConfigurationSetSendingEnabledOptions(
         string ConfigurationSetName,
         bool Enabled
@@ -65,7 +67,7 @@ public record AwsSesUpdateConfigurationSetSendingEnabledOptions : AwsOptions, IV
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// Describes whether email sending is enabled or disabled for the con- figuration set.
+    /// Describes whether email sending is enabled or disabled for the configuration set.
     /// </summary>
     [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; private init; }

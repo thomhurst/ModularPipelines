@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of the locations registered in your S3 Access Grants in- stance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation. See also: AWS API Documentation
+/// Returns a list of the locations registered in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsS3controlListAccessGrantsLocationsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of the locations registered in your S3 Access Grants in- stance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation. See also: AWS API Documentation
+    /// Returns a list of the locations registered in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlListAccessGrantsLocationsOptions(
         string AccountId
     )
@@ -57,26 +59,26 @@ public record AwsS3controlListAccessGrantsLocationsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Locations request in or- der to retrieve the next page of results.
+    /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Locations request in order to retrieve the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagina- tion token NextToken , make another call using the NextToken to de- termine if there are more results. Constraints: o min: 0 o max: 1000
+    /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagination token NextToken , make another call using the NextToken to determine if there are more results. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3:// , the S3 path to a bucket s3://&lt;bucket&gt; , or the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt; . A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix. Constraints: o min: 1 o max: 2000 o pattern: ^.+$
+    /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3:// , the S3 path to a bucket s3://&lt;bucket&gt; , or the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt; . A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix. Constraints: • min: 1 • max: 2000 • pattern: ^.+$
     /// </summary>
     [CliOption("--location-scope")]
     public string? LocationScope { get; set; }

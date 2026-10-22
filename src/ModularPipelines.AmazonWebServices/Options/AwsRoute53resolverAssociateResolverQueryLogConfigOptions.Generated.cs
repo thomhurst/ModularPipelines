@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one Associ- ateResolverQueryLogConfig request for each VPC. NOTE: The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuratio...
+/// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one AssociateResolverQueryLogConfig request for each VPC. NOTE: The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuration,...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsRoute53resolverAssociateResolverQueryLogConfigOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one Associ- ateResolverQueryLogConfig request for each VPC. NOTE: The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuratio...
+    /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one AssociateResolverQueryLogConfig request for each VPC. NOTE: The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuration,...
     /// </summary>
-    /// <param name="ResolverQueryLogConfigId">The ID of the query logging configuration that you want to associate a VPC with. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ResourceId">The ID of an Amazon VPC that you want this query logging configura- tion to log queries for. NOTE: The VPCs and the query logging configuration must be in the same Region. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverQueryLogConfigId">The ID of the query logging configuration that you want to associate a VPC with. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ResourceId">The ID of an Amazon VPC that you want this query logging configuration to log queries for. NOTE: The VPCs and the query logging configuration must be in the same Region. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverAssociateResolverQueryLogConfigOptions(
         string ResolverQueryLogConfigId,
         string ResourceId
@@ -60,13 +62,13 @@ public record AwsRoute53resolverAssociateResolverQueryLogConfigOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the query logging configuration that you want to associate a VPC with. Constraints: o min: 1 o max: 64
+    /// The ID of the query logging configuration that you want to associate a VPC with. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-query-log-config-id")]
     public string? ResolverQueryLogConfigId { get; private init; }
 
     /// <summary>
-    /// The ID of an Amazon VPC that you want this query logging configura- tion to log queries for. NOTE: The VPCs and the query logging configuration must be in the same Region. Constraints: o min: 1 o max: 64
+    /// The ID of an Amazon VPC that you want this query logging configuration to log queries for. NOTE: The VPCs and the query logging configuration must be in the same Region. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }

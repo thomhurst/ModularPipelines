@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file sys- tem from the Amazon S3 bucket. When deleting a data repository associa- tion, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associ- ations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. See also: AWS API Documentation
+/// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file system from the Amazon S3 bucket. When deleting a data repository association, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsFsxDeleteDataRepositoryAssociationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file sys- tem from the Amazon S3 bucket. When deleting a data repository associa- tion, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associ- ations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. See also: AWS API Documentation
+    /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file system from the Amazon S3 bucket. When deleting a data repository association, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssociationId">The ID of the data repository association that you want to delete. Constraints: o min: 13 o max: 23 o pattern: ^(dra-[0-9a-f]{8,})$</param>
+    /// <param name="AssociationId">The ID of the data repository association that you want to delete. Constraints: • min: 13 • max: 23 • pattern: ^(dra-[0-9a-f]{8,})$</param>
     public AwsFsxDeleteDataRepositoryAssociationOptions(
         string AssociationId
     )
@@ -57,13 +59,13 @@ public record AwsFsxDeleteDataRepositoryAssociationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the data repository association that you want to delete. Constraints: o min: 13 o max: 23 o pattern: ^(dra-[0-9a-f]{8,})$
+    /// The ID of the data repository association that you want to delete. Constraints: • min: 13 • max: 23 • pattern: ^(dra-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--association-id")]
     public string? AssociationId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]

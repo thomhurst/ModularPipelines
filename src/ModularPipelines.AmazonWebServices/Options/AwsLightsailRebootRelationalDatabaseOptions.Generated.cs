@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access con- trol via resource tags applied to the resource identified by relation- alDatabaseName. For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+/// Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailRebootRelationalDatabaseOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access con- trol via resource tags applied to the resource identified by relation- alDatabaseName. For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+    /// Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name of your database to reboot. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseName">The name of your database to reboot. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailRebootRelationalDatabaseOptions(
         string RelationalDatabaseName
     )
@@ -56,7 +58,7 @@ public record AwsLightsailRebootRelationalDatabaseOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your database to reboot. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your database to reboot. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCloudformationDescribeChangeSetHooksOptions : AwsOptions, IVali
     /// <summary>
     /// Returns Hook-related information for the change set and a list of changes that CloudFormation makes when you run the change set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
+    /// <param name="ChangeSetName">The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*</param>
     public AwsCloudformationDescribeChangeSetHooksOptions(
         string ChangeSetName
     )
@@ -57,26 +59,26 @@ public record AwsCloudformationDescribeChangeSetHooksOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
+    /// The name or Amazon Resource Name (ARN) of the change set that you want to describe. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
     /// </summary>
     [CliOption("--change-set-name")]
     public string? ChangeSetName { get; private init; }
 
     /// <summary>
-    /// If you specified the name of a change set, specify the stack name or stack ID (ARN) of the change set you want to describe. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// If you specified the name of a change set, specify the stack name or stack ID (ARN) of the change set you want to describe. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1 o max: 1024
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// If specified, lists only the Hooks related to the specified Logical- ResourceId .
+    /// If specified, lists only the Hooks related to the specified LogicalResourceId .
     /// </summary>
     [CliOption("--logical-resource-id")]
     public string? LogicalResourceId { get; set; }

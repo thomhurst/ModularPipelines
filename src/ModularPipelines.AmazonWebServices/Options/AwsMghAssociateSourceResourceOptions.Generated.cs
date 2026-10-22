@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsMghAssociateSourceResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Associates a source resource with a migration task. For example, the source resource can be a source server, an application, or a migration wave. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProgressUpdateStream">The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is im- plicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
-    /// <param name="MigrationTaskName">A unique identifier that references the migration task. Do not in- clude sensitive data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
-    /// <param name="SourceResource">The source resource that you want to associate. Name -&gt; (string) [required] This is the name that you want to use to identify the resource. If the resource is an AWS resource, we recommend that you set this parameter to the ARN of the resource. Constraints: o min: 1 o max: 1600 Description -&gt; (string) A description that can be free-form text to record additional detail about the resource for clarity or later reference. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ StatusDetail -&gt; (string) A free-form description of the status of the resource. Constraints: o min: 0 o max: 2500 o pattern: ^.{0,2500}$ Shorthand Syntax: Name=string,Description=string,StatusDetail=string JSON Syntax: { "Name": "string", "Description": "string", "StatusDetail": "string" }</param>
+    /// <param name="ProgressUpdateStream">The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">A unique identifier that references the migration task. Do not include sensitive data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+</param>
+    /// <param name="SourceResource">The source resource that you want to associate. Name -&gt; (string) [required] This is the name that you want to use to identify the resource. If the resource is an AWS resource, we recommend that you set this parameter to the ARN of the resource. Constraints: • min: 1 • max: 1600 Description -&gt; (string) A description that can be free-form text to record additional detail about the resource for clarity or later reference. Constraints: • min: 0 • max: 500 • pattern: ^.{0,500}$ StatusDetail -&gt; (string) A free-form description of the status of the resource. Constraints: • min: 0 • max: 2500 • pattern: ^.{0,2500}$ Shorthand Syntax: Name=string,Description=string,StatusDetail=string JSON Syntax: { "Name": "string", "Description": "string", "StatusDetail": "string" }</param>
     public AwsMghAssociateSourceResourceOptions(
         string ProgressUpdateStream,
         string MigrationTaskName,
@@ -64,19 +66,19 @@ public record AwsMghAssociateSourceResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is im- plicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+
     /// </summary>
     [CliOption("--progress-update-stream")]
     public string? ProgressUpdateStream { get; private init; }
 
     /// <summary>
-    /// A unique identifier that references the migration task. Do not in- clude sensitive data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// A unique identifier that references the migration task. Do not include sensitive data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+
     /// </summary>
     [CliOption("--migration-task-name")]
     public string? MigrationTaskName { get; private init; }
 
     /// <summary>
-    /// The source resource that you want to associate. Name -&gt; (string) [required] This is the name that you want to use to identify the resource. If the resource is an AWS resource, we recommend that you set this parameter to the ARN of the resource. Constraints: o min: 1 o max: 1600 Description -&gt; (string) A description that can be free-form text to record additional detail about the resource for clarity or later reference. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ StatusDetail -&gt; (string) A free-form description of the status of the resource. Constraints: o min: 0 o max: 2500 o pattern: ^.{0,2500}$ Shorthand Syntax: Name=string,Description=string,StatusDetail=string JSON Syntax: { "Name": "string", "Description": "string", "StatusDetail": "string" }
+    /// The source resource that you want to associate. Name -&gt; (string) [required] This is the name that you want to use to identify the resource. If the resource is an AWS resource, we recommend that you set this parameter to the ARN of the resource. Constraints: • min: 1 • max: 1600 Description -&gt; (string) A description that can be free-form text to record additional detail about the resource for clarity or later reference. Constraints: • min: 0 • max: 500 • pattern: ^.{0,500}$ StatusDetail -&gt; (string) A free-form description of the status of the resource. Constraints: • min: 0 • max: 2500 • pattern: ^.{0,2500}$ Shorthand Syntax: Name=string,Description=string,StatusDetail=string JSON Syntax: { "Name": "string", "Description": "string", "StatusDetail": "string" }
     /// </summary>
     [CliOption("--source-resource")]
     public string? SourceResource { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAccessanalyzerGetAnalyzedResourceOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieves information about a resource that was analyzed. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerArn">The ARN of the analyzer to retrieve information from. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
-    /// <param name="ResourceArn">The ARN of the resource to retrieve information about. Constraints: o pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*</param>
+    /// <param name="AnalyzerArn">The ARN of the analyzer to retrieve information from. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="ResourceArn">The ARN of the resource to retrieve information about. Constraints: • pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*</param>
     public AwsAccessanalyzerGetAnalyzedResourceOptions(
         string AnalyzerArn,
         string ResourceArn
@@ -60,13 +62,13 @@ public record AwsAccessanalyzerGetAnalyzedResourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the analyzer to retrieve information from. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// The ARN of the analyzer to retrieve information from. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
     /// </summary>
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the resource to retrieve information about. Constraints: o pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// The ARN of the resource to retrieve information about. Constraints: • pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

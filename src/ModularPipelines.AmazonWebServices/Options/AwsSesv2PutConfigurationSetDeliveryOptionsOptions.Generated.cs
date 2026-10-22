@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for send- ing specific types of email. See also: AWS API Documentation
+/// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsSesv2PutConfigurationSetDeliveryOptionsOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for send- ing specific types of email. See also: AWS API Documentation
+    /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationSetName">The name of the configuration set to associate with a dedicated IP pool.</param>
     public AwsSesv2PutConfigurationSetDeliveryOptionsOptions(
@@ -63,22 +65,22 @@ public record AwsSesv2PutConfigurationSetDeliveryOptionsOptions : AwsOptions, IV
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// Specifies whether messages that use the configuration set are re- quired to use Transport Layer Security (TLS). If the value is Re- quire , messages are only delivered if a TLS connection can be es- tablished. If the value is Optional , messages can be delivered in plain text if a TLS connection can't be established. Possible values: o REQUIRE o OPTIONAL
+    /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require , messages are only delivered if a TLS connection can be established. If the value is Optional , messages can be delivered in plain text if a TLS connection can't be established. Possible values: • REQUIRE • OPTIONAL
     /// </summary>
     [CliOption("--tls-policy")]
     public AwsSesv2PutConfigurationSetDeliveryOptionsTlsPolicy? TlsPolicy { get; set; }
 
     /// <summary>
-    /// The name of the dedicated IP pool to associate with the configura- tion set.
+    /// The name of the dedicated IP pool to associate with the configuration set.
     /// </summary>
     [CliOption("--sending-pool-name")]
     public string? SendingPoolName { get; set; }
 
     /// <summary>
-    /// The maximum amount of time, in seconds, that Amazon SES API v2 will attempt delivery of email. If specified, the value must greater than or equal to 300 seconds (5 minutes) and less than or equal to 50400 seconds (840 minutes). Constraints: o min: 300 o max: 50400
+    /// The maximum amount of time, in seconds, that Amazon SES API v2 will attempt delivery of email. If specified, the value must greater than or equal to 300 seconds (5 minutes) and less than or equal to 50400 seconds (840 minutes). Constraints: • min: 300 • max: 50400
     /// </summary>
     [CliOption("--max-delivery-seconds")]
-    public int? MaxDeliverySeconds { get; set; }
+    public long? MaxDeliverySeconds { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

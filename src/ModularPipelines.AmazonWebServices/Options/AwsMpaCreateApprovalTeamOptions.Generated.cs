@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,11 +30,11 @@ public record AwsMpaCreateApprovalTeamOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new approval team. For more information, see Approval team in the Multi-party approval User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApprovalStrategy">An ApprovalStrategy object. Contains details for how the team grants approval. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MofN. MofN -&gt; (structure) Minimum number of approvals (M) required for a total number of approvers (N). MinApprovalsRequired -&gt; (integer) [required] Minimum number of approvals (M) required for a total number of approvers (N). Constraints: o min: 1 Shorthand Syntax: MofN={MinApprovalsRequired=integer} JSON Syntax: { "MofN": { "MinApprovalsRequired": integer } }</param>
-    /// <param name="Approvers">An array of ApprovalTeamRequesterApprovers objects. Contains details for the approvers in the team. Constraints: o min: 1 o max: 20 (structure) Contains details for an approver. PrimaryIdentityId -&gt; (string) [required] ID for the user. Constraints: o min: 1 o max: 100 PrimaryIdentitySourceArn -&gt; (string) [required] Amazon Resource Name (ARN) for the identity source. The iden- tity source manages the user authentication for approvers. Constraints: o min: 0 o max: 1000 Shorthand Syntax: PrimaryIdentityId=string,PrimaryIdentitySourceArn=string ... JSON Syntax: [ { "PrimaryIdentityId": "string", "PrimaryIdentitySourceArn": "string" } ... ]</param>
-    /// <param name="Description">Description for the team. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Policies">An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources. Constraints: o min: 1 o max: 10 (structure) Contains the Amazon Resource Name (ARN) for a policy. Policies define what operations a team that define the permissions for team resources. PolicyArn -&gt; (string) [required] Amazon Resource Name (ARN) for the policy. Constraints: o min: 0 o max: 1224 o pattern: arn:.{1,63}:mpa:::aws:pol- icy/[a-zA-Z0-9_\.-]{1,1023}/[a-zA-Z0-9_\.-]{1,1023}/(?:[\d]+|\$DE- FAULT) Shorthand Syntax: PolicyArn=string ... JSON Syntax: [ { "PolicyArn": "string" } ... ]</param>
-    /// <param name="Name">Name of the team. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="ApprovalStrategy">An ApprovalStrategy object. Contains details for how the team grants approval. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MofN. MofN -&gt; (structure) Minimum number of approvals (M) required for a total number of approvers (N). MinApprovalsRequired -&gt; (integer) [required] Minimum number of approvals (M) required for a total number of approvers (N). Constraints: • min: 1 Shorthand Syntax: MofN={MinApprovalsRequired=integer} JSON Syntax: { "MofN": { "MinApprovalsRequired": integer } }</param>
+    /// <param name="Approvers">An array of ApprovalTeamRequesterApprovers objects. Contains details for the approvers in the team. Constraints: • min: 1 • max: 20 (structure) Contains details for an approver. PrimaryIdentityId -&gt; (string) [required] ID for the user. Constraints: • min: 1 • max: 100 PrimaryIdentitySourceArn -&gt; (string) [required] Amazon Resource Name (ARN) for the identity source. The identity source manages the user authentication for approvers. Constraints: • min: 0 • max: 1000 Shorthand Syntax: PrimaryIdentityId=string,PrimaryIdentitySourceArn=string ... JSON Syntax: [ { "PrimaryIdentityId": "string", "PrimaryIdentitySourceArn": "string" } ... ]</param>
+    /// <param name="Description">Description for the team. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Policies">An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources. Constraints: • min: 1 • max: 10 (structure) Contains the Amazon Resource Name (ARN) for a policy. Policies define what operations a team that define the permissions for team resources. PolicyArn -&gt; (string) [required] Amazon Resource Name (ARN) for the policy. Constraints: • min: 0 • max: 1224 • pattern: arn:.{1,63}:mpa:::aws:policy/[a-zA-Z0-9_\.-]{1,1023}/[a-zA-Z0-9_\.-]{1,1023}/(?:[\d]+|\$DEFAULT) Shorthand Syntax: PolicyArn=string ... JSON Syntax: [ { "PolicyArn": "string" } ... ]</param>
+    /// <param name="Name">Name of the team. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9._-]+</param>
     public AwsMpaCreateApprovalTeamOptions(
         string ApprovalStrategy,
         IEnumerable<string> Approvers,
@@ -96,44 +97,44 @@ public record AwsMpaCreateApprovalTeamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An ApprovalStrategy object. Contains details for how the team grants approval. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MofN. MofN -&gt; (structure) Minimum number of approvals (M) required for a total number of approvers (N). MinApprovalsRequired -&gt; (integer) [required] Minimum number of approvals (M) required for a total number of approvers (N). Constraints: o min: 1 Shorthand Syntax: MofN={MinApprovalsRequired=integer} JSON Syntax: { "MofN": { "MinApprovalsRequired": integer } }
+    /// An ApprovalStrategy object. Contains details for how the team grants approval. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MofN. MofN -&gt; (structure) Minimum number of approvals (M) required for a total number of approvers (N). MinApprovalsRequired -&gt; (integer) [required] Minimum number of approvals (M) required for a total number of approvers (N). Constraints: • min: 1 Shorthand Syntax: MofN={MinApprovalsRequired=integer} JSON Syntax: { "MofN": { "MinApprovalsRequired": integer } }
     /// </summary>
     [CliOption("--approval-strategy")]
     public string? ApprovalStrategy { get; private init; }
 
     /// <summary>
-    /// An array of ApprovalTeamRequesterApprovers objects. Contains details for the approvers in the team. Constraints: o min: 1 o max: 20 (structure) Contains details for an approver. PrimaryIdentityId -&gt; (string) [required] ID for the user. Constraints: o min: 1 o max: 100 PrimaryIdentitySourceArn -&gt; (string) [required] Amazon Resource Name (ARN) for the identity source. The iden- tity source manages the user authentication for approvers. Constraints: o min: 0 o max: 1000 Shorthand Syntax: PrimaryIdentityId=string,PrimaryIdentitySourceArn=string ... JSON Syntax: [ { "PrimaryIdentityId": "string", "PrimaryIdentitySourceArn": "string" } ... ]
+    /// An array of ApprovalTeamRequesterApprovers objects. Contains details for the approvers in the team. Constraints: • min: 1 • max: 20 (structure) Contains details for an approver. PrimaryIdentityId -&gt; (string) [required] ID for the user. Constraints: • min: 1 • max: 100 PrimaryIdentitySourceArn -&gt; (string) [required] Amazon Resource Name (ARN) for the identity source. The identity source manages the user authentication for approvers. Constraints: • min: 0 • max: 1000 Shorthand Syntax: PrimaryIdentityId=string,PrimaryIdentitySourceArn=string ... JSON Syntax: [ { "PrimaryIdentityId": "string", "PrimaryIdentitySourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--approvers", GroupValues = true)]
     public IEnumerable<string>? Approvers { get; private init; }
 
     /// <summary>
-    /// Description for the team. Constraints: o min: 1 o max: 256
+    /// Description for the team. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources. Constraints: o min: 1 o max: 10 (structure) Contains the Amazon Resource Name (ARN) for a policy. Policies define what operations a team that define the permissions for team resources. PolicyArn -&gt; (string) [required] Amazon Resource Name (ARN) for the policy. Constraints: o min: 0 o max: 1224 o pattern: arn:.{1,63}:mpa:::aws:pol- icy/[a-zA-Z0-9_\.-]{1,1023}/[a-zA-Z0-9_\.-]{1,1023}/(?:[\d]+|\$DE- FAULT) Shorthand Syntax: PolicyArn=string ... JSON Syntax: [ { "PolicyArn": "string" } ... ]
+    /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources. Constraints: • min: 1 • max: 10 (structure) Contains the Amazon Resource Name (ARN) for a policy. Policies define what operations a team that define the permissions for team resources. PolicyArn -&gt; (string) [required] Amazon Resource Name (ARN) for the policy. Constraints: • min: 0 • max: 1224 • pattern: arn:.{1,63}:mpa:::aws:policy/[a-zA-Z0-9_\.-]{1,1023}/[a-zA-Z0-9_\.-]{1,1023}/(?:[\d]+|\$DEFAULT) Shorthand Syntax: PolicyArn=string ... JSON Syntax: [ { "PolicyArn": "string" } ... ]
     /// </summary>
     [CliOption("--policies", GroupValues = true)]
     public IEnumerable<string>? Policies { get; private init; }
 
     /// <summary>
-    /// Name of the team. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9._-]+
+    /// Name of the team. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services populates this field. NOTE: What is idempotency? When you make a mutating API request, the request typically re- turns a result before the operation's asynchronous workflows have completed. Operations might also time out or encounter other server issues before they complete, even though the re- quest has already returned a result. This could make it diffi- cult to determine whether the request succeeded or not, and could lead to multiple retries to ensure that the operation com- pletes successfully. However, if the original request and the subsequent retries are successful, the operation is completed multiple times. This means that you might create more resources than you intended. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries com- plete successfully without performing any further actions. Constraints: o min: 0 o max: 4096
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services populates this field. NOTE: What is idempotency? When you make a mutating API request, the request typically returns a result before the operation's asynchronous workflows have completed. Operations might also time out or encounter other server issues before they complete, even though the request has already returned a result. This could make it difficult to determine whether the request succeeded or not, and could lead to multiple retries to ensure that the operation completes successfully. However, if the original request and the subsequent retries are successful, the operation is completed multiple times. This means that you might create more resources than you intended. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions. Constraints: • min: 0 • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Tags you want to attach to the team. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags you want to attach to the team. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

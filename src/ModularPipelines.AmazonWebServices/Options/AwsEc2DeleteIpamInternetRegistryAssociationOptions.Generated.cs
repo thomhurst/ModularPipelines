@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the inter- net registry. See also: AWS API Documentation
+/// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the internet registry. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2DeleteIpamInternetRegistryAssociationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the inter- net registry. See also: AWS API Documentation
+    /// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the internet registry. See also: AWS API Documentation
     /// </summary>
     /// <param name="IpamInternetRegistryAssociationId">The ID of the IPAM internet registry association to delete.</param>
     public AwsEc2DeleteIpamInternetRegistryAssociationOptions(
@@ -62,7 +64,7 @@ public record AwsEc2DeleteIpamInternetRegistryAssociationOptions : AwsOptions, I
     public string? IpamInternetRegistryAssociationId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

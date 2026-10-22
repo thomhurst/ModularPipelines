@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsInspector2DeleteConnectorOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a connector from your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector to delete. Constraints: o min: 1 o max: 256 o pattern: arn:aws(-[a-z]+)*:inspector2:[a-z0-9-]+:[0-9]{12}:connec- tor/([a-f0-9-]+|aws-service-connector/.+/[a-f0-9-]+)</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector to delete. Constraints: • min: 1 • max: 256 • pattern: arn:aws(-[a-z]+)*:inspector2:[a-z0-9-]+:[0-9]{12}:connector/([a-f0-9-]+|aws-service-connector/.+/[a-f0-9-]+)</param>
     public AwsInspector2DeleteConnectorOptions(
         string ConnectorArn
     )
@@ -56,7 +58,7 @@ public record AwsInspector2DeleteConnectorOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the connector to delete. Constraints: o min: 1 o max: 256 o pattern: arn:aws(-[a-z]+)*:inspector2:[a-z0-9-]+:[0-9]{12}:connec- tor/([a-f0-9-]+|aws-service-connector/.+/[a-f0-9-]+)
+    /// The Amazon Resource Name (ARN) of the connector to delete. Constraints: • min: 1 • max: 256 • pattern: arn:aws(-[a-z]+)*:inspector2:[a-z0-9-]+:[0-9]{12}:connector/([a-f0-9-]+|aws-service-connector/.+/[a-f0-9-]+)
     /// </summary>
     [CliOption("--connector-arn")]
     public string? ConnectorArn { get; private init; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a training job. Some of the attributes below only appear if the training job success- fully starts. If the training job fails, TrainingJobStatus is Failed and, depending on the FailureReason , attributes like TrainingStartTime , TrainingTimeInSeconds , TrainingEndTime , and BillableTimeInSeconds may not be present in the response. See also: AWS API Documentation
+/// Returns information about a training job. Some of the attributes below only appear if the training job successfully starts. If the training job fails, TrainingJobStatus is Failed and, depending on the FailureReason , attributes like TrainingStartTime , TrainingTimeInSeconds , TrainingEndTime , and BillableTimeInSeconds may not be present in the response. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSagemakerDescribeTrainingJobOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about a training job. Some of the attributes below only appear if the training job success- fully starts. If the training job fails, TrainingJobStatus is Failed and, depending on the FailureReason , attributes like TrainingStartTime , TrainingTimeInSeconds , TrainingEndTime , and BillableTimeInSeconds may not be present in the response. See also: AWS API Documentation
+    /// Returns information about a training job. Some of the attributes below only appear if the training job successfully starts. If the training job fails, TrainingJobStatus is Failed and, depending on the FailureReason , attributes like TrainingStartTime , TrainingTimeInSeconds , TrainingEndTime , and BillableTimeInSeconds may not be present in the response. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrainingJobName">The name of the training job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="TrainingJobName">The name of the training job. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeTrainingJobOptions(
         string TrainingJobName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeTrainingJobOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the training job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the training job. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--training-job-name")]
     public string? TrainingJobName { get; private init; }

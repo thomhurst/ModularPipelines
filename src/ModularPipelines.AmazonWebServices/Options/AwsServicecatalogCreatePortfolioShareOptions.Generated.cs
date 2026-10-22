@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Shares the specified portfolio with the specified account or organiza- tion node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfo- lio share to an organization node. Y...
+/// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsServicecatalogCreatePortfolioShareOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Shares the specified portfolio with the specified account or organiza- tion node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfo- lio share to an organization node. Y...
+    /// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You c...
     /// </summary>
-    /// <param name="PortfolioId">The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="PortfolioId">The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogCreatePortfolioShareOptions(
         string PortfolioId
     )
@@ -56,25 +58,25 @@ public record AwsServicecatalogCreatePortfolioShareOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--portfolio-id")]
     public string? PortfolioId { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID. For example, 123456789012 . Constraints: o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID. For example, 123456789012 . Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     /// <summary>
-    /// The organization node to whom you are going to share. When you pass OrganizationNode , it creates PortfolioShare for all of the Amazon Web Services accounts that are associated to the OrganizationNode . The output returns a PortfolioShareToken , which enables the admin- istrator to monitor the status of the PortfolioShare creation process. Type -&gt; (string) The organization node type. Possible values: o ORGANIZATION o ORGANIZATIONAL_UNIT o ACCOUNT Value -&gt; (string) The identifier of the organization node. Constraints: o pattern: (^[0-9]{12}$)|(^arn:aws:organizations::\d{12}:organi- zation\/o-[a-z0-9]{10,32})|(^o-[a-z0-9]{10,32}$)|(^arn:aws:or- ganiza- tions::\d{12}:ou\/o-[a-z0-9]{10,32}\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$)|(^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "ORGANIZATION"|"ORGANIZATIONAL_UNIT"|"ACCOUNT", "Value": "string" }
+    /// The organization node to whom you are going to share. When you pass OrganizationNode , it creates PortfolioShare for all of the Amazon Web Services accounts that are associated to the OrganizationNode . The output returns a PortfolioShareToken , which enables the administrator to monitor the status of the PortfolioShare creation process. Type -&gt; (string) The organization node type. Possible values: • ORGANIZATION • ORGANIZATIONAL_UNIT • ACCOUNT Value -&gt; (string) The identifier of the organization node. Constraints: • pattern: (^[0-9]{12}$)|(^arn:aws:organizations::\d{12}:organization\/o-[a-z0-9]{10,32})|(^o-[a-z0-9]{10,32}$)|(^arn:aws:organizations::\d{12}:ou\/o-[a-z0-9]{10,32}\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$)|(^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "ORGANIZATION"|"ORGANIZATIONAL_UNIT"|"ACCOUNT", "Value": "string" }
     /// </summary>
     [CliOption("--organization-node")]
     public string? OrganizationNode { get; set; }
@@ -86,7 +88,7 @@ public record AwsServicecatalogCreatePortfolioShareOptions : AwsOptions, IValida
     public bool? ShareTagOptions { get; set; }
 
     /// <summary>
-    /// This parameter is only supported for portfolios with an Organiza- tionalNode Type of ORGANIZATION or ORGANIZATIONAL_UNIT . Enables or disables Principal sharing when creating the portfolio share. If you do not provide this flag, principal sharing is dis- abled. When you enable Principal Name Sharing for a portfolio share, the share recipient account end users with a principal that matches any of the associated IAM patterns can provision products from the port- folio. Once shared, the share recipient can view associations of PrincipalType : IAM_PATTERN on their portfolio. You can create the principals in the recipient account before or after creating the share.
+    /// This parameter is only supported for portfolios with an OrganizationalNode Type of ORGANIZATION or ORGANIZATIONAL_UNIT . Enables or disables Principal sharing when creating the portfolio share. If you do not provide this flag, principal sharing is disabled. When you enable Principal Name Sharing for a portfolio share, the share recipient account end users with a principal that matches any of the associated IAM patterns can provision products from the portfolio. Once shared, the share recipient can view associations of PrincipalType : IAM_PATTERN on their portfolio. You can create the principals in the recipient account before or after creating the share.
     /// </summary>
     [CliFlag("--share-principals", NegatedName = "--no-share-principals")]
     public bool? SharePrincipals { get; set; }

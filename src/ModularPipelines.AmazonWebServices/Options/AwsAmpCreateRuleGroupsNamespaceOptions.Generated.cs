@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +30,8 @@ public record AwsAmpCreateRuleGroupsNamespaceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. WARNING: The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace to add the rule groups namespace. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
-    /// <param name="Name">The name for the new rule groups namespace. Constraints: o min: 1 o max: 128 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="WorkspaceId">The ID of the workspace to add the rule groups namespace. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="Name">The name for the new rule groups namespace. Constraints: • min: 1 • max: 128 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
     /// <param name="Data">The rules file to use in the new namespace. Contains the base64-encoded version of the YAML rules file. For details about the rule groups namespace structure, see RuleGroupsNamespaceData .</param>
     public AwsAmpCreateRuleGroupsNamespaceOptions(
         string WorkspaceId,
@@ -66,13 +67,13 @@ public record AwsAmpCreateRuleGroupsNamespaceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace to add the rule groups namespace. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The ID of the workspace to add the rule groups namespace. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The name for the new rule groups namespace. Constraints: o min: 1 o max: 128 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The name for the new rule groups namespace. Constraints: • min: 1 • max: 128 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -84,14 +85,14 @@ public record AwsAmpCreateRuleGroupsNamespaceOptions : AwsOptions, IValidatableO
     public string? Data { get; private init; }
 
     /// <summary>
-    /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The list of tag keys and values to associate with the rule groups namespace. Constraints: o min: 0 o max: 50 key -&gt; (string) The key of the tag. Must not begin with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of tag keys and values to associate with the rule groups namespace. Constraints: • min: 0 • max: 50 key -&gt; (string) The key of the tag. Must not begin with aws: . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

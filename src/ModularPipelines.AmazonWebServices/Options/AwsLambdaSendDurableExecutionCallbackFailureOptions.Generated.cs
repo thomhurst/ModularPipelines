@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a failure response for a callback operation in a durable execu- tion. Use this API when an external system cannot complete a callback operation successfully. See also: AWS API Documentation
+/// Sends a failure response for a callback operation in a durable execution. Use this API when an external system cannot complete a callback operation successfully. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLambdaSendDurableExecutionCallbackFailureOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a failure response for a callback operation in a durable execu- tion. Use this API when an external system cannot complete a callback operation successfully. See also: AWS API Documentation
+    /// Sends a failure response for a callback operation in a durable execution. Use this API when an external system cannot complete a callback operation successfully. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CallbackId">The unique identifier for the callback operation. Constraints: o min: 1 o max: 1024 o pattern: [A-Za-z0-9+/]+={0,2}</param>
+    /// <param name="CallbackId">The unique identifier for the callback operation. Constraints: • min: 1 • max: 1024 • pattern: [A-Za-z0-9+/]+={0,2}</param>
     public AwsLambdaSendDurableExecutionCallbackFailureOptions(
         string CallbackId
     )
@@ -56,7 +58,7 @@ public record AwsLambdaSendDurableExecutionCallbackFailureOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the callback operation. Constraints: o min: 1 o max: 1024 o pattern: [A-Za-z0-9+/]+={0,2}
+    /// The unique identifier for the callback operation. Constraints: • min: 1 • max: 1024 • pattern: [A-Za-z0-9+/]+={0,2}
     /// </summary>
     [CliOption("--callback-id")]
     public string? CallbackId { get; private init; }

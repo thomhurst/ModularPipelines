@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSagemakerDescribeFeatureMetadataOptions : AwsOptions, IValidata
     /// <summary>
     /// Shows the metadata for a feature within a feature group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group contain- ing the feature. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
-    /// <param name="FeatureName">The name of the feature. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group containing the feature. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
+    /// <param name="FeatureName">The name of the feature. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}</param>
     public AwsSagemakerDescribeFeatureMetadataOptions(
         string FeatureGroupName,
         string FeatureName
@@ -60,13 +62,13 @@ public record AwsSagemakerDescribeFeatureMetadataOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the feature group contain- ing the feature. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
+    /// The name or Amazon Resource Name (ARN) of the feature group containing the feature. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
     /// </summary>
     [CliOption("--feature-group-name")]
     public string? FeatureGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the feature. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}
+    /// The name of the feature. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}
     /// </summary>
     [CliOption("--feature-name")]
     public string? FeatureName { get; private init; }

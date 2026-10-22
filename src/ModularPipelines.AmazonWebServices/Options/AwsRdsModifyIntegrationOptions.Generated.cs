@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRdsModifyIntegrationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modifies a zero-ETL integration with Amazon Redshift. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationIdentifier">The unique identifier of the integration to modify. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_:\-\/]+</param>
+    /// <param name="IntegrationIdentifier">The unique identifier of the integration to modify. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_:\-\/]+</param>
     public AwsRdsModifyIntegrationOptions(
         string IntegrationIdentifier
     )
@@ -56,25 +58,25 @@ public record AwsRdsModifyIntegrationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the integration to modify. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_:\-\/]+
+    /// The unique identifier of the integration to modify. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_:\-\/]+
     /// </summary>
     [CliOption("--integration-identifier")]
     public string? IntegrationIdentifier { get; private init; }
 
     /// <summary>
-    /// A new name for the integration. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// A new name for the integration. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--integration-name")]
     public string? IntegrationName { get; set; }
 
     /// <summary>
-    /// A new data filter for the integration. For more information, see Data filtering for Aurora zero-ETL integrations with Amazon Redshift or Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift . Constraints: o min: 1 o max: 25600 o pattern: [a-zA-Z0-9_ "\\\-$,*.:?+\/]*
+    /// A new data filter for the integration. For more information, see Data filtering for Aurora zero-ETL integrations with Amazon Redshift or Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift . Constraints: • min: 1 • max: 25600 • pattern: [a-zA-Z0-9_ "\\\-$,*.:?+\/]*
     /// </summary>
     [CliOption("--data-filter")]
     public string? DataFilter { get; set; }
 
     /// <summary>
-    /// A new description for the integration. Constraints: o min: 0 o max: 1000 o pattern: .*
+    /// A new description for the integration. Constraints: • min: 0 • max: 1000 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

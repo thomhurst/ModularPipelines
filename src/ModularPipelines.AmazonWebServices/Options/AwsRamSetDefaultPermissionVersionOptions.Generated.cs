@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automati- cally use this new default permission. Existing resource shares con- tinue to use their original permission version, but you can use Repla- cePermissionAssociations to update them. See also: AWS API Documentation
+/// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automatically use this new default permission. Existing resource shares continue to use their original permission version, but you can use ReplacePermissionAssociations to update them. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsRamSetDefaultPermissionVersionOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automati- cally use this new default permission. Existing resource shares con- tinue to use their original permission version, but you can use Repla- cePermissionAssociations to update them. See also: AWS API Documentation
+    /// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automatically use this new default permission. Existing resource shares continue to use their original permission version, but you can use ReplacePermissionAssociations to update them. See also: AWS API Documentation
     /// </summary>
     /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the customer managed permission whose default version you want to change.</param>
-    /// <param name="PermissionVersion">Specifies the version number that you want to designate as the de- fault for customer managed permission. To see a list of all avail- able version numbers, use ListPermissionVersions .</param>
+    /// <param name="PermissionVersion">Specifies the version number that you want to designate as the default for customer managed permission. To see a list of all available version numbers, use ListPermissionVersions .</param>
     public AwsRamSetDefaultPermissionVersionOptions(
         string PermissionArn,
         int PermissionVersion
@@ -66,13 +68,13 @@ public record AwsRamSetDefaultPermissionVersionOptions : AwsOptions, IValidatabl
     public string? PermissionArn { get; private init; }
 
     /// <summary>
-    /// Specifies the version number that you want to designate as the de- fault for customer managed permission. To see a list of all avail- able version numbers, use ListPermissionVersions .
+    /// Specifies the version number that you want to designate as the default for customer managed permission. To see a list of all available version numbers, use ListPermissionVersions .
     /// </summary>
     [CliOption("--permission-version")]
     public int? PermissionVersion { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

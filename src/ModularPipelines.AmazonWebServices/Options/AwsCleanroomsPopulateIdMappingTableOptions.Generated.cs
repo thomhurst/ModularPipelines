@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Defines the information that's necessary to populate an ID mapping ta- ble. See also: AWS API Documentation
+/// Defines the information that's necessary to populate an ID mapping table. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCleanroomsPopulateIdMappingTableOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Defines the information that's necessary to populate an ID mapping ta- ble. See also: AWS API Documentation
+    /// Defines the information that's necessary to populate an ID mapping table. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdMappingTableIdentifier">The unique identifier of the ID mapping table that you want to popu- late. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the ID mapping table that you want to populate. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="IdMappingTableIdentifier">The unique identifier of the ID mapping table that you want to populate. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the ID mapping table that you want to populate. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsPopulateIdMappingTableOptions(
         string IdMappingTableIdentifier,
         string MembershipIdentifier
@@ -61,19 +63,19 @@ public record AwsCleanroomsPopulateIdMappingTableOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the ID mapping table that you want to popu- late. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the ID mapping table that you want to populate. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--id-mapping-table-identifier")]
     public string? IdMappingTableIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the membership that contains the ID mapping table that you want to populate. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the membership that contains the ID mapping table that you want to populate. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The job type of the rule-based ID mapping job. Valid values include: INCREMENTAL : Processes only new or changed data since the last job run. This is the default job type if the ID mapping workflow was created in Entity Resolution with incrementalRunConfig spec- ified. BATCH : Processes all data from the input source, regardless of previous job runs. This is the default job type if the ID map- ping workflow was created in Entity Resolution but incremental- RunConfig wasn't specified. DELETE_ONLY : Processes only deletion requests from BatchDelete- UniqueId , which is set in Entity Resolution. For more information about incrementalRunConfig and BatchDeleteU- niqueId , see the Entity Resolution API Reference . Possible values: o BATCH o INCREMENTAL o DELETE_ONLY
+    /// The job type of the rule-based ID mapping job. Valid values include: INCREMENTAL : Processes only new or changed data since the last job run. This is the default job type if the ID mapping workflow was created in Entity Resolution with incrementalRunConfig specified. BATCH : Processes all data from the input source, regardless of previous job runs. This is the default job type if the ID mapping workflow was created in Entity Resolution but incrementalRunConfig wasn't specified. DELETE_ONLY : Processes only deletion requests from BatchDeleteUniqueId , which is set in Entity Resolution. For more information about incrementalRunConfig and BatchDeleteUniqueId , see the Entity Resolution API Reference . Possible values: • BATCH • INCREMENTAL • DELETE_ONLY
     /// </summary>
     [CliOption("--job-type")]
     public AwsCleanroomsPopulateIdMappingTableJobType? JobType { get; set; }

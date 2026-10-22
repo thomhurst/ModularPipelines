@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-group-memberships-for-member is a paginated operation. Multiple API calls may be issued...
+/// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-group-memberships-for-member is a paginated operation. Multiple API calls may be issued in ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsIdentitystoreListGroupMembershipsForMemberOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-group-memberships-for-member is a paginated operation. Multiple API calls may be issued...
+    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-group-memberships-for-member is a paginated operation. Multiple API calls may be issued in ...
     /// </summary>
-    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="MemberId">An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitys- tore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }</param>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="MemberId">An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }</param>
     public AwsIdentitystoreListGroupMembershipsForMemberOptions(
         string IdentityStoreId,
         string MemberId
@@ -61,22 +63,19 @@ public record AwsIdentitystoreListGroupMembershipsForMemberOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--identity-store-id")]
     public string? IdentityStoreId { get; private init; }
 
     /// <summary>
-    /// An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitys- tore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }
+    /// An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -86,16 +85,19 @@ public record AwsIdentitystoreListGroupMembershipsForMemberOptions : AwsOptions,
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

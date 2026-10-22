@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerDeleteIngressPointOptions : AwsOptions, IValidatable
     /// <summary>
     /// Delete an ingress endpoint resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IngressPointId">The identifier of the ingress endpoint resource that you want to delete. Constraints: o min: 1 o max: 100</param>
+    /// <param name="IngressPointId">The identifier of the ingress endpoint resource that you want to delete. Constraints: • min: 1 • max: 100</param>
     public AwsMailmanagerDeleteIngressPointOptions(
         string IngressPointId
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerDeleteIngressPointOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the ingress endpoint resource that you want to delete. Constraints: o min: 1 o max: 100
+    /// The identifier of the ingress endpoint resource that you want to delete. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--ingress-point-id")]
     public string? IngressPointId { get; private init; }

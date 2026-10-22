@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws applicationinsights commands.
+/// aws application-insights commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsApplicationInsights : IAwsApplicationInsights
@@ -287,7 +287,7 @@ public class AwsApplicationInsights : IAwsApplicationInsights
     }
 
     /// <summary>
-    /// Lists the auto-grouped, standalone, and custom components of the appli- cation. See also: AWS API Documentation
+    /// Lists the auto-grouped, standalone, and custom components of the application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsApplicationInsights : IAwsApplicationInsights
     }
 
     /// <summary>
-    /// Lists the INFO, WARN, and ERROR events for periodic configuration up- dates performed by Application Insights. Examples of events represented are: o INFO: creating a new alarm or updating an alarm threshold. o WARN: alarm not created due to insufficient data points used to pre- dict thresholds. o ERROR: alarm not created due to permission errors or exceeding quo- tas. See also: AWS API Documentation
+    /// Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are: • INFO: creating a new alarm or updating an alarm threshold. • WARN: alarm not created due to insufficient data points used to predict thresholds. • ERROR: alarm not created due to permission errors or exceeding quotas. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsApplicationInsights : IAwsApplicationInsights
     }
 
     /// <summary>
-    /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an appli- cation. Tags can help you categorize and manage application in differ- ent ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a...
+    /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsApplicationInsights : IAwsApplicationInsights
     }
 
     /// <summary>
-    /// Updates the monitoring configurations for the component. The configura- tion input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigura- tionRecommendation . See also: AWS API Documentation
+    /// Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsApplicationInsights : IAwsApplicationInsights
     }
 
     /// <summary>
-    /// Updates the visibility of the problem or specifies the problem as RE- SOLVED . See also: AWS API Documentation
+    /// Updates the visibility of the problem or specifies the problem as RESOLVED . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

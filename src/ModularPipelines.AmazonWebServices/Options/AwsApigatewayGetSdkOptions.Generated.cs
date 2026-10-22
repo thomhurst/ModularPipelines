@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsApigatewayGetSdkOptions : AwsOptions
     /// </summary>
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="StageName">The name of the Stage that the SDK will use.</param>
-    /// <param name="SdkType">The language for the generated SDK. Currently java , javascript , android , objectivec (for iOS), swift (for iOS), and ruby are sup- ported.</param>
+    /// <param name="SdkType">The language for the generated SDK. Currently java , javascript , android , objectivec (for iOS), swift (for iOS), and ruby are supported.</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsApigatewayGetSdkOptions(
         string RestApiId,
@@ -67,13 +68,13 @@ public record AwsApigatewayGetSdkOptions : AwsOptions
     public string StageName { get; private init; }
 
     /// <summary>
-    /// The language for the generated SDK. Currently java , javascript , android , objectivec (for iOS), swift (for iOS), and ruby are sup- ported.
+    /// The language for the generated SDK. Currently java , javascript , android , objectivec (for iOS), swift (for iOS), and ruby are supported.
     /// </summary>
     [CliOption("--sdk-type")]
     public string SdkType { get; private init; }
 
     /// <summary>
-    /// A string-to-string key-value map of query parameters sdkType -depen- dent properties of the SDK. For sdkType of objectivec or swift , a parameter named classPrefix is required. For sdkType of android , parameters named groupId , artifactId , artifactVersion , and invok- erPackage are required. For sdkType of java , parameters named ser- viceName and javaPackageName are required. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...} outfile (string) [required] Filename where the content will be saved
+    /// A string-to-string key-value map of query parameters sdkType -dependent properties of the SDK. For sdkType of objectivec or swift , a parameter named classPrefix is required. For sdkType of android , parameters named groupId , artifactId , artifactVersion , and invokerPackage are required. For sdkType of java , parameters named serviceName and javaPackageName are required. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...} outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }

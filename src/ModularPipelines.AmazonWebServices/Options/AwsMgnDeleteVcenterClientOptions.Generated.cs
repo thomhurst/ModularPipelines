@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMgnDeleteVcenterClientOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a given vCenter client by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VcenterClientId">ID of resource to be deleted. Constraints: o min: 21 o max: 21 o pattern: vcc-[0-9a-zA-Z]{17}</param>
+    /// <param name="VcenterClientId">ID of resource to be deleted. Constraints: • min: 21 • max: 21 • pattern: vcc-[0-9a-zA-Z]{17}</param>
     public AwsMgnDeleteVcenterClientOptions(
         string VcenterClientId
     )
@@ -56,7 +58,7 @@ public record AwsMgnDeleteVcenterClientOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of resource to be deleted. Constraints: o min: 21 o max: 21 o pattern: vcc-[0-9a-zA-Z]{17}
+    /// ID of resource to be deleted. Constraints: • min: 21 • max: 21 • pattern: vcc-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--vcenter-client-id")]
     public string? VcenterClientId { get; private init; }

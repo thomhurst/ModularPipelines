@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a configuration profile, which is information that enables App- Config to access the configuration source. Valid configuration sources include the following: o Configuration data in YAML, JSON, and other formats stored in the Ap- pConfig hosted configuration store o Configuration data stored as objects in an Amazon Simple Storage Ser- vice (Amazon S3) bucket o Pipelines stored in CodePipeline o Secrets stored in Secrets Manager o Standard and secure string parameters stored in Amazon Web...
+/// Creates a configuration profile, which is information that enables AppConfig to access the configuration source. Valid configuration sources include the following: • Configuration data in YAML, JSON, and other formats stored in the AppConfig hosted configuration store • Configuration data stored as objects in an Amazon Simple Storage Service (Amazon S3) bucket • Pipelines stored in CodePipeline • Secrets stored in Secrets Manager • Standard and secure string parameters stored in Amazon Web Servi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsAppConfigCreateConfigurationProfileOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a configuration profile, which is information that enables App- Config to access the configuration source. Valid configuration sources include the following: o Configuration data in YAML, JSON, and other formats stored in the Ap- pConfig hosted configuration store o Configuration data stored as objects in an Amazon Simple Storage Ser- vice (Amazon S3) bucket o Pipelines stored in CodePipeline o Secrets stored in Secrets Manager o Standard and secure string parameters stored in Amazon Web...
+    /// Creates a configuration profile, which is information that enables AppConfig to access the configuration source. Valid configuration sources include the following: • Configuration data in YAML, JSON, and other formats stored in the AppConfig hosted configuration store • Configuration data stored as objects in an Amazon Simple Storage Service (Amazon S3) bucket • Pipelines stored in CodePipeline • Secrets stored in Secrets Manager • Standard and secure string parameters stored in Amazon Web Servi...
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Name">A name for the configuration profile. Constraints: o min: 1 o max: 128</param>
-    /// <param name="LocationUri">A URI to locate the configuration. You can specify the following: o For the AppConfig hosted configuration store and for feature flags, specify hosted . o For an Amazon Web Services Systems Manager Parameter Store parame- ter, specify either the parameter name in the format ssm-parame- ter://&lt;parameter name&gt; or the ARN. o For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline ://&lt;pipeline name&gt;. o For an Secrets Manager secret, specify the URI in the following format: secretsmanager ://&lt;secret name&gt;. o For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json o For an SSM document, specify either the document name in the for- mat ssm-document://&lt;document name&gt; or the Amazon Resource Name (ARN). Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Name">A name for the configuration profile. Constraints: • min: 1 • max: 128</param>
+    /// <param name="LocationUri">A URI to locate the configuration. You can specify the following: • For the AppConfig hosted configuration store and for feature flags, specify hosted . • For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter://&lt;parameter name&gt; or the ARN. • For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline ://&lt;pipeline name&gt;. • For an Secrets Manager secret, specify the URI in the following format: secretsmanager ://&lt;secret name&gt;. • For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json • For an SSM document, specify either the document name in the format ssm-document://&lt;document name&gt; or the Amazon Resource Name (ARN). Constraints: • min: 1 • max: 2048</param>
     public AwsAppConfigCreateConfigurationProfileOptions(
         string ApplicationId,
         string Name,
@@ -65,55 +66,55 @@ public record AwsAppConfigCreateConfigurationProfileOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// A name for the configuration profile. Constraints: o min: 1 o max: 128
+    /// A name for the configuration profile. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A URI to locate the configuration. You can specify the following: o For the AppConfig hosted configuration store and for feature flags, specify hosted . o For an Amazon Web Services Systems Manager Parameter Store parame- ter, specify either the parameter name in the format ssm-parame- ter://&lt;parameter name&gt; or the ARN. o For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline ://&lt;pipeline name&gt;. o For an Secrets Manager secret, specify the URI in the following format: secretsmanager ://&lt;secret name&gt;. o For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json o For an SSM document, specify either the document name in the for- mat ssm-document://&lt;document name&gt; or the Amazon Resource Name (ARN). Constraints: o min: 1 o max: 2048
+    /// A URI to locate the configuration. You can specify the following: • For the AppConfig hosted configuration store and for feature flags, specify hosted . • For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter://&lt;parameter name&gt; or the ARN. • For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline ://&lt;pipeline name&gt;. • For an Secrets Manager secret, specify the URI in the following format: secretsmanager ://&lt;secret name&gt;. • For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json • For an SSM document, specify either the document name in the format ssm-document://&lt;document name&gt; or the Amazon Resource Name (ARN). Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--location-uri")]
     public string? LocationUri { get; private init; }
 
     /// <summary>
-    /// A description of the configuration profile. Constraints: o min: 0 o max: 1024
+    /// A description of the configuration profile. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri . WARNING: A retrieval role ARN is not required for configurations stored in CodePipeline or the AppConfig hosted configuration store. It is required for all other sources that store your configuration. Constraints: o min: 20 o max: 2048 o pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$
+    /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri . WARNING: A retrieval role ARN is not required for configurations stored in CodePipeline or the AppConfig hosted configuration store. It is required for all other sources that store your configuration. Constraints: • min: 20 • max: 2048 • pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$
     /// </summary>
     [CliOption("--retrieval-role-arn")]
     public string? RetrievalRoleArn { get; set; }
 
     /// <summary>
-    /// A list of methods for validating the configuration. Constraints: o min: 0 o max: 2 (structure) A validator provides a syntactic or semantic check to ensure the configuration that you want to deploy functions as intended. To validate your application configuration data, you provide a schema or an Amazon Web Services Lambda function that runs against the configuration. The configuration deployment or up- date can only proceed when the configuration data is valid. For more information, see About validators in the AppConfig User Guide . Type -&gt; (string) [required] AppConfig supports validators of type JSON_SCHEMA and LAMBDA Possible values: o JSON_SCHEMA o LAMBDA Content -&gt; (string) [required] Either the JSON Schema content or the Amazon Resource Name (ARN) of an Lambda function. Constraints: o min: 0 o max: 32768 Shorthand Syntax: Type=string,Content=string ... JSON Syntax: [ { "Type": "JSON_SCHEMA"|"LAMBDA", "Content": "string" } ... ]
+    /// A list of methods for validating the configuration. Constraints: • min: 0 • max: 2 (structure) A validator provides a syntactic or semantic check to ensure the configuration that you want to deploy functions as intended. To validate your application configuration data, you provide a schema or an Amazon Web Services Lambda function that runs against the configuration. The configuration deployment or update can only proceed when the configuration data is valid. For more information, see About validators in the AppConfig User Guide . Type -&gt; (string) [required] AppConfig supports validators of type JSON_SCHEMA and LAMBDA Possible values: • JSON_SCHEMA • LAMBDA Content -&gt; (string) [required] Either the JSON Schema content or the Amazon Resource Name (ARN) of an Lambda function. Constraints: • min: 0 • max: 32768 Shorthand Syntax: Type=string,Content=string ... JSON Syntax: [ { "Type": "JSON_SCHEMA"|"LAMBDA", "Content": "string" } ... ]
     /// </summary>
     [CliOption("--validators", GroupValues = true)]
     public IEnumerable<string>? Validators { get; set; }
 
     /// <summary>
-    /// Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The type of configurations contained in the profile. AppConfig sup- ports feature flags and freeform configurations. We recommend you create feature flag configurations to enable or disable new features and freeform configurations to distribute configurations to an ap- plication. When calling this API, enter one of the following values for Type : AWS.AppConfig.FeatureFlags AWS.Freeform Constraints: o pattern: ^[a-zA-Z0-9\.\-]+
+    /// The type of configurations contained in the profile. AppConfig supports feature flags and freeform configurations. We recommend you create feature flag configurations to enable or disable new features and freeform configurations to distribute configurations to an application. When calling this API, enter one of the following values for Type : AWS.AppConfig.FeatureFlags AWS.Freeform Constraints: • pattern: ^[a-zA-Z0-9\.\-]+
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; set; }
 
     /// <summary>
-    /// The identifier for an Key Management Service key to encrypt new con- figuration data versions in the AppConfig hosted configuration store. This attribute is only used for hosted configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other configuration stores, see the documentation for how to specify an KMS key for that particular service. Constraints: o min: 1 o max: 2048
+    /// The identifier for an Key Management Service key to encrypt new configuration data versions in the AppConfig hosted configuration store. This attribute is only used for hosted configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other configuration stores, see the documentation for how to specify an KMS key for that particular service. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }

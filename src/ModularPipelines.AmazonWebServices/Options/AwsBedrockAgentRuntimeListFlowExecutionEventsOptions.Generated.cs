@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists events that occurred during a flow execution. Events provide de- tailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation list-flow-execution-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arra...
+/// Lists events that occurred during a flow execution. Events provide detailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events. NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Documentation list-flow-execution-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +29,12 @@ public record AwsBedrockAgentRuntimeListFlowExecutionEventsOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists events that occurred during a flow execution. Events provide de- tailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation list-flow-execution-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arra...
+    /// Lists events that occurred during a flow execution. Events provide detailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events. NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Documentation list-flow-execution-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, ...
     /// </summary>
-    /// <param name="EventType">The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events. Possible values: o Node o Flow</param>
-    /// <param name="ExecutionIdentifier">The unique identifier of the flow execution. Constraints: o min: 0 o max: 2048 o pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/ex- ecution/[a-zA-Z0-9-]{1,36})$</param>
-    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias used for the execution. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$</param>
-    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
+    /// <param name="EventType">The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events. Possible values: • Node • Flow</param>
+    /// <param name="ExecutionIdentifier">The unique identifier of the flow execution. Constraints: • min: 0 • max: 2048 • pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$</param>
+    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias used for the execution. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bTSTALIASID\b|[0-9a-zA-Z]+)$</param>
+    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
     public AwsBedrockAgentRuntimeListFlowExecutionEventsOptions(
         AwsBedrockAgentRuntimeListFlowExecutionEventsEventType EventType,
         string ExecutionIdentifier,
@@ -69,34 +71,31 @@ public record AwsBedrockAgentRuntimeListFlowExecutionEventsOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events. Possible values: o Node o Flow
+    /// The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events. Possible values: • Node • Flow
     /// </summary>
     [CliOption("--event-type")]
     public AwsBedrockAgentRuntimeListFlowExecutionEventsEventType? EventType { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow execution. Constraints: o min: 0 o max: 2048 o pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/ex- ecution/[a-zA-Z0-9-]{1,36})$
+    /// The unique identifier of the flow execution. Constraints: • min: 0 • max: 2048 • pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$
     /// </summary>
     [CliOption("--execution-identifier")]
     public string? ExecutionIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow alias used for the execution. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$
+    /// The unique identifier of the flow alias used for the execution. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bTSTALIASID\b|[0-9a-zA-Z]+)$
     /// </summary>
     [CliOption("--flow-alias-identifier")]
     public string? FlowAliasIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
+    /// The unique identifier of the flow. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
     /// </summary>
     [CliOption("--flow-identifier")]
     public string? FlowIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +105,19 @@ public record AwsBedrockAgentRuntimeListFlowExecutionEventsOptions : AwsOptions,
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

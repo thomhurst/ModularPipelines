@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables the specified member account to administer the Organizations features of the specified Amazon Web Services service. It grants read-only access to Organizations service data. The account still re- quires IAM permissions to access and administer the Amazon Web Services service. You can run this action only for Amazon Web Services services that sup- port this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at Amazon Web S...
+/// Enables the specified member account to administer the Organizations features of the specified Amazon Web Services service. It grants read-only access to Organizations service data. The account still requires IAM permissions to access and administer the Amazon Web Services service. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at Amazon Web Servi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOrganizationsRegisterDelegatedAdministratorOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables the specified member account to administer the Organizations features of the specified Amazon Web Services service. It grants read-only access to Organizations service data. The account still re- quires IAM permissions to access and administer the Amazon Web Services service. You can run this action only for Amazon Web Services services that sup- port this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at Amazon Web S...
+    /// Enables the specified member account to administer the Organizations features of the specified Amazon Web Services service. It grants read-only access to Organizations service data. The account still requires IAM permissions to access and administer the Amazon Web Services service. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at Amazon Web Servi...
     /// </summary>
-    /// <param name="AccountId">The account ID number of the member account in the organization to register as a delegated administrator. Constraints: o max: 12 o pattern: ^\d{12}$</param>
-    /// <param name="ServicePrincipal">The service principal of the Amazon Web Services service for which you want to make the member account a delegated administrator. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*</param>
+    /// <param name="AccountId">The account ID number of the member account in the organization to register as a delegated administrator. Constraints: • max: 12 • pattern: ^\d{12}$</param>
+    /// <param name="ServicePrincipal">The service principal of the Amazon Web Services service for which you want to make the member account a delegated administrator. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]*</param>
     public AwsOrganizationsRegisterDelegatedAdministratorOptions(
         string AccountId,
         string ServicePrincipal
@@ -60,13 +62,13 @@ public record AwsOrganizationsRegisterDelegatedAdministratorOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID number of the member account in the organization to register as a delegated administrator. Constraints: o max: 12 o pattern: ^\d{12}$
+    /// The account ID number of the member account in the organization to register as a delegated administrator. Constraints: • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The service principal of the Amazon Web Services service for which you want to make the member account a delegated administrator. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*
+    /// The service principal of the Amazon Web Services service for which you want to make the member account a delegated administrator. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]*
     /// </summary>
     [CliOption("--service-principal")]
     public string? ServicePrincipal { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlobalacceleratorWithdrawByoipCidrOptions : AwsOptions, IValida
     /// <summary>
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of propagation delays. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Cidr">The address range, in CIDR notation. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255</param>
+    /// <param name="Cidr">The address range, in CIDR notation. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: • max: 255</param>
     public AwsGlobalacceleratorWithdrawByoipCidrOptions(
         string Cidr
     )
@@ -56,7 +58,7 @@ public record AwsGlobalacceleratorWithdrawByoipCidrOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The address range, in CIDR notation. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255
+    /// The address range, in CIDR notation. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: • max: 255
     /// </summary>
     [CliOption("--cidr")]
     public string? Cidr { get; private init; }

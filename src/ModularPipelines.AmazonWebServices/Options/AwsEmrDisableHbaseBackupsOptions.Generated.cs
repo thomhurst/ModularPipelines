@@ -24,7 +24,7 @@ public record AwsEmrDisableHbaseBackupsOptions : AwsOptions
     /// <summary>
     /// Add a step to disable automated HBase backups. This command is only available when using Amazon EMR versionsearlier than 4.0.
     /// </summary>
-    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
     public AwsEmrDisableHbaseBackupsOptions(
         string ClusterId
     )
@@ -39,7 +39,7 @@ public record AwsEmrDisableHbaseBackupsOptions : AwsOptions
     }
 
     /// <summary>
-    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.
     /// </summary>
     [CliOption("--cluster-id")]
     public string ClusterId { get; private init; }

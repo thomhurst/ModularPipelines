@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsPinpointEmailDeleteConfigurationSetEventDestinationOptions : Aw
     /// <summary>
     /// Delete an event destination. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationSetName">The name of the configuration set that contains the event destina- tion that you want to delete.</param>
+    /// <param name="ConfigurationSetName">The name of the configuration set that contains the event destination that you want to delete.</param>
     /// <param name="EventDestinationName">The name of the event destination that you want to delete.</param>
     public AwsPinpointEmailDeleteConfigurationSetEventDestinationOptions(
         string ConfigurationSetName,
@@ -60,7 +62,7 @@ public record AwsPinpointEmailDeleteConfigurationSetEventDestinationOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the configuration set that contains the event destina- tion that you want to delete.
+    /// The name of the configuration set that contains the event destination that you want to delete.
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; private init; }

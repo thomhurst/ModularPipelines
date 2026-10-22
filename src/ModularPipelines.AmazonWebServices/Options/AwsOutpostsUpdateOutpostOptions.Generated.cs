@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsOutpostsUpdateOutpostOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an Outpost. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OutpostId">The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="OutpostId">The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
     public AwsOutpostsUpdateOutpostOptions(
         string OutpostId
     )
@@ -57,25 +59,25 @@ public record AwsOutpostsUpdateOutpostOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-id")]
     public string? OutpostId { get; private init; }
 
     /// <summary>
-    /// The name of the Outpost. Constraints: o min: 1 o max: 255 o pattern: ^[\S ]+$
+    /// The name of the Outpost. Constraints: • min: 1 • max: 255 • pattern: ^[\S ]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the Outpost. Constraints: o min: 0 o max: 1000 o pattern: ^[\S ]*$
+    /// The description of the Outpost. Constraints: • min: 0 • max: 1000 • pattern: ^[\S ]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The type of hardware for this Outpost. Possible values: o RACK o SERVER
+    /// The type of hardware for this Outpost. Possible values: • RACK • SERVER
     /// </summary>
     [CliOption("--supported-hardware-type")]
     public AwsOutpostsUpdateOutpostSupportedHardwareType? SupportedHardwareType { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmContactsUpdateContactChannelOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates a contact's contact channel. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactChannelId">The Amazon Resource Name (ARN) of the contact channel you want to update. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="ContactChannelId">The Amazon Resource Name (ARN) of the contact channel you want to update. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
     public AwsSsmContactsUpdateContactChannelOptions(
         string ContactChannelId
     )
@@ -56,19 +58,19 @@ public record AwsSsmContactsUpdateContactChannelOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the contact channel you want to update. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The Amazon Resource Name (ARN) of the contact channel you want to update. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--contact-channel-id")]
     public string? ContactChannelId { get; private init; }
 
     /// <summary>
-    /// The name of the contact channel. Constraints: o min: 1 o max: 255 o pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$
+    /// The name of the contact channel. Constraints: • min: 1 • max: 255 • pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The details that Incident Manager uses when trying to engage the contact channel. SimpleAddress -&gt; (string) The format is dependent on the type of the contact channel. The following are the expected formats: o SMS - '+' followed by the country code and phone number o VOICE - '+' followed by the country code and phone number o EMAIL - any standard email format Constraints: o min: 1 o max: 320 Shorthand Syntax: SimpleAddress=string JSON Syntax: { "SimpleAddress": "string" }
+    /// The details that Incident Manager uses when trying to engage the contact channel. SimpleAddress -&gt; (string) The format is dependent on the type of the contact channel. The following are the expected formats: • SMS - '+' followed by the country code and phone number • VOICE - '+' followed by the country code and phone number • EMAIL - any standard email format Constraints: • min: 1 • max: 320 Shorthand Syntax: SimpleAddress=string JSON Syntax: { "SimpleAddress": "string" }
     /// </summary>
     [CliOption("--delivery-address")]
     public string? DeliveryAddress { get; set; }

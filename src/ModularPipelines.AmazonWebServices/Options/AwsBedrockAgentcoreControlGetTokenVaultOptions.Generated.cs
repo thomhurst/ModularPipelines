@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBedrockAgentcoreControlGetTokenVaultOptions : AwsOptions
 {
     /// <summary>
-    /// The unique identifier of the token vault to retrieve. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-_]+
+    /// The unique identifier of the token vault to retrieve. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-_]+
     /// </summary>
     [CliOption("--token-vault-id")]
     public string? TokenVaultId { get; set; }

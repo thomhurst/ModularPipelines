@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the specified configuration revision for the specified configu- ration. See also: AWS API Documentation
+/// Returns the specified configuration revision for the specified configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsMqDescribeConfigurationRevisionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the specified configuration revision for the specified configu- ration. See also: AWS API Documentation
+    /// Returns the specified configuration revision for the specified configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationId">The unique ID that Amazon MQ generates for the configuration.</param>
     /// <param name="ConfigurationRevision">The revision of the configuration.</param>

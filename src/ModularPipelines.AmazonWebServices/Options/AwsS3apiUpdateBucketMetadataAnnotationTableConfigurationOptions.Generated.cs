@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the annotation table configuration for an Amazon S3 bucket's metadata configuration. Use this operation to enable or disable the an- notation table, or to update its associated IAM role. An annotation table is a queryable Iceberg table that contains records of all annotations attached to objects in the bucket. To use this oper- ation, the bucket must have an existing Amazon S3 Metadata configura- tion. To use this operation, you must have the s3:UpdateBucketMetadataAnnota- tionTableConfi...
+/// Updates the annotation table configuration for an Amazon S3 bucket's metadata configuration. Use this operation to enable or disable the annotation table, or to update its associated IAM role. An annotation table is a queryable Iceberg table that contains records of all annotations attached to objects in the bucket. To use this operation, the bucket must have an existing Amazon S3 Metadata configuration. To use this operation, you must have the s3:UpdateBucketMetadataAnnotationTableConfiguration...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the annotation table configuration for an Amazon S3 bucket's metadata configuration. Use this operation to enable or disable the an- notation table, or to update its associated IAM role. An annotation table is a queryable Iceberg table that contains records of all annotations attached to objects in the bucket. To use this oper- ation, the bucket must have an existing Amazon S3 Metadata configura- tion. To use this operation, you must have the s3:UpdateBucketMetadataAnnota- tionTableConfi...
+    /// Updates the annotation table configuration for an Amazon S3 bucket's metadata configuration. Use this operation to enable or disable the annotation table, or to update its associated IAM role. An annotation table is a queryable Iceberg table that contains records of all annotations attached to objects in the bucket. To use this operation, the bucket must have an existing Amazon S3 Metadata configuration. To use this operation, you must have the s3:UpdateBucketMetadataAnnotationTableConfiguration...
     /// </summary>
-    /// <param name="Bucket">The name of the bucket whose annotation table configuration to up- date.</param>
-    /// <param name="AnnotationTableConfiguration">The annotation table configuration updates to apply. ConfigurationState -&gt; (string) [required] The new configuration state to apply. Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption settings for an S3 Metadata journal table or in- ventory table configuration. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To spec- ify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a cus- tomer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Role -&gt; (string) The new IAM role ARN to apply. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string},Role=string JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }, "Role": "string" }</param>
+    /// <param name="Bucket">The name of the bucket whose annotation table configuration to update.</param>
+    /// <param name="AnnotationTableConfiguration">The annotation table configuration updates to apply. ConfigurationState -&gt; (string) [required] The new configuration state to apply. Possible values: • ENABLED • DISABLED EncryptionConfiguration -&gt; (structure) The encryption settings for an S3 Metadata journal table or inventory table configuration. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: • aws:kms • AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Role -&gt; (string) The new IAM role ARN to apply. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string},Role=string JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }, "Role": "string" }</param>
     public AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions(
         string Bucket,
         string AnnotationTableConfiguration
@@ -61,13 +63,13 @@ public record AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bucket whose annotation table configuration to up- date.
+    /// The name of the bucket whose annotation table configuration to update.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The annotation table configuration updates to apply. ConfigurationState -&gt; (string) [required] The new configuration state to apply. Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption settings for an S3 Metadata journal table or in- ventory table configuration. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To spec- ify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a cus- tomer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Role -&gt; (string) The new IAM role ARN to apply. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string},Role=string JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }, "Role": "string" }
+    /// The annotation table configuration updates to apply. ConfigurationState -&gt; (string) [required] The new configuration state to apply. Possible values: • ENABLED • DISABLED EncryptionConfiguration -&gt; (structure) The encryption settings for an S3 Metadata journal table or inventory table configuration. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: • aws:kms • AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Role -&gt; (string) The new IAM role ARN to apply. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string},Role=string JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }, "Role": "string" }
     /// </summary>
     [CliOption("--annotation-table-configuration")]
     public string? AnnotationTableConfiguration { get; private init; }
@@ -79,7 +81,7 @@ public record AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions : 
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// Checksum algorithm for the request payload. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Checksum algorithm for the request payload. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }

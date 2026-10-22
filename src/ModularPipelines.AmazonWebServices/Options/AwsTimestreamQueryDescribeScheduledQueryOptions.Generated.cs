@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTimestreamQueryDescribeScheduledQueryOptions : AwsOptions, IVal
     /// <summary>
     /// Provides detailed information about a scheduled query. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScheduledQueryArn">The ARN of the scheduled query. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ScheduledQueryArn">The ARN of the scheduled query. Constraints: • min: 1 • max: 2048</param>
     public AwsTimestreamQueryDescribeScheduledQueryOptions(
         string ScheduledQueryArn
     )
@@ -56,7 +58,7 @@ public record AwsTimestreamQueryDescribeScheduledQueryOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the scheduled query. Constraints: o min: 1 o max: 2048
+    /// The ARN of the scheduled query. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--scheduled-query-arn")]
     public string? ScheduledQueryArn { get; private init; }

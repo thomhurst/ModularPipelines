@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsMgnRemoveSourceServerActionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Remove source server post migration custom action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">Source server ID of the post migration custom action to remove. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
-    /// <param name="ActionId">Source server post migration custom action ID to remove. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]</param>
+    /// <param name="SourceServerId">Source server ID of the post migration custom action to remove. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="ActionId">Source server post migration custom action ID to remove. Constraints: • min: 1 • max: 64 • pattern: .*[0-9a-zA-Z]</param>
     public AwsMgnRemoveSourceServerActionOptions(
         string SourceServerId,
         string ActionId
@@ -60,19 +62,19 @@ public record AwsMgnRemoveSourceServerActionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Source server ID of the post migration custom action to remove. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// Source server ID of the post migration custom action to remove. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }
 
     /// <summary>
-    /// Source server post migration custom action ID to remove. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]
+    /// Source server post migration custom action ID to remove. Constraints: • min: 1 • max: 64 • pattern: .*[0-9a-zA-Z]
     /// </summary>
     [CliOption("--action-id")]
     public string? ActionId { get; private init; }
 
     /// <summary>
-    /// Source server post migration account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Source server post migration account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

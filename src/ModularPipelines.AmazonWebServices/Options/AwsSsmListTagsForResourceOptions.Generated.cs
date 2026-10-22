@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSsmListTagsForResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a list of the tags assigned to the specified resource. For information about the ID format for each supported resource type, see AddTagsToResource . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">Returns a list of tags for a specific resource type. Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector</param>
+    /// <param name="ResourceType">Returns a list of tags for a specific resource type. Possible values: • Document • ManagedInstance • MaintenanceWindow • Parameter • PatchBaseline • OpsItem • OpsMetadata • Automation • Association • CloudConnector</param>
     /// <param name="ResourceId">The resource ID for which you want to see a list of tags.</param>
     public AwsSsmListTagsForResourceOptions(
         AwsSsmListTagsForResourceResourceType ResourceType,
@@ -60,7 +62,7 @@ public record AwsSsmListTagsForResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Returns a list of tags for a specific resource type. Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector
+    /// Returns a list of tags for a specific resource type. Possible values: • Document • ManagedInstance • MaintenanceWindow • Parameter • PatchBaseline • OpsItem • OpsMetadata • Automation • Association • CloudConnector
     /// </summary>
     [CliOption("--resource-type")]
     public AwsSsmListTagsForResourceResourceType? ResourceType { get; private init; }

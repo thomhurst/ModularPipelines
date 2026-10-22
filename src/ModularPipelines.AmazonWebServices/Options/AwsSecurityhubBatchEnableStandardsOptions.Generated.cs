@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables the standards specified by the provided StandardsArn . To ob- tain the ARN for a standard, use the DescribeStandards operation. For more information, see the Security Standards section of the Secu- rity Hub CSPM User Guide . See also: AWS API Documentation
+/// Enables the standards specified by the provided StandardsArn . To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the Security Standards section of the Security Hub CSPM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubBatchEnableStandardsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables the standards specified by the provided StandardsArn . To ob- tain the ARN for a standard, use the DescribeStandards operation. For more information, see the Security Standards section of the Secu- rity Hub CSPM User Guide . See also: AWS API Documentation
+    /// Enables the standards specified by the provided StandardsArn . To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the Security Standards section of the Security Hub CSPM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="StandardsSubscriptionRequests">The list of standards checks to enable. Constraints: o min: 1 o max: 25 (structure) The standard that you want to enable. StandardsArn -&gt; (string) [required] The ARN of the standard that you want to enable. To view the list of available standards and their ARNs, use the Describe- Standards operation. Constraints: o pattern: .*\S.* StandardsInput -&gt; (map) A key-value pair of input for the standard. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (string) Constraints: o pattern: .*\S.* Shorthand Syntax: StandardsArn=string,StandardsInput={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "StandardsArn": "string", "StandardsInput": {"string": "string" ...} } ... ]</param>
+    /// <param name="StandardsSubscriptionRequests">The list of standards checks to enable. Constraints: • min: 1 • max: 25 (structure) The standard that you want to enable. StandardsArn -&gt; (string) [required] The ARN of the standard that you want to enable. To view the list of available standards and their ARNs, use the DescribeStandards operation. Constraints: • pattern: .*\S.* StandardsInput -&gt; (map) A key-value pair of input for the standard. key -&gt; (string) Constraints: • pattern: .*\S.* value -&gt; (string) Constraints: • pattern: .*\S.* Shorthand Syntax: StandardsArn=string,StandardsInput={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "StandardsArn": "string", "StandardsInput": {"string": "string" ...} } ... ]</param>
     public AwsSecurityhubBatchEnableStandardsOptions(
         IEnumerable<string> StandardsSubscriptionRequests
     )
@@ -67,7 +69,7 @@ public record AwsSecurityhubBatchEnableStandardsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of standards checks to enable. Constraints: o min: 1 o max: 25 (structure) The standard that you want to enable. StandardsArn -&gt; (string) [required] The ARN of the standard that you want to enable. To view the list of available standards and their ARNs, use the Describe- Standards operation. Constraints: o pattern: .*\S.* StandardsInput -&gt; (map) A key-value pair of input for the standard. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (string) Constraints: o pattern: .*\S.* Shorthand Syntax: StandardsArn=string,StandardsInput={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "StandardsArn": "string", "StandardsInput": {"string": "string" ...} } ... ]
+    /// The list of standards checks to enable. Constraints: • min: 1 • max: 25 (structure) The standard that you want to enable. StandardsArn -&gt; (string) [required] The ARN of the standard that you want to enable. To view the list of available standards and their ARNs, use the DescribeStandards operation. Constraints: • pattern: .*\S.* StandardsInput -&gt; (map) A key-value pair of input for the standard. key -&gt; (string) Constraints: • pattern: .*\S.* value -&gt; (string) Constraints: • pattern: .*\S.* Shorthand Syntax: StandardsArn=string,StandardsInput={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "StandardsArn": "string", "StandardsInput": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--standards-subscription-requests", GroupValues = true)]
     public IEnumerable<string>? StandardsSubscriptionRequests { get; private init; }

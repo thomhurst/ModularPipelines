@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCustomerProfilesUpdateDomainLayoutOptions : AwsOptions, IValida
     /// <summary>
     /// Updates the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="LayoutDefinitionName">The unique name of the layout. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="LayoutDefinitionName">The unique name of the layout. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsCustomerProfilesUpdateDomainLayoutOptions(
         string DomainName,
         string LayoutDefinitionName
@@ -60,43 +62,43 @@ public record AwsCustomerProfilesUpdateDomainLayoutOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique name of the layout. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the layout. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--layout-definition-name")]
     public string? LayoutDefinitionName { get; private init; }
 
     /// <summary>
-    /// The description of the layout Constraints: o min: 1 o max: 1000
+    /// The description of the layout Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The display name of the layout Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-\s]*$
+    /// The display name of the layout Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-\s]*$
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by de- fault, but it can be used to view data by explicitly selecting it in the console.
+    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
     /// </summary>
     [CliFlag("--is-default", NegatedName = "--no-is-default")]
     public bool? IsDefault { get; set; }
 
     /// <summary>
-    /// The type of layout that can be used to view data under a Customer Profiles domain. Possible values: o PROFILE_EXPLORER
+    /// The type of layout that can be used to view data under a Customer Profiles domain. Possible values: • PROFILE_EXPLORER
     /// </summary>
     [CliOption("--layout-type")]
     public string? LayoutType { get; set; }
 
     /// <summary>
-    /// A customizable layout that can be used to view data under a Customer Profiles domain. Constraints: o min: 1 o max: 2000000
+    /// A customizable layout that can be used to view data under a Customer Profiles domain. Constraints: • min: 1 • max: 2000000
     /// </summary>
     [CliOption("--layout")]
     public string? Layout { get; set; }

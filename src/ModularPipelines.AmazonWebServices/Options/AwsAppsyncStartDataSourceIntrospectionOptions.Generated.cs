@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new introspection. Returns the introspectionId of the new in- trospection after its creation. See also: AWS API Documentation
+/// Creates a new introspection. Returns the introspectionId of the new introspection after its creation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppsyncStartDataSourceIntrospectionOptions : AwsOptions
 {
     /// <summary>
-    /// The rdsDataApiConfig object data. resourceArn -&gt; (string) [required] The resource ARN of the RDS cluster. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[a-z-]*:rds:[a-z0-9-]*:\d{12}:clus- ter:[0-9A-Za-z_/-]*$ secretArn -&gt; (string) [required] The secret's ARN that was obtained from Secrets Manager. A se- cret consists of secret information, the secret value, plus metadata about the secret. A secret value can be a string or bi- nary. It typically includes the ARN, secret name and descrip- tion, policies, tags, encryption key from the Key Management Service, and key rotation data. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[a-z-]*:secretsmanager:[a-z0-9-]*:\d{12}:se- cret:[0-9A-Za-z_/+=.@!-]*$ databaseName -&gt; (string) [required] The name of the database in the cluster. Constraints: o min: 1 o max: 128 Shorthand Syntax: resourceArn=string,secretArn=string,databaseName=string JSON Syntax: { "resourceArn": "string", "secretArn": "string", "databaseName": "string" }
+    /// The rdsDataApiConfig object data. resourceArn -&gt; (string) [required] The resource ARN of the RDS cluster. Constraints: • min: 20 • max: 2048 • pattern: ^arn:[a-z-]*:rds:[a-z0-9-]*:\d{12}:cluster:[0-9A-Za-z_/-]*$ secretArn -&gt; (string) [required] The secret's ARN that was obtained from Secrets Manager. A secret consists of secret information, the secret value, plus metadata about the secret. A secret value can be a string or binary. It typically includes the ARN, secret name and description, policies, tags, encryption key from the Key Management Service, and key rotation data. Constraints: • min: 20 • max: 2048 • pattern: ^arn:[a-z-]*:secretsmanager:[a-z0-9-]*:\d{12}:secret:[0-9A-Za-z_/+=.@!-]*$ databaseName -&gt; (string) [required] The name of the database in the cluster. Constraints: • min: 1 • max: 128 Shorthand Syntax: resourceArn=string,secretArn=string,databaseName=string JSON Syntax: { "resourceArn": "string", "secretArn": "string", "databaseName": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--rds-data-api-config")]

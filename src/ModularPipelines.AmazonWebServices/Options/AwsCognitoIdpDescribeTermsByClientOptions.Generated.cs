@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents . To call DescribeTermsByClient , you must have the cognito-idp:Descri- beTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:De- scribeTerms , the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also den...
+/// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents . To call DescribeTermsByClient , you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. An IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsCognitoIdpDescribeTermsByClientOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents . To call DescribeTermsByClient , you must have the cognito-idp:Descri- beTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:De- scribeTerms , the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also den...
+    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents . To call DescribeTermsByClient , you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. An IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in ...
     /// </summary>
-    /// <param name="ClientId">The ID of the app client that the terms documents are associated with. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
-    /// <param name="UserPoolId">The ID of the user pool that contains the terms documents that you want to describe. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="TermsName">The name of the terms documents that you want to describe. Constraints: o pattern: ^(terms-of-use|privacy-policy)$</param>
+    /// <param name="ClientId">The ID of the app client that the terms documents are associated with. Constraints: • min: 1 • max: 128 • pattern: [\w+]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the terms documents that you want to describe. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="TermsName">The name of the terms documents that you want to describe. Constraints: • pattern: ^(terms-of-use|privacy-policy)$</param>
     public AwsCognitoIdpDescribeTermsByClientOptions(
         string ClientId,
         string UserPoolId,
@@ -64,19 +66,19 @@ public record AwsCognitoIdpDescribeTermsByClientOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the app client that the terms documents are associated with. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The ID of the app client that the terms documents are associated with. Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// The ID of the user pool that contains the terms documents that you want to describe. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that contains the terms documents that you want to describe. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The name of the terms documents that you want to describe. Constraints: o pattern: ^(terms-of-use|privacy-policy)$
+    /// The name of the terms documents that you want to describe. Constraints: • pattern: ^(terms-of-use|privacy-policy)$
     /// </summary>
     [CliOption("--terms-name")]
     public string? TermsName { get; private init; }

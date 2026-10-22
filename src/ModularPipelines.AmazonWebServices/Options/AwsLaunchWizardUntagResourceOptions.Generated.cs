@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsLaunchWizardUntagResourceOptions : AwsOptions, IValidatableObje
     /// Removes the specified tags from the given resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource.</param>
-    /// <param name="TagKeys">Keys identifying the tags to remove. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9 _.:/=+@-]+ Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">Keys identifying the tags to remove. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9 _.:/=+@-]+ Syntax: "string" "string" ...</param>
     public AwsLaunchWizardUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +79,7 @@ public record AwsLaunchWizardUntagResourceOptions : AwsOptions, IValidatableObje
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Keys identifying the tags to remove. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9 _.:/=+@-]+ Syntax: "string" "string" ...
+    /// Keys identifying the tags to remove. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9 _.:/=+@-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

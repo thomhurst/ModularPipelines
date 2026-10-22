@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the configuration and metadata of a specified dashboard, in- cluding its widgets and layout settings. See also: AWS API Documentation
+/// Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsBcmDashboardsGetDashboardOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the configuration and metadata of a specified dashboard, in- cluding its widgets and layout settings. See also: AWS API Documentation
+    /// Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the dashboard to retrieve. This is required to uniquely identify the dashboard. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dash- board/(\*|[-a-z0-9]+)</param>
+    /// <param name="Arn">The ARN of the dashboard to retrieve. This is required to uniquely identify the dashboard. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\*|[-a-z0-9]+)</param>
     public AwsBcmDashboardsGetDashboardOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsBcmDashboardsGetDashboardOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the dashboard to retrieve. This is required to uniquely identify the dashboard. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dash- board/(\*|[-a-z0-9]+)
+    /// The ARN of the dashboard to retrieve. This is required to uniquely identify the dashboard. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\*|[-a-z0-9]+)
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

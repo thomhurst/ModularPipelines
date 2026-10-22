@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlobalacceleratorDescribeCustomRoutingAcceleratorAttributesOpti
     /// <summary>
     /// Describe the attributes of a custom routing accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the custom routing accelerator to describe the attributes for. Constraints: o max: 255</param>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the custom routing accelerator to describe the attributes for. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDescribeCustomRoutingAcceleratorAttributesOptions(
         string AcceleratorArn
     )
@@ -56,7 +58,7 @@ public record AwsGlobalacceleratorDescribeCustomRoutingAcceleratorAttributesOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the custom routing accelerator to describe the attributes for. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the custom routing accelerator to describe the attributes for. Constraints: • max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; private init; }

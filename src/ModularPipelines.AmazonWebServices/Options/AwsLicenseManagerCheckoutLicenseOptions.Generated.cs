@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Checks out the specified license. NOTE: If the account that created the license is the same that is perform- ing the check out, you must specify the account as the beneficiary. See also: AWS API Documentation
+/// Checks out the specified license. NOTE: If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +29,13 @@ public record AwsLicenseManagerCheckoutLicenseOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Checks out the specified license. NOTE: If the account that created the license is the same that is perform- ing the check out, you must specify the account as the beneficiary. See also: AWS API Documentation
+    /// Checks out the specified license. NOTE: If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary. See also: AWS API Documentation
     /// </summary>
     /// <param name="ProductSku">Product SKU.</param>
-    /// <param name="CheckoutType">Checkout type. Possible values: o PROVISIONAL o PERPETUAL</param>
+    /// <param name="CheckoutType">Checkout type. Possible values: • PROVISIONAL • PERPETUAL</param>
     /// <param name="KeyFingerprint">Key fingerprint identifying the license.</param>
-    /// <param name="Entitlements">License entitlements. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]</param>
-    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+</param>
+    /// <param name="Entitlements">License entitlements. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: • Count • None • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • max: 2048 • pattern: \S+</param>
     public AwsLicenseManagerCheckoutLicenseOptions(
         string ProductSku,
         AwsLicenseManagerCheckoutLicenseCheckoutType CheckoutType,
@@ -90,7 +92,7 @@ public record AwsLicenseManagerCheckoutLicenseOptions : AwsOptions, IValidatable
     public string? ProductSku { get; private init; }
 
     /// <summary>
-    /// Checkout type. Possible values: o PROVISIONAL o PERPETUAL
+    /// Checkout type. Possible values: • PROVISIONAL • PERPETUAL
     /// </summary>
     [CliOption("--checkout-type")]
     public AwsLicenseManagerCheckoutLicenseCheckoutType? CheckoutType { get; private init; }
@@ -102,13 +104,13 @@ public record AwsLicenseManagerCheckoutLicenseOptions : AwsOptions, IValidatable
     public string? KeyFingerprint { get; private init; }
 
     /// <summary>
-    /// License entitlements. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]
+    /// License entitlements. (structure) Data associated with an entitlement resource. Name -&gt; (string) [required] Entitlement data name. Value -&gt; (string) Entitlement data value. Unit -&gt; (string) [required] Entitlement data unit. Possible values: • Count • None • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second Shorthand Syntax: Name=string,Value=string,Unit=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second" } ... ]
     /// </summary>
     [CliOption("--entitlements", GroupValues = true)]
     public IEnumerable<string>? Entitlements { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

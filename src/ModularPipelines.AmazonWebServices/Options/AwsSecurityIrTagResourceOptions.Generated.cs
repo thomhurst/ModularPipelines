@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsSecurityIrTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds a tag(s) to a designated resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Required element for TagResource to identify the ARN for the re- source to add a tag to. Constraints: o min: 12 o max: 1010 o pattern: arn:aws:security-ir:\w+?-\w+?-\d+:[0-9]{12}:(member- ship/m-[a-z0-9]{10,32}|case/[0-9]{10})</param>
-    /// <param name="Tags">Required element for ListTagsForResource to provide the content for a tag. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">Required element for TagResource to identify the ARN for the resource to add a tag to. Constraints: • min: 12 • max: 1010 • pattern: arn:aws:security-ir:\w+?-\w+?-\d+:[0-9]{12}:(membership/m-[a-z0-9]{10,32}|case/[0-9]{10})</param>
+    /// <param name="Tags">Required element for ListTagsForResource to provide the content for a tag. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsSecurityIrTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsSecurityIrTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element for TagResource to identify the ARN for the re- source to add a tag to. Constraints: o min: 12 o max: 1010 o pattern: arn:aws:security-ir:\w+?-\w+?-\d+:[0-9]{12}:(member- ship/m-[a-z0-9]{10,32}|case/[0-9]{10})
+    /// Required element for TagResource to identify the ARN for the resource to add a tag to. Constraints: • min: 12 • max: 1010 • pattern: arn:aws:security-ir:\w+?-\w+?-\d+:[0-9]{12}:(membership/m-[a-z0-9]{10,32}|case/[0-9]{10})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Required element for ListTagsForResource to provide the content for a tag. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Required element for ListTagsForResource to provide the content for a tag. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommenda- tions. NOTE: The following filters are not supported for this API: recommenda- tionIds , resourceArns , and resourceIds . See also: AWS API Documentation list-recommendation-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- m...
+/// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommendations. NOTE: The following filters are not supported for this API: recommendationIds , resourceArns , and resourceIds . See also: AWS API Documentation list-recommendation-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Whe...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsCostOptimizationHubListRecommendationSummariesOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommenda- tions. NOTE: The following filters are not supported for this API: recommenda- tionIds , resourceArns , and resourceIds . See also: AWS API Documentation list-recommendation-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- m...
+    /// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommendations. NOTE: The following filters are not supported for this API: recommendationIds , resourceArns , and resourceIds . See also: AWS API Documentation list-recommendation-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Whe...
     /// </summary>
     /// <param name="GroupBy">The grouping of recommendations by a dimension.</param>
     public AwsCostOptimizationHubListRecommendationSummariesOptions(
@@ -63,22 +65,19 @@ public record AwsCostOptimizationHubListRecommendationSummariesOptions : AwsOpti
     public string? GroupBy { get; private init; }
 
     /// <summary>
-    /// Describes a filter that returns a more specific list of recommenda- tions. Filters recommendations by different dimensions. restartNeeded -&gt; (boolean) Whether or not implementing the recommendation requires a restart. rollbackPossible -&gt; (boolean) Whether or not implementing the recommendation can be rolled back. implementationEfforts -&gt; (list) The effort required to implement the recommendation. Constraints: o min: 1 o max: 100 (string) Possible values: o VeryLow o Low o Medium o High o VeryHigh accountIds -&gt; (list) The account to which the recommendation applies. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [0-9]{12} regions -&gt; (list) The Amazon Web Services Region of the resource. Constraints: o min: 1 o max: 100 (string) resourceTypes -&gt; (list) The resource type of the recommendation. Constraints: o min: 1 o max: 100 (string) Possible values: o Ec2Instance o LambdaFunction o EbsVolume o EcsService o Ec2AutoScalingGroup o Ec2InstanceSavingsPlans o ComputeSavingsPlans o SageMakerSavingsPlans o Ec2ReservedInstances o RdsReservedInstances o OpenSearchReservedInstances o RedshiftReservedInstances o ElastiCacheReservedInstances o RdsDbInstanceStorage o RdsDbInstance o AuroraDbClusterStorage o DynamoDbReservedCapacity o MemoryDbReservedInstances o NatGateway o DynamoDBTable o ElastiCacheCluster o MemoryDBCluster o DocumentDBCluster o WorkSpaces o SageMakerEndpoint actionTypes -&gt; (list) The type of action you can take by adopting the recommendation. Constraints: o min: 1 o max: 100 (string) Possible values: o Rightsize o Stop o Upgrade o PurchaseSavingsPlans o PurchaseReservedInstances o MigrateToGraviton o Delete o ScaleIn tags -&gt; (list) A list of tags assigned to the recommendation. Constraints: o min: 1 o max: 100 (structure) The tag structure that contains a tag key and value. key -&gt; (string) The key that's associated with the tag. value -&gt; (string) The value that's associated with the tag. resourceIds -&gt; (list) The resource ID of the recommendation. Constraints: o min: 1 o max: 100 (string) resourceArns -&gt; (list) The Amazon Resource Name (ARN) of the recommendation. Constraints: o min: 1 o max: 100 (string) recommendationIds -&gt; (list) The IDs for the recommendations. Constraints: o min: 1 o max: 100 (string) Shorthand Syntax: restartNeeded=boolean,rollbackPossible=boolean,implementationEfforts=string,string,accountIds=string,string,regions=string,string,resourceTypes=string,string,actionTypes=string,string,tags=[{key=string,value=string},{key=string,value=string}],resourceIds=string,string,resourceArns=string,string,recommendationIds=string,string JSON Syntax: { "restartNeeded": true|false, "rollbackPossible": true|false, "implementationEfforts": ["VeryLow"|"Low"|"Medium"|"High"|"VeryHigh", ...], "accountIds": ["string", ...], "regions": ["string", ...], "resourceTypes": ["Ec2Instance"|"LambdaFunction"|"EbsVolume"|"EcsService"|"Ec2AutoScalingGroup"|"Ec2InstanceSavingsPlans"|"ComputeSavingsPlans"|"SageMakerSavingsPlans"|"Ec2ReservedInstances"|"RdsReservedInstances"|"OpenSearchReservedInstances"|"RedshiftReservedInstances"|"ElastiCacheReservedInstances"|"RdsDbInstanceStorage"|"RdsDbInstance"|"AuroraDbClusterStorage"|"DynamoDbReservedCapacity"|"MemoryDbReservedInstances"|"NatGateway"|"DynamoDBTable"|"ElastiCacheCluster"|"MemoryDBCluster"|"DocumentDBCluster"|"WorkSpaces"|"SageMakerEndpoint", ...], "actionTypes": ["Rightsize"|"Stop"|"Upgrade"|"PurchaseSavingsPlans"|"PurchaseReservedInstances"|"MigrateToGraviton"|"Delete"|"ScaleIn", ...], "tags": [ { "key": "string", "value": "string" } ... ], "resourceIds": ["string", ...], "resourceArns": ["string", ...], "recommendationIds": ["string", ...] }
+    /// Describes a filter that returns a more specific list of recommendations. Filters recommendations by different dimensions. restartNeeded -&gt; (boolean) Whether or not implementing the recommendation requires a restart. rollbackPossible -&gt; (boolean) Whether or not implementing the recommendation can be rolled back. implementationEfforts -&gt; (list) The effort required to implement the recommendation. Constraints: • min: 1 • max: 100 (string) Possible values: • VeryLow • Low • Medium • High • VeryHigh accountIds -&gt; (list) The account to which the recommendation applies. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: [0-9]{12} regions -&gt; (list) The Amazon Web Services Region of the resource. Constraints: • min: 1 • max: 100 (string) resourceTypes -&gt; (list) The resource type of the recommendation. Constraints: • min: 1 • max: 100 (string) Possible values: • Ec2Instance • LambdaFunction • EbsVolume • EcsService • Ec2AutoScalingGroup • Ec2InstanceSavingsPlans • ComputeSavingsPlans • SageMakerSavingsPlans • Ec2ReservedInstances • RdsReservedInstances • OpenSearchReservedInstances • RedshiftReservedInstances • ElastiCacheReservedInstances • RdsDbInstanceStorage • RdsDbInstance • AuroraDbClusterStorage • DynamoDbReservedCapacity • MemoryDbReservedInstances • NatGateway • DynamoDBTable • ElastiCacheCluster • MemoryDBCluster • DocumentDBCluster • WorkSpaces • SageMakerEndpoint actionTypes -&gt; (list) The type of action you can take by adopting the recommendation. Constraints: • min: 1 • max: 100 (string) Possible values: • Rightsize • Stop • Upgrade • PurchaseSavingsPlans • PurchaseReservedInstances • MigrateToGraviton • Delete • ScaleIn tags -&gt; (list) A list of tags assigned to the recommendation. Constraints: • min: 1 • max: 100 (structure) The tag structure that contains a tag key and value. key -&gt; (string) The key that's associated with the tag. value -&gt; (string) The value that's associated with the tag. resourceIds -&gt; (list) The resource ID of the recommendation. Constraints: • min: 1 • max: 100 (string) resourceArns -&gt; (list) The Amazon Resource Name (ARN) of the recommendation. Constraints: • min: 1 • max: 100 (string) recommendationIds -&gt; (list) The IDs for the recommendations. Constraints: • min: 1 • max: 100 (string) Shorthand Syntax: restartNeeded=boolean,rollbackPossible=boolean,implementationEfforts=string,string,accountIds=string,string,regions=string,string,resourceTypes=string,string,actionTypes=string,string,tags=[{key=string,value=string},{key=string,value=string}],resourceIds=string,string,resourceArns=string,string,recommendationIds=string,string JSON Syntax: { "restartNeeded": true|false, "rollbackPossible": true|false, "implementationEfforts": ["VeryLow"|"Low"|"Medium"|"High"|"VeryHigh", ...], "accountIds": ["string", ...], "regions": ["string", ...], "resourceTypes": ["Ec2Instance"|"LambdaFunction"|"EbsVolume"|"EcsService"|"Ec2AutoScalingGroup"|"Ec2InstanceSavingsPlans"|"ComputeSavingsPlans"|"SageMakerSavingsPlans"|"Ec2ReservedInstances"|"RdsReservedInstances"|"OpenSearchReservedInstances"|"RedshiftReservedInstances"|"ElastiCacheReservedInstances"|"RdsDbInstanceStorage"|"RdsDbInstance"|"AuroraDbClusterStorage"|"DynamoDbReservedCapacity"|"MemoryDbReservedInstances"|"NatGateway"|"DynamoDBTable"|"ElastiCacheCluster"|"MemoryDBCluster"|"DocumentDBCluster"|"WorkSpaces"|"SageMakerEndpoint", ...], "actionTypes": ["Rightsize"|"Stop"|"Upgrade"|"PurchaseSavingsPlans"|"PurchaseReservedInstances"|"MigrateToGraviton"|"Delete"|"ScaleIn", ...], "tags": [ { "key": "string", "value": "string" } ... ], "resourceIds": ["string", ...], "resourceArns": ["string", ...], "recommendationIds": ["string", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// Additional metrics to be returned for the request. The only valid value is savingsPercentage . Constraints: o min: 1 o max: 100 (string) Possible values: o SavingsPercentage Syntax: "string" "string" ...
+    /// Additional metrics to be returned for the request. The only valid value is savingsPercentage . Constraints: • min: 1 • max: 100 (string) Possible values: • SavingsPercentage Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +87,19 @@ public record AwsCostOptimizationHubListRecommendationSummariesOptions : AwsOpti
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

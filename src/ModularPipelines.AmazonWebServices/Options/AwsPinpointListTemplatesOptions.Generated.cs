@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about all the message templates that are associ- ated with your Amazon Pinpoint account. See also: AWS API Documentation
+/// Retrieves information about all the message templates that are associated with your Amazon Pinpoint account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPinpointListTemplatesOptions : AwsOptions
 {
     /// <summary>
-    /// The string that specifies which page of results to return in a pagi- nated response. This parameter is not supported for application, campaign, and journey metrics.
+    /// The string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -36,7 +36,7 @@ public record AwsPinpointListTemplatesOptions : AwsOptions
     public string? PageSize { get; set; }
 
     /// <summary>
-    /// The substring to match in the names of the message templates to in- clude in the results. If you specify this value, Amazon Pinpoint re- turns only those templates whose names begin with the value that you specify.
+    /// The substring to match in the names of the message templates to include in the results. If you specify this value, Amazon Pinpoint returns only those templates whose names begin with the value that you specify.
     /// </summary>
     [CliOption("--prefix")]
     public string? Prefix { get; set; }

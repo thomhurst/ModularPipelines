@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates tags with an OpenSearch Serverless resource. For more infor- mation, see Tagging Amazon OpenSearch Serverless collections . See also: AWS API Documentation
+/// Associates tags with an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsOpensearchserverlessTagResourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates tags with an OpenSearch Serverless resource. For more infor- mation, see Tagging Amazon OpenSearch Serverless collections . See also: AWS API Documentation
+    /// Associates tags with an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. The resource must be active (not in the DELETING state), and must be owned by the account ID included in the request. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="Tags">A list of tags (key-value pairs) to add to the resource. All tag keys in the request must be unique. Constraints: o min: 0 o max: 50 (structure) A map of key-value pairs associated to an OpenSearch Serverless resource. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. The resource must be active (not in the DELETING state), and must be owned by the account ID included in the request. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="Tags">A list of tags (key-value pairs) to add to the resource. All tag keys in the request must be unique. Constraints: • min: 0 • max: 50 (structure) A map of key-value pairs associated to an OpenSearch Serverless resource. key -&gt; (string) [required] The key to use in the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsOpensearchserverlessTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +73,13 @@ public record AwsOpensearchserverlessTagResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. The resource must be active (not in the DELETING state), and must be owned by the account ID included in the request. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the resource. The resource must be active (not in the DELETING state), and must be owned by the account ID included in the request. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tags (key-value pairs) to add to the resource. All tag keys in the request must be unique. Constraints: o min: 0 o max: 50 (structure) A map of key-value pairs associated to an OpenSearch Serverless resource. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of tags (key-value pairs) to add to the resource. All tag keys in the request must be unique. Constraints: • min: 0 • max: 50 (structure) A map of key-value pairs associated to an OpenSearch Serverless resource. key -&gt; (string) [required] The key to use in the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }

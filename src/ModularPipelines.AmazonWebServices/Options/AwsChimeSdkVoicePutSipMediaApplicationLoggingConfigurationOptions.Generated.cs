@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the logging configuration for the specified SIP media applica- tion. See also: AWS API Documentation
+/// Updates the logging configuration for the specified SIP media application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the logging configuration for the specified SIP media applica- tion. See also: AWS API Documentation
+    /// Updates the logging configuration for the specified SIP media application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SipMediaApplicationId">The SIP media application ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="SipMediaApplicationId">The SIP media application ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions(
         string SipMediaApplicationId
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The SIP media application ID. Constraints: o pattern: .*\S.*
+    /// The SIP media application ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--sip-media-application-id")]
     public string? SipMediaApplicationId { get; private init; }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +30,8 @@ public record AwsOdbCreateExascaleDbStorageVaultOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates an Exascale storage vault. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DisplayName">A user-friendly name for the Exascale storage vault. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
-    /// <param name="HighCapacityDatabaseStorageTotalSizeInGbs">The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault. Constraints: o min: 0</param>
+    /// <param name="DisplayName">A user-friendly name for the Exascale storage vault. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="HighCapacityDatabaseStorageTotalSizeInGbs">The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault. Constraints: • min: 0</param>
     public AwsOdbCreateExascaleDbStorageVaultOptions(
         string DisplayName,
         int HighCapacityDatabaseStorageTotalSizeInGbs
@@ -61,43 +62,43 @@ public record AwsOdbCreateExascaleDbStorageVaultOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-friendly name for the Exascale storage vault. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// A user-friendly name for the Exascale storage vault. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault. Constraints: o min: 0
+    /// The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault. Constraints: • min: 0
     /// </summary>
     [CliOption("--high-capacity-database-storage-total-size-in-gbs")]
     public int? HighCapacityDatabaseStorageTotalSizeInGbs { get; private init; }
 
     /// <summary>
-    /// The additional flash cache percentage for the Exascale storage vault. Constraints: o min: 0
+    /// The additional flash cache percentage for the Exascale storage vault. Constraints: • min: 0
     /// </summary>
     [CliOption("--additional-flash-cache-in-percent")]
     public int? AdditionalFlashCacheInPercent { get; set; }
 
     /// <summary>
-    /// The autoscale limit in gigabytes (GB) for the Exascale storage vault. Constraints: o min: 0
+    /// The autoscale limit in gigabytes (GB) for the Exascale storage vault. Constraints: • min: 0
     /// </summary>
     [CliOption("--autoscale-limit-in-gbs")]
     public int? AutoscaleLimitInGbs { get; set; }
 
     /// <summary>
-    /// The Availability Zone ID for the Exascale storage vault. Constraints: o min: 1 o max: 255
+    /// The Availability Zone ID for the Exascale storage vault. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
     /// <summary>
-    /// The Availability Zone for the Exascale storage vault. Constraints: o min: 1 o max: 255
+    /// The Availability Zone for the Exascale storage vault. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// A description of the Exascale storage vault. Constraints: o min: 1 o max: 400
+    /// A description of the Exascale storage vault. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -109,19 +110,19 @@ public record AwsOdbCreateExascaleDbStorageVaultOptions : AwsOptions, IValidatab
     public bool? IsAutoscaleEnabled { get; set; }
 
     /// <summary>
-    /// The list of resource tags to apply to the Exascale storage vault. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of resource tags to apply to the Exascale storage vault. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The time zone for the Exascale storage vault. Constraints: o min: 1 o max: 255
+    /// The time zone for the Exascale storage vault. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used. Constraints: • min: 8 • max: 64 • pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

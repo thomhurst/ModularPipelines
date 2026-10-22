@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsConnectcampaignsDeleteInstanceOnboardingJobOptions : AwsOptions
     /// <summary>
     /// Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_\-.]*</param>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9_\-.]*</param>
     public AwsConnectcampaignsDeleteInstanceOnboardingJobOptions(
         string ConnectInstanceId
     )
@@ -56,7 +58,7 @@ public record AwsConnectcampaignsDeleteInstanceOnboardingJobOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Connect Instance Id Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_\-.]*
+    /// Amazon Connect Instance Id Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9_\-.]*
     /// </summary>
     [CliOption("--connect-instance-id")]
     public string? ConnectInstanceId { get; private init; }

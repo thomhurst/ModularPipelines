@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNetworkmanagerGetResourcePolicyOptions : AwsOptions, IValidatab
     /// <summary>
     /// Returns information about a resource policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource. Constraints: o min: 0 o max: 1500 o pattern: [\s\S]*</param>
+    /// <param name="ResourceArn">The ARN of the resource. Constraints: • min: 0 • max: 1500 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsNetworkmanagerGetResourcePolicyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource. Constraints: o min: 0 o max: 1500 o pattern: [\s\S]*
+    /// The ARN of the resource. Constraints: • min: 0 • max: 1500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

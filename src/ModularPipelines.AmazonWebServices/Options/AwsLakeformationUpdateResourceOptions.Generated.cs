@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the data access role used for vending access to the given (reg- istered) resource in Lake Formation. See also: AWS API Documentation
+/// Updates the data access role used for vending access to the given (registered) resource in Lake Formation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLakeformationUpdateResourceOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the data access role used for vending access to the given (reg- istered) resource in Lake Formation. See also: AWS API Documentation
+    /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoleArn">The new role to use for the given resource registered in Lake Forma- tion. Constraints: o pattern: arn:aws:iam::[0-9]*:role/.*</param>
+    /// <param name="RoleArn">The new role to use for the given resource registered in Lake Formation. Constraints: • pattern: arn:aws:iam::[0-9]*:role/.*</param>
     /// <param name="ResourceArn">The resource ARN.</param>
     public AwsLakeformationUpdateResourceOptions(
         string RoleArn,
@@ -60,7 +62,7 @@ public record AwsLakeformationUpdateResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The new role to use for the given resource registered in Lake Forma- tion. Constraints: o pattern: arn:aws:iam::[0-9]*:role/.*
+    /// The new role to use for the given resource registered in Lake Formation. Constraints: • pattern: arn:aws:iam::[0-9]*:role/.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
@@ -84,7 +86,7 @@ public record AwsLakeformationUpdateResourceOptions : AwsOptions, IValidatableOb
     public bool? HybridAccessEnabled { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations. Constraints: o pattern: ^\d{12}$
+    /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations. Constraints: • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--expected-resource-owner-account")]
     public string? ExpectedResourceOwnerAccount { get; set; }

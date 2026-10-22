@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsLocationUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes one or more tags from the specified Amazon Location resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which you want to remove tags. o Format example: arn:aws:geo:region:account-id:resourcetype/Exam- pleResource Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
-    /// <param name="TagKeys">The list of tag keys to remove from the specified resource. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource from which you want to remove tags. • Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource Constraints: • min: 0 • max: 1600 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
+    /// <param name="TagKeys">The list of tag keys to remove from the specified resource. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...</param>
     public AwsLocationUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsLocationUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags. o Format example: arn:aws:geo:region:account-id:resourcetype/Exam- pleResource Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
+    /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags. • Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource Constraints: • min: 0 • max: 1600 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys to remove from the specified resource. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...
+    /// The list of tag keys to remove from the specified resource. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

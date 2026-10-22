@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsCodeguruprofilerBatchGetFrameMetricDataOptions : AwsOptions, IV
     /// <summary>
     /// Returns the time series of values for a requested list of frame metrics from a time period. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfilingGroupName">The name of the profiling group associated with the the frame met- rics used to return the time series values. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group associated with the the frame metrics used to return the time series values. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerBatchGetFrameMetricDataOptions(
         string ProfilingGroupName
     )
@@ -57,7 +59,7 @@ public record AwsCodeguruprofilerBatchGetFrameMetricDataOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the profiling group associated with the the frame met- rics used to return the time series values. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group associated with the the frame metrics used to return the time series values. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
@@ -69,25 +71,25 @@ public record AwsCodeguruprofilerBatchGetFrameMetricDataOptions : AwsOptions, IV
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The details of the metrics that are used to request a time series of values. The metric includes the name of the frame, the aggregation type to calculate the metric value for the frame, and the thread states to use to get the count for the metric value of the frame. (structure) The frame name, metric type, and thread states. These are used to derive the value of the metric for the frame. frameName -&gt; (string) [required] Name of the method common across the multiple occurrences of a frame in an application profile. threadStates -&gt; (list) [required] List of application runtime thread states used to get the counts for a frame a derive a metric value. (string) type -&gt; (string) [required] A type of aggregation that specifies how a metric for a frame is analyzed. The supported value AggregatedRelativeTotalTime is an aggregation of the metric value for one frame that is calculated across the occurrences of all frames in a profile. Possible values: o AggregatedRelativeTotalTime Shorthand Syntax: frameName=string,threadStates=string,string,type=string ... JSON Syntax: [ { "frameName": "string", "threadStates": ["string", ...], "type": "AggregatedRelativeTotalTime" } ... ]
+    /// The details of the metrics that are used to request a time series of values. The metric includes the name of the frame, the aggregation type to calculate the metric value for the frame, and the thread states to use to get the count for the metric value of the frame. (structure) The frame name, metric type, and thread states. These are used to derive the value of the metric for the frame. frameName -&gt; (string) [required] Name of the method common across the multiple occurrences of a frame in an application profile. threadStates -&gt; (list) [required] List of application runtime thread states used to get the counts for a frame a derive a metric value. (string) type -&gt; (string) [required] A type of aggregation that specifies how a metric for a frame is analyzed. The supported value AggregatedRelativeTotalTime is an aggregation of the metric value for one frame that is calculated across the occurrences of all frames in a profile. Possible values: • AggregatedRelativeTotalTime Shorthand Syntax: frameName=string,threadStates=string,string,type=string ... JSON Syntax: [ { "frameName": "string", "threadStates": ["string", ...], "type": "AggregatedRelativeTotalTime" } ... ]
     /// </summary>
     [CliOption("--frame-metrics", GroupValues = true)]
     public IEnumerable<string>? FrameMetrics { get; set; }
 
     /// <summary>
-    /// The duration of the frame metrics used to return the time series values. Specify using the ISO 8601 format. The maximum period dura- tion is one day (PT24H or P1D ). Constraints: o min: 1 o max: 64
+    /// The duration of the frame metrics used to return the time series values. Specify using the ISO 8601 format. The maximum period duration is one day (PT24H or P1D ). Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--period")]
     public string? Period { get; set; }
 
     /// <summary>
-    /// The start time of the time period for the frame metrics used to re- turn the time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
+    /// The start time of the time period for the frame metrics used to return the time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// The requested resolution of time steps for the returned time series of values. If the requested target resolution is not available due to data not being retained we provide a best effort result by falling back to the most granular available resolution after the target resolution. There are 3 valid values. o P1D 1 day o PT1H 1 hour o PT5M 5 minutes Possible values: o PT5M o PT1H o P1D
+    /// The requested resolution of time steps for the returned time series of values. If the requested target resolution is not available due to data not being retained we provide a best effort result by falling back to the most granular available resolution after the target resolution. There are 3 valid values. • P1D 1 day • PT1H 1 hour • PT5M 5 minutes Possible values: • PT5M • PT1H • P1D
     /// </summary>
     [CliOption("--target-resolution")]
     public AwsCodeguruprofilerBatchGetFrameMetricDataTargetResolution? TargetResolution { get; set; }

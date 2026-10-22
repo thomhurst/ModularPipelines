@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an approval request with the terminal decision (APPROVED or RE- JECTED). A single operation handles both verbs via the action enum. See also: AWS API Documentation
+/// Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsDevopsAgentUpdateApprovalActionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an approval request with the terminal decision (APPROVED or RE- JECTED). A single operation handles both verbs via the action enum. See also: AWS API Documentation
+    /// Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The agent space identifier multi-tenant workspace scope. Bound from the request URI. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ApprovalId">Identifier of the approval request being resolved. A UUID. Bound from the request URI. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}</param>
-    /// <param name="Action">The action to take on the approval request APPROVED or REJECTED. Possible values: o APPROVED o REJECTED</param>
+    /// <param name="AgentSpaceId">The agent space identifier multi-tenant workspace scope. Bound from the request URI. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ApprovalId">Identifier of the approval request being resolved. A UUID. Bound from the request URI. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}</param>
+    /// <param name="Action">The action to take on the approval request APPROVED or REJECTED. Possible values: • APPROVED • REJECTED</param>
     public AwsDevopsAgentUpdateApprovalActionOptions(
         string AgentSpaceId,
         string ApprovalId,
@@ -64,43 +66,43 @@ public record AwsDevopsAgentUpdateApprovalActionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The agent space identifier multi-tenant workspace scope. Bound from the request URI. Constraints: o min: 1 o max: 2048
+    /// The agent space identifier multi-tenant workspace scope. Bound from the request URI. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// Identifier of the approval request being resolved. A UUID. Bound from the request URI. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}
+    /// Identifier of the approval request being resolved. A UUID. Bound from the request URI. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--approval-id")]
     public string? ApprovalId { get; private init; }
 
     /// <summary>
-    /// The action to take on the approval request APPROVED or REJECTED. Possible values: o APPROVED o REJECTED
+    /// The action to take on the approval request APPROVED or REJECTED. Possible values: • APPROVED • REJECTED
     /// </summary>
     [CliOption("--action")]
     public AwsDevopsAgentUpdateApprovalActionAction? Action { get; private init; }
 
     /// <summary>
-    /// The finalized pattern (tool + argumentPins) that scopes the ap- proval. Required when action is APPROVED; must be absent when action is REJECTED. The pattern narrows, and must not widen, the invocation originally requested by the agent. This cross-field invariant is en- forced by service-side validation. tool -&gt; (string) [required] Identifier of the tool the pattern applies to (e.g. use_aws for AWS actions, or a third-party tool name). Constraints: o min: 1 o max: 256 argumentPins -&gt; (map) [required] Argument constraints that narrow which tool invocations the pat- tern matches. For AWS tools, the map must include operation (the IAM action, e.g. ec2:AuthorizeSecurityGroupIngress) and re- source_arn (the resource ARN or ARN glob); additional narrowing arguments go in further pin keys. The same {tool, argumentPins} shape is used uniformly for AWS and third-party tools, with tool-specific keys for third-party tools. Requests whose argu- ment pins are collectively too large are rejected with a Valida- tionException. Constraints: o min: 0 o max: 20 key -&gt; (string) Argument pin key in an ApprovalPattern (e.g. operation, re- source_arn). Constraints: o min: 1 o max: 128 value -&gt; (string) Argument pin value in an ApprovalPattern. Constraints: o min: 1 o max: 131072 Shorthand Syntax: tool=string,argumentPins={KeyName1=string,KeyName2=string} JSON Syntax: { "tool": "string", "argumentPins": {"string": "string" ...} }
+    /// The finalized pattern (tool + argumentPins) that scopes the approval. Required when action is APPROVED; must be absent when action is REJECTED. The pattern narrows, and must not widen, the invocation originally requested by the agent. This cross-field invariant is enforced by service-side validation. tool -&gt; (string) [required] Identifier of the tool the pattern applies to (e.g. use_aws for AWS actions, or a third-party tool name). Constraints: • min: 1 • max: 256 argumentPins -&gt; (map) [required] Argument constraints that narrow which tool invocations the pattern matches. For AWS tools, the map must include operation (the IAM action, e.g. ec2:AuthorizeSecurityGroupIngress) and resource_arn (the resource ARN or ARN glob); additional narrowing arguments go in further pin keys. The same {tool, argumentPins} shape is used uniformly for AWS and third-party tools, with tool-specific keys for third-party tools. Requests whose argument pins are collectively too large are rejected with a ValidationException. Constraints: • min: 0 • max: 20 key -&gt; (string) Argument pin key in an ApprovalPattern (e.g. operation, resource_arn). Constraints: • min: 1 • max: 128 value -&gt; (string) Argument pin value in an ApprovalPattern. Constraints: • min: 1 • max: 131072 Shorthand Syntax: tool=string,argumentPins={KeyName1=string,KeyName2=string} JSON Syntax: { "tool": "string", "argumentPins": {"string": "string" ...} }
     /// </summary>
     [CliOption("--final-pattern")]
     public string? FinalPattern { get; set; }
 
     /// <summary>
-    /// Optional free-text rationale for the decision. Permitted when action is REJECTED; ignored when action is APPROVED. Constraints: o min: 0 o max: 1024
+    /// Optional free-text rationale for the decision. Permitted when action is REJECTED; ignored when action is APPROVED. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; set; }
 
     /// <summary>
-    /// Approval lifetime in seconds, starting from when the decision is submitted. Required when action is APPROVED AND singleUse is false; must be absent when action is REJECTED or when singleUse is true (a single-use approval backs one executed action and the redemption window collapses). Cross-field invariants are enforced by ser- vice-side validation; the @range bound here is the operation-bound- ary check that always applies (a maximum of 4 hours). Constraints: o min: 1 o max: 14400
+    /// Approval lifetime in seconds, starting from when the decision is submitted. Required when action is APPROVED AND singleUse is false; must be absent when action is REJECTED or when singleUse is true (a single-use approval backs one executed action and the redemption window collapses). Cross-field invariants are enforced by service-side validation; the @range bound here is the operation-boundary check that always applies (a maximum of 4 hours). Constraints: • min: 1 • max: 14400
     /// </summary>
     [CliOption("--ttl-seconds")]
     public int? TtlSeconds { get; set; }
 
     /// <summary>
-    /// Whether the approved action backs a single executed tool call (true) or is reusable within ttlSeconds (false). Required when action is APPROVED; must be absent when action is REJECTED. When true, ttlSec- onds must be absent (the redemption window collapses to the single use). When false, ttlSeconds is required and bounds the reuse win- dow. Cross-field invariants are enforced by service-side validation.
+    /// Whether the approved action backs a single executed tool call (true) or is reusable within ttlSeconds (false). Required when action is APPROVED; must be absent when action is REJECTED. When true, ttlSeconds must be absent (the redemption window collapses to the single use). When false, ttlSeconds is required and bounds the reuse window. Cross-field invariants are enforced by service-side validation.
     /// </summary>
     [CliFlag("--single-use", NegatedName = "--no-single-use")]
     public bool? SingleUse { get; set; }

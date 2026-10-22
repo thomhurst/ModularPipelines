@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports the certificate revocation list (CRL). A CRL is a list of cer- tificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:ImportCrl . See also: AWS API Documentation
+/// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:ImportCrl . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsRolesanywhereImportCrlOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports the certificate revocation list (CRL). A CRL is a list of cer- tificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:ImportCrl . See also: AWS API Documentation
+    /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:ImportCrl . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the certificate revocation list (CRL). Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*</param>
-    /// <param name="CrlData">The x509 v3 specified certificate revocation list (CRL). Constraints: o min: 1 o max: 300000</param>
-    /// <param name="TrustAnchorArn">The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:rolesanywhere(:.*){2}(:trust-anchor.*)</param>
+    /// <param name="Name">The name of the certificate revocation list (CRL). Constraints: • min: 1 • max: 255 • pattern: [ a-zA-Z0-9-_]*</param>
+    /// <param name="CrlData">The x509 v3 specified certificate revocation list (CRL). Constraints: • min: 1 • max: 300000</param>
+    /// <param name="TrustAnchorArn">The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[^:]+)?:rolesanywhere(:.*){2}(:trust-anchor.*)</param>
     public AwsRolesanywhereImportCrlOptions(
         string Name,
         string CrlData,
@@ -64,19 +66,19 @@ public record AwsRolesanywhereImportCrlOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the certificate revocation list (CRL). Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*
+    /// The name of the certificate revocation list (CRL). Constraints: • min: 1 • max: 255 • pattern: [ a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The x509 v3 specified certificate revocation list (CRL). Constraints: o min: 1 o max: 300000
+    /// The x509 v3 specified certificate revocation list (CRL). Constraints: • min: 1 • max: 300000
     /// </summary>
     [CliOption("--crl-data")]
     public string? CrlData { get; private init; }
 
     /// <summary>
-    /// The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:rolesanywhere(:.*){2}(:trust-anchor.*)
+    /// The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[^:]+)?:rolesanywhere(:.*){2}(:trust-anchor.*)
     /// </summary>
     [CliOption("--trust-anchor-arn")]
     public string? TrustAnchorArn { get; private init; }
@@ -88,7 +90,7 @@ public record AwsRolesanywhereImportCrlOptions : AwsOptions, IValidatableObject
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// A list of tags to attach to the certificate revocation list (CRL). Constraints: o min: 0 o max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of tags to attach to the certificate revocation list (CRL). Constraints: • min: 0 • max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

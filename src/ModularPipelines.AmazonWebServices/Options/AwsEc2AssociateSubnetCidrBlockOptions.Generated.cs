@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a CIDR block with your subnet. You can only associate a sin- gle IPv6 CIDR block with your subnet. See also: AWS API Documentation
+/// Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR block with your subnet. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsEc2AssociateSubnetCidrBlockOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a CIDR block with your subnet. You can only associate a sin- gle IPv6 CIDR block with your subnet. See also: AWS API Documentation
+    /// Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR block with your subnet. See also: AWS API Documentation
     /// </summary>
     /// <param name="SubnetId">The ID of your subnet.</param>
     public AwsEc2AssociateSubnetCidrBlockOptions(

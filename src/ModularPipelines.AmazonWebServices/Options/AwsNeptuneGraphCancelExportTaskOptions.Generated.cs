@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsNeptuneGraphCancelExportTaskOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Cancel the specified export task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskIdentifier">The unique identifier of the export task. Constraints: o pattern: t-[a-z0-9]{10}</param>
+    /// <param name="TaskIdentifier">The unique identifier of the export task. Constraints: • pattern: t-[a-z0-9]{10}</param>
     public AwsNeptuneGraphCancelExportTaskOptions(
         string TaskIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsNeptuneGraphCancelExportTaskOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the export task. Constraints: o pattern: t-[a-z0-9]{10}
+    /// The unique identifier of the export task. Constraints: • pattern: t-[a-z0-9]{10}
     /// </summary>
     [CliOption("--task-identifier")]
     public string? TaskIdentifier { get; private init; }

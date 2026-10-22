@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMailmanagerListTagsForResourceOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves the list of tags (keys and values) assigned to the resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to retrieve tags from. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mail- manager-|addon-).+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to retrieve tags from. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+</param>
     public AwsMailmanagerListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsMailmanagerListTagsForResourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to retrieve tags from. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mail- manager-|addon-).+
+    /// The Amazon Resource Name (ARN) of the resource to retrieve tags from. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

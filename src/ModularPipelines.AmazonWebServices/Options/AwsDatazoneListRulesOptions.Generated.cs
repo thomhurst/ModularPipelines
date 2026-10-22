@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., pub- lishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance stan- dards in data management processes. For instance, a metadata enforce- ment rule can specify the required information for creating a subscrip- tion request or...
+/// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publish...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +29,10 @@ public record AwsDatazoneListRulesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., pub- lishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance stan- dards in data management processes. For instance, a metadata enforce- ment rule can specify the required information for creating a subscrip- tion request or...
+    /// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publish...
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain in which the rules are to be listed. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="TargetType">The target type of the rule. Possible values: o DOMAIN_UNIT</param>
+    /// <param name="DomainIdentifier">The ID of the domain in which the rules are to be listed. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="TargetType">The target type of the rule. Possible values: • DOMAIN_UNIT</param>
     /// <param name="TargetIdentifier">The target ID of the rule.</param>
     public AwsDatazoneListRulesOptions(
         string DomainIdentifier,
@@ -66,13 +68,13 @@ public record AwsDatazoneListRulesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain in which the rules are to be listed. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain in which the rules are to be listed. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The target type of the rule. Possible values: o DOMAIN_UNIT
+    /// The target type of the rule. Possible values: • DOMAIN_UNIT
     /// </summary>
     [CliOption("--target-type")]
     public string? TargetType { get; private init; }
@@ -84,25 +86,25 @@ public record AwsDatazoneListRulesOptions : AwsOptions, IValidatableObject
     public string? TargetIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of the rule. Possible values: o METADATA_FORM_ENFORCEMENT o GLOSSARY_TERM_ENFORCEMENT
+    /// The type of the rule. Possible values: • METADATA_FORM_ENFORCEMENT • GLOSSARY_TERM_ENFORCEMENT
     /// </summary>
     [CliOption("--rule-type")]
     public AwsDatazoneListRulesRuleType? RuleType { get; set; }
 
     /// <summary>
-    /// The action of the rule. Possible values: o CREATE_LISTING_CHANGE_SET o CREATE_SUBSCRIPTION_REQUEST
+    /// The action of the rule. Possible values: • CREATE_LISTING_CHANGE_SET • CREATE_SUBSCRIPTION_REQUEST
     /// </summary>
     [CliOption("--action")]
     public AwsDatazoneListRulesAction? Action { get; set; }
 
     /// <summary>
-    /// The IDs of projects in which rules are to be listed. (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// The IDs of projects in which rules are to be listed. (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--project-ids", GroupValues = true)]
     public IEnumerable<string>? ProjectIds { get; set; }
 
     /// <summary>
-    /// The asset types of the rule. (string) Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w Syntax: "string" "string" ...
+    /// The asset types of the rule. (string) Constraints: • min: 1 • max: 513 • pattern: (?!\.)[\w\.]*\w Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--asset-types", GroupValues = true)]
     public IEnumerable<string>? AssetTypes { get; set; }
@@ -122,9 +124,6 @@ public record AwsDatazoneListRulesOptions : AwsOptions, IValidatableObject
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -133,16 +132,19 @@ public record AwsDatazoneListRulesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 25 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 25 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

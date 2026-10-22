@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access con- trol via resource tags applied to the resource identified by relation- alDatabaseName. For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+/// Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLightsailDeleteRelationalDatabaseOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access con- trol via resource tags applied to the resource identified by relation- alDatabaseName. For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+    /// Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name of the database that you are deleting. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseName">The name of the database that you are deleting. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteRelationalDatabaseOptions(
         string RelationalDatabaseName
     )
@@ -56,19 +58,19 @@ public record AwsLightsailDeleteRelationalDatabaseOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the database that you are deleting. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the database that you are deleting. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }
 
     /// <summary>
-    /// Determines whether a final database snapshot is created before your database is deleted. If true is specified, no database snapshot is created. If false is specified, a database snapshot is created be- fore your database is deleted. You must specify the final relational database snapshot name parame- ter if the skip final snapshot parameter is false . Default: false
+    /// Determines whether a final database snapshot is created before your database is deleted. If true is specified, no database snapshot is created. If false is specified, a database snapshot is created before your database is deleted. You must specify the final relational database snapshot name parameter if the skip final snapshot parameter is false . Default: false
     /// </summary>
     [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
-    /// The name of the database snapshot created if skip final snapshot is false , which is the default value for that parameter. NOTE: Specifying this parameter and also specifying the skip final snapshot parameter to true results in an error. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the database snapshot created if skip final snapshot is false , which is the default value for that parameter. NOTE: Specifying this parameter and also specifying the skip final snapshot parameter to true results in an error. Constraints: • Must contain from 2 to 255 alphanumeric characters, or hyphens. • The first and last character must be a letter or number. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--final-relational-database-snapshot-name")]
     public string? FinalRelationalDatabaseSnapshotName { get; set; }

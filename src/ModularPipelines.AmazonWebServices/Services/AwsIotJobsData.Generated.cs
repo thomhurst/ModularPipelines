@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws iotjobsdata commands.
+/// aws iot-jobs-data commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsIotJobsData : IAwsIotJobsData
@@ -47,7 +47,7 @@ public class AwsIotJobsData : IAwsIotJobsData
     }
 
     /// <summary>
-    /// Gets the list of all jobs for a thing that are not in a terminal sta- tus. Requires permission to access the GetPendingJobExecutions action. See also: AWS API Documentation
+    /// Gets the list of all jobs for a thing that are not in a terminal status. Requires permission to access the GetPendingJobExecutions action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsIotJobsData : IAwsIotJobsData
     }
 
     /// <summary>
-    /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job ex- ecution for a thing. Requires permission to access the StartNextPendingJobExecution action. See also: AWS API Documentation
+    /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing. Requires permission to access the StartNextPendingJobExecution action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

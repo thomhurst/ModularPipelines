@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsVpcLatticeGetServiceNetworkVpcAssociationOptions : AwsOptions, 
     /// <summary>
     /// Retrieves information about the specified association between a service network and a VPC. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceNetworkVpcAssociationIdentifier">The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassocia- tion/snva-[0-9a-z]{17}))</param>
+    /// <param name="ServiceNetworkVpcAssociationIdentifier">The ID or ARN of the association. Constraints: • min: 17 • max: 2048 • pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassociation/snva-[0-9a-z]{17}))</param>
     public AwsVpcLatticeGetServiceNetworkVpcAssociationOptions(
         string ServiceNetworkVpcAssociationIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsVpcLatticeGetServiceNetworkVpcAssociationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassocia- tion/snva-[0-9a-z]{17}))
+    /// The ID or ARN of the association. Constraints: • min: 17 • max: 2048 • pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassociation/snva-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--service-network-vpc-association-identifier")]
     public string? ServiceNetworkVpcAssociationIdentifier { get; private init; }

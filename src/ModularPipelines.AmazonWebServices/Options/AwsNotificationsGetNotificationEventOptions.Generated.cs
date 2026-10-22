@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a specified NotificationEvent . WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notifica- tion hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more info...
+/// Returns a specified NotificationEvent . WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more inform...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsNotificationsGetNotificationEventOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a specified NotificationEvent . WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notifica- tion hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more info...
+    /// Returns a specified NotificationEvent . WARNING: User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more inform...
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the NotificationEvent to return. Constraints: o pattern: arn:[a-z-]{3,10}:notifica- tions:[-.a-z0-9]{1,63}:[0-9]{12}:configura- tion/[a-z0-9]{27}/event/[a-z0-9]{27}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the NotificationEvent to return. Constraints: • pattern: arn:[a-z-]{3,10}:notifications:[-.a-z0-9]{1,63}:[0-9]{12}:configuration/[a-z0-9]{27}/event/[a-z0-9]{27}</param>
     public AwsNotificationsGetNotificationEventOptions(
         string Arn
     )
@@ -57,13 +59,13 @@ public record AwsNotificationsGetNotificationEventOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the NotificationEvent to return. Constraints: o pattern: arn:[a-z-]{3,10}:notifica- tions:[-.a-z0-9]{1,63}:[0-9]{12}:configura- tion/[a-z0-9]{27}/event/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the NotificationEvent to return. Constraints: • pattern: arn:[a-z-]{3,10}:notifications:[-.a-z0-9]{1,63}:[0-9]{12}:configuration/[a-z0-9]{27}/event/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The locale code of the language used for the retrieved Notification- Event . The default locale is English en_US . Possible values: o de_DE o en_CA o en_US o en_UK o es_ES o fr_CA o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o tr_TR o zh_CN o zh_TW
+    /// The locale code of the language used for the retrieved NotificationEvent . The default locale is English en_US . Possible values: • de_DE • en_CA • en_US • en_UK • es_ES • fr_CA • fr_FR • id_ID • it_IT • ja_JP • ko_KR • pt_BR • tr_TR • zh_CN • zh_TW
     /// </summary>
     [CliOption("--locale")]
     public AwsNotificationsGetNotificationEventLocale? Locale { get; set; }

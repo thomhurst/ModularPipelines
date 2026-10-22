@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID. NOTE: The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:Update- WorkloadEstimateUsage in your policies. See also: AWS API Documentation
+/// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID. NOTE: The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateWorkloadEstimateUsage in your policies. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID. NOTE: The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:Update- WorkloadEstimateUsage in your policies. See also: AWS API Documentation
+    /// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID. NOTE: The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateWorkloadEstimateUsage in your policies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadEstimateId">The ID of the Workload estimate for which you want to modify the us- age lines. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Usage">List of usage line amounts and usage group that you want to update in a Workload estimate identified by the usage ID. Constraints: o min: 1 o max: 25 (structure) Represents an entry in a batch operation to update workload es- timate usage. id -&gt; (string) [required] The unique identifier of the usage estimate to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the usage estimate. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* amount -&gt; (double) The updated estimated usage amount. Shorthand Syntax: id=string,group=string,amount=double ... JSON Syntax: [ { "id": "string", "group": "string", "amount": double } ... ]</param>
+    /// <param name="WorkloadEstimateId">The ID of the Workload estimate for which you want to modify the usage lines. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Usage">List of usage line amounts and usage group that you want to update in a Workload estimate identified by the usage ID. Constraints: • min: 1 • max: 25 (structure) Represents an entry in a batch operation to update workload estimate usage. id -&gt; (string) [required] The unique identifier of the usage estimate to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the usage estimate. Constraints: • min: 0 • max: 30 • pattern: [a-zA-Z0-9-]* amount -&gt; (double) The updated estimated usage amount. Shorthand Syntax: id=string,group=string,amount=double ... JSON Syntax: [ { "id": "string", "group": "string", "amount": double } ... ]</param>
     public AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions(
         string WorkloadEstimateId,
         IEnumerable<string> Usage
@@ -71,13 +73,13 @@ public record AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Workload estimate for which you want to modify the us- age lines. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID of the Workload estimate for which you want to modify the usage lines. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--workload-estimate-id")]
     public string? WorkloadEstimateId { get; private init; }
 
     /// <summary>
-    /// List of usage line amounts and usage group that you want to update in a Workload estimate identified by the usage ID. Constraints: o min: 1 o max: 25 (structure) Represents an entry in a batch operation to update workload es- timate usage. id -&gt; (string) [required] The unique identifier of the usage estimate to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the usage estimate. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* amount -&gt; (double) The updated estimated usage amount. Shorthand Syntax: id=string,group=string,amount=double ... JSON Syntax: [ { "id": "string", "group": "string", "amount": double } ... ]
+    /// List of usage line amounts and usage group that you want to update in a Workload estimate identified by the usage ID. Constraints: • min: 1 • max: 25 (structure) Represents an entry in a batch operation to update workload estimate usage. id -&gt; (string) [required] The unique identifier of the usage estimate to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the usage estimate. Constraints: • min: 0 • max: 30 • pattern: [a-zA-Z0-9-]* amount -&gt; (double) The updated estimated usage amount. Shorthand Syntax: id=string,group=string,amount=double ... JSON Syntax: [ { "id": "string", "group": "string", "amount": double } ... ]
     /// </summary>
     [CliOption("--usage", GroupValues = true)]
     public IEnumerable<string>? Usage { get; private init; }

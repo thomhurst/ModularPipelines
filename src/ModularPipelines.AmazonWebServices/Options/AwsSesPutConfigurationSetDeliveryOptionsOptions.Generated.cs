@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +64,7 @@ public record AwsSesPutConfigurationSetDeliveryOptionsOptions : AwsOptions, IVal
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// Specifies whether messages that use the configuration set are re- quired to use Transport Layer Security (TLS). TlsPolicy -&gt; (string) Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require , messages are only delivered if a TLS connection can be established. If the value is Optional , messages can be deliv- ered in plain text if a TLS connection can't be established. Possible values: o Require o Optional Shorthand Syntax: TlsPolicy=string JSON Syntax: { "TlsPolicy": "Require"|"Optional" }
+    /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). TlsPolicy -&gt; (string) Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require , messages are only delivered if a TLS connection can be established. If the value is Optional , messages can be delivered in plain text if a TLS connection can't be established. Possible values: • Require • Optional Shorthand Syntax: TlsPolicy=string JSON Syntax: { "TlsPolicy": "Require"|"Optional" }
     /// </summary>
     [CliOption("--delivery-options")]
     public string? DeliveryOptions { get; set; }

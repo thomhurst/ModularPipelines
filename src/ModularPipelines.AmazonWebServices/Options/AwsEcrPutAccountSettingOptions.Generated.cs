@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsEcrPutAccountSettingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Allows you to change the basic scan type version or registry policy scope. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: o min: 1 o max: 64</param>
-    /// <param name="Value">Setting value that is specified. Valid value for basic scan type: AWS_NATIVE . Valid values for registry policy scope: V2 . Valid val- ues for blob mounting: ENABLED or DISABLED .</param>
+    /// <param name="Name">The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: • min: 1 • max: 64</param>
+    /// <param name="Value">Setting value that is specified. Valid value for basic scan type: AWS_NATIVE . Valid values for registry policy scope: V2 . Valid values for blob mounting: ENABLED or DISABLED .</param>
     public AwsEcrPutAccountSettingOptions(
         string Name,
         string Value
@@ -60,13 +62,13 @@ public record AwsEcrPutAccountSettingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: o min: 1 o max: 64
+    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Setting value that is specified. Valid value for basic scan type: AWS_NATIVE . Valid values for registry policy scope: V2 . Valid val- ues for blob mounting: ENABLED or DISABLED .
+    /// Setting value that is specified. Valid value for basic scan type: AWS_NATIVE . Valid values for registry policy scope: V2 . Valid values for blob mounting: ENABLED or DISABLED .
     /// </summary>
     [CliOption("--value")]
     public string? Value { get; private init; }

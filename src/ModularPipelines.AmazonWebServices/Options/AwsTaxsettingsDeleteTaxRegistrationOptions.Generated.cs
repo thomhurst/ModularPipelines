@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTaxsettingsDeleteTaxRegistrationOptions : AwsOptions
 {
     /// <summary>
-    /// Unique account identifier for the TRN information that needs to be deleted. If this isn't passed, the account ID corresponding to the credentials of the API caller will be used for this parameter. Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// Unique account identifier for the TRN information that needs to be deleted. If this isn't passed, the account ID corresponding to the credentials of the API caller will be used for this parameter. Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

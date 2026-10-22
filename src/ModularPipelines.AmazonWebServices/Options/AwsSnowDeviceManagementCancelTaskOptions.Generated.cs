@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSnowDeviceManagementCancelTaskOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Sends a cancel request for a specified task. You can cancel a task only if it's still in a QUEUED state. Tasks that are already running can't be cancelled. NOTE: A task might still run if it's processed from the queue before the CancelTask operation changes the task's state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The ID of the task that you are attempting to cancel. You can re- trieve a task ID by using the ListTasks operation. Constraints: o min: 1 o max: 64</param>
+    /// <param name="TaskId">The ID of the task that you are attempting to cancel. You can retrieve a task ID by using the ListTasks operation. Constraints: • min: 1 • max: 64</param>
     public AwsSnowDeviceManagementCancelTaskOptions(
         string TaskId
     )
@@ -56,7 +58,7 @@ public record AwsSnowDeviceManagementCancelTaskOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the task that you are attempting to cancel. You can re- trieve a task ID by using the ListTasks operation. Constraints: o min: 1 o max: 64
+    /// The ID of the task that you are attempting to cancel. You can retrieve a task ID by using the ListTasks operation. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }

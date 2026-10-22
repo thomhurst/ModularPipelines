@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCodestarNotificationsDeleteTargetOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes a specified target for notifications. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetAddress">The Amazon Resource Name (ARN) of the Amazon Q Developer in chat ap- plications topic or Amazon Q Developer in chat applications client to delete. Constraints: o min: 1 o max: 320</param>
+    /// <param name="TargetAddress">The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client to delete. Constraints: • min: 1 • max: 320</param>
     public AwsCodestarNotificationsDeleteTargetOptions(
         string TargetAddress
     )
@@ -56,7 +58,7 @@ public record AwsCodestarNotificationsDeleteTargetOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat ap- plications topic or Amazon Q Developer in chat applications client to delete. Constraints: o min: 1 o max: 320
+    /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client to delete. Constraints: • min: 1 • max: 320
     /// </summary>
     [CliOption("--target-address")]
     public string? TargetAddress { get; private init; }

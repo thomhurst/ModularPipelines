@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDiscoveryAssociateConfigurationItemsToApplicationOptions : AwsO
     /// <summary>
     /// Associates one or more configuration items with an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationConfigurationId">The configuration ID of an application with which items are to be associated. Constraints: o max: 200 o pattern: \S+</param>
-    /// <param name="ConfigurationIds">The ID of each configuration item to be associated with an applica- tion. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...</param>
+    /// <param name="ApplicationConfigurationId">The configuration ID of an application with which items are to be associated. Constraints: • max: 200 • pattern: \S+</param>
+    /// <param name="ConfigurationIds">The ID of each configuration item to be associated with an application. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...</param>
     public AwsDiscoveryAssociateConfigurationItemsToApplicationOptions(
         string ApplicationConfigurationId,
         IEnumerable<string> ConfigurationIds
@@ -71,13 +73,13 @@ public record AwsDiscoveryAssociateConfigurationItemsToApplicationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The configuration ID of an application with which items are to be associated. Constraints: o max: 200 o pattern: \S+
+    /// The configuration ID of an application with which items are to be associated. Constraints: • max: 200 • pattern: \S+
     /// </summary>
     [CliOption("--application-configuration-id")]
     public string? ApplicationConfigurationId { get; private init; }
 
     /// <summary>
-    /// The ID of each configuration item to be associated with an applica- tion. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
+    /// The ID of each configuration item to be associated with an application. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; private init; }

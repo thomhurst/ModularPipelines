@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,8 +31,8 @@ public record AwsAmplifyUpdateBranchOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a branch for an Amplify app. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
-    /// <param name="BranchName">The name of the branch. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
+    /// <param name="BranchName">The name of the branch. Constraints: • min: 1 • max: 255 • pattern: (?s).+</param>
     public AwsAmplifyUpdateBranchOptions(
         string AppId,
         string BranchName
@@ -63,31 +64,31 @@ public record AwsAmplifyUpdateBranchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The name of the branch. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// The name of the branch. Constraints: • min: 1 • max: 255 • pattern: (?s).+
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; private init; }
 
     /// <summary>
-    /// The description for the branch. Constraints: o max: 1000 o pattern: (?s).*
+    /// The description for the branch. Constraints: • max: 1000 • pattern: (?s).*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The framework for the branch. Constraints: o max: 255 o pattern: (?s).*
+    /// The framework for the branch. Constraints: • max: 255 • pattern: (?s).*
     /// </summary>
     [CliOption("--framework")]
     public string? Framework { get; set; }
 
     /// <summary>
-    /// Describes the current stage for the branch. Possible values: o PRODUCTION o BETA o DEVELOPMENT o EXPERIMENTAL o PULL_REQUEST
+    /// Describes the current stage for the branch. Possible values: • PRODUCTION • BETA • DEVELOPMENT • EXPERIMENTAL • PULL_REQUEST
     /// </summary>
     [CliOption("--stage")]
     public AwsAmplifyUpdateBranchStage? Stage { get; set; }
@@ -105,19 +106,19 @@ public record AwsAmplifyUpdateBranchOptions : AwsOptions, IValidatableObject
     public bool? EnableAutoBuild { get; set; }
 
     /// <summary>
-    /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web ap- plications. When you apply skew protection to a branch, you can en- sure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide .
+    /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide .
     /// </summary>
     [CliFlag("--enable-skew-protection", NegatedName = "--no-enable-skew-protection")]
     public bool? EnableSkewProtection { get; set; }
 
     /// <summary>
-    /// The environment variables for the branch. key -&gt; (string) Constraints: o max: 255 o pattern: (?s).* value -&gt; (string) Constraints: o max: 5500 o pattern: (?s).* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The environment variables for the branch. key -&gt; (string) Constraints: • max: 255 • pattern: (?s).* value -&gt; (string) Constraints: • max: 5500 • pattern: (?s).* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     /// <summary>
-    /// The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password . Constraints: o max: 2000 o pattern: (?s).*
+    /// The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password . Constraints: • max: 2000 • pattern: (?s).*
     /// </summary>
     [SecretValue]
     [CliOption("--basic-auth-credentials")]
@@ -136,19 +137,19 @@ public record AwsAmplifyUpdateBranchOptions : AwsOptions, IValidatableObject
     public bool? EnablePerformanceMode { get; set; }
 
     /// <summary>
-    /// The build specification (build spec) for the branch. Constraints: o min: 1 o max: 25000 o pattern: (?s).+
+    /// The build specification (build spec) for the branch. Constraints: • min: 1 • max: 25000 • pattern: (?s).+
     /// </summary>
     [CliOption("--build-spec")]
     public string? BuildSpec { get; set; }
 
     /// <summary>
-    /// The content Time to Live (TTL) for the website in seconds. Constraints: o min: 0 o max: 32 o pattern: \d*
+    /// The content Time to Live (TTL) for the website in seconds. Constraints: • min: 0 • max: 32 • pattern: \d*
     /// </summary>
     [CliOption("--ttl")]
     public string? Ttl { get; set; }
 
     /// <summary>
-    /// The display name for a branch. This is used as the default domain prefix. Constraints: o max: 255 o pattern: (?s).*
+    /// The display name for a branch. This is used as the default domain prefix. Constraints: • max: 255 • pattern: (?s).*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
@@ -160,25 +161,25 @@ public record AwsAmplifyUpdateBranchOptions : AwsOptions, IValidatableObject
     public bool? EnablePullRequestPreview { get; set; }
 
     /// <summary>
-    /// The Amplify environment name for the pull request. Constraints: o max: 20 o pattern: (?s).*
+    /// The Amplify environment name for the pull request. Constraints: • max: 20 • pattern: (?s).*
     /// </summary>
     [CliOption("--pull-request-environment-name")]
     public string? PullRequestEnvironmentName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for a backend environment that is part of a Gen 1 Amplify app. This field is available to Amplify Gen 1 apps only where the backend is created using Amplify Studio or the Amplify command line inter- face (CLI). Constraints: o min: 0 o max: 1000 o pattern: (?s).*
+    /// The Amazon Resource Name (ARN) for a backend environment that is part of a Gen 1 Amplify app. This field is available to Amplify Gen 1 apps only where the backend is created using Amplify Studio or the Amplify command line interface (CLI). Constraints: • min: 0 • max: 1000 • pattern: (?s).*
     /// </summary>
     [CliOption("--backend-environment-arn")]
     public string? BackendEnvironmentArn { get; set; }
 
     /// <summary>
-    /// The backend for a Branch of an Amplify app. Use for a backend cre- ated from an CloudFormation stack. This field is available to Amplify Gen 2 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. stackArn -&gt; (string) The Amazon Resource Name (ARN) for the CloudFormation stack. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:cloudforma- tion:[a-z0-9-]+:\d{12}:stack/.+/.+$ Shorthand Syntax: stackArn=string JSON Syntax: { "stackArn": "string" }
+    /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack. This field is available to Amplify Gen 2 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. stackArn -&gt; (string) The Amazon Resource Name (ARN) for the CloudFormation stack. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:cloudformation:[a-z0-9-]+:\d{12}:stack/.+/.+$ Shorthand Syntax: stackArn=string JSON Syntax: { "stackArn": "string" }
     /// </summary>
     [CliOption("--backend")]
     public string? Backend { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting com- pute service to securely access specific Amazon Web Services re- sources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide . Constraints: o min: 0 o max: 1000 o pattern: (?s).*
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide . Constraints: • min: 0 • max: 1000 • pattern: (?s).*
     /// </summary>
     [CliOption("--compute-role-arn")]
     public string? ComputeRoleArn { get; set; }

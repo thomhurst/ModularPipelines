@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCodeguruprofilerRemoveNotificationChannelOptions : AwsOptions, 
     /// <summary>
     /// Remove one anomaly notifications channel for a profiling group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelId">The id of the channel that we want to stop receiving notifications. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group we want to change notification con- figuration for. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="ChannelId">The id of the channel that we want to stop receiving notifications. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group we want to change notification configuration for. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerRemoveNotificationChannelOptions(
         string ChannelId,
         string ProfilingGroupName
@@ -60,13 +62,13 @@ public record AwsCodeguruprofilerRemoveNotificationChannelOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the channel that we want to stop receiving notifications. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The id of the channel that we want to stop receiving notifications. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--channel-id")]
     public string? ChannelId { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group we want to change notification con- figuration for. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group we want to change notification configuration for. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }

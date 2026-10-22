@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see PutBucketTagging in the Amazon S3 API Ref- erence . Sets the tags for an S3 on Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services ac- count bill with tag key values included. Then, to see the cost of com- bined res...
+/// NOTE: This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see PutBucketTagging in the Amazon S3 API Reference . Sets the tags for an S3 on Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services account bill with tag key values included. Then, to see the cost of combined resources...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsS3controlPutBucketTaggingOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see PutBucketTagging in the Amazon S3 API Ref- erence . Sets the tags for an S3 on Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services ac- count bill with tag key values included. Then, to see the cost of com- bined res...
+    /// NOTE: This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see PutBucketTagging in the Amazon S3 API Reference . Sets the tags for an S3 on Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services account bill with tag key values included. Then, to see the cost of combined resources...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Bucket">The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket ac- cessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:out- post/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-out- post/bucket/reports . The value must be URL encoded. Constraints: o min: 3 o max: 255</param>
-    /// <param name="Tagging">TagSet -&gt; (list) [required] A collection for a set of tags. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the Outposts bucket. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Bucket">The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports . The value must be URL encoded. Constraints: • min: 3 • max: 255</param>
+    /// <param name="Tagging">TagSet -&gt; (list) [required] A collection for a set of tags. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }</param>
     public AwsS3controlPutBucketTaggingOptions(
         string AccountId,
         string Bucket,
@@ -64,19 +66,19 @@ public record AwsS3controlPutBucketTaggingOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the Outposts bucket. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket ac- cessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:out- post/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-out- post/bucket/reports . The value must be URL encoded. Constraints: o min: 3 o max: 255
+    /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports . The value must be URL encoded. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// TagSet -&gt; (list) [required] A collection for a set of tags. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }
+    /// TagSet -&gt; (list) [required] A collection for a set of tags. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--tagging")]
     public string? Tagging { get; private init; }

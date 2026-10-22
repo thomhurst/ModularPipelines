@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes properties of scheduled actions. See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ScheduledActions
+/// Describes properties of scheduled actions. See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScheduledActions
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,25 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftDescribeScheduledActionsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the scheduled action to retrieve. Constraints: o max: 2147483647
+    /// The name of the scheduled action to retrieve. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--scheduled-action-name")]
     public string? ScheduledActionName { get; set; }
 
     /// <summary>
-    /// The type of the scheduled actions to retrieve. Possible values: o ResizeCluster o PauseCluster o ResumeCluster
+    /// The type of the scheduled actions to retrieve. Possible values: • ResizeCluster • PauseCluster • ResumeCluster
     /// </summary>
     [CliOption("--target-action-type")]
     public AwsRedshiftDescribeScheduledActionsTargetActionType? TargetActionType { get; set; }
 
     /// <summary>
-    /// The start time in UTC of the scheduled actions to retrieve. Only ac- tive scheduled actions that have invocations after this time are re- trieved.
+    /// The start time in UTC of the scheduled actions to retrieve. Only active scheduled actions that have invocations after this time are retrieved.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// The end time in UTC of the scheduled action to retrieve. Only active scheduled actions that have invocations before this time are re- trieved.
+    /// The end time in UTC of the scheduled action to retrieve. Only active scheduled actions that have invocations before this time are retrieved.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
@@ -54,16 +54,13 @@ public record AwsRedshiftDescribeScheduledActionsOptions : AwsOptions
     public bool? Active { get; set; }
 
     /// <summary>
-    /// List of scheduled action filters. (structure) A set of elements to filter the returned scheduled actions. Name -&gt; (string) [required] The type of element to filter. Possible values: o cluster-identifier o iam-role Values -&gt; (list) [required] List of values. Compare if the value (of type defined by Name ) equals an item in the list of scheduled actions. (string) Constraints: o max: 2147483647 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "cluster-identifier"|"iam-role", "Values": ["string", ...] } ... ]
+    /// List of scheduled action filters. (structure) A set of elements to filter the returned scheduled actions. Name -&gt; (string) [required] The type of element to filter. Possible values: • cluster-identifier • iam-role Values -&gt; (list) [required] List of values. Compare if the value (of type defined by Name ) equals an item in the list of scheduled actions. (string) Constraints: • max: 2147483647 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "cluster-identifier"|"iam-role", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -73,15 +70,18 @@ public record AwsRedshiftDescribeScheduledActionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

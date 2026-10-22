@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the Spark Connect endpoint URL and a time-limited authentica- tion token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one. See also: AWS API Documentation
+/// Returns the Spark Connect endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsEmrGetSessionEndpointOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the Spark Connect endpoint URL and a time-limited authentica- tion token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one. See also: AWS API Documentation
+    /// Returns the Spark Connect endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The ID of the cluster that the session belongs to. Constraints: o max: 256</param>
-    /// <param name="SessionId">The ID of the session. Constraints: o min: 0 o max: 256</param>
+    /// <param name="ClusterId">The ID of the cluster that the session belongs to. Constraints: • max: 256</param>
+    /// <param name="SessionId">The ID of the session. Constraints: • min: 0 • max: 256</param>
     public AwsEmrGetSessionEndpointOptions(
         string ClusterId,
         string SessionId
@@ -60,13 +62,13 @@ public record AwsEmrGetSessionEndpointOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster that the session belongs to. Constraints: o max: 256
+    /// The ID of the cluster that the session belongs to. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The ID of the session. Constraints: o min: 0 o max: 256
+    /// The ID of the session. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

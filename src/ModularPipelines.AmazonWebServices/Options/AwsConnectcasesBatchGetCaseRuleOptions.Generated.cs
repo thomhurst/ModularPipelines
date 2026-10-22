@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnectcasesBatchGetCaseRuleOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions . For more information about case field conditions, see Add case field conditions to a case template . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">Unique identifier of a Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="CaseRules">A list of case rule identifiers. Constraints: o min: 1 o max: 50 (structure) Object containing case rule identifier information. id -&gt; (string) [required] Unique identifier of a case rule. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]</param>
+    /// <param name="DomainId">Unique identifier of a Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="CaseRules">A list of case rule identifiers. Constraints: • min: 1 • max: 50 (structure) Object containing case rule identifier information. id -&gt; (string) [required] Unique identifier of a case rule. Constraints: • min: 1 • max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]</param>
     public AwsConnectcasesBatchGetCaseRuleOptions(
         string DomainId,
         IEnumerable<string> CaseRules
@@ -71,13 +73,13 @@ public record AwsConnectcasesBatchGetCaseRuleOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique identifier of a Cases domain. Constraints: o min: 1 o max: 500
+    /// Unique identifier of a Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A list of case rule identifiers. Constraints: o min: 1 o max: 50 (structure) Object containing case rule identifier information. id -&gt; (string) [required] Unique identifier of a case rule. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]
+    /// A list of case rule identifiers. Constraints: • min: 1 • max: 50 (structure) Object containing case rule identifier information. id -&gt; (string) [required] Unique identifier of a case rule. Constraints: • min: 1 • max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]
     /// </summary>
     [CliOption("--case-rules", GroupValues = true)]
     public IEnumerable<string>? CaseRules { get; private init; }

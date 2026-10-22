@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is en- crypted at rest using the specified KMS key. Callers must have kms:De- crypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region you do not need to create it before calling this operation. You...
+/// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region you do not need to create it before calling this operation. You can...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsCloudwatchAssociateDataSetKmsKeyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is en- crypted at rest using the specified KMS key. Callers must have kms:De- crypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region you do not need to create it before calling this operation. You...
+    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region you do not need to create it before calling this operation. You can...
     /// </summary>
-    /// <param name="DataSetIdentifier">Specifies the identifier of the dataset that you want to associate the KMS key with. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: o min: 1 o max: 2048 o pattern: (default|arn:[a-zA-Z0-9-]+:cloud- watch:[a-zA-Z0-9-]*:\d{12}:dataset/default)</param>
-    /// <param name="KmsKeyArn">Specifies the Amazon Resource Name (ARN) of the customer managed KMS key to associate with the dataset. The key must be a symmetric en- cryption KMS key (SYMMETRIC_DEFAULT ) in the same Amazon Web Ser- vices Region as the dataset. The ARN must be in the format `` arn:aws:kms:Region :account-id :key/key-id `` . Key IDs, aliases, and alias ARNs are not accepted. System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline literal start-string without end-string. For more information about KMS key ARNs, see Key ARN in the Amazon Web Services Key Management Service Developer Guide . Constraints: o min: 20 o max: 2048 o pattern: arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key/[a-f0-9-]+</param>
+    /// <param name="DataSetIdentifier">Specifies the identifier of the dataset that you want to associate the KMS key with. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: • min: 1 • max: 2048 • pattern: (default|arn:[a-zA-Z0-9-]+:cloudwatch:[a-zA-Z0-9-]*:\d{12}:dataset/default)</param>
+    /// <param name="KmsKeyArn">Specifies the Amazon Resource Name (ARN) of the customer managed KMS key to associate with the dataset. The key must be a symmetric encryption KMS key (SYMMETRIC_DEFAULT ) in the same Amazon Web Services Region as the dataset. The ARN must be in the format `` arn:aws:kms:Region :account-id :key/key-id `` . Key IDs, aliases, and alias ARNs are not accepted. System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline literal start-string without end-string. For more information about KMS key ARNs, see Key ARN in the Amazon Web Services Key Management Service Developer Guide . Constraints: • min: 20 • max: 2048 • pattern: arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key/[a-f0-9-]+</param>
     public AwsCloudwatchAssociateDataSetKmsKeyOptions(
         string DataSetIdentifier,
         string KmsKeyArn
@@ -60,13 +62,13 @@ public record AwsCloudwatchAssociateDataSetKmsKeyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the identifier of the dataset that you want to associate the KMS key with. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: o min: 1 o max: 2048 o pattern: (default|arn:[a-zA-Z0-9-]+:cloud- watch:[a-zA-Z0-9-]*:\d{12}:dataset/default)
+    /// Specifies the identifier of the dataset that you want to associate the KMS key with. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: • min: 1 • max: 2048 • pattern: (default|arn:[a-zA-Z0-9-]+:cloudwatch:[a-zA-Z0-9-]*:\d{12}:dataset/default)
     /// </summary>
     [CliOption("--dataset-identifier")]
     public string? DataSetIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the customer managed KMS key to associate with the dataset. The key must be a symmetric en- cryption KMS key (SYMMETRIC_DEFAULT ) in the same Amazon Web Ser- vices Region as the dataset. The ARN must be in the format `` arn:aws:kms:Region :account-id :key/key-id `` . Key IDs, aliases, and alias ARNs are not accepted. System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline literal start-string without end-string. For more information about KMS key ARNs, see Key ARN in the Amazon Web Services Key Management Service Developer Guide . Constraints: o min: 20 o max: 2048 o pattern: arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key/[a-f0-9-]+
+    /// Specifies the Amazon Resource Name (ARN) of the customer managed KMS key to associate with the dataset. The key must be a symmetric encryption KMS key (SYMMETRIC_DEFAULT ) in the same Amazon Web Services Region as the dataset. The ARN must be in the format `` arn:aws:kms:Region :account-id :key/key-id `` . Key IDs, aliases, and alias ARNs are not accepted. System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline literal start-string without end-string. For more information about KMS key ARNs, see Key ARN in the Amazon Web Services Key Management Service Developer Guide . Constraints: • min: 20 • max: 2048 • pattern: arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key/[a-f0-9-]+
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; private init; }

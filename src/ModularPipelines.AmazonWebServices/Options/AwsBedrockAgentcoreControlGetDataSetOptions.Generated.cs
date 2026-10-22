@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockAgentcoreControlGetDataSetOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieves dataset metadata. Use the datasetVersion query parameter to retrieve a specific version's metadata. If absent, defaults to DRAFT. For paginated example content, use ListDatasetExamples . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The unique identifier of the dataset to retrieve. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}</param>
+    /// <param name="DataSetId">The unique identifier of the dataset to retrieve. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}</param>
     public AwsBedrockAgentcoreControlGetDataSetOptions(
         string DataSetId
     )
@@ -56,13 +58,13 @@ public record AwsBedrockAgentcoreControlGetDataSetOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the dataset to retrieve. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}
+    /// The unique identifier of the dataset to retrieve. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// Version to retrieve: "DRAFT" or a version number. Defaults to DRAFT if absent. Constraints: o pattern: (DRAFT|[0-9]+)
+    /// Version to retrieve: "DRAFT" or a version number. Defaults to DRAFT if absent. Constraints: • pattern: (DRAFT|[0-9]+)
     /// </summary>
     [CliOption("--dataset-version")]
     public string? DataSetVersion { get; set; }

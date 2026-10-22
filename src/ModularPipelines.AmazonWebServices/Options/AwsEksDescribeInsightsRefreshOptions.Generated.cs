@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the status of the latest on-demand cluster insights refresh op- eration. See also: AWS API Documentation
+/// Returns the status of the latest on-demand cluster insights refresh operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsEksDescribeInsightsRefreshOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the status of the latest on-demand cluster insights refresh op- eration. See also: AWS API Documentation
+    /// Returns the status of the latest on-demand cluster insights refresh operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The name of the cluster associated with the insights refresh opera- tion.</param>
+    /// <param name="ClusterName">The name of the cluster associated with the insights refresh operation.</param>
     public AwsEksDescribeInsightsRefreshOptions(
         string ClusterName
     )
@@ -56,7 +58,7 @@ public record AwsEksDescribeInsightsRefreshOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the cluster associated with the insights refresh opera- tion.
+    /// The name of the cluster associated with the insights refresh operation.
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }

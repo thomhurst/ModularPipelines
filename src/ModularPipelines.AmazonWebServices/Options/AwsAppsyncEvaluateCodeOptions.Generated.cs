@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request func- tion takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type. See also: A...
+/// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type. See also: AWS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsAppsyncEvaluateCodeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request func- tion takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type. See also: A...
+    /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type. See also: AWS...
     /// </summary>
-    /// <param name="Runtime">The runtime to be used when evaluating the code. Currently, only the APPSYNC_JS runtime is supported. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: o APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }</param>
-    /// <param name="Code">The code definition to be evaluated. Note that code and runtime are both required for this action. The runtime value must be APPSYNC_JS . Constraints: o min: 1 o max: 32768</param>
-    /// <param name="Context">The map that holds all of the contextual information for your re- solver invocation. A context is required for this action. Constraints: o min: 2 o max: 28000 o pattern: ^[\s\S]*$</param>
+    /// <param name="Runtime">The runtime to be used when evaluating the code. Currently, only the APPSYNC_JS runtime is supported. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: • APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }</param>
+    /// <param name="Code">The code definition to be evaluated. Note that code and runtime are both required for this action. The runtime value must be APPSYNC_JS . Constraints: • min: 1 • max: 32768</param>
+    /// <param name="Context">The map that holds all of the contextual information for your resolver invocation. A context is required for this action. Constraints: • min: 2 • max: 28000 • pattern: ^[\s\S]*$</param>
     public AwsAppsyncEvaluateCodeOptions(
         string Runtime,
         string Code,
@@ -64,19 +66,19 @@ public record AwsAppsyncEvaluateCodeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The runtime to be used when evaluating the code. Currently, only the APPSYNC_JS runtime is supported. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: o APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }
+    /// The runtime to be used when evaluating the code. Currently, only the APPSYNC_JS runtime is supported. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: • APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }
     /// </summary>
     [CliOption("--runtime")]
     public string? Runtime { get; private init; }
 
     /// <summary>
-    /// The code definition to be evaluated. Note that code and runtime are both required for this action. The runtime value must be APPSYNC_JS . Constraints: o min: 1 o max: 32768
+    /// The code definition to be evaluated. Note that code and runtime are both required for this action. The runtime value must be APPSYNC_JS . Constraints: • min: 1 • max: 32768
     /// </summary>
     [CliOption("--code")]
     public string? Code { get; private init; }
 
     /// <summary>
-    /// The map that holds all of the contextual information for your re- solver invocation. A context is required for this action. Constraints: o min: 2 o max: 28000 o pattern: ^[\s\S]*$
+    /// The map that holds all of the contextual information for your resolver invocation. A context is required for this action. Constraints: • min: 2 • max: 28000 • pattern: ^[\s\S]*$
     /// </summary>
     [CliOption("--context")]
     public string? Context { get; private init; }

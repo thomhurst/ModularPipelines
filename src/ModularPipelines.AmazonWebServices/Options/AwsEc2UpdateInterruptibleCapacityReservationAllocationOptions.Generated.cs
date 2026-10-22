@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the number of instances allocated to an interruptible reserva- tion, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation. See also: AWS API Documentation
+/// Modifies the number of instances allocated to an interruptible reservation, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the number of instances allocated to an interruptible reserva- tion, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation. See also: AWS API Documentation
+    /// Modifies the number of instances allocated to an interruptible reservation, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CapacityReservationId">The ID of the source Capacity Reservation containing the interrupt- ible allocation to modify.</param>
+    /// <param name="CapacityReservationId">The ID of the source Capacity Reservation containing the interruptible allocation to modify.</param>
     public AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions(
         string CapacityReservationId
     )
@@ -57,7 +59,7 @@ public record AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the source Capacity Reservation containing the interrupt- ible allocation to modify.
+    /// The ID of the source Capacity Reservation containing the interruptible allocation to modify.
     /// </summary>
     [CliOption("--capacity-reservation-id")]
     public string? CapacityReservationId { get; private init; }
@@ -75,7 +77,7 @@ public record AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions : Aw
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Specifies the updated behavior for the interruptible Capacity Reser- vation when you reduce its allocation to zero instances. Specify re- tain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Spec- ify default to cancel the interruptible Capacity Reservation and re- turn the capacity to your source Capacity Reservation. Possible values: o retain o default
+    /// Specifies the updated behavior for the interruptible Capacity Reservation when you reduce its allocation to zero instances. Specify retain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Specify default to cancel the interruptible Capacity Reservation and return the capacity to your source Capacity Reservation. Possible values: • retain • default
     /// </summary>
     [CliOption("--zero-size-preference")]
     public AwsEc2UpdateInterruptibleCapacityReservationAllocationZeroSizePreference? ZeroSizePreference { get; set; }

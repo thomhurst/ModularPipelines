@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets recommendations about architecture designs for improving re- siliency for an application, based on a recovery group. See also: AWS API Documentation
+/// Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsRoute53RecoveryReadinessGetArchitectureRecommendationsOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets recommendations about architecture designs for improving re- siliency for an application, based on a recovery group. See also: AWS API Documentation
+    /// Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group. See also: AWS API Documentation
     /// </summary>
     /// <param name="RecoveryGroupName">The name of a recovery group.</param>
     public AwsRoute53RecoveryReadinessGetArchitectureRecommendationsOptions(
@@ -63,7 +65,7 @@ public record AwsRoute53RecoveryReadinessGetArchitectureRecommendationsOptions :
     public string? RecoveryGroupName { get; private init; }
 
     /// <summary>
-    /// The number of objects that you want to return with this call. Constraints: o min: 1 o max: 1000
+    /// The number of objects that you want to return with this call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

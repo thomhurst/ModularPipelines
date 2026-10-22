@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -30,7 +32,7 @@ public record AwsApigatewayGetMethodResponseOptions : AwsOptions, IValidatableOb
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="ResourceId">The Resource identifier for the MethodResponse resource.</param>
     /// <param name="HttpMethod">The HTTP verb of the Method resource.</param>
-    /// <param name="StatusCode">The status code for the MethodResponse resource. Constraints: o pattern: [1-5]\d\d</param>
+    /// <param name="StatusCode">The status code for the MethodResponse resource. Constraints: • pattern: [1-5]\d\d</param>
     public AwsApigatewayGetMethodResponseOptions(
         string RestApiId,
         string ResourceId,
@@ -86,7 +88,7 @@ public record AwsApigatewayGetMethodResponseOptions : AwsOptions, IValidatableOb
     public string? HttpMethod { get; private init; }
 
     /// <summary>
-    /// The status code for the MethodResponse resource. Constraints: o pattern: [1-5]\d\d
+    /// The status code for the MethodResponse resource. Constraints: • pattern: [1-5]\d\d
     /// </summary>
     [CliOption("--status-code")]
     public string? StatusCode { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions : AwsOptions
     /// <summary>
     /// Gets metadata information about the test set discrepancy report. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestSetDiscrepancyReportId">The unique identifier of the test set discrepancy report. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="TestSetDiscrepancyReportId">The unique identifier of the test set discrepancy report. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions(
         string TestSetDiscrepancyReportId
     )
@@ -56,7 +58,7 @@ public record AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the test set discrepancy report. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the test set discrepancy report. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-set-discrepancy-report-id")]
     public string? TestSetDiscrepancyReportId { get; private init; }

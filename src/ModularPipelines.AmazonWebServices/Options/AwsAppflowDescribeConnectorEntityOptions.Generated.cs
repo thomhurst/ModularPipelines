@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppflowDescribeConnectorEntityOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Provides details regarding the entity used with the connector, with a description of the data model for each field in that entity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorEntityName">The entity name for that connector. Constraints: o max: 1024 o pattern: \S+</param>
+    /// <param name="ConnectorEntityName">The entity name for that connector. Constraints: • max: 1024 • pattern: \S+</param>
     public AwsAppflowDescribeConnectorEntityOptions(
         string ConnectorEntityName
     )
@@ -56,25 +58,25 @@ public record AwsAppflowDescribeConnectorEntityOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The entity name for that connector. Constraints: o max: 1024 o pattern: \S+
+    /// The entity name for that connector. Constraints: • max: 1024 • pattern: \S+
     /// </summary>
     [CliOption("--connector-entity-name")]
     public string? ConnectorEntityName { get; private init; }
 
     /// <summary>
-    /// The type of connector application, such as Salesforce, Amplitude, and so on. Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot
+    /// The type of connector application, such as Salesforce, Amplitude, and so on. Possible values: • Salesforce • Singular • Slack • Redshift • S3 • Marketo • Googleanalytics • Zendesk • Servicenow • Datadog • Trendmicro • Snowflake • Dynatrace • Infornexus • Amplitude • Veeva • EventBridge • LookoutMetrics • Upsolver • Honeycode • CustomerProfiles • SAPOData • CustomConnector • Pardot
     /// </summary>
     [CliOption("--connector-type")]
     public string? ConnectorType { get; set; }
 
     /// <summary>
-    /// The name of the connector profile. The name is unique for each Con- nectorProfile in the Amazon Web Services account. Constraints: o max: 256 o pattern: [\w/!@#+=.-]+
+    /// The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account. Constraints: • max: 256 • pattern: [\w/!@#+=.-]+
     /// </summary>
     [CliOption("--connector-profile-name")]
     public string? ConnectorProfileName { get; set; }
 
     /// <summary>
-    /// The version of the API that's used by the connector. Constraints: o max: 256 o pattern: \S+
+    /// The version of the API that's used by the connector. Constraints: • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--api-version")]
     public string? ApiVersion { get; set; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppstreamExpireSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Immediately stops the specified streaming session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The identifier of the streaming session. Constraints: o min: 1</param>
+    /// <param name="SessionId">The identifier of the streaming session. Constraints: • min: 1</param>
     public AwsAppstreamExpireSessionOptions(
         string SessionId
     )
@@ -56,7 +58,7 @@ public record AwsAppstreamExpireSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the streaming session. Constraints: o min: 1
+    /// The identifier of the streaming session. Constraints: • min: 1
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

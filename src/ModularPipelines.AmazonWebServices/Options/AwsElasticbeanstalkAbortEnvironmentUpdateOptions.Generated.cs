@@ -28,7 +28,7 @@ public record AwsElasticbeanstalkAbortEnvironmentUpdateOptions : AwsOptions
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// This specifies the name of the environment with the in-progress up- date that you want to cancel. Constraints: o min: 4 o max: 40
+    /// This specifies the name of the environment with the in-progress update that you want to cancel. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }

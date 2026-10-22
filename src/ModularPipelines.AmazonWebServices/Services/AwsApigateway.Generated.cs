@@ -122,7 +122,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Creates a domain name access association resource between an access as- sociation source and a private custom domain name. See also: AWS API Documentation
+    /// Creates a domain name access association resource between an access association source and a private custom domain name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation re- source can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the Re- jectDomainNameAccessAssociation operation. See also: AWS API Documentation
+    /// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Deletes a usage plan key and remove the underlying API key from the as- sociated usage plan. See also: AWS API Documentation
+    /// Deletes a usage plan key and remove the underlying API key from the associated usage plan. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets information about the current ApiKeys resource. See also: AWS API Documentation get-api-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// Gets information about the current ApiKeys resource. See also: AWS API Documentation get-api-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Describe an existing Authorizers resource. See also: AWS API Documentation get-authorizers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Describe an existing Authorizers resource. See also: AWS API Documentation get-authorizers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets a collection of ClientCertificate resources. See also: AWS API Documentation get-client-certificates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Gets a collection of ClientCertificate resources. See also: AWS API Documentation get-client-certificates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets information about a Deployments collection. See also: AWS API Documentation get-deployments is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Gets information about a Deployments collection. See also: AWS API Documentation get-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets documentation parts. See also: AWS API Documentation get-documentation-parts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Gets documentation parts. See also: AWS API Documentation get-documentation-parts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets documentation versions. See also: AWS API Documentation get-documentation-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Gets documentation versions. See also: AWS API Documentation get-documentation-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the re- sult will be the API Gateway-generated default GatewayResponses collec- tion for the supported response types. See also: AWS API Documentation get-gateway-responses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --ou...
+    /// Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types. See also: AWS API Documentation get-gateway-responses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,21 +1037,6 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Describes existing Models defined for a RestApi resource. See also: AWS API Documentation get-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetModelsAsync(
-        AwsApigatewayGetModelsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Generates a sample mapping template that can be used to transform a payload into the structure of a model. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1060,6 +1045,21 @@ public class AwsApigateway : IAwsApigateway
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetModelTemplateAsync(
         AwsApigatewayGetModelTemplateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes existing Models defined for a RestApi resource. See also: AWS API Documentation get-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetModelsAsync(
+        AwsApigatewayGetModelsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1112,7 +1112,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Lists information about a collection of Resource resources. See also: AWS API Documentation get-resources is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists information about a collection of Resource resources. See also: AWS API Documentation get-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1142,7 +1142,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Lists the RestApis resources for your collection. See also: AWS API Documentation get-rest-apis is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the RestApis resources for your collection. See also: AWS API Documentation get-rest-apis is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1187,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets SDK types See also: AWS API Documentation get-sdk-types is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Gets SDK types See also: AWS API Documentation get-sdk-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1247,7 +1247,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets the usage data of a usage plan in a specified time interval. See also: AWS API Documentation get-usage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: items
+    /// Gets the usage data of a usage plan in a specified time interval. See also: AWS API Documentation get-usage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1277,7 +1277,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets all the usage plan keys representing the API keys added to a spec- ified usage plan. See also: AWS API Documentation get-usage-plan-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Gets all the usage plan keys representing the API keys added to a specified usage plan. See also: AWS API Documentation get-usage-plan-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1307,7 +1307,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets all the usage plans of the caller's account. See also: AWS API Documentation get-usage-plans is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Gets all the usage plans of the caller's account. See also: AWS API Documentation get-usage-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1337,7 +1337,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Gets the VpcLinks collection under the caller's account in a selected region. See also: AWS API Documentation get-vpc-links is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Gets the VpcLinks collection under the caller's account in a selected region. See also: AWS API Documentation get-vpc-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1472,7 +1472,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or over- writing the existing API. See also: AWS API Documentation
+    /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1532,7 +1532,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Simulate the invocation of a Method in your RestApi with headers, para- meters, and an incoming request body. See also: AWS API Documentation
+    /// Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1847,7 +1847,7 @@ public class AwsApigateway : IAwsApigateway
     }
 
     /// <summary>
-    /// Grants a temporary extension to the remaining quota of a usage plan as- sociated with a specified API key. See also: AWS API Documentation
+    /// Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

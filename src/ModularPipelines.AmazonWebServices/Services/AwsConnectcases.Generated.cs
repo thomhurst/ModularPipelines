@@ -47,7 +47,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Returns the description for the list of fields in the request parame- ters. See also: AWS API Documentation
+    /// Returns the description for the list of fields in the request parameters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// NOTE: If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configu- rations, the specified tags are automatically applied to the case. The following fields are required when creating a case: o customer_id - You...
+    /// NOTE: If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case. The following fields are required when creating a case: • customer_id - You m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. WARNING: This will not associate your connect instance to Cases domain. In- stead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases . See also: AWS API Documentation
+    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. WARNING: This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Creates a layout in the Cases domain. Layouts define the following con- figuration in the top section and More Info tab of the Cases user in- terface: o Fields to display to the users o Field ordering NOTE: Title and Status fields cannot be part of layouts since they are not configurable. See also: AWS API Documentation
+    /// Creates a layout in the Cases domain. Layouts define the following configuration in the top section and More Info tab of the Cases user interface: • Fields to display to the users • Field ordering NOTE: Title and Status fields cannot be part of layouts since they are not configurable. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type re- lated item. See Amazon Connect Cases quotas . Use cases Following are examples of related items that you may want to associate with a case: o Related contacts, such as calls, chats, emails tasks o Comments, for agent notes o SLAs, to capture target resolution goals o Cases, to capture related Amazon Connect Cases o Files, such as policy docum...
+    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas . Use cases Following are examples of related items that you may want to associate with a case: • Related contacts, such as calls, chats, emails tasks • Comments, for agent notes • SLAs, to capture target resolution goals • Cases, to capture related Amazon Connect Cases • Files, such as policy documen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Addi- tionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases. Other temp...
+    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases. Other templa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot: o Retrieve related items o Access audit history o Perform any operations that require the CaseID WARNING: This action is irreversible. After you delete a case, you cannot re- cover its data. See also: AWS API Documentation
+    /// The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot: • Retrieve related items • Access audit history • Perform any operations that require the CaseID WARNING: This action is irreversible. After you delete a case, you cannot recover its data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Deletes a field from a cases template. After a field is deleted: o You can still retrieve the field by calling BatchGetField . o You cannot update a deleted field by calling UpdateField ; it throws a ValidationException . o Deleted fields are not included in the ListFields response. o Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted. o Calling GetCase with a deleted field identifier returns the deleted field's ...
+    /// Deletes a field from a cases template. After a field is deleted: • You can still retrieve the field by calling BatchGetField . • You cannot update a deleted field by calling UpdateField ; it throws a ValidationException . • Deleted fields are not included in the ListFields response. • Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted. • Calling GetCase with a deleted field identifier returns the deleted field's ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Deletes a layout from a cases template. You can delete up to 100 lay- outs per domain. After a layout is deleted: o You can still retrieve the layout by calling GetLayout . o You cannot update a deleted layout by calling UpdateLayout ; it throws a ValidationException . o Deleted layouts are not included in the ListLayouts response. See also: AWS API Documentation
+    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain. After a layout is deleted: • You can still retrieve the layout by calling GetLayout . • You cannot update a deleted layout by calling UpdateLayout ; it throws a ValidationException . • Deleted layouts are not included in the ListLayouts response. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Deletes a cases template. You can delete up to 100 templates per do- main. After a cases template is deleted: o You can still retrieve the template by calling GetTemplate . o You cannot update the template. o You cannot create a case by using the deleted template. o Deleted templates are not included in the ListTemplates response. See also: AWS API Documentation
+    /// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted: • You can still retrieve the template by calling GetTemplate . • You cannot update the template. • You cannot create a case by using the deleted template. • Deleted templates are not included in the ListTemplates response. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Returns the details for the requested template. Other template APIs are: o CreateTemplate o DeleteTemplate o ListTemplates o UpdateTemplate See also: AWS API Documentation
+    /// Returns the details for the requested template. Other template APIs are: • CreateTemplate • DeleteTemplate • ListTemplates • UpdateTemplate See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions . For more in- formation about case field conditions, see Add case field conditions to a case template . See also: AWS API Documentation list-case-rules is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query...
+    /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions . For more information about case field conditions, see Add case field conditions to a case template . See also: AWS API Documentation list-case-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Lists all layouts in the given cases domain. Each list item is a con- densed summary object of the layout. See also: AWS API Documentation
+    /// Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Lists all of the templates in a Cases domain. Each list item is a con- densed summary object of the template. Other template APIs are: o CreateTemplate o DeleteTemplate o GetTemplate o UpdateTemplate See also: AWS API Documentation
+    /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template. Other template APIs are: • CreateTemplate • DeleteTemplate • GetTemplate • UpdateTemplate See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific SearchRelatedItems API. Use cases Following are common uses cases for this API: o Find cases with similar issues across the domain. For example, search for all cases containing comments about "product defect" to identify patterns and existing solutions. o Locate all cases associated with specific contacts or orders. For ex- ample,...
+    /// Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific SearchRelatedItems API. Use cases Following are common uses cases for this API: • Find cases with similar issues across the domain. For example, search for all cases containing comments about "product defect" to identify patterns and existing solutions. • Locate all cases associated with specific contacts or orders. For example, f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents. NOTE: For customer_id you must provide the full customer profile ARN in this format: arn:aws:profile:your AWS Region:your AWS account ID:do- mains/profiles domain name/profiles/profile ID . See also: AWS API Documentation search-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi...
+    /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents. NOTE: For customer_id you must provide the full customer profile ARN in this format: arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID . See also: AWS API Documentation search-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Searches for related items that are associated with a case. NOTE: If no filters are provided, this returns all related items associ- ated with a case. See also: AWS API Documentation search-related-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// Searches for related items that are associated with a case. NOTE: If no filters are provided, this returns all related items associated with a case. See also: AWS API Documentation search-related-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// NOTE: If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are re- ceived as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 re- sponse with an empty HTTP body. See also: AWS API Documentation
+    /// NOTE: If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 re- sponse with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. NOTE: Title and Status fields cannot be part of layouts because they are not configurable. See also: AWS API Documentation
+    /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. NOTE: Title and Status fields cannot be part of layouts because they are not configurable. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Updates the content of a related item associated with a case. The fol- lowing related item types are supported: o Comment - Update the text content of an existing comment o Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas . Important things to know o When updating a Custom related item, all existing and new fields, ...
+    /// Updates the content of a related item associated with a case. The following related item types are supported: • Comment - Update the text content of an existing comment • Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas . Important things to know • When updating a Custom related item, all existing and new fields, an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsConnectcases : IAwsConnectcases
     }
 
     /// <summary>
-    /// Updates the attributes of an existing template. The template attributes that can be modified include name , description , layoutConfiguration , requiredFields , and status . At least one of these attributes must not be null. If a null value is provided for a given attribute, that at- tribute is ignored and its current value is preserved. Other template APIs are: o CreateTemplate o DeleteTemplate o GetTemplate o ListTemplates See also: AWS API Documentation
+    /// Updates the attributes of an existing template. The template attributes that can be modified include name , description , layoutConfiguration , requiredFields , and status . At least one of these attributes must not be null. If a null value is provided for a given attribute, that attribute is ignored and its current value is preserved. Other template APIs are: • CreateTemplate • DeleteTemplate • GetTemplate • ListTemplates See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -26,7 +26,7 @@ public record AwsAppsyncGetIntrospectionSchemaOptions : AwsOptions
     /// Retrieves the introspection schema for a GraphQL API. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The API ID.</param>
-    /// <param name="Format">The schema format: SDL or JSON. Possible values: o SDL o JSON</param>
+    /// <param name="Format">The schema format: SDL or JSON. Possible values: • SDL • JSON</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsAppsyncGetIntrospectionSchemaOptions(
         string ApiId,
@@ -55,13 +55,13 @@ public record AwsAppsyncGetIntrospectionSchemaOptions : AwsOptions
     public string ApiId { get; private init; }
 
     /// <summary>
-    /// The schema format: SDL or JSON. Possible values: o SDL o JSON
+    /// The schema format: SDL or JSON. Possible values: • SDL • JSON
     /// </summary>
     [CliOption("--format")]
     public AwsAppsyncGetIntrospectionSchemaFormat Format { get; private init; }
 
     /// <summary>
-    /// A flag that specifies whether the schema introspection should con- tain directives. outfile (string) [required] Filename where the content will be saved
+    /// A flag that specifies whether the schema introspection should contain directives. outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliFlag("--include-directives", NegatedName = "--no-include-directives")]
     public bool? IncludeDirectives { get; set; }

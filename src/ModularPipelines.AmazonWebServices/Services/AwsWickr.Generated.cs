@@ -32,7 +32,7 @@ public class AwsWickr : IAwsWickr
     #region Commands
 
     /// <summary>
-    /// Creates multiple users in a specified Wickr network. This operation al- lows you to provision multiple user accounts simultaneously, optionally specifying security groups, and validation requirements for each user. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
+    /// Creates multiple users in a specified Wickr network. This operation allows you to provision multiple user accounts simultaneously, optionally specifying security groups, and validation requirements for each user. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Looks up multiple user usernames from their unique username hashes (un- ames). This operation allows you to retrieve the email addresses asso- ciated with a list of username hashes. See also: AWS API Documentation
+    /// Looks up multiple user usernames from their unique username hashes (unames). This operation allows you to retrieve the email addresses associated with a list of username hashes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't ac- cepted their initial invitations or when invitations have expired. See also: AWS API Documentation
+    /// Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't accepted their initial invitations or when invitations have expired. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This opera- tion is useful for temporarily restricting access without deleting user accounts. See also: AWS API Documentation
+    /// Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Creates a new bot in a specified Wickr network. Bots are automated ac- counts that can send and receive messages, enabling integration with external systems and automation of tasks. See also: AWS API Documentation
+    /// Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Creates a new challenge password for the data retention bot. This pass- word is used for authentication when the bot connects to the network. See also: AWS API Documentation
+    /// Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational re- quirements. See also: AWS API Documentation
+    /// Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Creates a new Wickr network with specified access level and configura- tion. This operation provisions a new communication network for your organization. See also: AWS API Documentation
+    /// Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and se- curity settings. See also: AWS API Documentation
+    /// Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and security settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Deletes a bot from a specified Wickr network. This operation perma- nently removes the bot account and its associated data from the net- work. See also: AWS API Documentation
+    /// Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the data- base. See also: AWS API Documentation
+    /// Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific Wickr network, includ- ing its configuration, access level, and status. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific Wickr network, including its configuration, access level, and status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configura- tion. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific user in a Wickr net- work, including their profile, status, and activity history. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific user in a Wickr network, including their profile, status, and activity history. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria. See also: AWS API Documentation list-bots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the followin...
+    /// Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria. See also: AWS API Documentation list-bots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all de- vices where the user has logged into Wickr. See also: AWS API Documentation list-devices-for-user is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
+    /// Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all devices where the user has logged into Wickr. See also: AWS API Documentation list-devices-for-user is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated net- works who can communicate with network members. See also: AWS API Documentation list-guest-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
+    /// Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated networks who can communicate with network members. See also: AWS API Documentation list-guest-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name. See also: AWS API Documentation list-networks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
+    /// Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name. See also: AWS API Documentation list-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,22 +497,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves a paginated list of security groups in a specified Wickr net- work. You can sort the results by various criteria. See also: AWS API Documentation list-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSecurityGroupsAsync(
-        AwsWickrListSecurityGroupsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves a paginated list of users who belong to a specific security group in a Wickr network. See also: AWS API Documentation list-security-group-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expression...
+    /// Retrieves a paginated list of users who belong to a specific security group in a Wickr network. See also: AWS API Documentation list-security-group-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +512,22 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument...
+    /// Retrieves a paginated list of security groups in a specified Wickr network. You can sort the results by various criteria. See also: AWS API Documentation list-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSecurityGroupsAsync(
+        AwsWickrListSecurityGroupsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an iden- tity provider. See also: AWS API Documentation
+    /// Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an identity provider. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Updates the properties of an existing bot in a Wickr network. This op- eration allows you to modify the bot's display name, security group, password, or suspension status. See also: AWS API Documentation
+    /// Updates the properties of an existing bot in a Wickr network. This operation allows you to modify the bot's display name, security group, password, or suspension status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Updates the data retention bot settings, allowing you to enable or dis- able the data retention service, or acknowledge the public key message. See also: AWS API Documentation
+    /// Updates the data retention bot settings, allowing you to enable or disable the data retention service, or acknowledge the public key message. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Updates the block status of a guest user in a Wickr network. This oper- ation allows you to block or unblock a guest user from accessing the network. See also: AWS API Documentation
+    /// Updates the block status of a guest user in a Wickr network. This operation allows you to block or unblock a guest user from accessing the network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Updates network-level settings for a Wickr network. You can modify set- tings such as client metrics, data retention, and other network-wide options. See also: AWS API Documentation
+    /// Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Updates the properties of an existing security group in a Wickr net- work, such as its name or settings. See also: AWS API Documentation
+    /// Updates the properties of an existing security group in a Wickr network, such as its name or settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Updates the properties of an existing user in a Wickr network. This op- eration allows you to modify the user's name, password, security group membership, and invite code settings. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
+    /// Updates the properties of an existing user in a Wickr network. This operation allows you to modify the user's name, password, security group membership, and invite code settings. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a delivery source . A delivery is a connection between a logi- cal delivery source and a logical delivery destination . You can't delete a delivery source if any current deliveries are asso- ciated with it. To find whether any deliveries are associated with this delivery source, use the DescribeDeliveries operation and check the de- liverySourceName field in the results. See also: AWS API Documentation
+/// Deletes a delivery source . A delivery is a connection between a logical delivery source and a logical delivery destination . You can't delete a delivery source if any current deliveries are associated with it. To find whether any deliveries are associated with this delivery source, use the DescribeDeliveries operation and check the deliverySourceName field in the results. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsLogsDeleteDeliverySourceOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a delivery source . A delivery is a connection between a logi- cal delivery source and a logical delivery destination . You can't delete a delivery source if any current deliveries are asso- ciated with it. To find whether any deliveries are associated with this delivery source, use the DescribeDeliveries operation and check the de- liverySourceName field in the results. See also: AWS API Documentation
+    /// Deletes a delivery source . A delivery is a connection between a logical delivery source and a logical delivery destination . You can't delete a delivery source if any current deliveries are associated with it. To find whether any deliveries are associated with this delivery source, use the DescribeDeliveries operation and check the deliverySourceName field in the results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the delivery source that you want to delete. Constraints: o min: 1 o max: 60 o pattern: [\w-]*</param>
+    /// <param name="Name">The name of the delivery source that you want to delete. Constraints: • min: 1 • max: 60 • pattern: [\w-]*</param>
     public AwsLogsDeleteDeliverySourceOptions(
         string Name
     )
@@ -56,7 +58,7 @@ public record AwsLogsDeleteDeliverySourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the delivery source that you want to delete. Constraints: o min: 1 o max: 60 o pattern: [\w-]*
+    /// The name of the delivery source that you want to delete. Constraints: • min: 1 • max: 60 • pattern: [\w-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

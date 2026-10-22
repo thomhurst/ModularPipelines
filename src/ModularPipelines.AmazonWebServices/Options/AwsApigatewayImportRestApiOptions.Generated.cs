@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsApigatewayImportRestApiOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// A feature of the API Gateway control service for creating a new API from an external API definition file. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Body">The POST request body containing external API definitions. Cur- rently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.</param>
+    /// <param name="Body">The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.</param>
     public AwsApigatewayImportRestApiOptions(
         string Body
     )
@@ -57,7 +58,7 @@ public record AwsApigatewayImportRestApiOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The POST request body containing external API definitions. Cur- rently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
+    /// The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
     /// </summary>
     [CliOption("--body")]
     public string? Body { get; private init; }
@@ -69,7 +70,7 @@ public record AwsApigatewayImportRestApiOptions : AwsOptions, IValidatableObject
     public bool? FailOnWarnings { get; set; }
 
     /// <summary>
-    /// A key-value map of context-specific query string parameters specify- ing the behavior of different API importing operations. The follow- ing shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ig- nore=documentation . To configure the endpoint type, set parameters as endpointConfigura- tionTypes=EDGE , endpointConfigurationTypes=REGIONAL , or endpoint- ConfigurationTypes=PRIVATE . The default endpoint type is EDGE . To handle imported basepath , set parameters as basepath=ignore , basepath=prepend or basepath=split . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ignore=documentation . To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE , endpointConfigurationTypes=REGIONAL , or endpointConfigurationTypes=PRIVATE . The default endpoint type is EDGE . To handle imported basepath , set parameters as basepath=ignore , basepath=prepend or basepath=split . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }

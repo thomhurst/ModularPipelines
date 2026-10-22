@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRedshiftDeleteUsageLimitOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a usage limit from a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UsageLimitId">The identifier of the usage limit to delete. Constraints: o max: 2147483647</param>
+    /// <param name="UsageLimitId">The identifier of the usage limit to delete. Constraints: • max: 2147483647</param>
     public AwsRedshiftDeleteUsageLimitOptions(
         string UsageLimitId
     )
@@ -56,7 +58,7 @@ public record AwsRedshiftDeleteUsageLimitOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the usage limit to delete. Constraints: o max: 2147483647
+    /// The identifier of the usage limit to delete. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--usage-limit-id")]
     public string? UsageLimitId { get; private init; }

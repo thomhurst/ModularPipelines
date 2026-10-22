@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets Amazon Web Services credentials from the queue role. The IAM per- missions of the credentials are scoped down to have read-only access. See also: AWS API Documentation
+/// Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are scoped down to have read-only access. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsDeadlineAssumeQueueRoleForReadOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets Amazon Web Services credentials from the queue role. The IAM per- missions of the credentials are scoped down to have read-only access. See also: AWS API Documentation
+    /// Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are scoped down to have read-only access. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm containing the queue. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID. Constraints: o pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the farm containing the queue. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID. Constraints: • pattern: queue-[0-9a-f]{32}</param>
     public AwsDeadlineAssumeQueueRoleForReadOptions(
         string FarmId,
         string QueueId
@@ -60,13 +62,13 @@ public record AwsDeadlineAssumeQueueRoleForReadOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm containing the queue. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm containing the queue. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }

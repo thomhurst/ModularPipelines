@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of abbreviated NotificationConfigurations according to specified filters, in reverse chronological order (newest first). See also: AWS API Documentation list-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+/// Returns a list of abbreviated NotificationConfigurations according to specified filters, in reverse chronological order (newest first). See also: AWS API Documentation list-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,34 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNotificationsListNotificationConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 36 o pattern: aws.([a-z0-9\-])+
+    /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: • min: 1 • max: 36 • pattern: aws.([a-z0-9\-])+
     /// </summary>
     [CliOption("--event-rule-source")]
     public string? EventRuleSource { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Channel to match. Constraints: o pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
+    /// The Amazon Resource Name (ARN) of the Channel to match. Constraints: • pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; set; }
 
     /// <summary>
-    /// The NotificationConfiguration status to match. o Values: o ACTIVE o All EventRules are ACTIVE and any call can be run. o PARTIALLY_ACTIVE o Some EventRules are ACTIVE and some are INACTIVE . Any call can be run. o Any call can be run. o INACTIVE o All EventRules are INACTIVE and any call can be run. o DELETING o This NotificationConfiguration is being deleted. o Only GET and LIST calls can be run. Possible values: o ACTIVE o PARTIALLY_ACTIVE o INACTIVE o DELETING
+    /// The NotificationConfiguration status to match. • Values: • ACTIVE • All EventRules are ACTIVE and any call can be run. • PARTIALLY_ACTIVE • Some EventRules are ACTIVE and some are INACTIVE . Any call can be run. • Any call can be run. • INACTIVE • All EventRules are INACTIVE and any call can be run. • DELETING • This NotificationConfiguration is being deleted. • Only GET and LIST calls can be run. Possible values: • ACTIVE • PARTIALLY_ACTIVE • INACTIVE • DELETING
     /// </summary>
     [CliOption("--status")]
     public AwsNotificationsListNotificationConfigurationsStatus? Status { get; set; }
 
     /// <summary>
-    /// The subtype used to filter the notification configurations in the request. Possible values: o ACCOUNT o ADMIN_MANAGED
+    /// The subtype used to filter the notification configurations in the request. Possible values: • ACCOUNT • ADMIN_MANAGED
     /// </summary>
     [CliOption("--subtype")]
     public AwsNotificationsListNotificationConfigurationsSubtype? Subtype { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -61,15 +58,18 @@ public record AwsNotificationsListNotificationConfigurationsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

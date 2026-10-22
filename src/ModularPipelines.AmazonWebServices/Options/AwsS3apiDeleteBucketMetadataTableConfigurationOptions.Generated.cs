@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: We recommend that you delete your S3 Metadata configurations by us- ing the V2 DeleteBucketMetadataTableConfiguration API operation. We no longer recommend using the V1 DeleteBucketMetadataTableConfigura- tion API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by us- ing CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Deletes a V...
+/// WARNING: We recommend that you delete your S3 Metadata configurations by using the V2 DeleteBucketMetadataTableConfiguration API operation. We no longer recommend using the V1 DeleteBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Deletes a V1 S3 M...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsS3apiDeleteBucketMetadataTableConfigurationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: We recommend that you delete your S3 Metadata configurations by us- ing the V2 DeleteBucketMetadataTableConfiguration API operation. We no longer recommend using the V1 DeleteBucketMetadataTableConfigura- tion API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by us- ing CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Deletes a V...
+    /// WARNING: We recommend that you delete your S3 Metadata configurations by using the V2 DeleteBucketMetadataTableConfiguration API operation. We no longer recommend using the V1 DeleteBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Deletes a V1 S3 M...
     /// </summary>
-    /// <param name="Bucket">The general purpose bucket that you want to remove the metadata ta- ble configuration from.</param>
+    /// <param name="Bucket">The general purpose bucket that you want to remove the metadata table configuration from.</param>
     public AwsS3apiDeleteBucketMetadataTableConfigurationOptions(
         string Bucket
     )
@@ -56,7 +58,7 @@ public record AwsS3apiDeleteBucketMetadataTableConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The general purpose bucket that you want to remove the metadata ta- ble configuration from.
+    /// The general purpose bucket that you want to remove the metadata table configuration from.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }

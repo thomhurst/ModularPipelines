@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a database user name and temporary password with temporary au- thorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs GetCre- dentials must have an IAM policy attached that allows access to all necessary actions and resources. If the DbName parameter is specified, th...
+/// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs GetCredentials must have an IAM policy attached that allows access to all necessary actions and resources. If the DbName parameter is specified, the IA...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftServerlessGetCredentialsOptions : AwsOptions
 {
     /// <summary>
-    /// The custom domain name associated with the workgroup. The custom do- main name or the workgroup name must be included in the request. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
+    /// The custom domain name associated with the workgroup. The custom domain name or the workgroup name must be included in the request. Constraints: • min: 1 • max: 253 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
     /// </summary>
     [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; set; }
 
     /// <summary>
-    /// The name of the database to get temporary authorization to log on to. Constraints: o Must be 1 to 64 alphanumeric characters or hyphens. o Must contain only uppercase or lowercase letters, numbers, under- score, plus sign, period (dot), at symbol (@), or hyphen. o The first character must be a letter. o Must not contain a colon ( : ) or slash ( / ). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide
+    /// The name of the database to get temporary authorization to log on to. Constraints: • Must be 1 to 64 alphanumeric characters or hyphens. • Must contain only uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. • The first character must be a letter. • Must not contain a colon ( : ) or slash ( / ). • Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
@@ -40,7 +40,7 @@ public record AwsRedshiftServerlessGetCredentialsOptions : AwsOptions
     public int? DurationSeconds { get; set; }
 
     /// <summary>
-    /// The name of the workgroup associated with the database. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the workgroup associated with the database. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; set; }

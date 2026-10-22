@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Container Requests authorization to remotely connect to a hosting resource in a Amazon GameLift Servers managed fleet. This operation is not used with Amazon GameLift Servers Anywhere fleets. Request options Provide the fleet ID and compute name. The compute name varies depend- ing on the type of fleet. o For a compute in a managed EC2 fleet, provide an instance ID. Each instance in the fleet is a compute. o For a compute in a managed container...
+/// This API works with the following fleet types: EC2, Container Requests authorization to remotely connect to a hosting resource in a Amazon GameLift Servers managed fleet. This operation is not used with Amazon GameLift Servers Anywhere fleets. Request options Provide the fleet ID and compute name. The compute name varies depending on the type of fleet. • For a compute in a managed EC2 fleet, provide an instance ID. Each instance in the fleet is a compute. • For a compute in a managed container f...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsGameliftGetComputeAccessOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Requests authorization to remotely connect to a hosting resource in a Amazon GameLift Servers managed fleet. This operation is not used with Amazon GameLift Servers Anywhere fleets. Request options Provide the fleet ID and compute name. The compute name varies depend- ing on the type of fleet. o For a compute in a managed EC2 fleet, provide an instance ID. Each instance in the fleet is a compute. o For a compute in a managed container...
+    /// This API works with the following fleet types: EC2, Container Requests authorization to remotely connect to a hosting resource in a Amazon GameLift Servers managed fleet. This operation is not used with Amazon GameLift Servers Anywhere fleets. Request options Provide the fleet ID and compute name. The compute name varies depending on the type of fleet. • For a compute in a managed EC2 fleet, provide an instance ID. Each instance in the fleet is a compute. • For a compute in a managed container f...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="ComputeName">A unique identifier for the compute resource that you want to con- nect to. For an EC2 fleet, use an instance ID. For a managed con- tainer fleet, use a compute name. You can retrieve a fleet's compute names by calling ListCompute . Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:com- pute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$</param>
+    /// <param name="FleetId">A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="ComputeName">A unique identifier for the compute resource that you want to connect to. For an EC2 fleet, use an instance ID. For a managed container fleet, use a compute name. You can retrieve a fleet's compute names by calling ListCompute . Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:compute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$</param>
     public AwsGameliftGetComputeAccessOptions(
         string FleetId,
         string ComputeName
@@ -60,13 +62,13 @@ public record AwsGameliftGetComputeAccessOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the compute resource that you want to con- nect to. For an EC2 fleet, use an instance ID. For a managed con- tainer fleet, use a compute name. You can retrieve a fleet's compute names by calling ListCompute . Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:com- pute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$
+    /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet, use an instance ID. For a managed container fleet, use a compute name. You can retrieve a fleet's compute names by calling ListCompute . Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:compute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$
     /// </summary>
     [CliOption("--compute-name")]
     public string? ComputeName { get; private init; }

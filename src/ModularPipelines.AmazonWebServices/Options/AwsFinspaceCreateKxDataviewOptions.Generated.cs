@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,10 +31,10 @@ public record AwsFinspaceCreateKxDataviewOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment, where you want to cre- ate the dataview. Constraints: o min: 1 o max: 32 o pattern: .*\S.*</param>
-    /// <param name="DatabaseName">The name of the database where you want to create a dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
-    /// <param name="DataviewName">A unique identifier for the dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
-    /// <param name="AzMode">The number of availability zones you want to assign per volume. Cur- rently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: o SINGLE o MULTI</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, where you want to create the dataview. Constraints: • min: 1 • max: 32 • pattern: .*\S.*</param>
+    /// <param name="DatabaseName">The name of the database where you want to create a dataview. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="DataviewName">A unique identifier for the dataview. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="AzMode">The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: • SINGLE • MULTI</param>
     public AwsFinspaceCreateKxDataviewOptions(
         string EnvironmentId,
         string DatabaseName,
@@ -70,73 +71,73 @@ public record AwsFinspaceCreateKxDataviewOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment, where you want to cre- ate the dataview. Constraints: o min: 1 o max: 32 o pattern: .*\S.*
+    /// A unique identifier for the kdb environment, where you want to create the dataview. Constraints: • min: 1 • max: 32 • pattern: .*\S.*
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The name of the database where you want to create a dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// The name of the database where you want to create a dataview. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the dataview. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// A unique identifier for the dataview. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--dataview-name")]
     public string? DataviewName { get; private init; }
 
     /// <summary>
-    /// The number of availability zones you want to assign per volume. Cur- rently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: o SINGLE o MULTI
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: • SINGLE • MULTI
     /// </summary>
     [CliOption("--az-mode")]
     public AwsFinspaceCreateKxDataviewAzMode? AzMode { get; private init; }
 
     /// <summary>
-    /// The identifier of the availability zones. Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$
+    /// The identifier of the availability zones. Constraints: • min: 8 • max: 12 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
     /// <summary>
-    /// A unique identifier of the changeset that you want to use to ingest data. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]+$
+    /// A unique identifier of the changeset that you want to use to ingest data. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]+$
     /// </summary>
     [CliOption("--changeset-id")]
     public string? ChangeSetId { get; set; }
 
     /// <summary>
-    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly spec- ify any database path for a volume, they are accessible from the cluster through the default S3/object store segment. Constraints: o min: 0 o max: 50 (structure) The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are ac- cessible from the cluster through the default S3/object store segment. dbPaths -&gt; (list) [required] The database path of the data that you want to place on each selected volume for the segment. Each segment must have a unique database path for each volume. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 1025 o pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ volumeName -&gt; (string) [required] The name of the volume where you want to add data. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ onDemand -&gt; (boolean) Enables on-demand caching on the selected database path when a particular file or a column of the database is accessed. When on demand caching is True , dataviews perform minimal loading of files on the filesystem as needed. When it is set to False , everything is cached. The default value is False . Shorthand Syntax: dbPaths=string,string,volumeName=string,onDemand=boolean ... JSON Syntax: [ { "dbPaths": ["string", ...], "volumeName": "string", "onDemand": true|false } ... ]
+    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment. Constraints: • min: 0 • max: 50 (structure) The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment. dbPaths -&gt; (list) [required] The database path of the data that you want to place on each selected volume for the segment. Each segment must have a unique database path for each volume. Constraints: • min: 1 • max: 30 (string) Constraints: • min: 1 • max: 1025 • pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ volumeName -&gt; (string) [required] The name of the volume where you want to add data. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ onDemand -&gt; (boolean) Enables on-demand caching on the selected database path when a particular file or a column of the database is accessed. When on demand caching is True , dataviews perform minimal loading of files on the filesystem as needed. When it is set to False , everything is cached. The default value is False . Shorthand Syntax: dbPaths=string,string,volumeName=string,onDemand=boolean ... JSON Syntax: [ { "dbPaths": ["string", ...], "volumeName": "string", "onDemand": true|false } ... ]
     /// </summary>
     [CliOption("--segment-configurations", GroupValues = true)]
     public IEnumerable<string>? SegmentConfigurations { get; set; }
 
     /// <summary>
-    /// The option to specify whether you want to apply all the future addi- tions and corrections automatically to the dataview, when you ingest new changesets. The default value is false.
+    /// The option to specify whether you want to apply all the future additions and corrections automatically to the dataview, when you ingest new changesets. The default value is false.
     /// </summary>
     [CliFlag("--auto-update", NegatedName = "--no-auto-update")]
     public bool? AutoUpdate { get; set; }
 
     /// <summary>
-    /// The option to specify whether you want to make the dataview writable to perform database maintenance. The following are some considera- tions related to writable dataviews. o You cannot create partial writable dataviews. When you create writeable dataviews you must provide the entire database path. o You cannot perform updates on a writeable dataview. Hence, autoUp- date must be set as False if readWrite is True for a dataview. o You must also use a unique volume for creating a writeable dataview. So, if you choose a volume that is already in use by an- other dataview, the dataview creation fails. o Once you create a dataview as writeable, you cannot change it to read-only. So, you cannot update the readWrite parameter later.
+    /// The option to specify whether you want to make the dataview writable to perform database maintenance. The following are some considerations related to writable dataviews. • You cannot create partial writable dataviews. When you create writeable dataviews you must provide the entire database path. • You cannot perform updates on a writeable dataview. Hence, autoUpdate must be set as False if readWrite is True for a dataview. • You must also use a unique volume for creating a writeable dataview. So, if you choose a volume that is already in use by another dataview, the dataview creation fails. • Once you create a dataview as writeable, you cannot change it to read-only. So, you cannot update the readWrite parameter later.
     /// </summary>
     [CliFlag("--read-write", NegatedName = "--no-read-write")]
     public bool? ReadWrite { get; set; }
 
     /// <summary>
-    /// A description of the dataview. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9. ]{1,1000}$
+    /// A description of the dataview. Constraints: • min: 1 • max: 1000 • pattern: ^[a-zA-Z0-9. ]{1,1000}$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to label the dataview. You can add up to 50 tags to a dataview. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs to label the dataview. You can add up to 50 tags to a dataview. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

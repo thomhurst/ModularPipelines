@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,8 +29,8 @@ public record AwsGlueCreateBlueprintOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Registers a blueprint with Glue. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the blueprint. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+</param>
-    /// <param name="BlueprintLocation">Specifies a path in Amazon S3 where the blueprint is published. Constraints: o min: 1 o max: 8192 o pattern: ^s3://([^/]+)/([^/]+/)*([^/]+)$</param>
+    /// <param name="Name">The name of the blueprint. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="BlueprintLocation">Specifies a path in Amazon S3 where the blueprint is published. Constraints: • min: 1 • max: 8192 • pattern: ^s3://([^/]+)/([^/]+/)*([^/]+)$</param>
     public AwsGlueCreateBlueprintOptions(
         string Name,
         string BlueprintLocation
@@ -61,25 +62,25 @@ public record AwsGlueCreateBlueprintOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the blueprint. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the blueprint. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies a path in Amazon S3 where the blueprint is published. Constraints: o min: 1 o max: 8192 o pattern: ^s3://([^/]+)/([^/]+/)*([^/]+)$
+    /// Specifies a path in Amazon S3 where the blueprint is published. Constraints: • min: 1 • max: 8192 • pattern: ^s3://([^/]+)/([^/]+/)*([^/]+)$
     /// </summary>
     [CliOption("--blueprint-location")]
     public string? BlueprintLocation { get; private init; }
 
     /// <summary>
-    /// A description of the blueprint. Constraints: o min: 1 o max: 512
+    /// A description of the blueprint. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to be applied to this blueprint. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be applied to this blueprint. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

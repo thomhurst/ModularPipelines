@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerDescribeHumanTaskUiOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Returns information about the requested human task user interface (worker task template). See also: AWS API Documentation
     /// </summary>
-    /// <param name="HumanTaskUiName">The name of the human task user interface (worker task template) you want information about. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9](-*[a-z0-9])*</param>
+    /// <param name="HumanTaskUiName">The name of the human task user interface (worker task template) you want information about. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9](-*[a-z0-9])*</param>
     public AwsSagemakerDescribeHumanTaskUiOptions(
         string HumanTaskUiName
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerDescribeHumanTaskUiOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the human task user interface (worker task template) you want information about. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9](-*[a-z0-9])*
+    /// The name of the human task user interface (worker task template) you want information about. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9](-*[a-z0-9])*
     /// </summary>
     [CliOption("--human-task-ui-name")]
     public string? HumanTaskUiName { get; private init; }

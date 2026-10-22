@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of summaries of created vehicles. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-vehicles is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+/// Retrieves a list of summaries of created vehicles. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-vehicles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,34 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotfleetwiseListVehiclesOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles cre- ated from a certain vehicle model.
+    /// The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
     /// </summary>
     [CliOption("--model-manifest-arn")]
     public string? ModelManifestArn { get; set; }
 
     /// <summary>
-    /// The fully qualified names of the attributes. You can use this op- tional parameter to list the vehicles containing all the attributes in the request. For example, attributeNames could be "Vehi- cle.Body.Engine.Type, Vehicle.Color " and the corresponding attrib- uteValues could be "1.3 L R2, Blue " . In this case, the API will filter vehicles with an attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue ". A request must contain unique val- ues for the attributeNames filter and the matching number of attrib- uteValues filters to return the subset of vehicles that match the attributes filter condition. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.-]+ Syntax: "string" "string" ...
+    /// The fully qualified names of the attributes. You can use this optional parameter to list the vehicles containing all the attributes in the request. For example, attributeNames could be "Vehicle.Body.Engine.Type, Vehicle.Color " and the corresponding attributeValues could be "1.3 L R2, Blue " . In this case, the API will filter vehicles with an attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue ". A request must contain unique values for the attributeNames filter and the matching number of attributeValues filters to return the subset of vehicles that match the attributes filter condition. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
     /// <summary>
-    /// Static information about a vehicle attribute value in string format. You can use this optional parameter in conjunction with attribute- Names to list the vehicles containing all the attributeValues corre- sponding to the attributeNames filter. For example, attributeValues could be "1.3 L R2, Blue " and the corresponding attributeNames fil- ter could be "Vehicle.Body.Engine.Type, Vehicle.Color ". In this case, the API will filter vehicles with attribute name Vehi- cle.Body.Engine.Type that contains a value of 1.3 L R2 AND an at- tribute name Vehicle.Color that contains a value of "Blue ". A re- quest must contain unique values for the attributeNames filter and the matching number of attributeValues filter to return the subset of vehicles that match the attributes filter condition. Constraints: o min: 1 o max: 5 (string) Syntax: "string" "string" ...
+    /// Static information about a vehicle attribute value in string format. You can use this optional parameter in conjunction with attributeNames to list the vehicles containing all the attributeValues corresponding to the attributeNames filter. For example, attributeValues could be "1.3 L R2, Blue " and the corresponding attributeNames filter could be "Vehicle.Body.Engine.Type, Vehicle.Color ". In this case, the API will filter vehicles with attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue ". A request must contain unique values for the attributeNames filter and the matching number of attributeValues filter to return the subset of vehicles that match the attributes filter condition. Constraints: • min: 1 • max: 5 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attribute-values", GroupValues = true)]
     public IEnumerable<string>? AttributeValues { get; set; }
 
     /// <summary>
-    /// When you set the listResponseScope parameter to METADATA_ONLY , the list response includes: vehicle name, Amazon Resource Name (ARN), creation time, and last modification time. Possible values: o METADATA_ONLY
+    /// When you set the listResponseScope parameter to METADATA_ONLY , the list response includes: vehicle name, Amazon Resource Name (ARN), creation time, and last modification time. Possible values: • METADATA_ONLY
     /// </summary>
     [CliOption("--list-response-scope")]
     public string? ListResponseScope { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -60,15 +57,18 @@ public record AwsIotfleetwiseListVehiclesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -24,22 +25,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMacie2DescribeBucketsOptions : AwsOptions
 {
     /// <summary>
-    /// The criteria to use to filter the query results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for information about S3 buckets. eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Amazon Macie uses OR logic to join the values. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the spec- ified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Amazon Macie uses OR logic to join the values. (string) prefix -&gt; (string) The name of the bucket begins with the specified value. Shorthand Syntax: KeyName1={eq=[string,string],gt=long,gte=long,lt=long,lte=long,neq=[string,string],prefix=string},KeyName2={eq=[string,string],gt=long,gte=long,lt=long,lte=long,neq=[string,string],prefix=string} JSON Syntax: {"string": { "eq": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...], "prefix": "string" } ...}
+    /// The criteria to use to filter the query results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for information about S3 buckets. eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Amazon Macie uses OR logic to join the values. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Amazon Macie uses OR logic to join the values. (string) prefix -&gt; (string) The name of the bucket begins with the specified value. Shorthand Syntax: KeyName1={eq=[string,string],gt=long,gte=long,lt=long,lte=long,neq=[string,string],prefix=string},KeyName2={eq=[string,string],gt=long,gte=long,lt=long,lte=long,neq=[string,string],prefix=string} JSON Syntax: {"string": { "eq": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...], "prefix": "string" } ...}
     /// </summary>
     [CliOption("--criteria", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Criteria { get; set; }
 
     /// <summary>
-    /// The criteria to use to sort the query results. attributeName -&gt; (string) The name of the bucket property to sort the results by. This value can be one of the following properties that Amazon Macie defines as bucket metadata: accountId, bucketName, classifi- ableObjectCount, classifiableSizeInBytes, objectCount, sensitiv- ityScore, or sizeInBytes. orderBy -&gt; (string) The sort order to apply to the results, based on the value spec- ified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: o ASC o DESC Shorthand Syntax: attributeName=string,orderBy=string JSON Syntax: { "attributeName": "string", "orderBy": "ASC"|"DESC" }
+    /// The criteria to use to sort the query results. attributeName -&gt; (string) The name of the bucket property to sort the results by. This value can be one of the following properties that Amazon Macie defines as bucket metadata: accountId, bucketName, classifiableObjectCount, classifiableSizeInBytes, objectCount, sensitivityScore, or sizeInBytes. orderBy -&gt; (string) The sort order to apply to the results, based on the value specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: • ASC • DESC Shorthand Syntax: attributeName=string,orderBy=string JSON Syntax: { "attributeName": "string", "orderBy": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-criteria")]
     public string? SortCriteria { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -49,15 +47,18 @@ public record AwsMacie2DescribeBucketsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
 }

@@ -92,7 +92,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Creates the private connectivity configuration for the specified Out- post. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure. See also: AWS API Documentation
+    /// Creates the private connectivity configuration for the specified Outpost. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Creates a quote for an Outpost. A quote provides pricing and configura- tion options based on the requested capacity. You can optionally asso- ciate the quote with an existing Outpost or create a standalone quote by specifying only the country code and requested capacities. See also: AWS API Documentation
+    /// Creates a quote for an Outpost. A quote provides pricing and configuration options based on the requested capacity. You can optionally associate the quote with an existing Outpost or create a standalone quote by specifying only the country code and requested capacities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// NOTE: Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more informa- tion, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: AWS API Docum...
+    /// NOTE: Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: AWS API Documen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Gets current and historical billing information about the specified Outpost. See also: AWS API Documentation get-outpost-billing-information is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscrip...
+    /// Gets current and historical billing information about the specified Outpost. See also: AWS API Documentation get-outpost-billing-information is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscription...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Gets the instance types for the specified Outpost. See also: AWS API Documentation get-outpost-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InstanceTypes
+    /// Gets the instance types for the specified Outpost. See also: AWS API Documentation get-outpost-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InstanceTypes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Gets the instance types that an Outpost can support in InstanceTypeCa- pacity . This will generally include instance types that are not cur- rently configured and therefore cannot be launched with the current Outpost capacity configuration. See also: AWS API Documentation get-outpost-supported-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When u...
+    /// Gets the instance types that an Outpost can support in InstanceTypeCapacity . This will generally include instance types that are not currently configured and therefore cannot be launched with the current Outpost capacity configuration. See also: AWS API Documentation get-outpost-supported-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost. Does not include Amazon EBS or Amazon S3 in- stances. See also: AWS API Documentation list-asset-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
+    /// A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost. Does not include Amazon EBS or Amazon S3 instances. See also: AWS API Documentation list-asset-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of resul...
+    /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// A list of Amazon EC2 instances running on the Outpost and belonging to the account that initiated the capacity task. Use this list to specify the instances you cannot stop to free up capacity to run the capacity task. See also: AWS API Documentation list-blocking-instances-for-capacity-task is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text a...
+    /// A list of Amazon EC2 instances running on the Outpost and belonging to the account that initiated the capacity task. Use this list to specify the instances you cannot stop to free up capacity to run the capacity task. See also: AWS API Documentation list-blocking-instances-for-capacity-task is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Lists the capacity tasks for your Amazon Web Services account. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-capacity-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire...
+    /// Lists the capacity tasks for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-capacity-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Lists the items in the catalog. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-catalog-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can di...
+    /// Lists the items in the catalog. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-catalog-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Lists the instance types that can be ordered for an Outpost. You can filter the results by Outpost generation. See also: AWS API Documentation list-orderable-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
+    /// Lists the instance types that can be ordered for an Outpost. You can filter the results by Outpost generation. See also: AWS API Documentation list-orderable-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Lists the Outpost orders for your Amazon Web Services account. See also: AWS API Documentation list-orders is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Orders
+    /// Lists the Outpost orders for your Amazon Web Services account. See also: AWS API Documentation list-orders is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Orders
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-outposts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set ...
+    /// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-outposts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Lists the quotes for your Amazon Web Services account. See also: AWS API Documentation list-quotes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Quotes
+    /// Lists the quotes for your Amazon Web Services account. See also: AWS API Documentation list-quotes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Quotes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Lists the Outpost sites for your Amazon Web Services account. Use fil- ters to return specific results. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-sites is a paginated operation. Multiple API calls may be issued...
+    /// Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-sites is a paginated operation. Multiple API calls may be issued in ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// NOTE: Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more informa- tion, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also...
+    /// NOTE: Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsOutposts : IAwsOutposts
     }
 
     /// <summary>
-    /// Updates the address of the specified site. You can't update a site address if there is an order in progress. You must wait for the order to complete or cancel the order. You can update the operating address before you place an order at the site, or after all Outposts that belong to the site have been deacti- vated. See also: AWS API Documentation
+    /// Updates the address of the specified site. You can't update a site address if there is an order in progress. You must wait for the order to complete or cancel the order. You can update the operating address before you place an order at the site, or after all Outposts that belong to the site have been deactivated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

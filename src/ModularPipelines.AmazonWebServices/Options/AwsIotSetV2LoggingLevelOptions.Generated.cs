@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsIotSetV2LoggingLevelOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Sets the logging level. Requires permission to access the SetV2LoggingLevel action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogTarget">The log target. targetType -&gt; (string) [required] The target type. Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID targetName -&gt; (string) The target name. Shorthand Syntax: targetType=string,targetName=string JSON Syntax: { "targetType": "DEFAULT"|"THING_GROUP"|"CLIENT_ID"|"SOURCE_IP"|"PRINCIPAL_ID", "targetName": "string" }</param>
-    /// <param name="LogLevel">The log level. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED</param>
+    /// <param name="LogTarget">The log target. targetType -&gt; (string) [required] The target type. Possible values: • DEFAULT • THING_GROUP • CLIENT_ID • SOURCE_IP • PRINCIPAL_ID targetName -&gt; (string) The target name. Shorthand Syntax: targetType=string,targetName=string JSON Syntax: { "targetType": "DEFAULT"|"THING_GROUP"|"CLIENT_ID"|"SOURCE_IP"|"PRINCIPAL_ID", "targetName": "string" }</param>
+    /// <param name="LogLevel">The log level. Possible values: • DEBUG • INFO • ERROR • WARN • DISABLED</param>
     public AwsIotSetV2LoggingLevelOptions(
         string LogTarget,
         AwsIotSetV2LoggingLevelLogLevel LogLevel
@@ -60,13 +62,13 @@ public record AwsIotSetV2LoggingLevelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The log target. targetType -&gt; (string) [required] The target type. Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID targetName -&gt; (string) The target name. Shorthand Syntax: targetType=string,targetName=string JSON Syntax: { "targetType": "DEFAULT"|"THING_GROUP"|"CLIENT_ID"|"SOURCE_IP"|"PRINCIPAL_ID", "targetName": "string" }
+    /// The log target. targetType -&gt; (string) [required] The target type. Possible values: • DEFAULT • THING_GROUP • CLIENT_ID • SOURCE_IP • PRINCIPAL_ID targetName -&gt; (string) The target name. Shorthand Syntax: targetType=string,targetName=string JSON Syntax: { "targetType": "DEFAULT"|"THING_GROUP"|"CLIENT_ID"|"SOURCE_IP"|"PRINCIPAL_ID", "targetName": "string" }
     /// </summary>
     [CliOption("--log-target")]
     public string? LogTarget { get; private init; }
 
     /// <summary>
-    /// The log level. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED
+    /// The log level. Possible values: • DEBUG • INFO • ERROR • WARN • DISABLED
     /// </summary>
     [CliOption("--log-level")]
     public AwsIotSetV2LoggingLevelLogLevel? LogLevel { get; private init; }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See Gremlin profile API in Neptune for details. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be us...
+/// Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See Gremlin profile API in Neptune for details. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNeptunedataExecuteGremlinProfileQueryOptions : AwsOptions
 {
     /// <summary>
-    /// Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See Gremlin profile API in Neptune for details. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be us...
+    /// Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See Gremlin profile API in Neptune for details. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used...
     /// </summary>
     /// <param name="GremlinQuery">The Gremlin query string to profile.</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
@@ -56,13 +56,13 @@ public record AwsNeptunedataExecuteGremlinProfileQueryOptions : AwsOptions
     public bool? Results { get; set; }
 
     /// <summary>
-    /// If non-zero, causes the results string to be truncated at that num- ber of characters. If set to zero, the string contains all the re- sults.
+    /// If non-zero, causes the results string to be truncated at that number of characters. If set to zero, the string contains all the results.
     /// </summary>
     [CliOption("--chop")]
     public int? Chop { get; set; }
 
     /// <summary>
-    /// If non-null, the gathered results are returned in a serialized re- sponse message in the format specified by this parameter. See Gremlin profile API in Neptune for more information.
+    /// If non-null, the gathered results are returned in a serialized response message in the format specified by this parameter. See Gremlin profile API in Neptune for more information.
     /// </summary>
     [CliOption("--serializer")]
     public string? Serializer { get; set; }

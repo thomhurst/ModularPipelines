@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsGroundstationGetMinuteUsageOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Returns the number of reserved minutes used by account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Month">The month being requested, with a value of 1-12. Constraints: o min: 1 o max: 12</param>
-    /// <param name="Year">The year being requested, in the format of YYYY. Constraints: o min: 2018 o max: 3000</param>
+    /// <param name="Month">The month being requested, with a value of 1-12. Constraints: • min: 1 • max: 12</param>
+    /// <param name="Year">The year being requested, in the format of YYYY. Constraints: • min: 2018 • max: 3000</param>
     public AwsGroundstationGetMinuteUsageOptions(
         int Month,
         int Year
@@ -58,13 +60,13 @@ public record AwsGroundstationGetMinuteUsageOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The month being requested, with a value of 1-12. Constraints: o min: 1 o max: 12
+    /// The month being requested, with a value of 1-12. Constraints: • min: 1 • max: 12
     /// </summary>
     [CliOption("--month")]
     public int? Month { get; private init; }
 
     /// <summary>
-    /// The year being requested, in the format of YYYY. Constraints: o min: 2018 o max: 3000
+    /// The year being requested, in the format of YYYY. Constraints: • min: 2018 • max: 3000
     /// </summary>
     [CliOption("--year")]
     public int? Year { get; private init; }

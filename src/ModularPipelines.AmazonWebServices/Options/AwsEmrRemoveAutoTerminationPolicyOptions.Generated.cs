@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsEmrRemoveAutoTerminationPolicyOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Removes an auto-termination policy from an Amazon EMR cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">Specifies the ID of the Amazon EMR cluster from which the auto-ter- mination policy will be removed. Constraints: o max: 256</param>
+    /// <param name="ClusterId">Specifies the ID of the Amazon EMR cluster from which the auto-termination policy will be removed. Constraints: • max: 256</param>
     public AwsEmrRemoveAutoTerminationPolicyOptions(
         string ClusterId
     )
@@ -56,7 +58,7 @@ public record AwsEmrRemoveAutoTerminationPolicyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the Amazon EMR cluster from which the auto-ter- mination policy will be removed. Constraints: o max: 256
+    /// Specifies the ID of the Amazon EMR cluster from which the auto-termination policy will be removed. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }

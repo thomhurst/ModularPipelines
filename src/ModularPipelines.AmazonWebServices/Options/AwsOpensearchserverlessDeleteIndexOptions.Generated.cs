@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic en- richment ingestion and search. For more information, see About auto- matic semantic enrichment . See also: AWS API Documentation
+/// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsOpensearchserverlessDeleteIndexOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic en- richment ingestion and search. For more information, see About auto- matic semantic enrichment . See also: AWS API Documentation
+    /// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the collection containing the index to delete. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}</param>
+    /// <param name="Id">The unique identifier of the collection containing the index to delete. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}</param>
     /// <param name="IndexName">The name of the index to delete.</param>
     public AwsOpensearchserverlessDeleteIndexOptions(
         string Id,
@@ -60,7 +62,7 @@ public record AwsOpensearchserverlessDeleteIndexOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the collection containing the index to delete. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}
+    /// The unique identifier of the collection containing the index to delete. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

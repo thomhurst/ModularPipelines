@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propa- gation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these to- kens for authentication. See also: AWS API Documentation
+/// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsSsoAdminCreateTrustedTokenIssuerOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propa- gation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these to- kens for authentication. See also: AWS API Documentation
+    /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceArn">Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="Name">Specifies the name of the new trusted token issuer configuration. Constraints: o min: 1 o max: 255 o pattern: [\w+=,.@-]+</param>
-    /// <param name="TrustedTokenIssuerType">Specifies the type of the new trusted token issuer. Possible values: o OIDC_JWT</param>
-    /// <param name="TrustedTokenIssuerConfiguration"></param>
+    /// <param name="InstanceArn">Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="Name">Specifies the name of the new trusted token issuer configuration. Constraints: • min: 1 • max: 255 • pattern: [\w+=,.@-]+</param>
+    /// <param name="TrustedTokenIssuerType">Specifies the type of the new trusted token issuer. Possible values: • OIDC_JWT</param>
+    /// <param name="TrustedTokenIssuerConfiguration">Specifies settings that apply to the new trusted token issuer configuration. The settings that are available depend on what TrustedTokenIssuerType you specify. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: OidcJwtConfiguration. OidcJwtConfiguration -&gt; (structure) A structure that describes the settings for a trusted token issuer that works with OpenID Connect (OIDC) by using JSON Web Tokens (JWT). IssuerUrl -&gt; (string) [required] The URL that IAM Identity Center uses for OpenID Discovery. OpenID Discovery is used to obtain the information required to verify the tokens that the trusted token issuer generates. Constraints: • min: 1 • max: 512 • pattern: https?:\/\/[-a-zA-Z0-9+&amp;@\/%=~_|!:,.;]*[-a-zA-Z0-9+&amp;@\/%=~_|] ClaimAttributePath -&gt; (string) [required] The path of the source attribute in the JWT from the trusted token issuer. The attribute mapped by this JMESPath expression is compared against the attribute mapped by IdentityStoreAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token. Constraints: • min: 1 • max: 255 • pattern: \p{L}+(?:(\.|\_)\p{L}+){0,2} IdentityStoreAttributePath -&gt; (string) [required] The path of the destination attribute in a JWT from IAM Identity Center. The attribute mapped by this JMESPath expression is compared against the attribute mapped by ClaimAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token. Constraints: • min: 1 • max: 255 • pattern: \p{L}+(?:\.\p{L}+){0,2} JwksRetrievalOption -&gt; (string) [required] The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT. Possible values: • OPEN_ID_DISCOVERY Shorthand Syntax: OidcJwtConfiguration={IssuerUrl=string,ClaimAttributePath=string,IdentityStoreAttributePath=string,JwksRetrievalOption=string} JSON Syntax: { "OidcJwtConfiguration": { "IssuerUrl": "string", "ClaimAttributePath": "string", "IdentityStoreAttributePath": "string", "JwksRetrievalOption": "OPEN_ID_DISCOVERY" } }</param>
     public AwsSsoAdminCreateTrustedTokenIssuerOptions(
         string InstanceArn,
         string Name,
@@ -69,36 +71,39 @@ public record AwsSsoAdminCreateTrustedTokenIssuerOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the name of the new trusted token issuer configuration. Constraints: o min: 1 o max: 255 o pattern: [\w+=,.@-]+
+    /// Specifies the name of the new trusted token issuer configuration. Constraints: • min: 1 • max: 255 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies the type of the new trusted token issuer. Possible values: o OIDC_JWT
+    /// Specifies the type of the new trusted token issuer. Possible values: • OIDC_JWT
     /// </summary>
     [CliOption("--trusted-token-issuer-type")]
     public string? TrustedTokenIssuerType { get; private init; }
 
+    /// <summary>
+    /// Specifies settings that apply to the new trusted token issuer configuration. The settings that are available depend on what TrustedTokenIssuerType you specify. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: OidcJwtConfiguration. OidcJwtConfiguration -&gt; (structure) A structure that describes the settings for a trusted token issuer that works with OpenID Connect (OIDC) by using JSON Web Tokens (JWT). IssuerUrl -&gt; (string) [required] The URL that IAM Identity Center uses for OpenID Discovery. OpenID Discovery is used to obtain the information required to verify the tokens that the trusted token issuer generates. Constraints: • min: 1 • max: 512 • pattern: https?:\/\/[-a-zA-Z0-9+&amp;@\/%=~_|!:,.;]*[-a-zA-Z0-9+&amp;@\/%=~_|] ClaimAttributePath -&gt; (string) [required] The path of the source attribute in the JWT from the trusted token issuer. The attribute mapped by this JMESPath expression is compared against the attribute mapped by IdentityStoreAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token. Constraints: • min: 1 • max: 255 • pattern: \p{L}+(?:(\.|\_)\p{L}+){0,2} IdentityStoreAttributePath -&gt; (string) [required] The path of the destination attribute in a JWT from IAM Identity Center. The attribute mapped by this JMESPath expression is compared against the attribute mapped by ClaimAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token. Constraints: • min: 1 • max: 255 • pattern: \p{L}+(?:\.\p{L}+){0,2} JwksRetrievalOption -&gt; (string) [required] The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT. Possible values: • OPEN_ID_DISCOVERY Shorthand Syntax: OidcJwtConfiguration={IssuerUrl=string,ClaimAttributePath=string,IdentityStoreAttributePath=string,JwksRetrievalOption=string} JSON Syntax: { "OidcJwtConfiguration": { "IssuerUrl": "string", "ClaimAttributePath": "string", "IdentityStoreAttributePath": "string", "JwksRetrievalOption": "OPEN_ID_DISCOVERY" } }
+    /// </summary>
     [SecretValue]
     [CliOption("--trusted-token-issuer-configuration")]
     public string? TrustedTokenIssuerConfiguration { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies tags to be attached to the new trusted token issuer con- figuration. Constraints: o min: 0 o max: 75 (structure) A set of key-value pairs that are used to manage the resource. Tags can only be applied to permission sets and cannot be ap- plied to corresponding roles that IAM Identity Center creates in Amazon Web Services accounts. Key -&gt; (string) [required] The key for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies tags to be attached to the new trusted token issuer configuration. Constraints: • min: 0 • max: 75 (structure) A set of key-value pairs that are used to manage the resource. Tags can only be applied to permission sets and cannot be applied to corresponding roles that IAM Identity Center creates in Amazon Web Services accounts. Key -&gt; (string) [required] The key for the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

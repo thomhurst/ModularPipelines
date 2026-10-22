@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsImagebuilderGetImagePipelineOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves an image pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$</param>
+    /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$</param>
     public AwsImagebuilderGetImagePipelineOptions(
         string ImagePipelineArn
     )
@@ -56,7 +58,7 @@ public record AwsImagebuilderGetImagePipelineOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$
+    /// The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--image-pipeline-arn")]
     public string? ImagePipelineArn { get; private init; }

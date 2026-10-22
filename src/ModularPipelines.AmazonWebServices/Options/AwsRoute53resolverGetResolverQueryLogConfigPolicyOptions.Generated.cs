@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRoute53resolverGetResolverQueryLogConfigPolicyOptions : AwsOpti
     /// <summary>
     /// Gets information about a query logging policy. A query logging policy specifies the Resolver query logging operations and resources that you want to allow another Amazon Web Services account to be able to use. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the query logging configuration that you want to get the query logging policy for. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Arn">The ARN of the query logging configuration that you want to get the query logging policy for. Constraints: • min: 1 • max: 255</param>
     public AwsRoute53resolverGetResolverQueryLogConfigPolicyOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsRoute53resolverGetResolverQueryLogConfigPolicyOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the query logging configuration that you want to get the query logging policy for. Constraints: o min: 1 o max: 255
+    /// The ARN of the query logging configuration that you want to get the query logging policy for. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

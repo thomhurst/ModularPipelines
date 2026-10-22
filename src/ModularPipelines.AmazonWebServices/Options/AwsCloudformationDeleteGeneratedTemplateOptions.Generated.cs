@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudformationDeleteGeneratedTemplateOptions : AwsOptions, IVal
     /// <summary>
     /// Deleted a generated template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GeneratedTemplateName">The name or Amazon Resource Name (ARN) of a generated template. Constraints: o min: 1 o max: 128</param>
+    /// <param name="GeneratedTemplateName">The name or Amazon Resource Name (ARN) of a generated template. Constraints: • min: 1 • max: 128</param>
     public AwsCloudformationDeleteGeneratedTemplateOptions(
         string GeneratedTemplateName
     )
@@ -56,7 +58,7 @@ public record AwsCloudformationDeleteGeneratedTemplateOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of a generated template. Constraints: o min: 1 o max: 128
+    /// The name or Amazon Resource Name (ARN) of a generated template. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--generated-template-name")]
     public string? GeneratedTemplateName { get; private init; }

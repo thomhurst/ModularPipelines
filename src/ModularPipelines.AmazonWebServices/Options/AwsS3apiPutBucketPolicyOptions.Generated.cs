@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zone...
+/// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazonaws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsS3apiPutBucketPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zone...
+    /// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazonaws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in...
     /// </summary>
-    /// <param name="Bucket">The name of the bucket. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
+    /// <param name="Bucket">The name of the bucket. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazonaws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
     /// <param name="Policy">The bucket policy as a JSON document. For directory buckets, the only IAM action supported in the bucket policy is s3express:CreateSession .</param>
     public AwsS3apiPutBucketPolicyOptions(
         string Bucket,
@@ -61,7 +63,7 @@ public record AwsS3apiPutBucketPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bucket. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
+    /// The name of the bucket. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazonaws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
@@ -73,25 +75,25 @@ public record AwsS3apiPutBucketPolicyOptions : AwsOptions, IValidatableObject
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The MD5 hash of the request body. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically. NOTE: This functionality is not supported for directory buckets.
+    /// The MD5 hash of the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically. NOTE: This functionality is not supported for directory buckets.
     /// </summary>
     [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-*algorithm* `` or ``x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For the `` x-amz-checksum-algorithm `` header, replace `` algorithm `` with the supported algorithm from the following list: System Message: WARNING/2 (&lt;string&gt;:, line 179) Inline literal start-string without end-string. o CRC32 o CRC32C o CRC64NVME o MD5 o SHA1 o SHA256 o SHA512 o XXHASH3 o XXHASH64 o XXHASH128 For more information, see Checking object integrity in the Amazon S3 User Guide . If the individual checksum value you provide through x-amz-check- sum-*algorithm* `` doesn't match the checksum algorithm you set through ``x-amz-sdk-checksum-algorithm , Amazon S3 fails the request with a BadDigest error. NOTE: For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for perfor- mance. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-*algorithm* `` or ``x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For the `` x-amz-checksum-algorithm `` header, replace `` algorithm `` with the supported algorithm from the following list: System Message: WARNING/2 (&lt;string&gt;:, line 179) Inline literal start-string without end-string. • CRC32 • CRC32C • CRC64NVME • MD5 • SHA1 • SHA256 • SHA512 • XXHASH3 • XXHASH64 • XXHASH128 For more information, see Checking object integrity in the Amazon S3 User Guide . If the individual checksum value you provide through x-amz-checksum-*algorithm* `` doesn't match the checksum algorithm you set through ``x-amz-sdk-checksum-algorithm , Amazon S3 fails the request with a BadDigest error. NOTE: For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutBucketPolicyChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
     /// <summary>
-    /// move-self-bucket-access (boolean) Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future. NOTE: This functionality is not supported for directory buckets.
+    /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future. NOTE: This functionality is not supported for directory buckets.
     /// </summary>
     [CliFlag("--confirm-remove-self-bucket-access", NegatedName = "--no-confirm-remove-self-bucket-access")]
     public bool? ConfirmRemoveSelfBucketAccess { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied). NOTE: For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented .
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). NOTE: For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented .
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }

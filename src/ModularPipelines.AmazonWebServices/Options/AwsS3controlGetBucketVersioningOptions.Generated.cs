@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation returns the versioning state for S3 on Outposts buck- ets only. To return the versioning state for an S3 bucket, see GetBucketVersioning in the Amazon S3 API Reference . Returns the versioning state for an S3 on Outposts bucket. With S3 Ver- sioning, you can save multiple distinct copies of your objects and re- cover from unintended user actions and application failures. If you've never set versioning on your bucket, it has no versioning state. In that case, the GetBucketVer...
+/// NOTE: This operation returns the versioning state for S3 on Outposts buckets only. To return the versioning state for an S3 bucket, see GetBucketVersioning in the Amazon S3 API Reference . Returns the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. If you've never set versioning on your bucket, it has no versioning state. In that case, the GetBucketVersionin...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsS3controlGetBucketVersioningOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation returns the versioning state for S3 on Outposts buck- ets only. To return the versioning state for an S3 bucket, see GetBucketVersioning in the Amazon S3 API Reference . Returns the versioning state for an S3 on Outposts bucket. With S3 Ver- sioning, you can save multiple distinct copies of your objects and re- cover from unintended user actions and application failures. If you've never set versioning on your bucket, it has no versioning state. In that case, the GetBucketVer...
+    /// NOTE: This operation returns the versioning state for S3 on Outposts buckets only. To return the versioning state for an S3 bucket, see GetBucketVersioning in the Amazon S3 API Reference . Returns the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. If you've never set versioning on your bucket, it has no versioning state. In that case, the GetBucketVersionin...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Bucket">The S3 on Outposts bucket to return the versioning state for. Constraints: o min: 3 o max: 255</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Bucket">The S3 on Outposts bucket to return the versioning state for. Constraints: • min: 3 • max: 255</param>
     public AwsS3controlGetBucketVersioningOptions(
         string AccountId,
         string Bucket
@@ -60,13 +62,13 @@ public record AwsS3controlGetBucketVersioningOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The S3 on Outposts bucket to return the versioning state for. Constraints: o min: 3 o max: 255
+    /// The S3 on Outposts bucket to return the versioning state for. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }

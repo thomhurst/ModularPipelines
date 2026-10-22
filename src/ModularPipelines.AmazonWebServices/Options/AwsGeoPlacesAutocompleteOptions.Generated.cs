@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and politi- cal views. Not supported in ap...
+/// Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views. Not supported in ap-s...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsGeoPlacesAutocompleteOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and politi- cal views. Not supported in ap...
+    /// Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views. Not supported in ap-s...
     /// </summary>
-    /// <param name="QueryText">The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: The fields QueryText , and QueryID are mutually exclusive. Constraints: o min: 1 o max: 200</param>
+    /// <param name="QueryText">The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: The fields QueryText , and QueryID are mutually exclusive. Constraints: • min: 1 • max: 200</param>
     public AwsGeoPlacesAutocompleteOptions(
         string QueryText
     )
@@ -57,61 +59,61 @@ public record AwsGeoPlacesAutocompleteOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: The fields QueryText , and QueryID are mutually exclusive. Constraints: o min: 1 o max: 200
+    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: The fields QueryText , and QueryID are mutually exclusive. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--query-text")]
     public string? QueryText { get; private init; }
 
     /// <summary>
-    /// An optional limit for the number of results returned in a single call. Default value: 5 Constraints: o min: 1 o max: 20
+    /// An optional limit for the number of results returned in a single call. Default value: 5 Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The position in longitude and latitude that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. NOTE: The fields BiasPosition , FilterBoundingBox , and FilterCircle are mutually exclusive. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// The position in longitude and latitude that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. NOTE: The fields BiasPosition , FilterBoundingBox , and FilterCircle are mutually exclusive. Constraints: • min: 2 • max: 2 (double) Syntax: double double ...
     /// </summary>
     [CliOption("--bias-position", GroupValues = true)]
     public IEnumerable<string>? BiasPosition { get; set; }
 
     /// <summary>
-    /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result. BoundingBox -&gt; (list) The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}] Constraints: o min: 4 o max: 4 (double) Circle -&gt; (structure) The Circle that all results must be in. Center -&gt; (list) [required] The center position in World Geodetic System (WGS 84) format: [longitude, latitude]. Constraints: o min: 2 o max: 2 (double) Radius -&gt; (long) [required] The radius, in meters, of the FilterCircle . For GrabMaps customers,``ap-southeast-1`` and ap-southeast-5 regions sup- port only up to a maximum value of 300,000. Constraints: o min: 1 o max: 21000000 IncludeCountries -&gt; (list) A list of countries that all results must be in. Countries are represented by either their alpha-2 or alpha-3 character codes. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 2 o max: 3 o pattern: ([A-Z]{2}|[A-Z]{3}) IncludePlaceTypes -&gt; (list) The included place types. Constraints: o min: 1 o max: 8 (string) Possible values: o Locality o PostalCode o Street o Intersection o PointAddress o InterpolatedAddress o Country o Region Shorthand Syntax: BoundingBox=double,double,Circle={Center=[double,double],Radius=long},IncludeCountries=string,string,IncludePlaceTypes=string,string JSON Syntax: { "BoundingBox": [double, ...], "Circle": { "Center": [double, ...], "Radius": long }, "IncludeCountries": ["string", ...], "IncludePlaceTypes": ["Locality"|"PostalCode"|"Street"|"Intersection"|"PointAddress"|"InterpolatedAddress"|"Country"|"Region", ...] }
+    /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result. BoundingBox -&gt; (list) The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}] Constraints: • min: 4 • max: 4 (double) Circle -&gt; (structure) The Circle that all results must be in. Center -&gt; (list) [required] The center position in World Geodetic System (WGS 84) format: [longitude, latitude]. Constraints: • min: 2 • max: 2 (double) Radius -&gt; (long) [required] The radius, in meters, of the FilterCircle . For GrabMaps customers,``ap-southeast-1`` and ap-southeast-5 regions support only up to a maximum value of 300,000. Constraints: • min: 1 • max: 21000000 IncludeCountries -&gt; (list) A list of countries that all results must be in. Countries are represented by either their alpha-2 or alpha-3 character codes. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 2 • max: 3 • pattern: ([A-Z]{2}|[A-Z]{3}) IncludePlaceTypes -&gt; (list) The included place types. Constraints: • min: 1 • max: 8 (string) Possible values: • Locality • PostalCode • Street • Intersection • PointAddress • InterpolatedAddress • Country • Region Shorthand Syntax: BoundingBox=double,double,Circle={Center=[double,double],Radius=long},IncludeCountries=string,string,IncludePlaceTypes=string,string JSON Syntax: { "BoundingBox": [double, ...], "Circle": { "Center": [double, ...], "Radius": long }, "IncludeCountries": ["string", ...], "IncludePlaceTypes": ["Locality"|"PostalCode"|"Street"|"Intersection"|"PointAddress"|"InterpolatedAddress"|"Country"|"Region", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities , all cities in that postal code are re- turned. If it's populated with the value EnumerateSpannedDistricts , all combinations of the postal code with the corresponding district and city names are returned. Possible values: o MergeAllSpannedLocalities o EnumerateSpannedLocalities o EnumerateSpannedDistricts
+    /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities , all cities in that postal code are returned. If it's populated with the value EnumerateSpannedDistricts , all combinations of the postal code with the corresponding district and city names are returned. Possible values: • MergeAllSpannedLocalities • EnumerateSpannedLocalities • EnumerateSpannedDistricts
     /// </summary>
     [CliOption("--postal-code-mode")]
     public AwsGeoPlacesAutocompletePostalCodeMode? PostalCodeMode { get; set; }
 
     /// <summary>
-    /// A list of optional additional parameters that can be requested for each result. Constraints: o min: 1 o max: 1 (string) Possible values: o Core Syntax: "string" "string" ...
+    /// A list of optional additional parameters that can be requested for each result. Constraints: • min: 1 • max: 1 (string) Possible values: • Core Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     /// <summary>
-    /// A list of BCP 47 compliant language codes for the results to be ren- dered in. If there is no data for the result in the requested lan- guage, data will be returned in the default language for the entry. Constraints: o min: 2 o max: 35
+    /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. Constraints: • min: 2 • max: 35
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
 
     /// <summary>
-    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. The following political views are currently supported: o ARG : Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands o EGY : Egypt's view on Bir Tawil o IND : India's view on Gilgit-Baltistan o KEN : Kenya's view on the Ilemi Triangle o MAR : Morocco's view on Western Sahara o RUS : Russia's view on Crimea o SDN : Sudan's view on the Halaib Triangle o SRB : Serbia's view on Kosovo, Vukovar, and Sarengrad Islands o SUR : Suriname's view on the Courantyne Headwaters and Lawa Head- waters o SYR : Syria's view on the Golan Heights o TUR : Turkey's view on Cyprus and Northern Cyprus o TZA : Tanzania's view on Lake Malawi o URY : Uruguay's view on Rincon de Artigas o VNM : Vietnam's view on the Paracel Islands and Spratly Islands Constraints: o min: 2 o max: 3 o pattern: ([A-Z]{2}|[A-Z]{3})
+    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. The following political views are currently supported: • ARG : Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands • EGY : Egypt's view on Bir Tawil • IND : India's view on Gilgit-Baltistan • KEN : Kenya's view on the Ilemi Triangle • MAR : Morocco's view on Western Sahara • RUS : Russia's view on Crimea • SDN : Sudan's view on the Halaib Triangle • SRB : Serbia's view on Kosovo, Vukovar, and Sarengrad Islands • SUR : Suriname's view on the Courantyne Headwaters and Lawa Headwaters • SYR : Syria's view on the Golan Heights • TUR : Turkey's view on Cyprus and Northern Cyprus • TZA : Tanzania's view on Lake Malawi • URY : Uruguay's view on Rincon de Artigas • VNM : Vietnam's view on the Paracel Islands and Spratly Islands Constraints: • min: 2 • max: 3 • pattern: ([A-Z]{2}|[A-Z]{3})
     /// </summary>
     [CliOption("--political-view")]
     public string? PoliticalView { get; set; }
 
     /// <summary>
-    /// Indicates if the query results will be persisted in customer infra- structure. Defaults to SingleUse (not stored). Currently, Autocom- plete does not support storage of results. Possible values: o SingleUse
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Currently, Autocomplete does not support storage of results. Possible values: • SingleUse
     /// </summary>
     [CliOption("--intended-use")]
     public string? IntendedUse { get; set; }
 
     /// <summary>
-    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000
+    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }

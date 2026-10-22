@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates the resource configuration from the resource VPC end- point. See also: AWS API Documentation
+/// Disassociates the resource configuration from the resource VPC endpoint. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsVpcLatticeDeleteResourceEndpointAssociationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates the resource configuration from the resource VPC end- point. See also: AWS API Documentation
+    /// Disassociates the resource configuration from the resource VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceEndpointAssociationIdentifier">The ID or ARN of the association. Constraints: o min: 21 o max: 2048 o pattern: ((rea-[0-9a-f]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceendpointassocia- tion/rea-[0-9a-f]{17}))</param>
+    /// <param name="ResourceEndpointAssociationIdentifier">The ID or ARN of the association. Constraints: • min: 21 • max: 2048 • pattern: ((rea-[0-9a-f]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourceendpointassociation/rea-[0-9a-f]{17}))</param>
     public AwsVpcLatticeDeleteResourceEndpointAssociationOptions(
         string ResourceEndpointAssociationIdentifier
     )
@@ -56,7 +58,7 @@ public record AwsVpcLatticeDeleteResourceEndpointAssociationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the association. Constraints: o min: 21 o max: 2048 o pattern: ((rea-[0-9a-f]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceendpointassocia- tion/rea-[0-9a-f]{17}))
+    /// The ID or ARN of the association. Constraints: • min: 21 • max: 2048 • pattern: ((rea-[0-9a-f]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourceendpointassociation/rea-[0-9a-f]{17}))
     /// </summary>
     [CliOption("--resource-endpoint-association-identifier")]
     public string? ResourceEndpointAssociationIdentifier { get; private init; }

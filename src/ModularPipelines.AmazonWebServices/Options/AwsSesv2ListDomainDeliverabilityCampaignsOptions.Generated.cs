@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is avail- able for a domain only if you enabled the Deliverability dashboard for the domain. See also: AWS API Documentation
+/// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsSesv2ListDomainDeliverabilityCampaignsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is avail- able for a domain only if you enabled the Deliverability dashboard for the domain. See also: AWS API Documentation
+    /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="StartDate">The first day that you want to obtain deliverability data for.</param>
     /// <param name="EndDate">The last day that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.</param>
@@ -83,14 +85,14 @@ public record AwsSesv2ListDomainDeliverabilityCampaignsOptions : AwsOptions, IVa
     public string? SubscribedDomain { get; private init; }
 
     /// <summary>
-    /// A token thats returned from a previous call to the ListDomainDeliv- erabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
+    /// A token thats returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the num- ber of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results.
+    /// The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }

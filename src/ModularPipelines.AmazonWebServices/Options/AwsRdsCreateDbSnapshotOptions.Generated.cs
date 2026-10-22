@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRdsCreateDbSnapshotOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a snapshot of a DB instance. The source DB instance must be in the available or storage-optimization state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbSnapshotIdentifier">The identifier for the DB snapshot. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id</param>
-    /// <param name="DbInstanceIdentifier">The identifier of the DB instance that you want to create the snap- shot of. Constraints: o Must match the identifier of an existing DBInstance.</param>
+    /// <param name="DbSnapshotIdentifier">The identifier for the DB snapshot. Constraints: • Can't be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id</param>
+    /// <param name="DbInstanceIdentifier">The identifier of the DB instance that you want to create the snapshot of. Constraints: • Must match the identifier of an existing DBInstance.</param>
     public AwsRdsCreateDbSnapshotOptions(
         string DbSnapshotIdentifier,
         string DbInstanceIdentifier
@@ -60,13 +62,13 @@ public record AwsRdsCreateDbSnapshotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the DB snapshot. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id
+    /// The identifier for the DB snapshot. Constraints: • Can't be null, empty, or blank • Must contain from 1 to 255 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id
     /// </summary>
     [CliOption("--db-snapshot-identifier")]
     public string? DbSnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the DB instance that you want to create the snap- shot of. Constraints: o Must match the identifier of an existing DBInstance.
+    /// The identifier of the DB instance that you want to create the snapshot of. Constraints: • Must match the identifier of an existing DBInstance.
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }

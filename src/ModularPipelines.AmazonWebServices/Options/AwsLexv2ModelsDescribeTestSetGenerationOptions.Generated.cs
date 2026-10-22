@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsLexv2ModelsDescribeTestSetGenerationOptions : AwsOptions, IVali
     /// <summary>
     /// Gets metadata information about the test set generation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestSetGenerationId">The unique identifier of the test set generation. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="TestSetGenerationId">The unique identifier of the test set generation. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDescribeTestSetGenerationOptions(
         string TestSetGenerationId
     )
@@ -56,7 +58,7 @@ public record AwsLexv2ModelsDescribeTestSetGenerationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the test set generation. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the test set generation. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-set-generation-id")]
     public string? TestSetGenerationId { get; private init; }

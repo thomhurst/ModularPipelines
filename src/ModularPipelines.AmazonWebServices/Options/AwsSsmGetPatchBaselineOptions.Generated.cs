@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmGetPatchBaselineOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a patch baseline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BaselineId">The ID of the patch baseline to retrieve. NOTE: To retrieve information about an Amazon Web Services managed patch baseline, specify the full Amazon Resource Name (ARN) of the baseline. For example, for the baseline AWS-AmazonLinuxDe- faultPatchBaseline , specify arn:aws:ssm:us-east-2:733109147000:patchbase- line/pb-0e392de35e7c563b7 instead of pb-0e392de35e7c563b7 . Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
+    /// <param name="BaselineId">The ID of the patch baseline to retrieve. NOTE: To retrieve information about an Amazon Web Services managed patch baseline, specify the full Amazon Resource Name (ARN) of the baseline. For example, for the baseline AWS-AmazonLinuxDefaultPatchBaseline , specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0e392de35e7c563b7 instead of pb-0e392de35e7c563b7 . Constraints: • min: 20 • max: 128 • pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
     public AwsSsmGetPatchBaselineOptions(
         string BaselineId
     )
@@ -56,7 +58,7 @@ public record AwsSsmGetPatchBaselineOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the patch baseline to retrieve. NOTE: To retrieve information about an Amazon Web Services managed patch baseline, specify the full Amazon Resource Name (ARN) of the baseline. For example, for the baseline AWS-AmazonLinuxDe- faultPatchBaseline , specify arn:aws:ssm:us-east-2:733109147000:patchbase- line/pb-0e392de35e7c563b7 instead of pb-0e392de35e7c563b7 . Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
+    /// The ID of the patch baseline to retrieve. NOTE: To retrieve information about an Amazon Web Services managed patch baseline, specify the full Amazon Resource Name (ARN) of the baseline. For example, for the baseline AWS-AmazonLinuxDefaultPatchBaseline , specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0e392de35e7c563b7 instead of pb-0e392de35e7c563b7 . Constraints: • min: 20 • max: 128 • pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
     /// </summary>
     [CliOption("--baseline-id")]
     public string? BaselineId { get; private init; }

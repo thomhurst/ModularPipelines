@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -85,7 +87,7 @@ public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions, IValidata
     public string? MajorEngineVersion { get; set; }
 
     /// <summary>
-    /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache. DataStorage -&gt; (structure) The maximum data storage limit in the cache, expressed in Giga- bytes. Maximum -&gt; (integer) The upper limit for data storage the cache is set to use. Minimum -&gt; (integer) The lower limit for data storage the cache is set to use. Unit -&gt; (string) [required] The unit that the storage is measured in, in GB. Possible values: o GB ECPUPerSecond -&gt; (structure) The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second. Maximum -&gt; (integer) The configuration for the maximum number of ECPUs the cache can consume per second. Minimum -&gt; (integer) The configuration for the minimum number of ECPUs the cache should be able consume per second. Shorthand Syntax: DataStorage={Maximum=integer,Minimum=integer,Unit=string},ECPUPerSecond={Maximum=integer,Minimum=integer} JSON Syntax: { "DataStorage": { "Maximum": integer, "Minimum": integer, "Unit": "GB" }, "ECPUPerSecond": { "Maximum": integer, "Minimum": integer } }
+    /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache. DataStorage -&gt; (structure) The maximum data storage limit in the cache, expressed in Gigabytes. Maximum -&gt; (integer) The upper limit for data storage the cache is set to use. Minimum -&gt; (integer) The lower limit for data storage the cache is set to use. Unit -&gt; (string) [required] The unit that the storage is measured in, in GB. Possible values: • GB ECPUPerSecond -&gt; (structure) The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second. Maximum -&gt; (integer) The configuration for the maximum number of ECPUs the cache can consume per second. Minimum -&gt; (integer) The configuration for the minimum number of ECPUs the cache should be able consume per second. Shorthand Syntax: DataStorage={Maximum=integer,Minimum=integer,Unit=string},ECPUPerSecond={Maximum=integer,Minimum=integer} JSON Syntax: { "DataStorage": { "Maximum": integer, "Minimum": integer, "Unit": "GB" }, "ECPUPerSecond": { "Maximum": integer, "Minimum": integer } }
     /// </summary>
     [CliOption("--cache-usage-limits")]
     public string? CacheUsageLimits { get; set; }
@@ -97,13 +99,13 @@ public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions, IValidata
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A list of the one or more VPC security groups to be associated with the serverless cache. The security group will authorize traffic ac- cess for the VPC end-point (private-link). If no other information is given this will be the VPCs Default Security Group that is asso- ciated with the cluster VPC end-point. (string) Syntax: "string" "string" ...
+    /// A list of the one or more VPC security groups to be associated with the serverless cache. The security group will authorize traffic access for the VPC end-point (private-link). If no other information is given this will be the VPCs Default Security Group that is associated with the cluster VPC end-point. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Valkey, Redis OSS and Serverless Mem- cached only. (string) Syntax: "string" "string" ...
+    /// The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Valkey, Redis OSS and Serverless Memcached only. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--snapshot-arns-to-restore", GroupValues = true)]
     public IEnumerable<string>? SnapshotArnsToRestore { get; set; }
@@ -133,19 +135,19 @@ public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions, IValidata
     public int? SnapshotRetentionLimit { get; set; }
 
     /// <summary>
-    /// The daily time that snapshots will be created from the new server- less cache. By default this number is populated with 0, i.e. no snapshots will be created on an automatic daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
+    /// The daily time that snapshots will be created from the new serverless cache. By default this number is populated with 0, i.e. no snapshots will be created on an automatic daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
     /// </summary>
     [CliOption("--daily-snapshot-time")]
     public string? DailySnapshotTime { get; set; }
 
     /// <summary>
-    /// The IP protocol version used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack . ipv6 is only supported with IPv6-only subnets. If not specified, defaults to ipv4 , unless all provided subnets are IPv6-only, in which case it defaults to ipv6 . Possible values: o ipv4 o ipv6 o dual_stack
+    /// The IP protocol version used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack . ipv6 is only supported with IPv6-only subnets. If not specified, defaults to ipv4 , unless all provided subnets are IPv6-only, in which case it defaults to ipv6 . Possible values: • ipv4 • ipv6 • dual_stack
     /// </summary>
     [CliOption("--network-type")]
     public AwsElasticacheCreateServerlessCacheNetworkType? NetworkType { get; set; }
 
     /// <summary>
-    /// The connection type for the serverless cache. Must be either vpc | public . Use vpc to access the cache through a VPC endpoint, or pub- lic to access the cache over the internet. If not specified, de- faults to vpc . This value cannot be changed after the serverless cache is created. Setting this to public requires Valkey 9 or above. Possible values: o vpc o public
+    /// The connection type for the serverless cache. Must be either vpc | public . Use vpc to access the cache through a VPC endpoint, or public to access the cache over the internet. If not specified, defaults to vpc . This value cannot be changed after the serverless cache is created. Setting this to public requires Valkey 9 or above. Possible values: • vpc • public
     /// </summary>
     [CliOption("--connection-type")]
     public AwsElasticacheCreateServerlessCacheConnectionType? ConnectionType { get; set; }

@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppstreamDescribeAppBlockBuildersOptions : AwsOptions
 {
     /// <summary>
-    /// The names of the app block builders. (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The names of the app block builders. (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>
-    /// The pagination token used to retrieve the next page of results for this operation. Constraints: o min: 1
+    /// The pagination token used to retrieve the next page of results for this operation. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

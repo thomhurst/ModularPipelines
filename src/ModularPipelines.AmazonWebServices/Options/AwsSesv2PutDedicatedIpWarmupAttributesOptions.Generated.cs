@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSesv2PutDedicatedIpWarmupAttributesOptions : AwsOptions, IValid
     /// <summary>
     /// See also: AWS API Documentation
     /// </summary>
-    /// <param name="Ip">The dedicated IP address that you want to update the warm-up attrib- utes for.</param>
+    /// <param name="Ip">The dedicated IP address that you want to update the warm-up attributes for.</param>
     /// <param name="WarmupPercentage">The warm-up percentage that you want to associate with the dedicated IP address.</param>
     public AwsSesv2PutDedicatedIpWarmupAttributesOptions(
         string Ip,
@@ -59,7 +61,7 @@ public record AwsSesv2PutDedicatedIpWarmupAttributesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The dedicated IP address that you want to update the warm-up attrib- utes for.
+    /// The dedicated IP address that you want to update the warm-up attributes for.
     /// </summary>
     [CliOption("--ip")]
     public string? Ip { get; private init; }

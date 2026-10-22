@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsServicecatalogDescribeCopyProductStatusOptions : AwsOptions, IV
     /// <summary>
     /// Gets the status of the specified copy product operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CopyProductToken">The token for the copy product operation. This token is returned by CopyProduct . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="CopyProductToken">The token for the copy product operation. This token is returned by CopyProduct . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogDescribeCopyProductStatusOptions(
         string CopyProductToken
     )
@@ -57,14 +59,14 @@ public record AwsServicecatalogDescribeCopyProductStatusOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The token for the copy product operation. This token is returned by CopyProduct . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The token for the copy product operation. This token is returned by CopyProduct . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [SecretValue]
     [CliOption("--copy-product-token")]
     public string? CopyProductToken { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }

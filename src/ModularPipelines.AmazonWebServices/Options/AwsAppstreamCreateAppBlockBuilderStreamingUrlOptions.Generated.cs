@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsAppstreamCreateAppBlockBuilderStreamingUrlOptions : AwsOptions,
     /// <summary>
     /// Creates a URL to start a create app block builder streaming session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppBlockBuilderName">The name of the app block builder. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="AppBlockBuilderName">The name of the app block builder. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamCreateAppBlockBuilderStreamingUrlOptions(
         string AppBlockBuilderName
     )
@@ -56,7 +58,7 @@ public record AwsAppstreamCreateAppBlockBuilderStreamingUrlOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the app block builder. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the app block builder. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--app-block-builder-name")]
     public string? AppBlockBuilderName { get; private init; }
@@ -65,7 +67,7 @@ public record AwsAppstreamCreateAppBlockBuilderStreamingUrlOptions : AwsOptions,
     /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
     /// </summary>
     [CliOption("--validity")]
-    public int? Validity { get; set; }
+    public long? Validity { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the draft configuration associated with the running environ- ment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using De- scribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indi- cates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this ac- tion. ...
+/// Deletes the draft configuration associated with the running environment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using DescribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indicates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this action. See also...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the draft configuration associated with the running environ- ment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using De- scribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indi- cates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this ac- tion. ...
+    /// Deletes the draft configuration associated with the running environment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using DescribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indicates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this action. See also...
     /// </summary>
-    /// <param name="ApplicationName">The name of the application the environment is associated with. Constraints: o min: 1 o max: 100</param>
-    /// <param name="EnvironmentName">The name of the environment to delete the draft configuration from. Constraints: o min: 4 o max: 40</param>
+    /// <param name="ApplicationName">The name of the application the environment is associated with. Constraints: • min: 1 • max: 100</param>
+    /// <param name="EnvironmentName">The name of the environment to delete the draft configuration from. Constraints: • min: 4 • max: 40</param>
     public AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions(
         string ApplicationName,
         string EnvironmentName
@@ -60,13 +62,13 @@ public record AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application the environment is associated with. Constraints: o min: 1 o max: 100
+    /// The name of the application the environment is associated with. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The name of the environment to delete the draft configuration from. Constraints: o min: 4 o max: 40
+    /// The name of the environment to delete the draft configuration from. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; private init; }

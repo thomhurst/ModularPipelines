@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTaxsettingsBatchDeleteTaxRegistrationOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes tax registration for multiple accounts in batch. This can be used to delete tax registrations for up to five accounts in one batch. NOTE: This API operation can't be used to delete your tax registration in Brazil. Use the Payment preferences page in the Billing and Cost Management console instead. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountIds">List of unique account identifiers. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 12 o max: 12 o pattern: \d+ Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">List of unique account identifiers. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 12 • max: 12 • pattern: \d+ Syntax: "string" "string" ...</param>
     public AwsTaxsettingsBatchDeleteTaxRegistrationOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +69,7 @@ public record AwsTaxsettingsBatchDeleteTaxRegistrationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List of unique account identifiers. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 12 o max: 12 o pattern: \d+ Syntax: "string" "string" ...
+    /// List of unique account identifiers. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 12 • max: 12 • pattern: \d+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

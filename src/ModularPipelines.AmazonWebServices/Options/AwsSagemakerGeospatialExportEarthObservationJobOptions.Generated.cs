@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 loca- tion. See also: AWS API Documentation
+/// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsSagemakerGeospatialExportEarthObservationJobOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 loca- tion. See also: AWS API Documentation
+    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The input Amazon Resource Name (ARN) of the Earth Observation job being exported. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$</param>
-    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$</param>
-    /// <param name="OutputConfig">An object containing information about the output file. S3Data -&gt; (structure) [required] Path to Amazon S3 storage location for the output configuration file. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data input. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }</param>
+    /// <param name="Arn">The input Amazon Resource Name (ARN) of the Earth Observation job being exported. Constraints: • pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$</param>
+    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$</param>
+    /// <param name="OutputConfig">An object containing information about the output file. S3Data -&gt; (structure) [required] Path to Amazon S3 storage location for the output configuration file. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: • min: 0 • max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data input. Constraints: • pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }</param>
     public AwsSagemakerGeospatialExportEarthObservationJobOptions(
         string Arn,
         string ExecutionRoleArn,
@@ -65,32 +67,32 @@ public record AwsSagemakerGeospatialExportEarthObservationJobOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The input Amazon Resource Name (ARN) of the Earth Observation job being exported. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$
+    /// The input Amazon Resource Name (ARN) of the Earth Observation job being exported. Constraints: • pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
+    /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// An object containing information about the output file. S3Data -&gt; (structure) [required] Path to Amazon S3 storage location for the output configuration file. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data input. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }
+    /// An object containing information about the output file. S3Data -&gt; (structure) [required] Path to Amazon S3 storage location for the output configuration file. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: • min: 0 • max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data input. Constraints: • pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }
     /// </summary>
     [CliOption("--output-config")]
     public string? OutputConfig { get; private init; }
 
     /// <summary>
-    /// A unique token that guarantees that the call to this API is idempo- tent. Constraints: o min: 36 o max: 64
+    /// A unique token that guarantees that the call to this API is idempotent. Constraints: • min: 36 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The source images provided to the Earth Observation job being ex- ported.
+    /// The source images provided to the Earth Observation job being exported.
     /// </summary>
     [CliFlag("--export-source-images", NegatedName = "--no-export-source-images")]
     public bool? ExportSourceImages { get; set; }

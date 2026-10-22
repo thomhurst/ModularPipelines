@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsCleanroomsUpdateProtectedJobOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates the processing of a currently running job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipIdentifier">The identifier for a member of a protected job instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="ProtectedJobIdentifier">The identifier of the protected job to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="TargetStatus">The target status of a protected job. Used to update the execution status of a currently running job. Possible values: o CANCELLED</param>
+    /// <param name="MembershipIdentifier">The identifier for a member of a protected job instance. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ProtectedJobIdentifier">The identifier of the protected job to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="TargetStatus">The target status of a protected job. Used to update the execution status of a currently running job. Possible values: • CANCELLED</param>
     public AwsCleanroomsUpdateProtectedJobOptions(
         string MembershipIdentifier,
         string ProtectedJobIdentifier,
@@ -64,19 +66,19 @@ public record AwsCleanroomsUpdateProtectedJobOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for a member of a protected job instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The identifier for a member of a protected job instance. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the protected job to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The identifier of the protected job to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--protected-job-identifier")]
     public string? ProtectedJobIdentifier { get; private init; }
 
     /// <summary>
-    /// The target status of a protected job. Used to update the execution status of a currently running job. Possible values: o CANCELLED
+    /// The target status of a protected job. Used to update the execution status of a currently running job. Possible values: • CANCELLED
     /// </summary>
     [CliOption("--target-status")]
     public string? TargetStatus { get; private init; }

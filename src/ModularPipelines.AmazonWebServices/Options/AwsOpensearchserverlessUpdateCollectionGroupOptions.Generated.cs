@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsOpensearchserverlessUpdateCollectionGroupOptions : AwsOptions, 
     /// <summary>
     /// Updates the description and capacity limits of a collection group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the collection group to update. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}</param>
+    /// <param name="Id">The unique identifier of the collection group to update. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}</param>
     public AwsOpensearchserverlessUpdateCollectionGroupOptions(
         string Id
     )
@@ -57,25 +59,25 @@ public record AwsOpensearchserverlessUpdateCollectionGroupOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the collection group to update. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}
+    /// The unique identifier of the collection group to update. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A new description for the collection group. Constraints: o min: 0 o max: 1000
+    /// A new description for the collection group. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Updated capacity limits for the collection group, in OpenSearch Com- pute Units (OCUs). maxIndexingCapacityInOCU -&gt; (float) The maximum indexing capacity for collections in the group. Constraints: o min: 1 maxSearchCapacityInOCU -&gt; (float) The maximum search capacity for collections in the group. Constraints: o min: 1 minIndexingCapacityInOCU -&gt; (float) The minimum indexing capacity for collections in the group. Constraints: o min: 0 minSearchCapacityInOCU -&gt; (float) The minimum search capacity for collections in the group. Constraints: o min: 0 Shorthand Syntax: maxIndexingCapacityInOCU=float,maxSearchCapacityInOCU=float,minIndexingCapacityInOCU=float,minSearchCapacityInOCU=float JSON Syntax: { "maxIndexingCapacityInOCU": float, "maxSearchCapacityInOCU": float, "minIndexingCapacityInOCU": float, "minSearchCapacityInOCU": float }
+    /// Updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs). maxIndexingCapacityInOCU -&gt; (float) The maximum indexing capacity for collections in the group. Constraints: • min: 1 maxSearchCapacityInOCU -&gt; (float) The maximum search capacity for collections in the group. Constraints: • min: 1 minIndexingCapacityInOCU -&gt; (float) The minimum indexing capacity for collections in the group. Constraints: • min: 0 minSearchCapacityInOCU -&gt; (float) The minimum search capacity for collections in the group. Constraints: • min: 0 Shorthand Syntax: maxIndexingCapacityInOCU=float,maxSearchCapacityInOCU=float,minIndexingCapacityInOCU=float,minSearchCapacityInOCU=float JSON Syntax: { "maxIndexingCapacityInOCU": float, "maxSearchCapacityInOCU": float, "minIndexingCapacityInOCU": float, "minSearchCapacityInOCU": float }
     /// </summary>
     [CliOption("--capacity-limits")]
     public string? CapacityLimits { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

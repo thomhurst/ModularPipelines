@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkmailAssumeImpersonationRoleOptions : AwsOptions, IValidatab
     /// <summary>
     /// Assumes an impersonation role for the given WorkMail organization. This method returns an authentication token you can use to make impersonated calls. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization under which the impersonation role will be assumed. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="ImpersonationRoleId">The impersonation role ID to assume. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OrganizationId">The WorkMail organization under which the impersonation role will be assumed. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="ImpersonationRoleId">The impersonation role ID to assume. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsWorkmailAssumeImpersonationRoleOptions(
         string OrganizationId,
         string ImpersonationRoleId
@@ -60,13 +62,13 @@ public record AwsWorkmailAssumeImpersonationRoleOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization under which the impersonation role will be assumed. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization under which the impersonation role will be assumed. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The impersonation role ID to assume. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The impersonation role ID to assume. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--impersonation-role-id")]
     public string? ImpersonationRoleId { get; private init; }

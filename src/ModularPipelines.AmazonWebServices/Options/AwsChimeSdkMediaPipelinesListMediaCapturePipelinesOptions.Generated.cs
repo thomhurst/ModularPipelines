@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsChimeSdkMediaPipelinesListMediaCapturePipelinesOptions : AwsOptions
 {
     /// <summary>
-    /// The token used to retrieve the next page of results. Constraints: o max: 4096 o pattern: .*
+    /// The token used to retrieve the next page of results. Constraints: • max: 4096 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Valid Range: 1 - 99. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return in a single call. Valid Range: 1 - 99. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

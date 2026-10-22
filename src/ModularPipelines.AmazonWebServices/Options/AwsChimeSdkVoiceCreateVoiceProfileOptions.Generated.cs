@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a voice profile, which consists of an enrolled user and their latest voice print. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Devel- oper Guide . See also: AWS API...
+/// Creates a voice profile, which consists of an enrolled user and their latest voice print. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Developer Guide . See also: AWS API D...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsChimeSdkVoiceCreateVoiceProfileOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a voice profile, which consists of an enrolled user and their latest voice print. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Devel- oper Guide . See also: AWS API...
+    /// Creates a voice profile, which consists of an enrolled user and their latest voice print. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Developer Guide . See also: AWS API D...
     /// </summary>
-    /// <param name="SpeakerSearchTaskId">The ID of the speaker search task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="SpeakerSearchTaskId">The ID of the speaker search task. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceCreateVoiceProfileOptions(
         string SpeakerSearchTaskId
     )
@@ -56,7 +58,7 @@ public record AwsChimeSdkVoiceCreateVoiceProfileOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the speaker search task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The ID of the speaker search task. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--speaker-search-task-id")]
     public string? SpeakerSearchTaskId { get; private init; }

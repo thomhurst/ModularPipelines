@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPinpointUpdateBaiduChannelOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
-    /// <param name="BaiduChannelRequest">Specifies the status and settings of the Baidu (Baidu Cloud Push) channel for an application. ApiKey -&gt; (string) [required] The API key that you received from the Baidu Cloud Push service to communicate with the service. Enabled -&gt; (boolean) Specifies whether to enable the Baidu channel for the applica- tion. SecretKey -&gt; (string) [required] The secret key that you received from the Baidu Cloud Push ser- vice to communicate with the service. Shorthand Syntax: ApiKey=string,Enabled=boolean,SecretKey=string JSON Syntax: { "ApiKey": "string", "Enabled": true|false, "SecretKey": "string" }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="BaiduChannelRequest">Specifies the status and settings of the Baidu (Baidu Cloud Push) channel for an application. ApiKey -&gt; (string) [required] The API key that you received from the Baidu Cloud Push service to communicate with the service. Enabled -&gt; (boolean) Specifies whether to enable the Baidu channel for the application. SecretKey -&gt; (string) [required] The secret key that you received from the Baidu Cloud Push service to communicate with the service. Shorthand Syntax: ApiKey=string,Enabled=boolean,SecretKey=string JSON Syntax: { "ApiKey": "string", "Enabled": true|false, "SecretKey": "string" }</param>
     public AwsPinpointUpdateBaiduChannelOptions(
         string ApplicationId,
         string BaiduChannelRequest
@@ -60,13 +62,13 @@ public record AwsPinpointUpdateBaiduChannelOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Specifies the status and settings of the Baidu (Baidu Cloud Push) channel for an application. ApiKey -&gt; (string) [required] The API key that you received from the Baidu Cloud Push service to communicate with the service. Enabled -&gt; (boolean) Specifies whether to enable the Baidu channel for the applica- tion. SecretKey -&gt; (string) [required] The secret key that you received from the Baidu Cloud Push ser- vice to communicate with the service. Shorthand Syntax: ApiKey=string,Enabled=boolean,SecretKey=string JSON Syntax: { "ApiKey": "string", "Enabled": true|false, "SecretKey": "string" }
+    /// Specifies the status and settings of the Baidu (Baidu Cloud Push) channel for an application. ApiKey -&gt; (string) [required] The API key that you received from the Baidu Cloud Push service to communicate with the service. Enabled -&gt; (boolean) Specifies whether to enable the Baidu channel for the application. SecretKey -&gt; (string) [required] The secret key that you received from the Baidu Cloud Push service to communicate with the service. Shorthand Syntax: ApiKey=string,Enabled=boolean,SecretKey=string JSON Syntax: { "ApiKey": "string", "Enabled": true|false, "SecretKey": "string" }
     /// </summary>
     [CliOption("--baidu-channel-request")]
     public string? BaiduChannelRequest { get; private init; }

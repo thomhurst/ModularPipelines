@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate an Amazon FSx file system with the FSx File Gateway. After the association process is complete, the file shares on the Amazon FSx file system are available for access through the gateway. This opera- tion only supports the FSx File Gateway type. See also: AWS API Documentation
+/// Associate an Amazon FSx file system with the FSx File Gateway. After the association process is complete, the file shares on the Amazon FSx file system are available for access through the gateway. This operation only supports the FSx File Gateway type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsStoragegatewayAssociateFileSystemOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate an Amazon FSx file system with the FSx File Gateway. After the association process is complete, the file shares on the Amazon FSx file system are available for access through the gateway. This opera- tion only supports the FSx File Gateway type. See also: AWS API Documentation
+    /// Associate an Amazon FSx file system with the FSx File Gateway. After the association process is complete, the file shares on the Amazon FSx file system are available for access through the gateway. This operation only supports the FSx File Gateway type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group. Constraints: o min: 1 o max: 1024 o pattern: ^\w[\w\.\- ]*$</param>
-    /// <param name="Password">The password of the user credential. Constraints: o min: 1 o max: 1024 o pattern: ^[ -~]+$</param>
-    /// <param name="ClientToken">A unique string value that you supply that is used by the FSx File Gateway to ensure idempotent file system association creation. Constraints: o min: 5 o max: 100</param>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
-    /// <param name="LocationArn">The Amazon Resource Name (ARN) of the Amazon FSx file system to as- sociate with the FSx File Gateway. Constraints: o min: 8 o max: 512</param>
+    /// <param name="UserName">The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group. Constraints: • min: 1 • max: 1024 • pattern: ^\w[\w\.\- ]*$</param>
+    /// <param name="Password">The password of the user credential. Constraints: • min: 1 • max: 1024 • pattern: ^[ -~]+$</param>
+    /// <param name="ClientToken">A unique string value that you supply that is used by the FSx File Gateway to ensure idempotent file system association creation. Constraints: • min: 5 • max: 100</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
+    /// <param name="LocationArn">The Amazon Resource Name (ARN) of the Amazon FSx file system to associate with the FSx File Gateway. Constraints: • min: 8 • max: 512</param>
     public AwsStoragegatewayAssociateFileSystemOptions(
         string UserName,
         string Password,
@@ -73,57 +75,57 @@ public record AwsStoragegatewayAssociateFileSystemOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group. Constraints: o min: 1 o max: 1024 o pattern: ^\w[\w\.\- ]*$
+    /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group. Constraints: • min: 1 • max: 1024 • pattern: ^\w[\w\.\- ]*$
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The password of the user credential. Constraints: o min: 1 o max: 1024 o pattern: ^[ -~]+$
+    /// The password of the user credential. Constraints: • min: 1 • max: 1024 • pattern: ^[ -~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; private init; }
 
     /// <summary>
-    /// A unique string value that you supply that is used by the FSx File Gateway to ensure idempotent file system association creation. Constraints: o min: 5 o max: 100
+    /// A unique string value that you supply that is used by the FSx File Gateway to ensure idempotent file system association creation. Constraints: • min: 5 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon FSx file system to as- sociate with the FSx File Gateway. Constraints: o min: 8 o max: 512
+    /// The Amazon Resource Name (ARN) of the Amazon FSx file system to associate with the FSx File Gateway. Constraints: • min: 8 • max: 512
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
 
     /// <summary>
-    /// A list of up to 50 tags that can be assigned to the file system as- sociation. Each tag is a key-value pair. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 tags that can be assigned to the file system association. Each tag is a key-value pair. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the storage used for the audit logs. Constraints: o max: 1024
+    /// The Amazon Resource Name (ARN) of the storage used for the audit logs. Constraints: • max: 1024
     /// </summary>
     [CliOption("--audit-destination-arn")]
     public string? AuditDestinationArn { get; set; }
 
     /// <summary>
-    /// The refresh cache information for the file share or FSx file sys- tems. CacheStaleTimeoutInSeconds -&gt; (integer) Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in seconds. Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days) Shorthand Syntax: CacheStaleTimeoutInSeconds=integer JSON Syntax: { "CacheStaleTimeoutInSeconds": integer }
+    /// The refresh cache information for the file share or FSx file systems. CacheStaleTimeoutInSeconds -&gt; (integer) Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in seconds. Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days) Shorthand Syntax: CacheStaleTimeoutInSeconds=integer JSON Syntax: { "CacheStaleTimeoutInSeconds": integer }
     /// </summary>
     [CliOption("--cache-attributes")]
     public string? CacheAttributes { get; set; }
 
     /// <summary>
-    /// Specifies the network configuration information for the gateway as- sociated with the Amazon FSx file system. NOTE: If multiple file systems are associated with this gateway, this parameter's IpAddresses field is required. IpAddresses -&gt; (list) A list of gateway IP addresses on which the associated Amazon FSx file system is available. NOTE: If multiple file systems are associated with this gateway, this field is required. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 7 o max: 15 o pattern: ^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4} Shorthand Syntax: IpAddresses=string,string JSON Syntax: { "IpAddresses": ["string", ...] }
+    /// Specifies the network configuration information for the gateway associated with the Amazon FSx file system. NOTE: If multiple file systems are associated with this gateway, this parameter's IpAddresses field is required. IpAddresses -&gt; (list) A list of gateway IP addresses on which the associated Amazon FSx file system is available. NOTE: If multiple file systems are associated with this gateway, this field is required. Constraints: • min: 0 • max: 1 (string) Constraints: • min: 7 • max: 15 • pattern: ^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4} Shorthand Syntax: IpAddresses=string,string JSON Syntax: { "IpAddresses": ["string", ...] }
     /// </summary>
     [CliOption("--endpoint-network-configuration")]
     public string? EndpointNetworkConfiguration { get; set; }

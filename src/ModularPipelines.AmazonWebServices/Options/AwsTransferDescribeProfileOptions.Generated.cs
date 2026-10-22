@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsTransferDescribeProfileOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the details of the profile that's specified by the ProfileId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The identifier of the profile that you want described. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})</param>
+    /// <param name="ProfileId">The identifier of the profile that you want described. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})</param>
     public AwsTransferDescribeProfileOptions(
         string ProfileId
     )
@@ -56,7 +58,7 @@ public record AwsTransferDescribeProfileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the profile that you want described. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})
+    /// The identifier of the profile that you want described. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }

@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets configuration information and metadata about a CloudFront func- tion, but not the function's code. To get a function's code, use Get- Function . To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
+/// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction . To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsCloudfrontDescribeFunctionOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets configuration information and metadata about a CloudFront func- tion, but not the function's code. To get a function's code, use Get- Function . To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
+    /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction . To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the function that you are getting information about. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="Name">The name of the function that you are getting information about. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
     public AwsCloudfrontDescribeFunctionOptions(
         string Name
     )
@@ -57,13 +59,13 @@ public record AwsCloudfrontDescribeFunctionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the function that you are getting information about. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// The name of the function that you are getting information about. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The function's stage, either DEVELOPMENT or LIVE . Possible values: o DEVELOPMENT o LIVE
+    /// The function's stage, either DEVELOPMENT or LIVE . Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--stage")]
     public AwsCloudfrontDescribeFunctionStage? Stage { get; set; }

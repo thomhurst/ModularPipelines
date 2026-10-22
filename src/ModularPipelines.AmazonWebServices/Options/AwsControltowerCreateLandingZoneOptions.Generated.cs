@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new landing zone. This API call starts an asynchronous opera- tion that creates and configures a landing zone, based on the parame- ters specified in the manifest JSON file. See also: AWS API Documentation create-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON....
+/// Creates a new landing zone. This API call starts an asynchronous operation that creates and configures a landing zone, based on the parameters specified in the manifest JSON file. See also: AWS API Documentation create-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Short...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsControltowerCreateLandingZoneOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new landing zone. This API call starts an asynchronous opera- tion that creates and configures a landing zone, based on the parame- ters specified in the manifest JSON file. See also: AWS API Documentation create-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON....
+    /// Creates a new landing zone. This API call starts an asynchronous operation that creates and configures a landing zone, based on the parameters specified in the manifest JSON file. See also: AWS API Documentation create-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Short...
     /// </summary>
-    /// <param name="LandingZoneVersion">The landing zone version, for example, 3.0. Constraints: o min: 3 o max: 10 o pattern: \d+.\d+</param>
+    /// <param name="LandingZoneVersion">The landing zone version, for example, 3.0. Constraints: • min: 3 • max: 10 • pattern: \d+.\d+</param>
     public AwsControltowerCreateLandingZoneOptions(
         string LandingZoneVersion
     )
@@ -57,19 +58,19 @@ public record AwsControltowerCreateLandingZoneOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The landing zone version, for example, 3.0. Constraints: o min: 3 o max: 10 o pattern: \d+.\d+
+    /// The landing zone version, for example, 3.0. Constraints: • min: 3 • max: 10 • pattern: \d+.\d+
     /// </summary>
     [CliOption("--landing-zone-version")]
     public string? LandingZoneVersion { get; private init; }
 
     /// <summary>
-    /// Specifies the types of remediation actions to apply when creating the landing zone, such as automatic drift correction or compliance enforcement. Constraints: o min: 1 o max: 1 (string) Possible values: o INHERITANCE_DRIFT Syntax: "string" "string" ...
+    /// Specifies the types of remediation actions to apply when creating the landing zone, such as automatic drift correction or compliance enforcement. Constraints: • min: 1 • max: 1 (string) Possible values: • INHERITANCE_DRIFT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remediation-types", GroupValues = true)]
     public IEnumerable<string>? RemediationTypes { get; set; }
 
     /// <summary>
-    /// Tags to be applied to the landing zone. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to be applied to the landing zone. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

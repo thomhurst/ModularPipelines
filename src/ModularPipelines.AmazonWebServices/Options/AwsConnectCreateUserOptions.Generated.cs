@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a user account for the specified Connect Customer instance. WARNING: Certain UserIdentityInfo parameters are required in some situations. For example, Email , FirstName and LastName are required if you are using Connect Customer or SAML for identity management. NOTE: Fields in PhoneConfig cannot be set simultaneously with their corre- sponding channel-specific configuration parameters. Specifically: o PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs o PhoneConfig.AfterContactWorkT...
+/// Creates a user account for the specified Connect Customer instance. WARNING: Certain UserIdentityInfo parameters are required in some situations. For example, Email , FirstName and LastName are required if you are using Connect Customer or SAML for identity management. NOTE: Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically: • PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs • PhoneConfig.AfterContactWorkTim...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsConnectCreateUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a user account for the specified Connect Customer instance. WARNING: Certain UserIdentityInfo parameters are required in some situations. For example, Email , FirstName and LastName are required if you are using Connect Customer or SAML for identity management. NOTE: Fields in PhoneConfig cannot be set simultaneously with their corre- sponding channel-specific configuration parameters. Specifically: o PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs o PhoneConfig.AfterContactWorkT...
+    /// Creates a user account for the specified Connect Customer instance. WARNING: Certain UserIdentityInfo parameters are required in some situations. For example, Email , FirstName and LastName are required if you are using Connect Customer or SAML for identity management. NOTE: Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically: • PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs • PhoneConfig.AfterContactWorkTim...
     /// </summary>
-    /// <param name="Username">The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can in- clude up to 64 characters from [ a-zA-Z0-9_ -.@]+. Username can include @ only if used in an email format. For example: o Correct: testuser o Correct: testuser@example.com o Incorrect: testuser@example Constraints: o min: 1 o max: 100</param>
-    /// <param name="SecurityProfileIds">The identifier of the security profile for the user. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Username">The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can include up to 64 characters from [ a-zA-Z0-9_ -.@]+. Username can include @ only if used in an email format. For example: • Correct: testuser • Correct: testuser@example.com • Incorrect: testuser@example Constraints: • min: 1 • max: 100</param>
+    /// <param name="SecurityProfileIds">The identifier of the security profile for the user. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...</param>
     /// <param name="RoutingProfileId">The identifier of the routing profile for the user.</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectCreateUserOptions(
         string Username,
         IEnumerable<string> SecurityProfileIds,
@@ -81,13 +82,13 @@ public record AwsConnectCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can in- clude up to 64 characters from [ a-zA-Z0-9_ -.@]+. Username can include @ only if used in an email format. For example: o Correct: testuser o Correct: testuser@example.com o Incorrect: testuser@example Constraints: o min: 1 o max: 100
+    /// The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can include up to 64 characters from [ a-zA-Z0-9_ -.@]+. Username can include @ only if used in an email format. For example: • Correct: testuser • Correct: testuser@example.com • Incorrect: testuser@example Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }
 
     /// <summary>
-    /// The identifier of the security profile for the user. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// The identifier of the security profile for the user. Constraints: • min: 1 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-profile-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityProfileIds { get; private init; }
@@ -99,32 +100,32 @@ public record AwsConnectCreateUserOptions : AwsOptions, IValidatableObject
     public string? RoutingProfileId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The password for the user account. A password is required if you are using Connect Customer for identity management. Otherwise, it is an error to include a password. Constraints: o pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,64}$/
+    /// The password for the user account. A password is required if you are using Connect Customer for identity management. Otherwise, it is an error to include a password. Constraints: • pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,64}$/
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; set; }
 
     /// <summary>
-    /// The information about the identity of the user. FirstName -&gt; (string) The first name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 255 LastName -&gt; (string) The last name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 300 Email -&gt; (string) The email address. If you are using SAML for identity management and include this parameter, an error is returned. SecondaryEmail -&gt; (string) The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than pass- word reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63} Mobile -&gt; (string) The user's mobile number. Constraints: o pattern: \\+[1-9]\\d{1,14}$ Shorthand Syntax: FirstName=string,LastName=string,Email=string,SecondaryEmail=string,Mobile=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "SecondaryEmail": "string", "Mobile": "string" }
+    /// The information about the identity of the user. FirstName -&gt; (string) The first name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: • min: 0 • max: 255 LastName -&gt; (string) The last name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: • min: 0 • max: 300 Email -&gt; (string) The email address. If you are using SAML for identity management and include this parameter, an error is returned. SecondaryEmail -&gt; (string) The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than password reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63} Mobile -&gt; (string) The user's mobile number. Constraints: • pattern: \\+[1-9]\\d{1,14}$ Shorthand Syntax: FirstName=string,LastName=string,Email=string,SecondaryEmail=string,Mobile=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "SecondaryEmail": "string", "Mobile": "string" }
     /// </summary>
     [CliOption("--identity-info")]
     public string? IdentityInfo { get; set; }
 
     /// <summary>
-    /// The phone settings for the user. This parameter is optional. If not provided, the user can be configured using channel-specific parame- ters such as AutoAcceptConfigs , AfterContactWorkConfigs , PhoneNum- berConfigs , PersistentConnectionConfigs , and VoiceEnhancementCon- figs . PhoneType -&gt; (string) The phone type. Possible values: o SOFT_PHONE o DESK_PHONE AutoAccept -&gt; (boolean) The Auto accept setting. AfterContactWorkTimeLimit -&gt; (integer) The After Call Work (ACW) timeout setting, in seconds. This pa- rameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allo- cate a specific amount of ACW time. It essentially means an in- definite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. NOTE: When returned by a SearchUsers call, AfterContactWorkTime- Limit is returned in milliseconds. Constraints: o min: 0 DeskPhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: o pattern: \+[1-9]\d{1,14}$ PersistentConnection -&gt; (boolean) The persistent connection setting for the user. Shorthand Syntax: PhoneType=string,AutoAccept=boolean,AfterContactWorkTimeLimit=integer,DeskPhoneNumber=string,PersistentConnection=boolean JSON Syntax: { "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "AutoAccept": true|false, "AfterContactWorkTimeLimit": integer, "DeskPhoneNumber": "string", "PersistentConnection": true|false }
+    /// The phone settings for the user. This parameter is optional. If not provided, the user can be configured using channel-specific parameters such as AutoAcceptConfigs , AfterContactWorkConfigs , PhoneNumberConfigs , PersistentConnectionConfigs , and VoiceEnhancementConfigs . PhoneType -&gt; (string) The phone type. Possible values: • SOFT_PHONE • DESK_PHONE AutoAccept -&gt; (boolean) The Auto accept setting. AfterContactWorkTimeLimit -&gt; (integer) The After Call Work (ACW) timeout setting, in seconds. This parameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allocate a specific amount of ACW time. It essentially means an indefinite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. NOTE: When returned by a SearchUsers call, AfterContactWorkTimeLimit is returned in milliseconds. Constraints: • min: 0 DeskPhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: • pattern: \+[1-9]\d{1,14}$ PersistentConnection -&gt; (boolean) The persistent connection setting for the user. Shorthand Syntax: PhoneType=string,AutoAccept=boolean,AfterContactWorkTimeLimit=integer,DeskPhoneNumber=string,PersistentConnection=boolean JSON Syntax: { "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "AutoAccept": true|false, "AfterContactWorkTimeLimit": integer, "DeskPhoneNumber": "string", "PersistentConnection": true|false }
     /// </summary>
     [CliOption("--phone-config")]
     public string? PhoneConfig { get; set; }
 
     /// <summary>
-    /// The identifier of the user account in the directory used for iden- tity management. If Connect Customer cannot access the directory, you can specify this identifier to authenticate users. If you in- clude the identifier, we assume that Connect Customer cannot access the directory. Otherwise, the identity information is used to au- thenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Connect Customer when Connect Customer cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
+    /// The identifier of the user account in the directory used for identity management. If Connect Customer cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Connect Customer cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Connect Customer when Connect Customer cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
     /// </summary>
     [CliOption("--directory-user-id")]
     public string? DirectoryUserId { get; set; }
@@ -136,37 +137,37 @@ public record AwsConnectCreateUserOptions : AwsOptions, IValidatableObject
     public string? HierarchyGroupId { get; set; }
 
     /// <summary>
-    /// The list of auto-accept configuration settings for each channel. (structure) Configuration settings for auto-accept for a specific channel. Channel -&gt; (string) [required] The channel for this auto-accept configuration. Valid values: VOICE, CHAT, TASK, EMAIL. Possible values: o VOICE o CHAT o TASK o EMAIL AutoAccept -&gt; (boolean) [required] Indicates whether auto-accept is enabled for this channel. When enabled, available agents are automatically connected to contacts from this channel. AgentFirstCallbackAutoAccept -&gt; (boolean) Indicates whether auto-accept is enabled for agent-first callbacks. This setting only applies to the VOICE channel. Shorthand Syntax: Channel=string,AutoAccept=boolean,AgentFirstCallbackAutoAccept=boolean ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "AutoAccept": true|false, "AgentFirstCallbackAutoAccept": true|false } ... ]
+    /// The list of auto-accept configuration settings for each channel. (structure) Configuration settings for auto-accept for a specific channel. Channel -&gt; (string) [required] The channel for this auto-accept configuration. Valid values: VOICE, CHAT, TASK, EMAIL. Possible values: • VOICE • CHAT • TASK • EMAIL AutoAccept -&gt; (boolean) [required] Indicates whether auto-accept is enabled for this channel. When enabled, available agents are automatically connected to contacts from this channel. AgentFirstCallbackAutoAccept -&gt; (boolean) Indicates whether auto-accept is enabled for agent-first callbacks. This setting only applies to the VOICE channel. Shorthand Syntax: Channel=string,AutoAccept=boolean,AgentFirstCallbackAutoAccept=boolean ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "AutoAccept": true|false, "AgentFirstCallbackAutoAccept": true|false } ... ]
     /// </summary>
     [CliOption("--auto-accept-configs", GroupValues = true)]
     public IEnumerable<string>? AutoAcceptConfigs { get; set; }
 
     /// <summary>
-    /// The list of after contact work (ACW) timeout configuration settings for each channel. (structure) Configuration settings for after contact work (ACW) timeout for a specific channel. Channel -&gt; (string) [required] The channel for this ACW timeout configuration. Valid values: VOICE, CHAT, TASK, EMAIL. Possible values: o VOICE o CHAT o TASK o EMAIL AfterContactWorkConfig -&gt; (structure) [required] The ACW timeout settings for this channel. AfterContactWorkTimeLimit -&gt; (integer) The ACW timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000 seconds (24 days). Enter 0 for indefi- nite ACW time. Constraints: o min: 0 AgentFirstCallbackAfterContactWorkConfig -&gt; (structure) The ACW timeout settings for agent-first callbacks. This set- ting only applies to the VOICE channel. AfterContactWorkTimeLimit -&gt; (integer) The ACW timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000 seconds (24 days). Enter 0 for indefi- nite ACW time. Constraints: o min: 0 Shorthand Syntax: Channel=string,AfterContactWorkConfig={AfterContactWorkTimeLimit=integer},AgentFirstCallbackAfterContactWorkConfig={AfterContactWorkTimeLimit=integer} ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "AfterContactWorkConfig": { "AfterContactWorkTimeLimit": integer }, "AgentFirstCallbackAfterContactWorkConfig": { "AfterContactWorkTimeLimit": integer } } ... ]
+    /// The list of after contact work (ACW) timeout configuration settings for each channel. (structure) Configuration settings for after contact work (ACW) timeout for a specific channel. Channel -&gt; (string) [required] The channel for this ACW timeout configuration. Valid values: VOICE, CHAT, TASK, EMAIL. Possible values: • VOICE • CHAT • TASK • EMAIL AfterContactWorkConfig -&gt; (structure) [required] The ACW timeout settings for this channel. AfterContactWorkTimeLimit -&gt; (integer) The ACW timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000 seconds (24 days). Enter 0 for indefinite ACW time. Constraints: • min: 0 AgentFirstCallbackAfterContactWorkConfig -&gt; (structure) The ACW timeout settings for agent-first callbacks. This setting only applies to the VOICE channel. AfterContactWorkTimeLimit -&gt; (integer) The ACW timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000 seconds (24 days). Enter 0 for indefinite ACW time. Constraints: • min: 0 Shorthand Syntax: Channel=string,AfterContactWorkConfig={AfterContactWorkTimeLimit=integer},AgentFirstCallbackAfterContactWorkConfig={AfterContactWorkTimeLimit=integer} ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "AfterContactWorkConfig": { "AfterContactWorkTimeLimit": integer }, "AgentFirstCallbackAfterContactWorkConfig": { "AfterContactWorkTimeLimit": integer } } ... ]
     /// </summary>
     [CliOption("--after-contact-work-configs", GroupValues = true)]
     public IEnumerable<string>? AfterContactWorkConfigs { get; set; }
 
     /// <summary>
-    /// The list of phone number configuration settings for each channel. (structure) Configuration settings for phone type and phone number. Channel -&gt; (string) [required] The channel for this phone number configuration. Only ``VOICE`` is supported for this data type. Possible values: o VOICE o CHAT o TASK o EMAIL PhoneType -&gt; (string) [required] The phone type. Valid values: SOFT_PHONE, DESK_PHONE. Possible values: o SOFT_PHONE o DESK_PHONE PhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: o pattern: \+[1-9]\d{1,14}$ Shorthand Syntax: Channel=string,PhoneType=string,PhoneNumber=string ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "PhoneNumber": "string" } ... ]
+    /// The list of phone number configuration settings for each channel. (structure) Configuration settings for phone type and phone number. Channel -&gt; (string) [required] The channel for this phone number configuration. Only ``VOICE`` is supported for this data type. Possible values: • VOICE • CHAT • TASK • EMAIL PhoneType -&gt; (string) [required] The phone type. Valid values: SOFT_PHONE, DESK_PHONE. Possible values: • SOFT_PHONE • DESK_PHONE PhoneNumber -&gt; (string) The phone number for the user's desk phone. Constraints: • pattern: \+[1-9]\d{1,14}$ Shorthand Syntax: Channel=string,PhoneType=string,PhoneNumber=string ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "PhoneType": "SOFT_PHONE"|"DESK_PHONE", "PhoneNumber": "string" } ... ]
     /// </summary>
     [CliOption("--phone-number-configs", GroupValues = true)]
     public IEnumerable<string>? PhoneNumberConfigs { get; set; }
 
     /// <summary>
-    /// The list of persistent connection configuration settings for each channel. (structure) Configuration settings for persistent connection for a specific channel. Channel -&gt; (string) [required] Configuration settings for persistent connection. Only ``VOICE`` is supported for this data type. Possible values: o VOICE o CHAT o TASK o EMAIL PersistentConnection -&gt; (boolean) [required] Indicates whether persistent connection is enabled. When en- abled, the agent's connection is maintained after a call ends, enabling subsequent calls to connect faster. Shorthand Syntax: Channel=string,PersistentConnection=boolean ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "PersistentConnection": true|false } ... ]
+    /// The list of persistent connection configuration settings for each channel. (structure) Configuration settings for persistent connection for a specific channel. Channel -&gt; (string) [required] Configuration settings for persistent connection. Only ``VOICE`` is supported for this data type. Possible values: • VOICE • CHAT • TASK • EMAIL PersistentConnection -&gt; (boolean) [required] Indicates whether persistent connection is enabled. When enabled, the agent's connection is maintained after a call ends, enabling subsequent calls to connect faster. Shorthand Syntax: Channel=string,PersistentConnection=boolean ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "PersistentConnection": true|false } ... ]
     /// </summary>
     [CliOption("--persistent-connection-configs", GroupValues = true)]
     public IEnumerable<string>? PersistentConnectionConfigs { get; set; }
 
     /// <summary>
-    /// The list of voice enhancement configuration settings for each chan- nel. (structure) Configuration settings for voice enhancement. Channel -&gt; (string) [required] The channel for this voice enhancement configuration. Only ``VOICE`` is supported for this data type. Possible values: o VOICE o CHAT o TASK o EMAIL VoiceEnhancementMode -&gt; (string) [required] The voice enhancement mode. Possible values: o VOICE_ISOLATION o NOISE_SUPPRESSION o NONE Shorthand Syntax: Channel=string,VoiceEnhancementMode=string ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "VoiceEnhancementMode": "VOICE_ISOLATION"|"NOISE_SUPPRESSION"|"NONE" } ... ]
+    /// The list of voice enhancement configuration settings for each channel. (structure) Configuration settings for voice enhancement. Channel -&gt; (string) [required] The channel for this voice enhancement configuration. Only ``VOICE`` is supported for this data type. Possible values: • VOICE • CHAT • TASK • EMAIL VoiceEnhancementMode -&gt; (string) [required] The voice enhancement mode. Possible values: • VOICE_ISOLATION • NOISE_SUPPRESSION • NONE Shorthand Syntax: Channel=string,VoiceEnhancementMode=string ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "VoiceEnhancementMode": "VOICE_ISOLATION"|"NOISE_SUPPRESSION"|"NONE" } ... ]
     /// </summary>
     [CliOption("--voice-enhancement-configs", GroupValues = true)]
     public IEnumerable<string>? VoiceEnhancementConfigs { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

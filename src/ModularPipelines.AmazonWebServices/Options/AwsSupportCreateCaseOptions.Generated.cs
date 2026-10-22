@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Su...
+/// Creates a case in the Amazon Web Services Support Center. This operation is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the following ways: • Submit a request from the Amazon Web Services Support Center Create Case page. • Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Suppor...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSupportCreateCaseOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Su...
+    /// Creates a case in the Amazon Web Services Support Center. This operation is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the following ways: • Submit a request from the Amazon Web Services Support Center Create Case page. • Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Suppor...
     /// </summary>
     /// <param name="Subject">The title of the support case. The title appears in the Subject field on the Amazon Web Services Support Center Create Case page.</param>
-    /// <param name="CommunicationBody">The communication body text that describes the issue. This text ap- pears in the Description field on the Amazon Web Services Support Center Create Case page. Constraints: o min: 1 o max: 8000</param>
+    /// <param name="CommunicationBody">The communication body text that describes the issue. This text appears in the Description field on the Amazon Web Services Support Center Create Case page. Constraints: • min: 1 • max: 8000</param>
     public AwsSupportCreateCaseOptions(
         string Subject,
         string CommunicationBody
@@ -66,31 +68,31 @@ public record AwsSupportCreateCaseOptions : AwsOptions, IValidatableObject
     public string? Subject { get; private init; }
 
     /// <summary>
-    /// The communication body text that describes the issue. This text ap- pears in the Description field on the Amazon Web Services Support Center Create Case page. Constraints: o min: 1 o max: 8000
+    /// The communication body text that describes the issue. This text appears in the Description field on the Amazon Web Services Support Center Create Case page. Constraints: • min: 1 • max: 8000
     /// </summary>
     [CliOption("--communication-body")]
     public string? CommunicationBody { get; private init; }
 
     /// <summary>
-    /// The code for the Amazon Web Services service. You can use the De- scribeServices operation to get the possible serviceCode values.
+    /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.
     /// </summary>
     [CliOption("--service-code")]
     public string? ServiceCode { get; set; }
 
     /// <summary>
-    /// A value that indicates the urgency of the case. This value deter- mines the response time according to your service level agreement with Amazon Web Services Support. You can use the DescribeSever- ityLevels operation to get the possible values for severityCode . For more information, see SeverityLevel and Choosing a Severity in the Amazon Web Services Support User Guide . NOTE: The availability of severity levels depends on the support plan for the Amazon Web Services account.
+    /// A value that indicates the urgency of the case. This value determines the response time according to your service level agreement with Amazon Web Services Support. You can use the DescribeSeverityLevels operation to get the possible values for severityCode . For more information, see SeverityLevel and Choosing a Severity in the Amazon Web Services Support User Guide . NOTE: The availability of severity levels depends on the support plan for the Amazon Web Services account.
     /// </summary>
     [CliOption("--severity-code")]
     public string? SeverityCode { get; set; }
 
     /// <summary>
-    /// The category of problem for the support case. You also use the De- scribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
+    /// The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
     /// </summary>
     [CliOption("--category-code")]
     public string? CategoryCode { get; set; }
 
     /// <summary>
-    /// A list of email addresses that Amazon Web Services Support copies on case correspondence. Amazon Web Services Support identifies the ac- count that creates the case when you specify your Amazon Web Ser- vices credentials in an HTTP POST method or use the Amazon Web Ser- vices SDKs . Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
+    /// A list of email addresses that Amazon Web Services Support copies on case correspondence. Amazon Web Services Support identifies the account that creates the case when you specify your Amazon Web Services credentials in an HTTP POST method or use the Amazon Web Services SDKs . Constraints: • min: 0 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cc-email-addresses", GroupValues = true)]
     public IEnumerable<string>? CcEmailAddresses { get; set; }
@@ -114,7 +116,7 @@ public record AwsSupportCreateCaseOptions : AwsOptions, IValidatableObject
     public string? AttachmentSetId { get; set; }
 
     /// <summary>
-    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks opera- tion. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks operation. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--upload-ids", GroupValues = true)]
     public IEnumerable<string>? UploadIds { get; set; }

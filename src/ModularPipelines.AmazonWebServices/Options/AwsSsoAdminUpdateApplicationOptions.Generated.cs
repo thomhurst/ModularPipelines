@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSsoAdminUpdateApplicationOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates application properties. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationArn">Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Ser- vice Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="ApplicationArn">Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
     public AwsSsoAdminUpdateApplicationOptions(
         string ApplicationArn
     )
@@ -57,31 +59,31 @@ public record AwsSsoAdminUpdateApplicationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Ser- vice Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }
 
     /// <summary>
-    /// Specifies the updated name for the application. Constraints: o min: 1 o max: 100 o pattern: [\S\s]*
+    /// Specifies the updated name for the application. Constraints: • min: 1 • max: 100 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the . Constraints: o min: 1 o max: 128
+    /// The description of the . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies whether the application is enabled or disabled. Possible values: o ENABLED o DISABLED
+    /// Specifies whether the application is enabled or disabled. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsSsoAdminUpdateApplicationStatus? Status { get; set; }
 
     /// <summary>
-    /// A structure that describes the options for the portal associated with an application. SignInOptions -&gt; (structure) A structure that describes the sign-in options for an applica- tion portal. Origin -&gt; (string) [required] This determines how IAM Identity Center navigates the user to the target application. It can be one of the following val- ues: o APPLICATION : IAM Identity Center redirects the customer to the configured ApplicationUrl . o IDENTITY_CENTER : IAM Identity Center uses SAML iden- tity-provider initiated authentication to sign the customer directly into a SAML-based application. Possible values: o IDENTITY_CENTER o APPLICATION ApplicationUrl -&gt; (string) The URL that accepts authentication requests for an applica- tion. This is a required parameter if the Origin parameter is APPLICATION . Constraints: o min: 1 o max: 512 o pattern: http(s)?:\/\/[-a-zA-Z0-9+&amp;@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&amp;bb@#\/%?=~_|] Shorthand Syntax: SignInOptions={Origin=string,ApplicationUrl=string} JSON Syntax: { "SignInOptions": { "Origin": "IDENTITY_CENTER"|"APPLICATION", "ApplicationUrl": "string" } }
+    /// A structure that describes the options for the portal associated with an application. SignInOptions -&gt; (structure) A structure that describes the sign-in options for an application portal. Origin -&gt; (string) [required] This determines how IAM Identity Center navigates the user to the target application. It can be one of the following values: • APPLICATION : IAM Identity Center redirects the customer to the configured ApplicationUrl . • IDENTITY_CENTER : IAM Identity Center uses SAML identity-provider initiated authentication to sign the customer directly into a SAML-based application. Possible values: • IDENTITY_CENTER • APPLICATION ApplicationUrl -&gt; (string) The URL that accepts authentication requests for an application. This is a required parameter if the Origin parameter is APPLICATION . Constraints: • min: 1 • max: 512 • pattern: http(s)?:\/\/[-a-zA-Z0-9+&amp;@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&amp;bb@#\/%?=~_|] Shorthand Syntax: SignInOptions={Origin=string,ApplicationUrl=string} JSON Syntax: { "SignInOptions": { "Origin": "IDENTITY_CENTER"|"APPLICATION", "ApplicationUrl": "string" } }
     /// </summary>
     [CliOption("--portal-options")]
     public string? PortalOptions { get; set; }

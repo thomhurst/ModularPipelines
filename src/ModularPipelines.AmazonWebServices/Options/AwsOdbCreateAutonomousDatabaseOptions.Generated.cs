@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -25,128 +26,128 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
 {
     /// <summary>
-    /// The unique identifier of the ODB network to be used for the Au- tonomous Database. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the ODB network to be used for the Autonomous Database. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--odb-network-id")]
     public string? OdbNetworkId { get; set; }
 
     /// <summary>
-    /// The user-friendly name for the Autonomous Database. The name does not have to be unique. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// The user-friendly name for the Autonomous Database. The name does not have to be unique. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The name of the Autonomous Database. The name must begin with an al- phabetic character and can contain a maximum of 30 alphanumeric characters. Special characters are not permitted. The name must be unique in the Amazon Web Services account. Constraints: o min: 1 o max: 30
+    /// The name of the Autonomous Database. The name must begin with an alphabetic character and can contain a maximum of 30 alphanumeric characters. Special characters are not permitted. The name must be unique in the Amazon Web Services account. Constraints: • min: 1 • max: 30
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
 
     /// <summary>
-    /// The password for the ADMIN user of the Autonomous Database. Constraints: o min: 12 o max: 30
+    /// The password for the ADMIN user of the Autonomous Database. Constraints: • min: 12 • max: 30
     /// </summary>
     [SecretValue]
     [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
     /// <summary>
-    /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs (OCPUs), to assign to the Autonomous Database. Constraints: o min: 0.1 o max: 512
+    /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs (OCPUs), to assign to the Autonomous Database. Constraints: • min: 0.1 • max: 512
     /// </summary>
     [CliOption("--compute-count")]
-    public int? ComputeCount { get; set; }
+    public double? ComputeCount { get; set; }
 
     /// <summary>
-    /// The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database. Constraints: o min: 1 o max: 384
+    /// The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database. Constraints: • min: 1 • max: 384
     /// </summary>
     [CliOption("--data-storage-size-in-tbs")]
     public int? DataStorageSizeInTbs { get; set; }
 
     /// <summary>
-    /// The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database. Constraints: o min: 20 o max: 393216
+    /// The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database. Constraints: • min: 20 • max: 393216
     /// </summary>
     [CliOption("--data-storage-size-in-gbs")]
     public int? DataStorageSizeInGbs { get; set; }
 
     /// <summary>
-    /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX. Possible values: o OLTP o AJD o APEX o LH
+    /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX. Possible values: • OLTP • AJD • APEX • LH
     /// </summary>
     [CliOption("--db-workload")]
     public AwsOdbCreateAutonomousDatabaseDbWorkload? DbWorkload { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable automatic scaling of the compute re- sources for the Autonomous Database.
+    /// Specifies whether to enable automatic scaling of the compute resources for the Autonomous Database.
     /// </summary>
     [CliFlag("--is-auto-scaling-enabled", NegatedName = "--no-is-auto-scaling-enabled")]
     public bool? IsAutoScalingEnabled { get; set; }
 
     /// <summary>
-    /// age-enabled (boolean) Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
+    /// Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
     /// </summary>
     [CliFlag("--is-auto-scaling-for-storage-enabled", NegatedName = "--no-is-auto-scaling-for-storage-enabled")]
     public bool? IsAutoScalingForStorageEnabled { get; set; }
 
     /// <summary>
-    /// The Oracle license model to apply to the Autonomous Database. Possible values: o BRING_YOUR_OWN_LICENSE o LICENSE_INCLUDED
+    /// The Oracle license model to apply to the Autonomous Database. Possible values: • BRING_YOUR_OWN_LICENSE • LICENSE_INCLUDED
     /// </summary>
     [CliOption("--license-model")]
     public AwsOdbCreateAutonomousDatabaseLicenseModel? LicenseModel { get; set; }
 
     /// <summary>
-    /// The character set to use for the Autonomous Database. Constraints: o min: 1 o max: 255
+    /// The character set to use for the Autonomous Database. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--character-set")]
     public string? CharacterSet { get; set; }
 
     /// <summary>
-    /// The national character set to use for the Autonomous Database. Constraints: o min: 1 o max: 255
+    /// The national character set to use for the Autonomous Database. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--ncharacter-set")]
     public string? NcharacterSet { get; set; }
 
     /// <summary>
-    /// The Oracle Database software version to use for the Autonomous Data- base. Constraints: o min: 1 o max: 255
+    /// The Oracle Database software version to use for the Autonomous Database. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--db-version")]
     public string? DbVersion { get; set; }
 
     /// <summary>
-    /// The Oracle Database edition to apply to the Autonomous Database. Possible values: o STANDARD_EDITION o ENTERPRISE_EDITION
+    /// The Oracle Database edition to apply to the Autonomous Database. Possible values: • STANDARD_EDITION • ENTERPRISE_EDITION
     /// </summary>
     [CliOption("--database-edition")]
     public AwsOdbCreateAutonomousDatabaseDatabaseEdition? DatabaseEdition { get; set; }
 
     /// <summary>
-    /// The source of the allowlisted IP addresses for the standby Au- tonomous Database. Possible values: o PRIMARY o SEPARATE o NOT_APPLICABLE
+    /// The source of the allowlisted IP addresses for the standby Autonomous Database. Possible values: • PRIMARY • SEPARATE • NOT_APPLICABLE
     /// </summary>
     [CliOption("--standby-allowlisted-ips-source")]
     public AwsOdbCreateAutonomousDatabaseStandbyAllowlistedIpsSource? StandbyAllowlistedIpsSource { get; set; }
 
     /// <summary>
-    /// The maintenance schedule type for the Autonomous Database. Possible values: o EARLY o REGULAR
+    /// The maintenance schedule type for the Autonomous Database. Possible values: • EARLY • REGULAR
     /// </summary>
     [CliOption("--autonomous-maintenance-schedule-type")]
     public AwsOdbCreateAutonomousDatabaseAutonomousMaintenanceScheduleType? AutonomousMaintenanceScheduleType { get; set; }
 
     /// <summary>
-    /// The retention period, in days, for automatic backups of the Au- tonomous Database.
+    /// The retention period, in days, for automatic backups of the Autonomous Database.
     /// </summary>
     [CliOption("--backup-retention-period-in-days")]
     public int? BackupRetentionPeriodInDays { get; set; }
 
     /// <summary>
-    /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model. Constraints: o min: 2
+    /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model. Constraints: • min: 2
     /// </summary>
     [CliOption("--byol-compute-count-limit")]
-    public int? ByolComputeCountLimit { get; set; }
+    public double? ByolComputeCountLimit { get; set; }
 
     /// <summary>
-    /// The number of CPU cores to allocate to the Autonomous Database. Constraints: o min: 1 o max: 128
+    /// The number of CPU cores to allocate to the Autonomous Database. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--cpu-core-count")]
     public int? CpuCoreCount { get; set; }
 
     /// <summary>
-    /// The list of customer contacts to receive operational notifications from Oracle Cloud Infrastructure (OCI) for the Autonomous Database. (structure) A contact to receive notification from Oracle about maintenance updates for a specific Exadata infrastructure. email -&gt; (string) The email address of the contact. Constraints: o min: 1 o max: 320 Shorthand Syntax: email=string ... JSON Syntax: [ { "email": "string" } ... ]
+    /// The list of customer contacts to receive operational notifications from Oracle Cloud Infrastructure (OCI) for the Autonomous Database. (structure) A contact to receive notification from Oracle about maintenance updates for a specific Exadata infrastructure. email -&gt; (string) The email address of the contact. Constraints: • min: 1 • max: 320 Shorthand Syntax: email=string ... JSON Syntax: [ { "email": "string" } ... ]
     /// </summary>
     [CliOption("--customer-contacts-to-send-to-oci", GroupValues = true)]
     public IEnumerable<string>? CustomerContactsToSendToOci { get; set; }
@@ -164,7 +165,7 @@ public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
     public string? PrivateEndpointLabel { get; set; }
 
     /// <summary>
-    /// The unique identifier of the resource pool leader Autonomous Data- base. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the resource pool leader Autonomous Database. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--resource-pool-leader-id")]
     public string? ResourcePoolLeaderId { get; set; }
@@ -176,37 +177,37 @@ public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
     public string? ResourcePoolSummary { get; set; }
 
     /// <summary>
-    /// The list of scheduled start and stop times for the Autonomous Data- base. (structure) The scheduled start and stop times for an Autonomous Database on a specific day of the week. dayOfWeek -&gt; (structure) [required] The day of the week on which the scheduled operation occurs. name -&gt; (string) The name of the day of the week. Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY scheduledStartTime -&gt; (string) The scheduled start time for the Autonomous Database, in UTC. scheduledStopTime -&gt; (string) The scheduled stop time for the Autonomous Database, in UTC. Shorthand Syntax: dayOfWeek={name=string},scheduledStartTime=string,scheduledStopTime=string ... JSON Syntax: [ { "dayOfWeek": { "name": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" }, "scheduledStartTime": "string", "scheduledStopTime": "string" } ... ]
+    /// The list of scheduled start and stop times for the Autonomous Database. (structure) The scheduled start and stop times for an Autonomous Database on a specific day of the week. dayOfWeek -&gt; (structure) [required] The day of the week on which the scheduled operation occurs. name -&gt; (string) The name of the day of the week. Possible values: • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY • SUNDAY scheduledStartTime -&gt; (string) The scheduled start time for the Autonomous Database, in UTC. scheduledStopTime -&gt; (string) The scheduled stop time for the Autonomous Database, in UTC. Shorthand Syntax: dayOfWeek={name=string},scheduledStartTime=string,scheduledStopTime=string ... JSON Syntax: [ { "dayOfWeek": { "name": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" }, "scheduledStartTime": "string", "scheduledStopTime": "string" } ... ]
     /// </summary>
     [CliOption("--scheduled-operations", GroupValues = true)]
     public IEnumerable<string>? ScheduledOperations { get; set; }
 
     /// <summary>
-    /// The list of IP addresses that are allowed to access the standby Au- tonomous Database. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The list of IP addresses that are allowed to access the standby Autonomous Database. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--standby-allowlisted-ips", GroupValues = true)]
     public IEnumerable<string>? StandbyAllowlistedIps { get; set; }
 
     /// <summary>
-    /// The list of IP addresses that are allowed to access the Autonomous Database. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The list of IP addresses that are allowed to access the Autonomous Database. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowlisted-ips", GroupValues = true)]
     public IEnumerable<string>? AllowlistedIps { get; set; }
 
     /// <summary>
-    /// The transportable tablespace configuration to use when creating the Autonomous Database. ttsBundleUrl -&gt; (string) The URL of the transportable tablespace bundle to use when cre- ating the Autonomous Database. Shorthand Syntax: ttsBundleUrl=string JSON Syntax: { "ttsBundleUrl": "string" }
+    /// The transportable tablespace configuration to use when creating the Autonomous Database. ttsBundleUrl -&gt; (string) The URL of the transportable tablespace bundle to use when creating the Autonomous Database. Shorthand Syntax: ttsBundleUrl=string JSON Syntax: { "ttsBundleUrl": "string" }
     /// </summary>
     [CliOption("--transportable-tablespace")]
     public string? TransportableTablespace { get; set; }
 
     /// <summary>
-    /// Specifies whether to lock the backup retention period of the Au- tonomous Database to prevent it from being shortened.
+    /// Specifies whether to lock the backup retention period of the Autonomous Database to prevent it from being shortened.
     /// </summary>
     [CliFlag("--is-backup-retention-locked", NegatedName = "--no-is-backup-retention-locked")]
     public bool? IsBackupRetentionLocked { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable local Oracle Data Guard for the Au- tonomous Database.
+    /// Specifies whether to enable local Oracle Data Guard for the Autonomous Database.
     /// </summary>
     [CliFlag("--is-local-data-guard-enabled", NegatedName = "--no-is-local-data-guard-enabled")]
     public bool? IsLocalDataGuardEnabled { get; set; }
@@ -224,51 +225,51 @@ public record AwsOdbCreateAutonomousDatabaseOptions : AwsOptions
     public IEnumerable<string>? DbToolsDetails { get; set; }
 
     /// <summary>
-    /// The source from which to create the Autonomous Database, such as a clone, backup, or cross-Region copy. Possible values: o NONE o DATABASE o BACKUP_FROM_ID o BACKUP_FROM_TIMESTAMP o CROSS_REGION_DATAGUARD o CROSS_REGION_DISASTER_RECOVERY o CLONE_TO_REFRESHABLE
+    /// The source from which to create the Autonomous Database, such as a clone, backup, or cross-Region copy. Possible values: • NONE • DATABASE • BACKUP_FROM_ID • BACKUP_FROM_TIMESTAMP • CROSS_REGION_DATAGUARD • CROSS_REGION_DISASTER_RECOVERY • CLONE_TO_REFRESHABLE
     /// </summary>
     [CliOption("--source")]
     public AwsOdbCreateAutonomousDatabaseSource? Source { get; set; }
 
     /// <summary>
-    /// The configuration details for the source used to create the Au- tonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: databaseClone, restoreFromBackup, pointInTimeRestore, crossRegionDataGuard, crossRegionDisaster- Recovery, cloneToRefreshable. databaseClone -&gt; (structure) The configuration for creating the Autonomous Database as a clone of an existing database. sourceAutonomousDatabaseId -&gt; (string) [required] The unique identifier of the source Autonomous Database to clone. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64}) cloneType -&gt; (string) [required] The type of clone to create, either a full clone, a metadata clone, or a partial clone. Possible values: o FULL o METADATA o PARTIAL restoreFromBackup -&gt; (structure) The configuration for creating the Autonomous Database by restoring from a backup. autonomousDatabaseBackupId -&gt; (string) [required] The unique identifier of the Autonomous Database backup to restore from. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64}) cloneType -&gt; (string) [required] The type of clone to create from the backup. Possible values: o FULL o METADATA o PARTIAL cloneTableSpaceList -&gt; (list) The list of tablespace identifiers to clone from the backup. (integer) pointInTimeRestore -&gt; (structure) The configuration for creating the Autonomous Database by restoring to a point in time. sourceAutonomousDatabaseId -&gt; (string) [required] The unique identifier of the source Autonomous Database to restore from. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64}) cloneType -&gt; (string) [required] The type of clone to create from the point-in-time restore. Possible values: o FULL o METADATA o PARTIAL timestamp -&gt; (timestamp) The date and time to which to restore the Autonomous Data- base. useLatestAvailableBackupTimestamp -&gt; (boolean) Indicates whether to use the latest available backup time- stamp for the restore. cloneTableSpaceList -&gt; (list) The list of tablespace identifiers to clone from the point-in-time restore. (integer) crossRegionDataGuard -&gt; (structure) The configuration for creating the Autonomous Database as a cross-Region Oracle Data Guard peer. sourceAutonomousDatabaseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the source Autonomous Data- base for the cross-Region Oracle Data Guard configuration. Constraints: o min: 20 o max: 2048 crossRegionDisasterRecovery -&gt; (structure) The configuration for creating the Autonomous Database as a cross-Region disaster recovery peer. sourceAutonomousDatabaseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the source Autonomous Data- base for the cross-Region disaster recovery configuration. Constraints: o min: 20 o max: 2048 remoteDisasterRecoveryType -&gt; (string) [required] The type of remote disaster recovery to configure, either Au- tonomous Data Guard or backup-based. Possible values: o ADG o BACKUP_BASED isReplicateAutomaticBackups -&gt; (boolean) Indicates whether automatic backups are replicated to the disaster recovery database. cloneToRefreshable -&gt; (structure) The configuration for creating the Autonomous Database as a re- freshable clone. sourceAutonomousDatabaseId -&gt; (string) [required] The unique identifier of the source Autonomous Database to create the refreshable clone from. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64}) refreshableMode -&gt; (string) The refresh mode of the refreshable clone, either automatic or manual. Possible values: o AUTOMATIC o MANUAL autoRefreshFrequencyInSeconds -&gt; (integer) The frequency, in seconds, at which the refreshable clone is automatically refreshed. Constraints: o min: 3600 o max: 604800 autoRefreshPointLagInSeconds -&gt; (integer) The time lag, in seconds, between the refreshable clone and its source database. Constraints: o min: 0 o max: 604800 timeOfAutoRefreshStart -&gt; (timestamp) The date and time at which the automatic refresh of the re- freshable clone starts. openMode -&gt; (string) The mode in which to open the refreshable clone, either read-only or read/write. Possible values: o READ_ONLY o READ_WRITE cloneType -&gt; (string) The type of clone to create. Possible values: o FULL o METADATA o PARTIAL Shorthand Syntax: databaseClone={sourceAutonomousDatabaseId=string,cloneType=string},restoreFromBackup={autonomousDatabaseBackupId=string,cloneType=string,cloneTableSpaceList=[integer,integer]},pointInTimeRestore={sourceAutonomousDatabaseId=string,cloneType=string,timestamp=timestamp,useLatestAvailableBackupTimestamp=boolean,cloneTableSpaceList=[integer,integer]},crossRegionDataGuard={sourceAutonomousDatabaseArn=string},crossRegionDisasterRecovery={sourceAutonomousDatabaseArn=string,remoteDisasterRecoveryType=string,isReplicateAutomaticBackups=boolean},cloneToRefreshable={sourceAutonomousDatabaseId=string,refreshableMode=string,autoRefreshFrequencyInSeconds=integer,autoRefreshPointLagInSeconds=integer,timeOfAutoRefreshStart=timestamp,openMode=string,cloneType=string} JSON Syntax: { "databaseClone": { "sourceAutonomousDatabaseId": "string", "cloneType": "FULL"|"METADATA"|"PARTIAL" }, "restoreFromBackup": { "autonomousDatabaseBackupId": "string", "cloneType": "FULL"|"METADATA"|"PARTIAL", "cloneTableSpaceList": [integer, ...] }, "pointInTimeRestore": { "sourceAutonomousDatabaseId": "string", "cloneType": "FULL"|"METADATA"|"PARTIAL", "timestamp": timestamp, "useLatestAvailableBackupTimestamp": true|false, "cloneTableSpaceList": [integer, ...] }, "crossRegionDataGuard": { "sourceAutonomousDatabaseArn": "string" }, "crossRegionDisasterRecovery": { "sourceAutonomousDatabaseArn": "string", "remoteDisasterRecoveryType": "ADG"|"BACKUP_BASED", "isReplicateAutomaticBackups": true|false }, "cloneToRefreshable": { "sourceAutonomousDatabaseId": "string", "refreshableMode": "AUTOMATIC"|"MANUAL", "autoRefreshFrequencyInSeconds": integer, "autoRefreshPointLagInSeconds": integer, "timeOfAutoRefreshStart": timestamp, "openMode": "READ_ONLY"|"READ_WRITE", "cloneType": "FULL"|"METADATA"|"PARTIAL" } }
+    /// The configuration details for the source used to create the Autonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: databaseClone, restoreFromBackup, pointInTimeRestore, crossRegionDataGuard, crossRegionDisasterRecovery, cloneToRefreshable. databaseClone -&gt; (structure) The configuration for creating the Autonomous Database as a clone of an existing database. sourceAutonomousDatabaseId -&gt; (string) [required] The unique identifier of the source Autonomous Database to clone. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64}) cloneType -&gt; (string) [required] The type of clone to create, either a full clone, a metadata clone, or a partial clone. Possible values: • FULL • METADATA • PARTIAL restoreFromBackup -&gt; (structure) The configuration for creating the Autonomous Database by restoring from a backup. autonomousDatabaseBackupId -&gt; (string) [required] The unique identifier of the Autonomous Database backup to restore from. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64}) cloneType -&gt; (string) [required] The type of clone to create from the backup. Possible values: • FULL • METADATA • PARTIAL cloneTableSpaceList -&gt; (list) The list of tablespace identifiers to clone from the backup. (integer) pointInTimeRestore -&gt; (structure) The configuration for creating the Autonomous Database by restoring to a point in time. sourceAutonomousDatabaseId -&gt; (string) [required] The unique identifier of the source Autonomous Database to restore from. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64}) cloneType -&gt; (string) [required] The type of clone to create from the point-in-time restore. Possible values: • FULL • METADATA • PARTIAL timestamp -&gt; (timestamp) The date and time to which to restore the Autonomous Database. useLatestAvailableBackupTimestamp -&gt; (boolean) Indicates whether to use the latest available backup timestamp for the restore. cloneTableSpaceList -&gt; (list) The list of tablespace identifiers to clone from the point-in-time restore. (integer) crossRegionDataGuard -&gt; (structure) The configuration for creating the Autonomous Database as a cross-Region Oracle Data Guard peer. sourceAutonomousDatabaseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the source Autonomous Database for the cross-Region Oracle Data Guard configuration. Constraints: • min: 20 • max: 2048 crossRegionDisasterRecovery -&gt; (structure) The configuration for creating the Autonomous Database as a cross-Region disaster recovery peer. sourceAutonomousDatabaseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the source Autonomous Database for the cross-Region disaster recovery configuration. Constraints: • min: 20 • max: 2048 remoteDisasterRecoveryType -&gt; (string) [required] The type of remote disaster recovery to configure, either Autonomous Data Guard or backup-based. Possible values: • ADG • BACKUP_BASED isReplicateAutomaticBackups -&gt; (boolean) Indicates whether automatic backups are replicated to the disaster recovery database. cloneToRefreshable -&gt; (structure) The configuration for creating the Autonomous Database as a refreshable clone. sourceAutonomousDatabaseId -&gt; (string) [required] The unique identifier of the source Autonomous Database to create the refreshable clone from. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64}) refreshableMode -&gt; (string) The refresh mode of the refreshable clone, either automatic or manual. Possible values: • AUTOMATIC • MANUAL autoRefreshFrequencyInSeconds -&gt; (integer) The frequency, in seconds, at which the refreshable clone is automatically refreshed. Constraints: • min: 3600 • max: 604800 autoRefreshPointLagInSeconds -&gt; (integer) The time lag, in seconds, between the refreshable clone and its source database. Constraints: • min: 0 • max: 604800 timeOfAutoRefreshStart -&gt; (timestamp) The date and time at which the automatic refresh of the refreshable clone starts. openMode -&gt; (string) The mode in which to open the refreshable clone, either read-only or read/write. Possible values: • READ_ONLY • READ_WRITE cloneType -&gt; (string) The type of clone to create. Possible values: • FULL • METADATA • PARTIAL Shorthand Syntax: databaseClone={sourceAutonomousDatabaseId=string,cloneType=string},restoreFromBackup={autonomousDatabaseBackupId=string,cloneType=string,cloneTableSpaceList=[integer,integer]},pointInTimeRestore={sourceAutonomousDatabaseId=string,cloneType=string,timestamp=timestamp,useLatestAvailableBackupTimestamp=boolean,cloneTableSpaceList=[integer,integer]},crossRegionDataGuard={sourceAutonomousDatabaseArn=string},crossRegionDisasterRecovery={sourceAutonomousDatabaseArn=string,remoteDisasterRecoveryType=string,isReplicateAutomaticBackups=boolean},cloneToRefreshable={sourceAutonomousDatabaseId=string,refreshableMode=string,autoRefreshFrequencyInSeconds=integer,autoRefreshPointLagInSeconds=integer,timeOfAutoRefreshStart=timestamp,openMode=string,cloneType=string} JSON Syntax: { "databaseClone": { "sourceAutonomousDatabaseId": "string", "cloneType": "FULL"|"METADATA"|"PARTIAL" }, "restoreFromBackup": { "autonomousDatabaseBackupId": "string", "cloneType": "FULL"|"METADATA"|"PARTIAL", "cloneTableSpaceList": [integer, ...] }, "pointInTimeRestore": { "sourceAutonomousDatabaseId": "string", "cloneType": "FULL"|"METADATA"|"PARTIAL", "timestamp": timestamp, "useLatestAvailableBackupTimestamp": true|false, "cloneTableSpaceList": [integer, ...] }, "crossRegionDataGuard": { "sourceAutonomousDatabaseArn": "string" }, "crossRegionDisasterRecovery": { "sourceAutonomousDatabaseArn": "string", "remoteDisasterRecoveryType": "ADG"|"BACKUP_BASED", "isReplicateAutomaticBackups": true|false }, "cloneToRefreshable": { "sourceAutonomousDatabaseId": "string", "refreshableMode": "AUTOMATIC"|"MANUAL", "autoRefreshFrequencyInSeconds": integer, "autoRefreshPointLagInSeconds": integer, "timeOfAutoRefreshStart": timestamp, "openMode": "READ_ONLY"|"READ_WRITE", "cloneType": "FULL"|"METADATA"|"PARTIAL" } }
     /// </summary>
     [CliOption("--source-configuration")]
     public string? SourceConfiguration { get; set; }
 
     /// <summary>
-    /// The provider of the encryption key to use for the Autonomous Data- base. Possible values: o ORACLE_MANAGED o AWS_KMS
+    /// The provider of the encryption key to use for the Autonomous Database. Possible values: • ORACLE_MANAGED • AWS_KMS
     /// </summary>
     [CliOption("--encryption-key-provider")]
     public AwsOdbCreateAutonomousDatabaseEncryptionKeyProvider? EncryptionKeyProvider { get; set; }
 
     /// <summary>
-    /// The configuration of the encryption key to use for the Autonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsEncryptionKey. awsEncryptionKey -&gt; (structure) The configuration of the Amazon Web Services Key Management Ser- vice (KMS) encryption key to use. iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that grants access to the KMS key. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of external identifier associated with the encryp- tion key. Possible values: o database_ocid o compartment_ocid o tenant_ocid kmsKeyId -&gt; (string) The identifier or ARN of the Amazon Web Services KMS key to use for encryption. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z0-9_:./-]+ Shorthand Syntax: awsEncryptionKey={iamRoleArn=string,externalIdType=string,kmsKeyId=string} JSON Syntax: { "awsEncryptionKey": { "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid", "kmsKeyId": "string" } }
+    /// The configuration of the encryption key to use for the Autonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsEncryptionKey. awsEncryptionKey -&gt; (structure) The configuration of the Amazon Web Services Key Management Service (KMS) encryption key to use. iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that grants access to the KMS key. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of external identifier associated with the encryption key. Possible values: • database_ocid • compartment_ocid • tenant_ocid kmsKeyId -&gt; (string) The identifier or ARN of the Amazon Web Services KMS key to use for encryption. Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z0-9_:./-]+ Shorthand Syntax: awsEncryptionKey={iamRoleArn=string,externalIdType=string,kmsKeyId=string} JSON Syntax: { "awsEncryptionKey": { "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid", "kmsKeyId": "string" } }
     /// </summary>
     [CliOption("--encryption-key-configuration")]
     public string? EncryptionKeyConfiguration { get; set; }
 
     /// <summary>
-    /// The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET , the admin password is retrieved from an Amazon Web Services Secrets Manager secret. Possible values: o CUSTOMER_MANAGED_AWS_SECRET o API_REQUEST_PARAMETER
+    /// The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET , the admin password is retrieved from an Amazon Web Services Secrets Manager secret. Possible values: • CUSTOMER_MANAGED_AWS_SECRET • API_REQUEST_PARAMETER
     /// </summary>
     [CliOption("--admin-password-source")]
     public AwsOdbCreateAutonomousDatabaseAdminPasswordSource? AdminPasswordSource { get; set; }
 
     /// <summary>
-    /// The configuration of the admin password source for the Autonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerManagedAwsSecret. customerManagedAwsSecret -&gt; (structure) The configuration for using a customer-managed Amazon Web Ser- vices Secrets Manager secret as the admin password source. secretId -&gt; (string) The identifier or ARN of the Amazon Web Services Secrets Man- ager secret that contains the password. Constraints: o min: 1 o max: 2048 iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of Oracle Cloud Identifier (OCID) used as the exter- nal ID when assuming the IAM role. The valid values depend on the operation. For the CreateAu- tonomousDatabase operation, only compartment_ocid and ten- ant_ocid are allowed. For the UpdateAutonomousDatabase and CreateAutonomousDatabaseWallet operations, database_ocid , compartment_ocid , and tenant_ocid are all allowed. Possible values: o database_ocid o compartment_ocid o tenant_ocid Shorthand Syntax: customerManagedAwsSecret={secretId=string,iamRoleArn=string,externalIdType=string} JSON Syntax: { "customerManagedAwsSecret": { "secretId": "string", "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid" } }
+    /// The configuration of the admin password source for the Autonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerManagedAwsSecret. customerManagedAwsSecret -&gt; (structure) The configuration for using a customer-managed Amazon Web Services Secrets Manager secret as the admin password source. secretId -&gt; (string) The identifier or ARN of the Amazon Web Services Secrets Manager secret that contains the password. Constraints: • min: 1 • max: 2048 iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of Oracle Cloud Identifier (OCID) used as the external ID when assuming the IAM role. The valid values depend on the operation. For the CreateAutonomousDatabase operation, only compartment_ocid and tenant_ocid are allowed. For the UpdateAutonomousDatabase and CreateAutonomousDatabaseWallet operations, database_ocid , compartment_ocid , and tenant_ocid are all allowed. Possible values: • database_ocid • compartment_ocid • tenant_ocid Shorthand Syntax: customerManagedAwsSecret={secretId=string,iamRoleArn=string,externalIdType=string} JSON Syntax: { "customerManagedAwsSecret": { "secretId": "string", "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid" } }
     /// </summary>
     [SecretValue]
     [CliOption("--admin-password-source-configuration")]
     public string? AdminPasswordSourceConfiguration { get; set; }
 
     /// <summary>
-    /// A client-provided token to ensure the idempotency of the request. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// A client-provided token to ensure the idempotency of the request. Constraints: • min: 8 • max: 64 • pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The list of resource tags to apply to the Autonomous Database. Each tag is a key-value pair with no predefined name, type, or namespace. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of resource tags to apply to the Autonomous Database. Each tag is a key-value pair with no predefined name, type, or namespace. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

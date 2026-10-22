@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Other- wise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a sou...
+/// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a sourc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -53,13 +53,13 @@ public record AwsDmsDescribeApplicableIndividualAssessmentsOptions : AwsOptions
     public string? TargetEngineName { get; set; }
 
     /// <summary>
-    /// Name of the migration type that each provided individual assessment must support. Possible values: o full-load o cdc o full-load-and-cdc
+    /// Name of the migration type that each provided individual assessment must support. Possible values: • full-load • cdc • full-load-and-cdc
     /// </summary>
     [CliOption("--migration-type")]
     public AwsDmsDescribeApplicableIndividualAssessmentsMigrationType? MigrationType { get; set; }
 
     /// <summary>
-    /// Maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination to- ken called a marker is included in the response so that the remain- ing results can be retrieved.
+    /// Maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     /// </summary>
     [CliOption("--max-records")]
     public int? MaxRecords { get; set; }

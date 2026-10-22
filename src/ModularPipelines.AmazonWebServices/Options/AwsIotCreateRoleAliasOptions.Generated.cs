@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIotCreateRoleAliasOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a role alias. Requires permission to access the CreateRoleAlias action. WARNING: The value of ` credentialDurationSeconds https://docs.aws.amazon.com/iot/latest/apireference/API_CreateRoleAlias.html#iot-CreateRoleAlias-request-credentialDurationSeconds`__ must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identi...
     /// </summary>
-    /// <param name="RoleAlias">The role alias that points to a role ARN. This allows you to change the role without having to update the device. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
-    /// <param name="RoleArn">The role ARN. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="RoleAlias">The role alias that points to a role ARN. This allows you to change the role without having to update the device. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
+    /// <param name="RoleArn">The role ARN. Constraints: • min: 20 • max: 2048</param>
     public AwsIotCreateRoleAliasOptions(
         string RoleAlias,
         string RoleArn
@@ -60,25 +62,25 @@ public record AwsIotCreateRoleAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The role alias that points to a role ARN. This allows you to change the role without having to update the device. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The role alias that points to a role ARN. This allows you to change the role without having to update the device. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--role-alias")]
     public string? RoleAlias { get; private init; }
 
     /// <summary>
-    /// The role ARN. Constraints: o min: 20 o max: 2048
+    /// The role ARN. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds. This value must be less than or equal to the maximum session dura- tion of the IAM role that the role alias references. Constraints: o min: 900 o max: 43200
+    /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references. Constraints: • min: 900 • max: 43200
     /// </summary>
     [CliOption("--credential-duration-seconds")]
     public int? CredentialDurationSeconds { get; set; }
 
     /// <summary>
-    /// Metadata which can be used to manage the role alias. NOTE: For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata which can be used to manage the role alias. NOTE: For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

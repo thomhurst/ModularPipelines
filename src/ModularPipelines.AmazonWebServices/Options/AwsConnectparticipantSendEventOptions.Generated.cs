@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType is no longer maintained since December 31, 2024. This event has been migrated to the CreateParticipantConnection API using the ConnectParticipant field. Sends an event. Message receipts are not supported when there are more than two active participants in the chat. Using the SendEvent API for message receipts when a supervisor is barged-in will result in a con- flict exception. For security recommendations, see...
+/// NOTE: The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType is no longer maintained since December 31, 2024. This event has been migrated to the CreateParticipantConnection API using the ConnectParticipant field. Sends an event. Message receipts are not supported when there are more than two active participants in the chat. Using the SendEvent API for message receipts when a supervisor is barged-in will result in a conflict exception. For security recommendations, see C...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsConnectparticipantSendEventOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType is no longer maintained since December 31, 2024. This event has been migrated to the CreateParticipantConnection API using the ConnectParticipant field. Sends an event. Message receipts are not supported when there are more than two active participants in the chat. Using the SendEvent API for message receipts when a supervisor is barged-in will result in a con- flict exception. For security recommendations, see...
+    /// NOTE: The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType is no longer maintained since December 31, 2024. This event has been migrated to the CreateParticipantConnection API using the ConnectParticipant field. Sends an event. Message receipts are not supported when there are more than two active participants in the chat. Using the SendEvent API for message receipts when a supervisor is barged-in will result in a conflict exception. For security recommendations, see C...
     /// </summary>
-    /// <param name="ContentType">The content type of the request. Supported types are: o application/vnd.amazonaws.connect.event.typing o application/vnd.amazonaws.connect.event.connection.acknowledged (is no longer maintained since December 31, 2024) o application/vnd.amazonaws.connect.event.message.delivered o application/vnd.amazonaws.connect.event.message.read Constraints: o min: 1 o max: 100</param>
-    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="ContentType">The content type of the request. Supported types are: • application/vnd.amazonaws.connect.event.typing • application/vnd.amazonaws.connect.event.connection.acknowledged (is no longer maintained since December 31, 2024) • application/vnd.amazonaws.connect.event.message.delivered • application/vnd.amazonaws.connect.event.message.read Constraints: • min: 1 • max: 100</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantSendEventOptions(
         string ContentType,
         string ConnectionToken
@@ -61,26 +63,26 @@ public record AwsConnectparticipantSendEventOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The content type of the request. Supported types are: o application/vnd.amazonaws.connect.event.typing o application/vnd.amazonaws.connect.event.connection.acknowledged (is no longer maintained since December 31, 2024) o application/vnd.amazonaws.connect.event.message.delivered o application/vnd.amazonaws.connect.event.message.read Constraints: o min: 1 o max: 100
+    /// The content type of the request. Supported types are: • application/vnd.amazonaws.connect.event.typing • application/vnd.amazonaws.connect.event.connection.acknowledged (is no longer maintained since December 31, 2024) • application/vnd.amazonaws.connect.event.message.delivered • application/vnd.amazonaws.connect.event.message.read Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; private init; }
 
     /// <summary>
-    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
     public string? ConnectionToken { get; private init; }
 
     /// <summary>
-    /// The content of the event to be sent (for example, message text). For content related to message receipts, this is supported in the form of a JSON string. Sample Content: "{"messageId":"11111111-aaaa-bbbb-cccc-EXAM- PLE01234"}" Constraints: o min: 1 o max: 16384
+    /// The content of the event to be sent (for example, message text). For content related to message receipts, this is supported in the form of a JSON string. Sample Content: "{"messageId":"11111111-aaaa-bbbb-cccc-EXAMPLE01234"}" Constraints: • min: 1 • max: 16384
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

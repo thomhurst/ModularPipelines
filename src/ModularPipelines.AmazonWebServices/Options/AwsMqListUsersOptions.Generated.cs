@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,7 +65,7 @@ public record AwsMqListUsersOptions : AwsOptions, IValidatableObject
     public string? BrokerId { get; private init; }
 
     /// <summary>
-    /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100. Constraints: o min: 1 o max: 100
+    /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

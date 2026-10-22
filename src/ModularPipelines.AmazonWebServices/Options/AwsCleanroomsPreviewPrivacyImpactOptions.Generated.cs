@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsCleanroomsPreviewPrivacyImpactOptions : AwsOptions, IValidatabl
     /// <summary>
     /// An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipIdentifier">A unique identifier for one of your memberships for a collaboration. Accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Parameters">Specifies the desired epsilon and noise parameters to preview. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: differentialPrivacy. differentialPrivacy -&gt; (structure) An array that specifies the epsilon and noise parameters. epsilon -&gt; (integer) [required] The epsilon value that you want to preview. Constraints: o min: 1 o max: 20 usersNoisePerQuery -&gt; (integer) [required] Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted. Constraints: o min: 10 o max: 100 Shorthand Syntax: differentialPrivacy={epsilon=integer,usersNoisePerQuery=integer} JSON Syntax: { "differentialPrivacy": { "epsilon": integer, "usersNoisePerQuery": integer } }</param>
+    /// <param name="MembershipIdentifier">A unique identifier for one of your memberships for a collaboration. Accepts a membership ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Parameters">Specifies the desired epsilon and noise parameters to preview. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: differentialPrivacy. differentialPrivacy -&gt; (structure) An array that specifies the epsilon and noise parameters. epsilon -&gt; (integer) [required] The epsilon value that you want to preview. Constraints: • min: 1 • max: 20 usersNoisePerQuery -&gt; (integer) [required] Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted. Constraints: • min: 10 • max: 100 Shorthand Syntax: differentialPrivacy={epsilon=integer,usersNoisePerQuery=integer} JSON Syntax: { "differentialPrivacy": { "epsilon": integer, "usersNoisePerQuery": integer } }</param>
     public AwsCleanroomsPreviewPrivacyImpactOptions(
         string MembershipIdentifier,
         string Parameters
@@ -60,13 +62,13 @@ public record AwsCleanroomsPreviewPrivacyImpactOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for one of your memberships for a collaboration. Accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for one of your memberships for a collaboration. Accepts a membership ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies the desired epsilon and noise parameters to preview. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: differentialPrivacy. differentialPrivacy -&gt; (structure) An array that specifies the epsilon and noise parameters. epsilon -&gt; (integer) [required] The epsilon value that you want to preview. Constraints: o min: 1 o max: 20 usersNoisePerQuery -&gt; (integer) [required] Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted. Constraints: o min: 10 o max: 100 Shorthand Syntax: differentialPrivacy={epsilon=integer,usersNoisePerQuery=integer} JSON Syntax: { "differentialPrivacy": { "epsilon": integer, "usersNoisePerQuery": integer } }
+    /// Specifies the desired epsilon and noise parameters to preview. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: differentialPrivacy. differentialPrivacy -&gt; (structure) An array that specifies the epsilon and noise parameters. epsilon -&gt; (integer) [required] The epsilon value that you want to preview. Constraints: • min: 1 • max: 20 usersNoisePerQuery -&gt; (integer) [required] Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted. Constraints: • min: 10 • max: 100 Shorthand Syntax: differentialPrivacy={epsilon=integer,usersNoisePerQuery=integer} JSON Syntax: { "differentialPrivacy": { "epsilon": integer, "usersNoisePerQuery": integer } }
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsDetectiveBatchGetGraphMemberDatasourcesOptions : AwsOptions, IV
     /// <summary>
     /// Gets data source package information for the behavior graph. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
-    /// <param name="AccountIds">The list of Amazon Web Services accounts to get data source package information on. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ Syntax: "string" "string" ...</param>
+    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="AccountIds">The list of Amazon Web Services accounts to get data source package information on. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$ Syntax: "string" "string" ...</param>
     public AwsDetectiveBatchGetGraphMemberDatasourcesOptions(
         string GraphArn,
         IEnumerable<string> AccountIds
@@ -71,13 +73,13 @@ public record AwsDetectiveBatchGetGraphMemberDatasourcesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// The ARN of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
     /// </summary>
     [CliOption("--graph-arn")]
     public string? GraphArn { get; private init; }
 
     /// <summary>
-    /// The list of Amazon Web Services accounts to get data source package information on. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ Syntax: "string" "string" ...
+    /// The list of Amazon Web Services accounts to get data source package information on. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

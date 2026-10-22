@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDrsDeleteJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a single Job by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID of the Job to be deleted. Constraints: o min: 24 o max: 24 o pattern: drsjob-[0-9a-zA-Z]{17}</param>
+    /// <param name="JobId">The ID of the Job to be deleted. Constraints: • min: 24 • max: 24 • pattern: drsjob-[0-9a-zA-Z]{17}</param>
     public AwsDrsDeleteJobOptions(
         string JobId
     )
@@ -56,7 +58,7 @@ public record AwsDrsDeleteJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Job to be deleted. Constraints: o min: 24 o max: 24 o pattern: drsjob-[0-9a-zA-Z]{17}
+    /// The ID of the Job to be deleted. Constraints: • min: 24 • max: 24 • pattern: drsjob-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }

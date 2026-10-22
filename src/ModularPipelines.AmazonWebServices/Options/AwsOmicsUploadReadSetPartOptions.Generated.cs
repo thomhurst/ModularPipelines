@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload. For more information, see Direct upload to a sequence store in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+/// Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload. For more information, see Direct upload to a sequence store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsOmicsUploadReadSetPartOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload. For more information, see Direct upload to a sequence store in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload. For more information, see Direct upload to a sequence store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SequenceStoreId">The Sequence Store ID used for the multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="UploadId">The ID for the initiated multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="PartSource">The source file for an upload part. Possible values: o SOURCE1 o SOURCE2</param>
-    /// <param name="PartNumber">The number of the part being uploaded. Constraints: o min: 1 o max: 10000</param>
+    /// <param name="SequenceStoreId">The Sequence Store ID used for the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="UploadId">The ID for the initiated multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="PartSource">The source file for an upload part. Possible values: • SOURCE1 • SOURCE2</param>
+    /// <param name="PartNumber">The number of the part being uploaded. Constraints: • min: 1 • max: 10000</param>
     /// <param name="Payload">The read set data to upload for a part. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://</param>
     public AwsOmicsUploadReadSetPartOptions(
         string SequenceStoreId,
@@ -71,25 +73,25 @@ public record AwsOmicsUploadReadSetPartOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Sequence Store ID used for the multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The Sequence Store ID used for the multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }
 
     /// <summary>
-    /// The ID for the initiated multipart upload. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The ID for the initiated multipart upload. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; private init; }
 
     /// <summary>
-    /// The source file for an upload part. Possible values: o SOURCE1 o SOURCE2
+    /// The source file for an upload part. Possible values: • SOURCE1 • SOURCE2
     /// </summary>
     [CliOption("--part-source")]
     public AwsOmicsUploadReadSetPartPartSource? PartSource { get; private init; }
 
     /// <summary>
-    /// The number of the part being uploaded. Constraints: o min: 1 o max: 10000
+    /// The number of the part being uploaded. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--part-number")]
     public int? PartNumber { get; private init; }

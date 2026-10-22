@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchDescribeOutboundConnectionsOptions : AwsOptions
 {
     /// <summary>
-    /// List of filter names and values that you can use for requests. (structure) A filter used to limit results when describing inbound or out- bound cross-cluster connections. You can specify multiple values per filter. A cross-cluster connection must match at least one of the specified values for it to be returned from an operation. Name -&gt; (string) The name of the filter. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9\-\_\.]+ Values -&gt; (list) One or more values for the filter. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9\-\_\.]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// List of filter names and values that you can use for requests. (structure) A filter used to limit results when describing inbound or outbound cross-cluster connections. You can specify multiple values per filter. A cross-cluster connection must match at least one of the specified values for it to be returned from an operation. Name -&gt; (string) The name of the filter. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9\-\_\.]+ Values -&gt; (list) One or more values for the filter. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9\-\_\.]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial DescribeOutboundConnections operation returns a nextToken , you can include the returned nextToken in subsequent De- scribeOutboundConnections operations, which returns results in the next page.
+    /// If your initial DescribeOutboundConnections operation returns a nextToken , you can include the returned nextToken in subsequent DescribeOutboundConnections operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

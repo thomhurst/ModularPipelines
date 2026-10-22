@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified quota share. You must first disable submissions for the share by updating the state to DISABLED using the UpdateQuo- taShare operation. All jobs in the share are eventually terminated when you delete a quota share. See also: AWS API Documentation
+/// Deletes the specified quota share. You must first disable submissions for the share by updating the state to DISABLED using the UpdateQuotaShare operation. All jobs in the share are eventually terminated when you delete a quota share. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsBatchDeleteQuotaShareOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified quota share. You must first disable submissions for the share by updating the state to DISABLED using the UpdateQuo- taShare operation. All jobs in the share are eventually terminated when you delete a quota share. See also: AWS API Documentation
+    /// Deletes the specified quota share. You must first disable submissions for the share by updating the state to DISABLED using the UpdateQuotaShare operation. All jobs in the share are eventually terminated when you delete a quota share. See also: AWS API Documentation
     /// </summary>
     /// <param name="QuotaShareArn">The Amazon Resource Name (ARN) of the quota share.</param>
     public AwsBatchDeleteQuotaShareOptions(

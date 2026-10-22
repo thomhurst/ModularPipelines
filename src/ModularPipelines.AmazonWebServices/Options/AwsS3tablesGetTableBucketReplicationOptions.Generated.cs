@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the replication configuration for a table bucket.This opera- tion returns the IAM role, versionToken , and replication rules that define how tables in this bucket are replicated to other buckets. Permissions You must have the s3tables:GetTableBucketReplication permission to use this operation. See also: AWS API Documentation
+/// Retrieves the replication configuration for a table bucket.This operation returns the IAM role, versionToken , and replication rules that define how tables in this bucket are replicated to other buckets. Permissions You must have the s3tables:GetTableBucketReplication permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsS3tablesGetTableBucketReplicationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the replication configuration for a table bucket.This opera- tion returns the IAM role, versionToken , and replication rules that define how tables in this bucket are replicated to other buckets. Permissions You must have the s3tables:GetTableBucketReplication permission to use this operation. See also: AWS API Documentation
+    /// Retrieves the replication configuration for a table bucket.This operation returns the IAM role, versionToken , and replication rules that define how tables in this bucket are replicated to other buckets. Permissions You must have the s3tables:GetTableBucketReplication permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
     public AwsS3tablesGetTableBucketReplicationOptions(
         string TableBucketArn
     )
@@ -56,7 +58,7 @@ public record AwsS3tablesGetTableBucketReplicationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }

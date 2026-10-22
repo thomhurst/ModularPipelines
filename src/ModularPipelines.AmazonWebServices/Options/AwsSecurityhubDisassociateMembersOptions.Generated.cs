@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates the specified member accounts from the associated admin- istrator account. Can be used to disassociate both accounts that are managed using Orga- nizations and accounts that were invited manually. See also: AWS API Documentation
+/// Disassociates the specified member accounts from the associated administrator account. Can be used to disassociate both accounts that are managed using Organizations and accounts that were invited manually. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubDisassociateMembersOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates the specified member accounts from the associated admin- istrator account. Can be used to disassociate both accounts that are managed using Orga- nizations and accounts that were invited manually. See also: AWS API Documentation
+    /// Disassociates the specified member accounts from the associated administrator account. Can be used to disassociate both accounts that are managed using Organizations and accounts that were invited manually. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountIds">The account IDs of the member accounts to disassociate from the ad- ministrator account. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">The account IDs of the member accounts to disassociate from the administrator account. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsSecurityhubDisassociateMembersOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +69,7 @@ public record AwsSecurityhubDisassociateMembersOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account IDs of the member accounts to disassociate from the ad- ministrator account. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The account IDs of the member accounts to disassociate from the administrator account. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }

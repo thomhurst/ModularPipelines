@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsQuicksightDeleteFolderOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an empty folder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="FolderId">The ID of the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the folder. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="FolderId">The ID of the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+</param>
     public AwsQuicksightDeleteFolderOptions(
         string AwsAccountId,
         string FolderId
@@ -60,13 +62,13 @@ public record AwsQuicksightDeleteFolderOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that contains the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that contains the folder. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+
+    /// The ID of the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--folder-id")]
     public string? FolderId { get; private init; }

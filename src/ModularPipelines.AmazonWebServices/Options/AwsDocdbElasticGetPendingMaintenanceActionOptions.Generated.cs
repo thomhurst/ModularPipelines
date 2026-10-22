@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsDocdbElasticGetPendingMaintenanceActionOptions : AwsOptions, IV
     /// <summary>
     /// Retrieves all maintenance actions that are pending. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Retrieves pending maintenance actions for a specific Amazon Resource Name (ARN). Constraints: o min: 1 o max: 256</param>
+    /// <param name="ResourceArn">Retrieves pending maintenance actions for a specific Amazon Resource Name (ARN). Constraints: • min: 1 • max: 256</param>
     public AwsDocdbElasticGetPendingMaintenanceActionOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsDocdbElasticGetPendingMaintenanceActionOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Retrieves pending maintenance actions for a specific Amazon Resource Name (ARN). Constraints: o min: 1 o max: 256
+    /// Retrieves pending maintenance actions for a specific Amazon Resource Name (ARN). Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

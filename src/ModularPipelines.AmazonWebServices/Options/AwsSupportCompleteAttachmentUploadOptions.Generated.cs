@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Completes an attachment upload that was started with GetAttachmentU- ploadLinks . After you upload a part of the file to its presigned Ama- zon S3 URL, call CompleteAttachmentUpload with the partIndex and eTag of that part. You can include one part per call, or multiple parts in a single call. After CompleteAttachmentUpload has been called for every part of the file, the service processes the upload asynchronously. The attachment-ready status might not be reflected immediately. Use De- scribeAtt...
+/// Completes an attachment upload that was started with GetAttachmentUploadLinks . After you upload a part of the file to its presigned Amazon S3 URL, call CompleteAttachmentUpload with the partIndex and eTag of that part. You can include one part per call, or multiple parts in a single call. After CompleteAttachmentUpload has been called for every part of the file, the service processes the upload asynchronously. The attachment-ready status might not be reflected immediately. Use DescribeAttachmen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSupportCompleteAttachmentUploadOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Completes an attachment upload that was started with GetAttachmentU- ploadLinks . After you upload a part of the file to its presigned Ama- zon S3 URL, call CompleteAttachmentUpload with the partIndex and eTag of that part. You can include one part per call, or multiple parts in a single call. After CompleteAttachmentUpload has been called for every part of the file, the service processes the upload asynchronously. The attachment-ready status might not be reflected immediately. Use De- scribeAtt...
+    /// Completes an attachment upload that was started with GetAttachmentUploadLinks . After you upload a part of the file to its presigned Amazon S3 URL, call CompleteAttachmentUpload with the partIndex and eTag of that part. You can include one part per call, or multiple parts in a single call. After CompleteAttachmentUpload has been called for every part of the file, the service processes the upload asynchronously. The attachment-ready status might not be reflected immediately. Use DescribeAttachmen...
     /// </summary>
-    /// <param name="UploadId">The identifier associated with the upload to complete. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="CompletedUploads">The list of parts being reported as completed in this call. Each en- try must contain the partIndex of an uploaded part and the ETag re- turned by Amazon S3 when that part was uploaded. (structure) Identifies a single uploaded part of a multipart attachment up- load. Pass a list of CompletedUpload objects to CompleteAttach- mentUpload to finalize the upload. partIndex -&gt; (integer) [required] The index of the uploaded part. This is the same partIndex value returned for the corresponding entry in the uploadUrls field of the GetAttachmentUploadLinks response. eTag -&gt; (string) [required] The ETag returned in the response headers when the part was uploaded to Amazon S3. The ETag value identifies the part contents. Constraints: o min: 1 o max: 256 Shorthand Syntax: partIndex=integer,eTag=string ... JSON Syntax: [ { "partIndex": integer, "eTag": "string" } ... ]</param>
+    /// <param name="UploadId">The identifier associated with the upload to complete. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="CompletedUploads">The list of parts being reported as completed in this call. Each entry must contain the partIndex of an uploaded part and the ETag returned by Amazon S3 when that part was uploaded. (structure) Identifies a single uploaded part of a multipart attachment upload. Pass a list of CompletedUpload objects to CompleteAttachmentUpload to finalize the upload. partIndex -&gt; (integer) [required] The index of the uploaded part. This is the same partIndex value returned for the corresponding entry in the uploadUrls field of the GetAttachmentUploadLinks response. eTag -&gt; (string) [required] The ETag returned in the response headers when the part was uploaded to Amazon S3. The ETag value identifies the part contents. Constraints: • min: 1 • max: 256 Shorthand Syntax: partIndex=integer,eTag=string ... JSON Syntax: [ { "partIndex": integer, "eTag": "string" } ... ]</param>
     public AwsSupportCompleteAttachmentUploadOptions(
         string UploadId,
         IEnumerable<string> CompletedUploads
@@ -71,19 +73,19 @@ public record AwsSupportCompleteAttachmentUploadOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier associated with the upload to complete. Constraints: o min: 1 o max: 2048
+    /// The identifier associated with the upload to complete. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; private init; }
 
     /// <summary>
-    /// The list of parts being reported as completed in this call. Each en- try must contain the partIndex of an uploaded part and the ETag re- turned by Amazon S3 when that part was uploaded. (structure) Identifies a single uploaded part of a multipart attachment up- load. Pass a list of CompletedUpload objects to CompleteAttach- mentUpload to finalize the upload. partIndex -&gt; (integer) [required] The index of the uploaded part. This is the same partIndex value returned for the corresponding entry in the uploadUrls field of the GetAttachmentUploadLinks response. eTag -&gt; (string) [required] The ETag returned in the response headers when the part was uploaded to Amazon S3. The ETag value identifies the part contents. Constraints: o min: 1 o max: 256 Shorthand Syntax: partIndex=integer,eTag=string ... JSON Syntax: [ { "partIndex": integer, "eTag": "string" } ... ]
+    /// The list of parts being reported as completed in this call. Each entry must contain the partIndex of an uploaded part and the ETag returned by Amazon S3 when that part was uploaded. (structure) Identifies a single uploaded part of a multipart attachment upload. Pass a list of CompletedUpload objects to CompleteAttachmentUpload to finalize the upload. partIndex -&gt; (integer) [required] The index of the uploaded part. This is the same partIndex value returned for the corresponding entry in the uploadUrls field of the GetAttachmentUploadLinks response. eTag -&gt; (string) [required] The ETag returned in the response headers when the part was uploaded to Amazon S3. The ETag value identifies the part contents. Constraints: • min: 1 • max: 256 Shorthand Syntax: partIndex=integer,eTag=string ... JSON Syntax: [ { "partIndex": integer, "eTag": "string" } ... ]
     /// </summary>
     [CliOption("--completed-uploads", GroupValues = true)]
     public IEnumerable<string>? CompletedUploads { get; private init; }
 
     /// <summary>
-    /// Specifies whether to validate the request without actually complet- ing the upload. When set to true , the request is validated but the upload isn't finalized, and the operation returns a DryRunOpera- tionException . When omitted or set to false , the request runs nor- mally.
+    /// Specifies whether to validate the request without actually completing the upload. When set to true , the request is validated but the upload isn't finalized, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

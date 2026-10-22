@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsBedrockGetPromptRouterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves details about a prompt router. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PromptRouterArn">The prompt router's ARN Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:de- fault-prompt-router/[a-zA-Z0-9-:.]+</param>
+    /// <param name="PromptRouterArn">The prompt router's ARN Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:default-prompt-router/[a-zA-Z0-9-:.]+</param>
     public AwsBedrockGetPromptRouterOptions(
         string PromptRouterArn
     )
@@ -56,7 +58,7 @@ public record AwsBedrockGetPromptRouterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The prompt router's ARN Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:de- fault-prompt-router/[a-zA-Z0-9-:.]+
+    /// The prompt router's ARN Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:default-prompt-router/[a-zA-Z0-9-:.]+
     /// </summary>
     [CliOption("--prompt-router-arn")]
     public string? PromptRouterArn { get; private init; }

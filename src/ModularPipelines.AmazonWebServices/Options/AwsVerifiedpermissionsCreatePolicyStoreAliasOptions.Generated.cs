@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a policy store alias for the specified policy store. A policy store alias is an alternative identifier that you can use to reference a policy store in API operations. This operation is idempotent. If multiple CreatePolicyStoreAlias re- quests are made where the aliasName and policyStoreId fields are the same between the requests, subsequent requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success response will be returned and a new policy store alias will no...
+/// Creates a policy store alias for the specified policy store. A policy store alias is an alternative identifier that you can use to reference a policy store in API operations. This operation is idempotent. If multiple CreatePolicyStoreAlias requests are made where the aliasName and policyStoreId fields are the same between the requests, subsequent requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success response will be returned and a new policy store alias will not ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsVerifiedpermissionsCreatePolicyStoreAliasOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a policy store alias for the specified policy store. A policy store alias is an alternative identifier that you can use to reference a policy store in API operations. This operation is idempotent. If multiple CreatePolicyStoreAlias re- quests are made where the aliasName and policyStoreId fields are the same between the requests, subsequent requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success response will be returned and a new policy store alias will no...
+    /// Creates a policy store alias for the specified policy store. A policy store alias is an alternative identifier that you can use to reference a policy store in API operations. This operation is idempotent. If multiple CreatePolicyStoreAlias requests are made where the aliasName and policyStoreId fields are the same between the requests, subsequent requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success response will be returned and a new policy store alias will not ...
     /// </summary>
-    /// <param name="AliasName">Specifies the name of the policy store alias to create. The name must be unique within your Amazon Web Services account and Amazon Web Services Region. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store to associate with the alias. NOTE: The associated policy store must be specified using its ID. The alias name cannot be used. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="AliasName">Specifies the name of the policy store alias to create. The name must be unique within your Amazon Web Services account and Amazon Web Services Region. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: • min: 0 • max: 150 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store to associate with the alias. NOTE: The associated policy store must be specified using its ID. The alias name cannot be used. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
     public AwsVerifiedpermissionsCreatePolicyStoreAliasOptions(
         string AliasName,
         string PolicyStoreId
@@ -60,13 +62,13 @@ public record AwsVerifiedpermissionsCreatePolicyStoreAliasOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the policy store alias to create. The name must be unique within your Amazon Web Services account and Amazon Web Services Region. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the name of the policy store alias to create. The name must be unique within your Amazon Web Services account and Amazon Web Services Region. NOTE: The alias name must always be prefixed with policy-store-alias/ . Constraints: • min: 0 • max: 150 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }
 
     /// <summary>
-    /// Specifies the ID of the policy store to associate with the alias. NOTE: The associated policy store must be specified using its ID. The alias name cannot be used. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store to associate with the alias. NOTE: The associated policy store must be specified using its ID. The alias name cannot be used. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }

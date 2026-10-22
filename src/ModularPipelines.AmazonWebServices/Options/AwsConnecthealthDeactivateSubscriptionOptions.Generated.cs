@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsConnecthealthDeactivateSubscriptionOptions : AwsOptions, IValid
     /// <summary>
     /// Deactivates a Subscription to stop billing for a user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the parent Domain. Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+</param>
-    /// <param name="SubscriptionId">The unique identifier of the Subscription. Constraints: o min: 25 o max: 25 o pattern: sub-[a-zA-Z0-9]{21}</param>
+    /// <param name="DomainId">The unique identifier of the parent Domain. Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+</param>
+    /// <param name="SubscriptionId">The unique identifier of the Subscription. Constraints: • min: 25 • max: 25 • pattern: sub-[a-zA-Z0-9]{21}</param>
     public AwsConnecthealthDeactivateSubscriptionOptions(
         string DomainId,
         string SubscriptionId
@@ -60,13 +62,13 @@ public record AwsConnecthealthDeactivateSubscriptionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the parent Domain. Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+
+    /// The unique identifier of the parent Domain. Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Subscription. Constraints: o min: 25 o max: 25 o pattern: sub-[a-zA-Z0-9]{21}
+    /// The unique identifier of the Subscription. Constraints: • min: 25 • max: 25 • pattern: sub-[a-zA-Z0-9]{21}
     /// </summary>
     [CliOption("--subscription-id")]
     public string? SubscriptionId { get; private init; }

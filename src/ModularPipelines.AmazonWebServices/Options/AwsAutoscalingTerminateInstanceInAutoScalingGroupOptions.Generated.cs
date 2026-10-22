@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instances are not terminated immediately. When an instance is terminated, the instance status changes to terminated . You can't connect to or start an in- stance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to repl...
+/// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instances are not terminated immediately. When an instance is terminated, the instance status changes to terminated . You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replac...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instances are not terminated immediately. When an instance is terminated, the instance status changes to terminated . You can't connect to or start an in- stance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to repl...
+    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instances are not terminated immediately. When an instance is terminated, the instance status changes to terminated . You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replac...
     /// </summary>
-    /// <param name="ShouldDecrementDesiredCapacity">pacity (boolean) [required] Indicates whether terminating the instance also decrements the size of the Auto Scaling group.</param>
+    /// <param name="ShouldDecrementDesiredCapacity">Indicates whether terminating the instance also decrements the size of the Auto Scaling group.</param>
     public AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions(
         bool ShouldDecrementDesiredCapacity
     )
@@ -55,25 +57,25 @@ public record AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// pacity (boolean) [required] Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
+    /// Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
     /// </summary>
     [CliFlag("--should-decrement-desired-capacity", NegatedName = "--no-should-decrement-desired-capacity")]
     public bool? ShouldDecrementDesiredCapacity { get; private init; }
 
     /// <summary>
-    /// The ID of the instance. Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the instance. Constraints: • min: 1 • max: 19 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
     /// <summary>
-    /// The IDs of the instances. You can specify up to 100 instances. This parameter requires that you also specify AutoScalingGroupName . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
+    /// The IDs of the instances. You can specify up to 100 instances. This parameter requires that you also specify AutoScalingGroupName . Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 19 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>
-    /// The name of the Auto Scaling group. Required when using InstanceIds . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the Auto Scaling group. Required when using InstanceIds . Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }

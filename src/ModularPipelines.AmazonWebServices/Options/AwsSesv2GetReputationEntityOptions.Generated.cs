@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieve information about a specific reputation entity, including its reputation management policy, customer-managed status, Amazon Web Ser- vices Amazon SES-managed status, and aggregate sending status. Reputation entities represent resources in your Amazon SES account that have reputation tracking and management capabilities. The repu- tation impact reflects the highest impact reputation finding for the entity. Reputation findings can be retrieved using the ListRecommen- dations operation. Se...
+/// Retrieve information about a specific reputation entity, including its reputation management policy, customer-managed status, Amazon Web Services Amazon SES-managed status, and aggregate sending status. Reputation entities represent resources in your Amazon SES account that have reputation tracking and management capabilities. The reputation impact reflects the highest impact reputation finding for the entity. Reputation findings can be retrieved using the ListRecommendations operation. See also...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsSesv2GetReputationEntityOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieve information about a specific reputation entity, including its reputation management policy, customer-managed status, Amazon Web Ser- vices Amazon SES-managed status, and aggregate sending status. Reputation entities represent resources in your Amazon SES account that have reputation tracking and management capabilities. The repu- tation impact reflects the highest impact reputation finding for the entity. Reputation findings can be retrieved using the ListRecommen- dations operation. Se...
+    /// Retrieve information about a specific reputation entity, including its reputation management policy, customer-managed status, Amazon Web Services Amazon SES-managed status, and aggregate sending status. Reputation entities represent resources in your Amazon SES account that have reputation tracking and management capabilities. The reputation impact reflects the highest impact reputation finding for the entity. Reputation findings can be retrieved using the ListRecommendations operation. See also...
     /// </summary>
-    /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1</param>
-    /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE</param>
+    /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: • min: 1</param>
+    /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type entities are supported. Possible values: • RESOURCE</param>
     public AwsSesv2GetReputationEntityOptions(
         string ReputationEntityReference,
         string ReputationEntityType
@@ -60,13 +62,13 @@ public record AwsSesv2GetReputationEntityOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1
+    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: • min: 1
     /// </summary>
     [CliOption("--reputation-entity-reference")]
     public string? ReputationEntityReference { get; private init; }
 
     /// <summary>
-    /// The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE
+    /// The type of reputation entity. Currently, only RESOURCE type entities are supported. Possible values: • RESOURCE
     /// </summary>
     [CliOption("--reputation-entity-type")]
     public string? ReputationEntityType { get; private init; }

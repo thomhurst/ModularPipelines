@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsWorkspacesWebGetTrustStoreCertificateOptions : AwsOptions, IVal
     /// <summary>
     /// Gets the trust store certificate. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrustStoreArn">The ARN of the trust store certificate. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
-    /// <param name="Thumbprint">The thumbprint of the trust store certificate. Constraints: o min: 64 o max: 64 o pattern: [A-Fa-f0-9]{64}</param>
+    /// <param name="TrustStoreArn">The ARN of the trust store certificate. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    /// <param name="Thumbprint">The thumbprint of the trust store certificate. Constraints: • min: 64 • max: 64 • pattern: [A-Fa-f0-9]{64}</param>
     public AwsWorkspacesWebGetTrustStoreCertificateOptions(
         string TrustStoreArn,
         string Thumbprint
@@ -60,13 +62,13 @@ public record AwsWorkspacesWebGetTrustStoreCertificateOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the trust store certificate. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// The ARN of the trust store certificate. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
     /// </summary>
     [CliOption("--trust-store-arn")]
     public string? TrustStoreArn { get; private init; }
 
     /// <summary>
-    /// The thumbprint of the trust store certificate. Constraints: o min: 64 o max: 64 o pattern: [A-Fa-f0-9]{64}
+    /// The thumbprint of the trust store certificate. Constraints: • min: 64 • max: 64 • pattern: [A-Fa-f0-9]{64}
     /// </summary>
     [CliOption("--thumbprint")]
     public string? Thumbprint { get; private init; }

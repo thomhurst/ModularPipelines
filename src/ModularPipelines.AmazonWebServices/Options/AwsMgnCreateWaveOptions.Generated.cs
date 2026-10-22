@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +29,7 @@ public record AwsMgnCreateWaveOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Create wave. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Wave name. Constraints: o min: 1 o max: 256 o pattern: [^\s\x00]( *[^\s\x00])*</param>
+    /// <param name="Name">Wave name. Constraints: • min: 1 • max: 256 • pattern: [^\s\x00]( *[^\s\x00])*</param>
     public AwsMgnCreateWaveOptions(
         string Name
     )
@@ -57,25 +58,25 @@ public record AwsMgnCreateWaveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Wave name. Constraints: o min: 1 o max: 256 o pattern: [^\s\x00]( *[^\s\x00])*
+    /// Wave name. Constraints: • min: 1 • max: 256 • pattern: [^\s\x00]( *[^\s\x00])*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Wave description. Constraints: o min: 0 o max: 600 o pattern: [^\x00]*
+    /// Wave description. Constraints: • min: 0 • max: 600 • pattern: [^\x00]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Wave tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Wave tags. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

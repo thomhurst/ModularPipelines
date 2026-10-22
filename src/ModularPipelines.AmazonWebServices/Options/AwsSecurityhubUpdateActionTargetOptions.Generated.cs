@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSecurityhubUpdateActionTargetOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the name and description of a custom action target in Security Hub CSPM. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActionTargetArn">The ARN of the custom action target to update. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ActionTargetArn">The ARN of the custom action target to update. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubUpdateActionTargetOptions(
         string ActionTargetArn
     )
@@ -56,19 +58,19 @@ public record AwsSecurityhubUpdateActionTargetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the custom action target to update. Constraints: o pattern: .*\S.*
+    /// The ARN of the custom action target to update. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--action-target-arn")]
     public string? ActionTargetArn { get; private init; }
 
     /// <summary>
-    /// The updated name of the custom action target. Constraints: o pattern: .*\S.*
+    /// The updated name of the custom action target. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated description for the custom action target. Constraints: o pattern: .*\S.*
+    /// The updated description for the custom action target. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

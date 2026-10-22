@@ -32,7 +32,7 @@ public class AwsKms : IAwsKms
     #region Commands
 
     /// <summary>
-    /// Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS key is Disabled . To enable the KMS key, use En- ableKey . For more information about scheduling and canceling deletion of a KMS key, see Deleting KMS keys in the Key Management Service Developer Guide . The KMS key that you use for this operation must be in a compatible key state. For details, see Key states of KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot perf...
+    /// Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS key is Disabled . To enable the KMS key, use EnableKey . For more information about scheduling and canceling deletion of a KMS key, see Deleting KMS keys in the Key Management Service Developer Guide . The KMS key that you use for this operation must be in a compatible key state. For details, see Key states of KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot perfor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Connects or reconnects a custom key store to its backing key store. For an CloudHSM key store, ConnectCustomKeyStore connects the key store to its associated CloudHSM cluster. For an external key store, ConnectCus- tomKeyStore connects the key store to the external key store proxy that communicates with your external key manager. The custom key store must be connected before you can create KMS keys in the key store or use the KMS keys it contains. You can disconnect and reconnect a custom key st...
+    /// Connects or reconnects a custom key store to its backing key store. For an CloudHSM key store, ConnectCustomKeyStore connects the key store to its associated CloudHSM cluster. For an external key store, ConnectCustomKeyStore connects the key store to the external key store proxy that communicates with your external key manager. The custom key store must be connected before you can create KMS keys in the key store or use the KMS keys it contains. You can disconnect and reconnect a custom key stor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Creates a friendly name for a KMS key. NOTE: Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . You can use an alias to identify a KMS key in the KMS console, in the DescribeKey operation and in cryptographic operations , such as En- crypt and GenerateDataKey . You can also change the KMS key that's as- sociated with the alias ( UpdateAlias ) or delete the alias ( DeleteAlias ) at any t...
+    /// Creates a friendly name for a KMS key. NOTE: Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . You can use an alias to identify a KMS key in the KMS console, in the DescribeKey operation and in cryptographic operations , such as Encrypt and GenerateDataKey . You can also change the KMS key that's associated with the alias ( UpdateAlias ) or delete the alias ( DeleteAlias ) at any time....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Creates a custom key store backed by a key store that you own and man- age. When you use a KMS key in a custom key store for a cryptographic operation, the cryptographic operation is actually performed in your key store using your keys. KMS supports CloudHSM key stores backed by an CloudHSM cluster and external key stores backed by an external key store proxy and external key manager outside of Amazon Web Services. This operation is part of the custom key stores feature in KMS, which combines th...
+    /// Creates a custom key store backed by a key store that you own and manage. When you use a KMS key in a custom key store for a cryptographic operation, the cryptographic operation is actually performed in your key store using your keys. KMS supports CloudHSM key stores backed by an CloudHSM cluster and external key stores backed by an external key store proxy and external key manager outside of Amazon Web Services. This operation is part of the custom key stores feature in KMS, which combines the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Adds a grant to a KMS key. A grant is a policy instrument that allows Amazon Web Services princi- pals to use KMS keys in cryptographic operations. It also can allow them to view a KMS key ( DescribeKey ) and create and manage grants. When authorizing access to a KMS key, grants are considered along with key policies and IAM policies. Grants are often used for temporary per- missions because you can create one, use its permissions, and delete it without changing your key policies or IAM policies...
+    /// Adds a grant to a KMS key. A grant is a policy instrument that allows Amazon Web Services principals to use KMS keys in cryptographic operations. It also can allow them to view a KMS key ( DescribeKey ) and create and manage grants. When authorizing access to a KMS key, grants are considered along with key policies and IAM policies. Grants are often used for temporary permissions because you can create one, use its permissions, and delete it without changing your key policies or IAM policies. Yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Creates a unique customer managed KMS key in your Amazon Web Services account and Region. You can use a KMS key in cryptographic operations, such as encryption and signing. Some Amazon Web Services services let you use KMS keys that you create and manage to protect your service re- sources. A KMS key is a logical representation of a cryptographic key. In addi- tion to the key material used in cryptographic operations, a KMS key includes metadata, such as the key ID, key policy, creation date, de...
+    /// Creates a unique customer managed KMS key in your Amazon Web Services account and Region. You can use a KMS key in cryptographic operations, such as encryption and signing. Some Amazon Web Services services let you use KMS keys that you create and manage to protect your service resources. A KMS key is a logical representation of a cryptographic key. In addition to the key material used in cryptographic operations, a KMS key includes metadata, such as the key ID, key policy, creation date, descri...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Decrypts ciphertext that was encrypted by a KMS key using any of the following operations: o Encrypt o GenerateDataKey o GenerateDataKeyPair o GenerateDataKeyWithoutPlaintext o GenerateDataKeyPairWithoutPlaintext You can use this operation to decrypt ciphertext that was encrypted un- der a symmetric encryption KMS key or an asymmetric encryption KMS key. When the KMS key is asymmetric, you must specify the KMS key and the encryption algorithm that was used to encrypt the ciphertext. For in- form...
+    /// Decrypts ciphertext that was encrypted by a KMS key using any of the following operations: • Encrypt • GenerateDataKey • GenerateDataKeyPair • GenerateDataKeyWithoutPlaintext • GenerateDataKeyPairWithoutPlaintext You can use this operation to decrypt ciphertext that was encrypted under a symmetric encryption KMS key or an asymmetric encryption KMS key. When the KMS key is asymmetric, you must specify the KMS key and the encryption algorithm that was used to encrypt the ciphertext. For informatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Deletes a custom key store . This operation does not affect any backing elements of the custom key store. It does not delete the CloudHSM clus- ter that is associated with an CloudHSM key store, or affect any users or keys in the cluster. For an external key store, it does not affect the external key store proxy, external key manager, or any external keys. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the iso-...
+    /// Deletes a custom key store . This operation does not affect any backing elements of the custom key store. It does not delete the CloudHSM cluster that is associated with an CloudHSM key store, or affect any users or keys in the cluster. For an external key store, it does not affect the external key store proxy, external key manager, or any external keys. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the isolat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Deletes key material that was previously imported. This operation makes the specified KMS key temporarily unusable. To restore the usability of the KMS key, reimport the same key material. For more information about importing key material into KMS, see Importing Key Material in the Key Management Service Developer Guide . When the specified KMS key is in the PendingDeletion state, this opera- tion does not change the KMS key's state. Otherwise, it changes the KMS key's state to PendingImport . C...
+    /// Deletes key material that was previously imported. This operation makes the specified KMS key temporarily unusable. To restore the usability of the KMS key, reimport the same key material. For more information about importing key material into KMS, see Importing Key Material in the Key Management Service Developer Guide . When the specified KMS key is in the PendingDeletion state, this operation does not change the KMS key's state. Otherwise, it changes the KMS key's state to PendingImport . Con...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Derives a shared secret using a key agreement algorithm. NOTE: You must use an asymmetric NIST-standard elliptic curve (ECC) or SM2 (China Regions only) KMS key pair with a KeyUsage value of KEY_AGREEMENT to call DeriveSharedSecret. DeriveSharedSecret uses the Elliptic Curve Cryptography Cofactor Diffie-Hellman Primitive (ECDH) to establish a key agreement between two peers by deriving a shared secret from their elliptic curve pub- lic-private key pairs. You can use the raw shared secret that De...
+    /// Derives a shared secret using a key agreement algorithm. NOTE: You must use an asymmetric NIST-standard elliptic curve (ECC) or SM2 (China Regions only) KMS key pair with a KeyUsage value of KEY_AGREEMENT to call DeriveSharedSecret. DeriveSharedSecret uses the Elliptic Curve Cryptography Cofactor Diffie-Hellman Primitive (ECDH) to establish a key agreement between two peers by deriving a shared secret from their elliptic curve public-private key pairs. You can use the raw shared secret that Deri...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Gets information about custom key stores in the account and Region. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the iso- lation and control of a key store that you own and manage. By default, this operation returns information about all custom key stores in the account and Region. To get only information about a par- ticular custom key store, use either the CustomKeyStoreName or Cus- tomKeyStoreId parameter ...
+    /// Gets information about custom key stores in the account and Region. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the isolation and control of a key store that you own and manage. By default, this operation returns information about all custom key stores in the account and Region. To get only information about a particular custom key store, use either the CustomKeyStoreName or CustomKeyStoreId parameter (but n...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Provides detailed information about a KMS key. You can run DescribeKey on a customer managed key or an Amazon Web Services managed key . This detailed information includes the key ARN, creation date (and deletion date, if applicable), the key state, and the origin and expi- ration date (if any) of the key material. It includes fields, like KeySpec , that help you distinguish different types of KMS keys. It also displays the key usage (encryption, signing, or generating and verifying MACs) and th...
+    /// Provides detailed information about a KMS key. You can run DescribeKey on a customer managed key or an Amazon Web Services managed key . This detailed information includes the key ARN, creation date (and deletion date, if applicable), the key state, and the origin and expiration date (if any) of the key material. It includes fields, like KeySpec , that help you distinguish different types of KMS keys. It also displays the key usage (encryption, signing, or generating and verifying MACs) and the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Sets the state of a KMS key to disabled. This change temporarily pre- vents use of the KMS key for cryptographic operations . The KMS key that you use for this operation must be in a compatible key state. For more information about how key state affects the use of a KMS key, see Key states of KMS keys in the * Key Management Service De- veloper Guide * . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:D...
+    /// Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS key for cryptographic operations . The KMS key that you use for this operation must be in a compatible key state. For more information about how key state affects the use of a KMS key, see Key states of KMS keys in the * Key Management Service Developer Guide * . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:Disab...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Disables automatic rotation of the key material of the specified sym- metric encryption KMS key. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a set of related multi-Region keys , set the property on the primary key. You can enable ( EnableKeyRotation ) and disable automatic ...
+    /// Disables automatic rotation of the key material of the specified symmetric encryption KMS key. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a set of related multi-Region keys , set the property on the primary key. You can enable ( EnableKeyRotation ) and disable automatic ro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Disconnects the custom key store from its backing key store. This oper- ation disconnects an CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from the external key store proxy that communicates with your external key manager. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the iso- lation and control of a key store that you own and manage. While a custom key store is d...
+    /// Disconnects the custom key store from its backing key store. This operation disconnects an CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from the external key store proxy that communicates with your external key manager. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the isolation and control of a key store that you own and manage. While a custom key store is disco...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Enables automatic rotation of the key material of the specified symmet- ric encryption KMS key. By default, when you enable automatic rotation of a customer managed KMS key , KMS rotates the key material of the KMS key one year (approx- imately 365 days) from the enable date and every year thereafter. You can use the optional RotationPeriodInDays parameter to specify a custom rotation period when you enable key rotation, or you can use Rotation- PeriodInDays to modify the rotation period of a ke...
+    /// Enables automatic rotation of the key material of the specified symmetric encryption KMS key. By default, when you enable automatic rotation of a customer managed KMS key , KMS rotates the key material of the KMS key one year (approximately 365 days) from the enable date and every year thereafter. You can use the optional RotationPeriodInDays parameter to specify a custom rotation period when you enable key rotation, or you can use RotationPeriodInDays to modify the rotation period of a key that...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Encrypts plaintext of up to 4,096 bytes using a KMS key. You can use a symmetric or asymmetric KMS key with a KeyUsage of ENCRYPT_DECRYPT . You can use this operation to encrypt small amounts of arbitrary data, such as a personal identifier or database password, or other sensitive information. You don't need to use the Encrypt operation to encrypt a data key. The GenerateDataKey and GenerateDataKeyPair operations re- turn a plaintext data key and an encrypted copy of that data key. If you use a ...
+    /// Encrypts plaintext of up to 4,096 bytes using a KMS key. You can use a symmetric or asymmetric KMS key with a KeyUsage of ENCRYPT_DECRYPT . You can use this operation to encrypt small amounts of arbitrary data, such as a personal identifier or database password, or other sensitive information. You don't need to use the Encrypt operation to encrypt a data key. The GenerateDataKey and GenerateDataKeyPair operations return a plaintext data key and an encrypted copy of that data key. If you use a sy...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns a unique symmetric data key for use outside of KMS. This opera- tion returns a plaintext copy of the data key and a copy that is en- crypted under a symmetric encryption KMS key that you specify. The bytes in the plaintext key are random; they are not related to the caller or the KMS key. You can use the plaintext key to encrypt your data outside of KMS and store the encrypted data key with the encrypted data. To generate a data key, specify the symmetric encryption KMS key that will be ...
+    /// Returns a unique symmetric data key for use outside of KMS. This operation returns a plaintext copy of the data key and a copy that is encrypted under a symmetric encryption KMS key that you specify. The bytes in the plaintext key are random; they are not related to the caller or the KMS key. You can use the plaintext key to encrypt your data outside of KMS and store the encrypted data key with the encrypted data. To generate a data key, specify the symmetric encryption KMS key that will be used...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key, a plaintext private key, and a copy of the private key that is encrypted under the symmetric encryp- tion KMS key you specify. You can use the data key pair to perform asymmetric cryptography and implement digital signatures outside of KMS. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the pu...
+    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key, a plaintext private key, and a copy of the private key that is encrypted under the symmetric encryption KMS key you specify. You can use the data key pair to perform asymmetric cryptography and implement digital signatures outside of KMS. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the publ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key and a copy of the private key that is encrypted under the symmetric encryption KMS key you specify. Unlike GenerateDataKeyPair , this operation does not return a plain- text private key. The bytes in the keys are random; they are not re- lated to the caller or to the KMS key that is used to encrypt the pri- vate key. You can use the public key that GenerateDataKeyPairWithoutPlaintext r...
+    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key and a copy of the private key that is encrypted under the symmetric encryption KMS key you specify. Unlike GenerateDataKeyPair , this operation does not return a plaintext private key. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the public key that GenerateDataKeyPairWithoutPlaintext returns...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns a unique symmetric data key for use outside of KMS. This opera- tion returns a data key that is encrypted under a symmetric encryption KMS key that you specify. The bytes in the key are random; they are not related to the caller or to the KMS key. GenerateDataKeyWithoutPlaintext is identical to the GenerateDataKey operation except that it does not return a plaintext copy of the data key. This operation is useful for systems that need to encrypt data at some point, but not immediately. Wh...
+    /// Returns a unique symmetric data key for use outside of KMS. This operation returns a data key that is encrypted under a symmetric encryption KMS key that you specify. The bytes in the key are random; they are not related to the caller or to the KMS key. GenerateDataKeyWithoutPlaintext is identical to the GenerateDataKey operation except that it does not return a plaintext copy of the data key. This operation is useful for systems that need to encrypt data at some point, but not immediately. When...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns usage information about the last successful cryptographic oper- ation performed with a specified KMS key, including the operation type, timestamp, and associated CloudTrail event ID. The TrackingStartDate in the GetKeyLastUsage response indicates the date from which KMS began recording cryptographic activity for a given key. Use this value together with KeyCreationDate to understand the key's usage history: o If the KeyLastUsage response element is present , the key has been used for a s...
+    /// Returns usage information about the last successful cryptographic operation performed with a specified KMS key, including the operation type, timestamp, and associated CloudTrail event ID. The TrackingStartDate in the GetKeyLastUsage response indicates the date from which KMS began recording cryptographic activity for a given key. Use this value together with KeyCreationDate to understand the key's usage history: • If the KeyLastUsage response element is present , the key has been used for a suc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Provides detailed information about the rotation status for a KMS key, including whether automatic rotation of the key material is enabled for the specified KMS key, the rotation period , and the next scheduled ro- tation date. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a ...
+    /// Provides detailed information about the rotation status for a KMS key, including whether automatic rotation of the key material is enabled for the specified KMS key, the rotation period , and the next scheduled rotation date. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns the public key and an import token you need to import or reim- port key material for a KMS key. By default, KMS keys are created with key material that KMS generates. This operation supports Importing key material , an advanced feature that lets you generate and import the cryptographic key material for a KMS key. Before calling GetParametersForImport , use the CreateKey operation with an Origin value of EXTERNAL to create a KMS key with no key mater- ial. You can import key material for...
+    /// Returns the public key and an import token you need to import or reimport key material for a KMS key. By default, KMS keys are created with key material that KMS generates. This operation supports Importing key material , an advanced feature that lets you generate and import the cryptographic key material for a KMS key. Before calling GetParametersForImport , use the CreateKey operation with an Origin value of EXTERNAL to create a KMS key with no key material. You can import key material for a s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns the public key of an asymmetric KMS key. Unlike the private key of a asymmetric KMS key, which never leaves KMS unencrypted, callers with kms:GetPublicKey permission can download the public key of an asymmetric KMS key. You can share the public key to allow others to en- crypt messages and verify signatures outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the Key Manage- ment Service Developer Guide . You do not need to download the public key. Instea...
+    /// Returns the public key of an asymmetric KMS key. Unlike the private key of a asymmetric KMS key, which never leaves KMS unencrypted, callers with kms:GetPublicKey permission can download the public key of an asymmetric KMS key. You can share the public key to allow others to encrypt messages and verify signatures outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the Key Management Service Developer Guide . You do not need to download the public key. Instead, y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Imports or reimports key material into an existing KMS key that was created without key material. You can also use this operation to set or update the expiration model and expiration date of the imported key ma- terial. By default, KMS creates KMS keys with key material that it generates. You can also generate and import your own key material. For more infor- mation about importing key material, see Importing key material . For asymmetric and HMAC keys, you cannot change the key material after t...
+    /// Imports or reimports key material into an existing KMS key that was created without key material. You can also use this operation to set or update the expiration model and expiration date of the imported key material. By default, KMS creates KMS keys with key material that it generates. You can also generate and import your own key material. For more information about importing key material, see Importing key material . For asymmetric and HMAC keys, you cannot change the key material after the i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Gets a list of aliases in the caller's Amazon Web Services account and region. For more information about aliases, see CreateAlias . By default, the ListAliases operation returns all aliases in the ac- count and region. To get only the aliases associated with a particular KMS key, use the KeyId parameter. The ListAliases response can include aliases that you created and asso- ciated with your customer managed keys, and aliases that Amazon Web Services created and associated with Amazon Web Servi...
+    /// Gets a list of aliases in the caller's Amazon Web Services account and region. For more information about aliases, see CreateAlias . By default, the ListAliases operation returns all aliases in the account and region. To get only the aliases associated with a particular KMS key, use the KeyId parameter. The ListAliases response can include aliases that you created and associated with your customer managed keys, and aliases that Amazon Web Services created and associated with Amazon Web Services ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Gets the names of the key policies that are attached to a KMS key. This operation is designed to get policy names that you can use in a GetKeyPolicy operation. However, the only valid policy name is default . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListKeyPolicies (key policy) Related operations: o GetKeyPolicy o PutKeyPolicy Eventual consistency : The KMS API follows an eventual consistency mod...
+    /// Gets the names of the key policies that are attached to a KMS key. This operation is designed to get policy names that you can use in a GetKeyPolicy operation. However, the only valid policy name is default . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListKeyPolicies (key policy) Related operations: • GetKeyPolicy • PutKeyPolicy Eventual consistency : The KMS API follows an eventual consistency mod...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns information about the key materials associated with the speci- fied KMS key. You can use the optional IncludeKeyMaterial parameter to control which key materials are included in the response. You must specify the KMS key in all requests. You can refine the key rotations list by limiting the number of rotations returned. For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cann...
+    /// Returns information about the key materials associated with the specified KMS key. You can use the optional IncludeKeyMaterial parameter to control which key materials are included in the response. You must specify the KMS key in all requests. You can refine the key rotations list by limiting the number of rotations returned. For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Gets a list of all KMS keys in the caller's Amazon Web Services account and Region. Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListKeys (IAM policy) Related operations: o CreateKey o DescribeKey o ListAliases o ListResourceTags Eventual consistency : The KMS API follows an eventual consistency model. For more information, see KMS eventual consistency . See also: AWS API Documentation list-keys is a...
+    /// Gets a list of all KMS keys in the caller's Amazon Web Services account and Region. Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListKeys (IAM policy) Related operations: • CreateKey • DescribeKey • ListAliases • ListResourceTags Eventual consistency : The KMS API follows an eventual consistency model. For more information, see KMS eventual consistency . See also: AWS API Documentation list-keys is a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns all tags on the specified KMS key. For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . For information about using tags in KMS, see Tags in KMS . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListResourceTags (key policy) Related operations: o CreateKey o ReplicateKey o TagResource o Untag...
+    /// Returns all tags on the specified KMS key. For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . For information about using tags in KMS, see Tags in KMS . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListResourceTags (key policy) Related operations: • CreateKey • ReplicateKey • TagResource • Untag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Returns information about all grants in the Amazon Web Services account and Region that have the specified retiring principal or retiring ser- vice principal. You can specify any principal in your Amazon Web Services account. The grants that are returned include grants for KMS keys in your Amazon Web Services account and other Amazon Web Services accounts. You might use this operation to determine which grants you may retire. To retire a grant, use the RetireGrant operation. For detailed informa...
+    /// Returns information about all grants in the Amazon Web Services account and Region that have the specified retiring principal or retiring service principal. You can specify any principal in your Amazon Web Services account. The grants that are returned include grants for KMS keys in your Amazon Web Services account and other Amazon Web Services accounts. You might use this operation to determine which grants you may retire. To retire a grant, use the RetireGrant operation. For detailed informati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Attaches a key policy to the specified KMS key. For more information about key policies, see Key Policies in the Key Management Service Developer Guide . For help writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the * Iden- tity and Access Management User Guide * . For examples of adding a key policy in multiple programming languages, see Use PutKeyPolicy with an Amazon Web Services SDK or CLI in the Key Management Service Developer Guide . Cross-account use : ...
+    /// Attaches a key policy to the specified KMS key. For more information about key policies, see Key Policies in the Key Management Service Developer Guide . For help writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the * Identity and Access Management User Guide * . For examples of adding a key policy in multiple programming languages, see Use PutKeyPolicy with an Amazon Web Services SDK or CLI in the Key Management Service Developer Guide . Cross-account use : No...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Decrypts ciphertext and then reencrypts it entirely within KMS. You can use this operation to change the KMS key under which data is encrypted, such as when you manually rotate a KMS key or change the KMS key that protects a ciphertext. You can also use it to reencrypt ciphertext un- der the same KMS key, such as to change the encryption context of a ci- phertext. The ReEncrypt operation can decrypt ciphertext that was encrypted by using a KMS key in an KMS operation, such as Encrypt or Generate...
+    /// Decrypts ciphertext and then reencrypts it entirely within KMS. You can use this operation to change the KMS key under which data is encrypted, such as when you manually rotate a KMS key or change the KMS key that protects a ciphertext. You can also use it to reencrypt ciphertext under the same KMS key, such as to change the encryption context of a ciphertext. The ReEncrypt operation can decrypt ciphertext that was encrypted by using a KMS key in an KMS operation, such as Encrypt or GenerateData...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Replicates a multi-Region key into the specified Region. This operation creates a multi-Region replica key based on a multi-Region primary key in a different Region of the same Amazon Web Services partition. You can create multiple replicas of a primary key, but each must be in a different Region. To create a multi-Region primary key, use the Cre- ateKey operation. This operation supports multi-Region keys , an KMS feature that lets you create multiple interoperable KMS keys in different Amazon ...
+    /// Replicates a multi-Region key into the specified Region. This operation creates a multi-Region replica key based on a multi-Region primary key in a different Region of the same Amazon Web Services partition. You can create multiple replicas of a primary key, but each must be in a different Region. To create a multi-Region primary key, use the CreateKey operation. This operation supports multi-Region keys , an KMS feature that lets you create multiple interoperable KMS keys in different Amazon We...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Deletes the specified grant. You revoke a grant to terminate the per- missions that the grant allows. For more information, see Retiring and revoking grants in the * Key Management Service Developer Guide * . When you create, retire, or revoke a grant, there might be a brief de- lay, usually less than five minutes, until the grant is available throughout KMS. This state is known as eventual consistency . For de- tails, see Eventual consistency in the * Key Management Service Devel- oper Guide * ...
+    /// Deletes the specified grant. You revoke a grant to terminate the permissions that the grant allows. For more information, see Retiring and revoking grants in the * Key Management Service Developer Guide * . When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as eventual consistency . For details, see Eventual consistency in the * Key Management Service Developer Guide * . For de...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Immediately initiates rotation of the key material of the specified symmetric encryption KMS key. You can perform on-demand rotation of the key material in customer man- aged KMS keys, regardless of whether or not automatic key rotation is enabled. On-demand rotations do not change existing automatic rotation schedules. For example, consider a KMS key that has automatic key rota- tion enabled with a rotation period of 730 days. If the key is sched- uled to automatically rotate on April 14, 2024,...
+    /// Immediately initiates rotation of the key material of the specified symmetric encryption KMS key. You can perform on-demand rotation of the key material in customer managed KMS keys, regardless of whether or not automatic key rotation is enabled. On-demand rotations do not change existing automatic rotation schedules. For example, consider a KMS key that has automatic key rotation enabled with a rotation period of 730 days. If the key is scheduled to automatically rotate on April 14, 2024, and y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Schedules the deletion of a KMS key. By default, KMS applies a waiting period of 30 days, but you can specify a waiting period of 7-30 days. When this operation is successful, the key state of the KMS key changes to PendingDeletion and the key can't be used in any cryptographic oper- ations. It remains in this state for the duration of the waiting pe- riod. Before the waiting period ends, you can use CancelKeyDeletion to cancel the deletion of the KMS key. After the waiting period ends, KMS dele...
+    /// Schedules the deletion of a KMS key. By default, KMS applies a waiting period of 30 days, but you can specify a waiting period of 7-30 days. When this operation is successful, the key state of the KMS key changes to PendingDeletion and the key can't be used in any cryptographic operations. It remains in this state for the duration of the waiting period. Before the waiting period ends, you can use CancelKeyDeletion to cancel the deletion of the KMS key. After the waiting period ends, KMS deletes ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Creates a digital signature for a message or message digest by using the private key in an asymmetric signing KMS key. To verify the signa- ture, use the Verify operation, or use the public key in the same asymmetric KMS key outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the Key Management Service Developer Guide . Digital signatures are generated and verified by using asymmetric key pair, such as an RSA, ECC, or ML-DSA pair that is represented by an asymme...
+    /// Creates a digital signature for a message or message digest by using the private key in an asymmetric signing KMS key. To verify the signature, use the Verify operation, or use the public key in the same asymmetric KMS key outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the Key Management Service Developer Guide . Digital signatures are generated and verified by using asymmetric key pair, such as an RSA, ECC, or ML-DSA pair that is represented by an asymmetr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Adds or edits tags on a customer managed key . NOTE: Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . Each tag consists of a tag key and a tag value, both of which are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, spec- ify an existing tag key and a new tag value. You can use this operation to tag a cus...
+    /// Adds or edits tags on a customer managed key . NOTE: Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . Each tag consists of a tag key and a tag value, both of which are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. You can use this operation to tag a custo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Deletes tags from a customer managed key . To delete a tag, specify the tag key and the KMS key. NOTE: Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . When it succeeds, the UntagResource operation doesn't return any out- put. Also, if the specified tag key isn't found on the KMS key, it doesn't throw an exception or return a response. To confirm that the operation worked, use the ListResourc...
+    /// Deletes tags from a customer managed key . To delete a tag, specify the tag key and the KMS key. NOTE: Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide . When it succeeds, the UntagResource operation doesn't return any output. Also, if the specified tag key isn't found on the KMS key, it doesn't throw an exception or return a response. To confirm that the operation worked, use the ListResourceT...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Changes the properties of a custom key store. You can use this opera- tion to change the properties of an CloudHSM key store or an external key store. Use the required CustomKeyStoreId parameter to identify the custom key store. Use the remaining optional parameters to change its properties. This operation does not return any property values. To verify the up- dated property values, use the DescribeCustomKeyStores operation. This operation is part of the custom key stores feature in KMS, which c...
+    /// Changes the properties of a custom key store. You can use this operation to change the properties of an CloudHSM key store or an external key store. Use the required CustomKeyStoreId parameter to identify the custom key store. Use the remaining optional parameters to change its properties. This operation does not return any property values. To verify the updated property values, use the DescribeCustomKeyStores operation. This operation is part of the custom key stores feature in KMS, which combi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Updates the description of a KMS key. To see the description of a KMS key, use DescribeKey . The KMS key that you use for this operation must be in a compatible key state. For details, see Key states of KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:UpdateKeyDescription (key policy) Related operations o CreateKey o DescribeKey Eventual consistenc...
+    /// Updates the description of a KMS key. To see the description of a KMS key, use DescribeKey . The KMS key that you use for this operation must be in a compatible key state. For details, see Key states of KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:UpdateKeyDescription (key policy) Related operations • CreateKey • DescribeKey Eventual consistenc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Verifies the hash-based message authentication code (HMAC) for a speci- fied message, HMAC KMS key, and MAC algorithm. To verify the HMAC, Ver- ifyMac computes an HMAC using the message, HMAC KMS key, and MAC algo- rithm that you specify, and compares the computed HMAC to the HMAC that you specify. If the HMACs are identical, the verification succeeds; otherwise, it fails. Verification indicates that the message hasn't changed since the HMAC was calculated, and the specified key was used to gene...
+    /// Verifies the hash-based message authentication code (HMAC) for a specified message, HMAC KMS key, and MAC algorithm. To verify the HMAC, VerifyMac computes an HMAC using the message, HMAC KMS key, and MAC algorithm that you specify, and compares the computed HMAC to the HMAC that you specify. If the HMACs are identical, the verification succeeds; otherwise, it fails. Verification indicates that the message hasn't changed since the HMAC was calculated, and the specified key was used to generate a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsKms : IAwsKms
     }
 
     /// <summary>
-    /// Verifies a digital signature that was generated by the Sign operation. Verification confirms that an authorized user signed the message with the specified KMS key and signing algorithm, and the message hasn't changed since it was signed. If the signature is verified, the value of the SignatureValid field in the response is True . If the signature verification fails, the Verify operation fails with an KMSInvalidSigna- tureException exception. A digital signature is generated by using the private ...
+    /// Verifies a digital signature that was generated by the Sign operation. Verification confirms that an authorized user signed the message with the specified KMS key and signing algorithm, and the message hasn't changed since it was signed. If the signature is verified, the value of the SignatureValid field in the response is True . If the signature verification fails, the Verify operation fails with an KMSInvalidSignatureException exception. A digital signature is generated by using the private ke...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

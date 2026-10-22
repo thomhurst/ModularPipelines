@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMedicalImagingListTagsForResourceOptions : AwsOptions, IValidat
     /// <summary>
     /// Lists all tags associated with a medical imaging resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the medical imaging resource to list tags for. Constraints: o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:medical-imag- ing:[a-z0-9-]+:[0-9]{12}:datastore/[0-9a-z]{32}(/image- set/[0-9a-z]{32})?</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the medical imaging resource to list tags for. Constraints: • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:medical-imaging:[a-z0-9-]+:[0-9]{12}:datastore/[0-9a-z]{32}(/imageset/[0-9a-z]{32})?</param>
     public AwsMedicalImagingListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsMedicalImagingListTagsForResourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the medical imaging resource to list tags for. Constraints: o pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:medical-imag- ing:[a-z0-9-]+:[0-9]{12}:datastore/[0-9a-z]{32}(/image- set/[0-9a-z]{32})?
+    /// The Amazon Resource Name (ARN) of the medical imaging resource to list tags for. Constraints: • pattern: arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:medical-imaging:[a-z0-9-]+:[0-9]{12}:datastore/[0-9a-z]{32}(/imageset/[0-9a-z]{32})?
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

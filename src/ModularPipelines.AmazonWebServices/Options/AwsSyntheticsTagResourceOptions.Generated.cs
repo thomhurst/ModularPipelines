@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns one or more tags (key-value pairs) to the specified canary or group. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for th...
+/// Assigns one or more tags (key-value pairs) to the specified canary or group. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsSyntheticsTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified canary or group. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for th...
+    /// Assigns one or more tags (key-value pairs) to the specified canary or group. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the ...
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the canary or group that you're adding tags to. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(ca- nary|group):[0-9a-z_\-]+</param>
-    /// <param name="Tags">The list of key-value pairs to associate with the resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The ARN of the canary or group that you're adding tags to. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(canary|group):[0-9a-z_\-]+</param>
+    /// <param name="Tags">The list of key-value pairs to associate with the resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsSyntheticsTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +73,13 @@ public record AwsSyntheticsTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the canary or group that you're adding tags to. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(ca- nary|group):[0-9a-z_\-]+
+    /// The ARN of the canary or group that you're adding tags to. The ARN format of a canary is `` arn:aws:synthetics:Region :account-id :canary:canary-name `` . System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. The ARN format of a group is `` arn:aws:synthetics:Region :account-id :group:group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:(canary|group):[0-9a-z_\-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of key-value pairs to associate with the resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of key-value pairs to associate with the resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

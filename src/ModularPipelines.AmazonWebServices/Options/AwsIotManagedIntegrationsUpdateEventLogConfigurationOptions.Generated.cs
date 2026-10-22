@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsIotManagedIntegrationsUpdateEventLogConfigurationOptions : AwsO
     /// <summary>
     /// Update an event log configuration by log configuration ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The log configuration id. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+</param>
-    /// <param name="EventLogLevel">The log level for the event in terms of severity. Possible values: o DEBUG o ERROR o INFO o WARN</param>
+    /// <param name="Id">The log configuration id. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+</param>
+    /// <param name="EventLogLevel">The log level for the event in terms of severity. Possible values: • DEBUG • ERROR • INFO • WARN</param>
     public AwsIotManagedIntegrationsUpdateEventLogConfigurationOptions(
         string Id,
         AwsIotManagedIntegrationsUpdateEventLogConfigurationEventLogLevel EventLogLevel
@@ -60,13 +62,13 @@ public record AwsIotManagedIntegrationsUpdateEventLogConfigurationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The log configuration id. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+
+    /// The log configuration id. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The log level for the event in terms of severity. Possible values: o DEBUG o ERROR o INFO o WARN
+    /// The log level for the event in terms of severity. Possible values: • DEBUG • ERROR • INFO • WARN
     /// </summary>
     [CliOption("--event-log-level")]
     public AwsIotManagedIntegrationsUpdateEventLogConfigurationEventLogLevel? EventLogLevel { get; private init; }

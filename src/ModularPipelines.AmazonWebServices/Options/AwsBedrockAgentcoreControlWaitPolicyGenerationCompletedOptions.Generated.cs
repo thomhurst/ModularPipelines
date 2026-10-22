@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsBedrockAgentcoreControlWaitPolicyGenerationCompletedOptions : A
     /// <summary>
     /// Wait until policy generation is completed It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 24 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyGenerationId">The unique identifier of the policy generation request to be re- trieved. This must be a valid generation ID from a previous StartPolicyGeneration call. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
-    /// <param name="PolicyEngineId">The identifier of the policy engine associated with the policy gen- eration request. This provides the context for the generation opera- tion and schema validation. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyGenerationId">The unique identifier of the policy generation request to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyEngineId">The identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and schema validation. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
     public AwsBedrockAgentcoreControlWaitPolicyGenerationCompletedOptions(
         string PolicyGenerationId,
         string PolicyEngineId
@@ -60,13 +62,13 @@ public record AwsBedrockAgentcoreControlWaitPolicyGenerationCompletedOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the policy generation request to be re- trieved. This must be a valid generation ID from a previous StartPolicyGeneration call. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The unique identifier of the policy generation request to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-generation-id")]
     public string? PolicyGenerationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the policy engine associated with the policy gen- eration request. This provides the context for the generation opera- tion and schema validation. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and schema validation. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-engine-id")]
     public string? PolicyEngineId { get; private init; }

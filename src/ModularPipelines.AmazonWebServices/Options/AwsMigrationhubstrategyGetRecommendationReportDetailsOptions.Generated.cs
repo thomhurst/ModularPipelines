@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about the specified recommendation re- port. See also: AWS API Documentation
+/// Retrieves detailed information about the specified recommendation report. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsMigrationhubstrategyGetRecommendationReportDetailsOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about the specified recommendation re- port. See also: AWS API Documentation
+    /// Retrieves detailed information about the specified recommendation report. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The recommendation report generation task id returned by StartRec- ommendationReportGeneration . Constraints: o min: 0 o max: 52 o pattern: [0-9a-z-:]+</param>
+    /// <param name="Id">The recommendation report generation task id returned by StartRecommendationReportGeneration . Constraints: • min: 0 • max: 52 • pattern: [0-9a-z-:]+</param>
     public AwsMigrationhubstrategyGetRecommendationReportDetailsOptions(
         string Id
     )
@@ -56,7 +58,7 @@ public record AwsMigrationhubstrategyGetRecommendationReportDetailsOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The recommendation report generation task id returned by StartRec- ommendationReportGeneration . Constraints: o min: 0 o max: 52 o pattern: [0-9a-z-:]+
+    /// The recommendation report generation task id returned by StartRecommendationReportGeneration . Constraints: • min: 0 • max: 52 • pattern: [0-9a-z-:]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }

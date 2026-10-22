@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsQuicksightUpdateQuickSightQSearchConfigurationOptions : AwsOpti
     /// <summary>
     /// Updates the state of a Quick Sight Q Search configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="QSearchStatus">The status of the Quick Sight Q Search configuration that the user wants to update. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="QSearchStatus">The status of the Quick Sight Q Search configuration that the user wants to update. Possible values: • ENABLED • DISABLED</param>
     public AwsQuicksightUpdateQuickSightQSearchConfigurationOptions(
         string AwsAccountId,
         AwsQuicksightUpdateQuickSightQSearchConfigurationQSearchStatus QSearchStatus
@@ -60,13 +62,13 @@ public record AwsQuicksightUpdateQuickSightQSearchConfigurationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The status of the Quick Sight Q Search configuration that the user wants to update. Possible values: o ENABLED o DISABLED
+    /// The status of the Quick Sight Q Search configuration that the user wants to update. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--q-search-status")]
     public AwsQuicksightUpdateQuickSightQSearchConfigurationQSearchStatus? QSearchStatus { get; private init; }

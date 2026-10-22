@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsQconnectUpdateAssistantAiAgentOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="AiAgentType">The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant. Possible values: o MANUAL_SEARCH o ANSWER_RECOMMENDATION o SELF_SERVICE o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION</param>
-    /// <param name="Configuration">The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant. aiAgentId -&gt; (string) [required] The ID of the AI Agent to be configured. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1} enabled -&gt; (boolean) Indicates whether the AI Agent configured for this AI Agent type is enabled. When this value is omitted or set to true, the con- figured AI Agent runs; when set to false, the AI Agent ID is re- tained but no AI Agent runs for the AI Agent type. Setting this value to false is currently supported only for the ANSWER_RECOM- MENDATION AI Agent type; other requests to set it to false are rejected with a validation error. Shorthand Syntax: aiAgentId=string,enabled=boolean JSON Syntax: { "aiAgentId": "string", "enabled": true|false }</param>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="AiAgentType">The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant. Possible values: • MANUAL_SEARCH • ANSWER_RECOMMENDATION • SELF_SERVICE • EMAIL_RESPONSE • EMAIL_OVERVIEW • EMAIL_GENERATIVE_ANSWER • ORCHESTRATION • NOTE_TAKING • CASE_SUMMARIZATION</param>
+    /// <param name="Configuration">The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant. aiAgentId -&gt; (string) [required] The ID of the AI Agent to be configured. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1} enabled -&gt; (boolean) Indicates whether the AI Agent configured for this AI Agent type is enabled. When this value is omitted or set to true, the configured AI Agent runs; when set to false, the AI Agent ID is retained but no AI Agent runs for the AI Agent type. Setting this value to false is currently supported only for the ANSWER_RECOMMENDATION AI Agent type; other requests to set it to false are rejected with a validation error. Shorthand Syntax: aiAgentId=string,enabled=boolean JSON Syntax: { "aiAgentId": "string", "enabled": true|false }</param>
     public AwsQconnectUpdateAssistantAiAgentOptions(
         string AssistantId,
         AwsQconnectUpdateAssistantAiAgentAiAgentType AiAgentType,
@@ -64,25 +66,25 @@ public record AwsQconnectUpdateAssistantAiAgentOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--assistant-id")]
     public string? AssistantId { get; private init; }
 
     /// <summary>
-    /// The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant. Possible values: o MANUAL_SEARCH o ANSWER_RECOMMENDATION o SELF_SERVICE o EMAIL_RESPONSE o EMAIL_OVERVIEW o EMAIL_GENERATIVE_ANSWER o ORCHESTRATION o NOTE_TAKING o CASE_SUMMARIZATION
+    /// The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant. Possible values: • MANUAL_SEARCH • ANSWER_RECOMMENDATION • SELF_SERVICE • EMAIL_RESPONSE • EMAIL_OVERVIEW • EMAIL_GENERATIVE_ANSWER • ORCHESTRATION • NOTE_TAKING • CASE_SUMMARIZATION
     /// </summary>
     [CliOption("--ai-agent-type")]
     public AwsQconnectUpdateAssistantAiAgentAiAgentType? AiAgentType { get; private init; }
 
     /// <summary>
-    /// The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant. aiAgentId -&gt; (string) [required] The ID of the AI Agent to be configured. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1} enabled -&gt; (boolean) Indicates whether the AI Agent configured for this AI Agent type is enabled. When this value is omitted or set to true, the con- figured AI Agent runs; when set to false, the AI Agent ID is re- tained but no AI Agent runs for the AI Agent type. Setting this value to false is currently supported only for the ANSWER_RECOM- MENDATION AI Agent type; other requests to set it to false are rejected with a validation error. Shorthand Syntax: aiAgentId=string,enabled=boolean JSON Syntax: { "aiAgentId": "string", "enabled": true|false }
+    /// The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant. aiAgentId -&gt; (string) [required] The ID of the AI Agent to be configured. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1} enabled -&gt; (boolean) Indicates whether the AI Agent configured for this AI Agent type is enabled. When this value is omitted or set to true, the configured AI Agent runs; when set to false, the AI Agent ID is retained but no AI Agent runs for the AI Agent type. Setting this value to false is currently supported only for the ANSWER_RECOMMENDATION AI Agent type; other requests to set it to false are rejected with a validation error. Shorthand Syntax: aiAgentId=string,enabled=boolean JSON Syntax: { "aiAgentId": "string", "enabled": true|false }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The orchestrator use case for the AI Agent being added. Constraints: o min: 1 o max: 4096
+    /// The orchestrator use case for the AI Agent being added. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--orchestrator-use-case")]
     public string? OrchestratorUseCase { get; set; }

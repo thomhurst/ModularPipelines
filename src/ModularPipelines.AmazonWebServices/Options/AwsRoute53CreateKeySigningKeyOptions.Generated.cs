@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +29,11 @@ public record AwsRoute53CreateKeySigningKeyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a new key-signing key (KSK) associated with a hosted zone. You can only have two KSKs per hosted zone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CallerReference">A unique string that identifies the request. Constraints: o min: 1 o max: 128</param>
-    /// <param name="HostedZoneId">The unique string (ID) used to identify a hosted zone. Constraints: o max: 32</param>
-    /// <param name="KeyManagementServiceArn">The Amazon resource name (ARN) for a customer managed key in Key Management Service (KMS). The KeyManagementServiceArn must be unique for each key-signing key (KSK) in a single hosted zone. To see an example of KeyManagementServiceArn that grants the correct permis- sions for DNSSEC, scroll down to Example . You must configure the customer managed customer managed key as fol- lows: Status Enabled Key spec ECC_NIST_P256 Key usage Sign and verify Key policy The key policy must give permission for the following actions: o DescribeKey o GetPublicKey o Sign The key policy must also include the Amazon Route 53 service in the principal for your account. Specify the following: o "Service": "dnssec-route53.amazonaws.com" For more information about working with a customer managed key in KMS, see Key Management Service concepts .</param>
-    /// <param name="Name">A string used to identify a key-signing key (KSK). Name can include numbers, letters, and underscores (_). Name must be unique for each key-signing key in the same hosted zone. Constraints: o min: 3 o max: 128</param>
-    /// <param name="Status">A string specifying the initial status of the key-signing key (KSK). You can set the value to ACTIVE or INACTIVE . Constraints: o min: 5 o max: 150</param>
+    /// <param name="CallerReference">A unique string that identifies the request. Constraints: • min: 1 • max: 128</param>
+    /// <param name="HostedZoneId">The unique string (ID) used to identify a hosted zone. Constraints: • max: 32</param>
+    /// <param name="KeyManagementServiceArn">The Amazon resource name (ARN) for a customer managed key in Key Management Service (KMS). The KeyManagementServiceArn must be unique for each key-signing key (KSK) in a single hosted zone. To see an example of KeyManagementServiceArn that grants the correct permissions for DNSSEC, scroll down to Example . You must configure the customer managed customer managed key as follows: Status Enabled Key spec ECC_NIST_P256 Key usage Sign and verify Key policy The key policy must give permission for the following actions: • DescribeKey • GetPublicKey • Sign The key policy must also include the Amazon Route 53 service in the principal for your account. Specify the following: • "Service": "dnssec-route53.amazonaws.com" For more information about working with a customer managed key in KMS, see Key Management Service concepts .</param>
+    /// <param name="Name">A string used to identify a key-signing key (KSK). Name can include numbers, letters, and underscores (_). Name must be unique for each key-signing key in the same hosted zone. Constraints: • min: 3 • max: 128</param>
+    /// <param name="Status">A string specifying the initial status of the key-signing key (KSK). You can set the value to ACTIVE or INACTIVE . Constraints: • min: 5 • max: 150</param>
     public AwsRoute53CreateKeySigningKeyOptions(
         string CallerReference,
         string HostedZoneId,
@@ -72,31 +74,31 @@ public record AwsRoute53CreateKeySigningKeyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string that identifies the request. Constraints: o min: 1 o max: 128
+    /// A unique string that identifies the request. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--caller-reference")]
     public string? CallerReference { get; private init; }
 
     /// <summary>
-    /// The unique string (ID) used to identify a hosted zone. Constraints: o max: 32
+    /// The unique string (ID) used to identify a hosted zone. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }
 
     /// <summary>
-    /// The Amazon resource name (ARN) for a customer managed key in Key Management Service (KMS). The KeyManagementServiceArn must be unique for each key-signing key (KSK) in a single hosted zone. To see an example of KeyManagementServiceArn that grants the correct permis- sions for DNSSEC, scroll down to Example . You must configure the customer managed customer managed key as fol- lows: Status Enabled Key spec ECC_NIST_P256 Key usage Sign and verify Key policy The key policy must give permission for the following actions: o DescribeKey o GetPublicKey o Sign The key policy must also include the Amazon Route 53 service in the principal for your account. Specify the following: o "Service": "dnssec-route53.amazonaws.com" For more information about working with a customer managed key in KMS, see Key Management Service concepts .
+    /// The Amazon resource name (ARN) for a customer managed key in Key Management Service (KMS). The KeyManagementServiceArn must be unique for each key-signing key (KSK) in a single hosted zone. To see an example of KeyManagementServiceArn that grants the correct permissions for DNSSEC, scroll down to Example . You must configure the customer managed customer managed key as follows: Status Enabled Key spec ECC_NIST_P256 Key usage Sign and verify Key policy The key policy must give permission for the following actions: • DescribeKey • GetPublicKey • Sign The key policy must also include the Amazon Route 53 service in the principal for your account. Specify the following: • "Service": "dnssec-route53.amazonaws.com" For more information about working with a customer managed key in KMS, see Key Management Service concepts .
     /// </summary>
     [CliOption("--key-management-service-arn")]
     public string? KeyManagementServiceArn { get; private init; }
 
     /// <summary>
-    /// A string used to identify a key-signing key (KSK). Name can include numbers, letters, and underscores (_). Name must be unique for each key-signing key in the same hosted zone. Constraints: o min: 3 o max: 128
+    /// A string used to identify a key-signing key (KSK). Name can include numbers, letters, and underscores (_). Name must be unique for each key-signing key in the same hosted zone. Constraints: • min: 3 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A string specifying the initial status of the key-signing key (KSK). You can set the value to ACTIVE or INACTIVE . Constraints: o min: 5 o max: 150
+    /// A string specifying the initial status of the key-signing key (KSK). You can set the value to ACTIVE or INACTIVE . Constraints: • min: 5 • max: 150
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; private init; }

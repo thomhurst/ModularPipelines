@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates properties for an alias. Specify the unique identifier of the alias to be updated and the new property values. When reassigning an alias to a new fleet, provide an updated routing strategy. If successful, the updated alias record is returned. Related actions All APIs by task See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Updates properties for an alias. Specify the unique identifier of the alias to be updated and the new property values. When reassigning an alias to a new fleet, provide an updated routing strategy. If successful, the updated alias record is returned. Related actions All APIs by task See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGameliftUpdateAliasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates properties for an alias. Specify the unique identifier of the alias to be updated and the new property values. When reassigning an alias to a new fleet, provide an updated routing strategy. If successful, the updated alias record is returned. Related actions All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Updates properties for an alias. Specify the unique identifier of the alias to be updated and the new property values. When reassigning an alias to a new fleet, provide an updated routing strategy. If successful, the updated alias record is returned. Related actions All APIs by task See also: AWS API Documentation
     /// </summary>
-    /// <param name="AliasId">A unique identifier for the alias that you want to update. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$</param>
+    /// <param name="AliasId">A unique identifier for the alias that you want to update. You can use either the alias ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$</param>
     public AwsGameliftUpdateAliasOptions(
         string AliasId
     )
@@ -56,25 +58,25 @@ public record AwsGameliftUpdateAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the alias that you want to update. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
+    /// A unique identifier for the alias that you want to update. You can use either the alias ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }
 
     /// <summary>
-    /// A descriptive label that is associated with an alias. Alias names do not need to be unique. Constraints: o min: 1 o max: 1024 o pattern: ^.*\S.*$
+    /// A descriptive label that is associated with an alias. Alias names do not need to be unique. Constraints: • min: 1 • max: 1024 • pattern: ^.*\S.*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A human-readable description of the alias. Constraints: o min: 1 o max: 1024
+    /// A human-readable description of the alias. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The routing configuration, including routing type and fleet target, for the alias. Type -&gt; (string) The type of routing strategy for the alias. Possible routing types include the following: o SIMPLE - The alias resolves to one specific fleet. Use this type when routing to active fleets. o TERMINAL - The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the message em- bedded. Possible values: o SIMPLE o TERMINAL FleetId -&gt; (string) A unique identifier for the fleet that the alias points to. This value is the fleet ID, not the fleet ARN. Constraints: o min: 1 o max: 128 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$ Message -&gt; (string) The message text to be used with a terminal routing strategy. Shorthand Syntax: Type=string,FleetId=string,Message=string JSON Syntax: { "Type": "SIMPLE"|"TERMINAL", "FleetId": "string", "Message": "string" }
+    /// The routing configuration, including routing type and fleet target, for the alias. Type -&gt; (string) The type of routing strategy for the alias. Possible routing types include the following: • SIMPLE - The alias resolves to one specific fleet. Use this type when routing to active fleets. • TERMINAL - The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the message embedded. Possible values: • SIMPLE • TERMINAL FleetId -&gt; (string) A unique identifier for the fleet that the alias points to. This value is the fleet ID, not the fleet ARN. Constraints: • min: 1 • max: 128 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$ Message -&gt; (string) The message text to be used with a terminal routing strategy. Shorthand Syntax: Type=string,FleetId=string,Message=string JSON Syntax: { "Type": "SIMPLE"|"TERMINAL", "FleetId": "string", "Message": "string" }
     /// </summary>
     [CliOption("--routing-strategy")]
     public string? RoutingStrategy { get; set; }

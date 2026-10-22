@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reports the status of one or more instrumentation configurations from SDK instances. Use this to record when configurations become ready, hit errors, become active, or are disabled by limits. Report READY , ERROR , and DISABLED when the status changes. Report AC- TIVE periodically (for example, every minute) while instrumentation is running. See also: AWS API Documentation
+/// Reports the status of one or more instrumentation configurations from SDK instances. Use this to record when configurations become ready, hit errors, become active, or are disabled by limits. Report READY , ERROR , and DISABLED when the status changes. Report ACTIVE periodically (for example, every minute) while instrumentation is running. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsApplicationSignalsReportInstrumentationConfigurationStatusOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reports the status of one or more instrumentation configurations from SDK instances. Use this to record when configurations become ready, hit errors, become active, or are disabled by limits. Report READY , ERROR , and DISABLED when the status changes. Report AC- TIVE periodically (for example, every minute) while instrumentation is running. See also: AWS API Documentation
+    /// Reports the status of one or more instrumentation configurations from SDK instances. Use this to record when configurations become ready, hit errors, become active, or are disabled by limits. Report READY , ERROR , and DISABLED when the status changes. Report ACTIVE periodically (for example, every minute) while instrumentation is running. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Service">The service that the reported configurations belong to. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Environment">The environment that the service is running in. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Configurations">An array of configuration status reports (up to 100) that include the instrumentation type, signal type, location hash, status, time- stamp, and optional error cause. Constraints: o min: 1 o max: 100 (structure) The status of a single instrumentation configuration reported by an SDK instance. InstrumentationType -&gt; (string) [required] The type of instrumentation configuration being reported. Possible values: o BREAKPOINT o PROBE SignalType -&gt; (string) [required] The telemetry signal type for this instrumentation configura- tion. Possible values: o SNAPSHOT LocationHash -&gt; (string) [required] The stable hash of the instrumentation location that identi- fies the configuration being reported. Constraints: o min: 16 o max: 16 Status -&gt; (string) [required] The status of the instrumentation configuration: READY , ER- ROR , ACTIVE , or DISABLED . Possible values: o READY o ERROR o ACTIVE o DISABLED Time -&gt; (timestamp) [required] The timestamp when the status event occurred. ErrorCause -&gt; (string) The error cause when the status is ERROR , such as the file or method not being found. Possible values: o FILE_NOT_FOUND o METHOD_NOT_FOUND o LINE_NOT_EXECUTABLE o OVERLOADED_METHODS o LANGUAGE_MISMATCH o RUNTIME_ERROR Shorthand Syntax: InstrumentationType=string,SignalType=string,LocationHash=string,Status=string,Time=timestamp,ErrorCause=string ... JSON Syntax: [ { "InstrumentationType": "BREAKPOINT"|"PROBE", "SignalType": "SNAPSHOT", "LocationHash": "string", "Status": "READY"|"ERROR"|"ACTIVE"|"DISABLED", "Time": timestamp, "ErrorCause": "FILE_NOT_FOUND"|"METHOD_NOT_FOUND"|"LINE_NOT_EXECUTABLE"|"OVERLOADED_METHODS"|"LANGUAGE_MISMATCH"|"RUNTIME_ERROR" } ... ]</param>
+    /// <param name="Service">The service that the reported configurations belong to. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Environment">The environment that the service is running in. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Configurations">An array of configuration status reports (up to 100) that include the instrumentation type, signal type, location hash, status, timestamp, and optional error cause. Constraints: • min: 1 • max: 100 (structure) The status of a single instrumentation configuration reported by an SDK instance. InstrumentationType -&gt; (string) [required] The type of instrumentation configuration being reported. Possible values: • BREAKPOINT • PROBE SignalType -&gt; (string) [required] The telemetry signal type for this instrumentation configuration. Possible values: • SNAPSHOT LocationHash -&gt; (string) [required] The stable hash of the instrumentation location that identifies the configuration being reported. Constraints: • min: 16 • max: 16 Status -&gt; (string) [required] The status of the instrumentation configuration: READY , ERROR , ACTIVE , or DISABLED . Possible values: • READY • ERROR • ACTIVE • DISABLED Time -&gt; (timestamp) [required] The timestamp when the status event occurred. ErrorCause -&gt; (string) The error cause when the status is ERROR , such as the file or method not being found. Possible values: • FILE_NOT_FOUND • METHOD_NOT_FOUND • LINE_NOT_EXECUTABLE • OVERLOADED_METHODS • LANGUAGE_MISMATCH • RUNTIME_ERROR Shorthand Syntax: InstrumentationType=string,SignalType=string,LocationHash=string,Status=string,Time=timestamp,ErrorCause=string ... JSON Syntax: [ { "InstrumentationType": "BREAKPOINT"|"PROBE", "SignalType": "SNAPSHOT", "LocationHash": "string", "Status": "READY"|"ERROR"|"ACTIVE"|"DISABLED", "Time": timestamp, "ErrorCause": "FILE_NOT_FOUND"|"METHOD_NOT_FOUND"|"LINE_NOT_EXECUTABLE"|"OVERLOADED_METHODS"|"LANGUAGE_MISMATCH"|"RUNTIME_ERROR" } ... ]</param>
     public AwsApplicationSignalsReportInstrumentationConfigurationStatusOptions(
         string Service,
         string Environment,
@@ -75,19 +77,19 @@ public record AwsApplicationSignalsReportInstrumentationConfigurationStatusOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The service that the reported configurations belong to. Constraints: o min: 1 o max: 255
+    /// The service that the reported configurations belong to. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--service")]
     public string? Service { get; private init; }
 
     /// <summary>
-    /// The environment that the service is running in. Constraints: o min: 1 o max: 255
+    /// The environment that the service is running in. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--environment")]
     public string? Environment { get; private init; }
 
     /// <summary>
-    /// An array of configuration status reports (up to 100) that include the instrumentation type, signal type, location hash, status, time- stamp, and optional error cause. Constraints: o min: 1 o max: 100 (structure) The status of a single instrumentation configuration reported by an SDK instance. InstrumentationType -&gt; (string) [required] The type of instrumentation configuration being reported. Possible values: o BREAKPOINT o PROBE SignalType -&gt; (string) [required] The telemetry signal type for this instrumentation configura- tion. Possible values: o SNAPSHOT LocationHash -&gt; (string) [required] The stable hash of the instrumentation location that identi- fies the configuration being reported. Constraints: o min: 16 o max: 16 Status -&gt; (string) [required] The status of the instrumentation configuration: READY , ER- ROR , ACTIVE , or DISABLED . Possible values: o READY o ERROR o ACTIVE o DISABLED Time -&gt; (timestamp) [required] The timestamp when the status event occurred. ErrorCause -&gt; (string) The error cause when the status is ERROR , such as the file or method not being found. Possible values: o FILE_NOT_FOUND o METHOD_NOT_FOUND o LINE_NOT_EXECUTABLE o OVERLOADED_METHODS o LANGUAGE_MISMATCH o RUNTIME_ERROR Shorthand Syntax: InstrumentationType=string,SignalType=string,LocationHash=string,Status=string,Time=timestamp,ErrorCause=string ... JSON Syntax: [ { "InstrumentationType": "BREAKPOINT"|"PROBE", "SignalType": "SNAPSHOT", "LocationHash": "string", "Status": "READY"|"ERROR"|"ACTIVE"|"DISABLED", "Time": timestamp, "ErrorCause": "FILE_NOT_FOUND"|"METHOD_NOT_FOUND"|"LINE_NOT_EXECUTABLE"|"OVERLOADED_METHODS"|"LANGUAGE_MISMATCH"|"RUNTIME_ERROR" } ... ]
+    /// An array of configuration status reports (up to 100) that include the instrumentation type, signal type, location hash, status, timestamp, and optional error cause. Constraints: • min: 1 • max: 100 (structure) The status of a single instrumentation configuration reported by an SDK instance. InstrumentationType -&gt; (string) [required] The type of instrumentation configuration being reported. Possible values: • BREAKPOINT • PROBE SignalType -&gt; (string) [required] The telemetry signal type for this instrumentation configuration. Possible values: • SNAPSHOT LocationHash -&gt; (string) [required] The stable hash of the instrumentation location that identifies the configuration being reported. Constraints: • min: 16 • max: 16 Status -&gt; (string) [required] The status of the instrumentation configuration: READY , ERROR , ACTIVE , or DISABLED . Possible values: • READY • ERROR • ACTIVE • DISABLED Time -&gt; (timestamp) [required] The timestamp when the status event occurred. ErrorCause -&gt; (string) The error cause when the status is ERROR , such as the file or method not being found. Possible values: • FILE_NOT_FOUND • METHOD_NOT_FOUND • LINE_NOT_EXECUTABLE • OVERLOADED_METHODS • LANGUAGE_MISMATCH • RUNTIME_ERROR Shorthand Syntax: InstrumentationType=string,SignalType=string,LocationHash=string,Status=string,Time=timestamp,ErrorCause=string ... JSON Syntax: [ { "InstrumentationType": "BREAKPOINT"|"PROBE", "SignalType": "SNAPSHOT", "LocationHash": "string", "Status": "READY"|"ERROR"|"ACTIVE"|"DISABLED", "Time": timestamp, "ErrorCause": "FILE_NOT_FOUND"|"METHOD_NOT_FOUND"|"LINE_NOT_EXECUTABLE"|"OVERLOADED_METHODS"|"LANGUAGE_MISMATCH"|"RUNTIME_ERROR" } ... ]
     /// </summary>
     [CliOption("--configurations", GroupValues = true)]
     public IEnumerable<string>? Configurations { get; private init; }

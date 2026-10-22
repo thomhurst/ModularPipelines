@@ -32,7 +32,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     #region Commands
 
     /// <summary>
-    /// Adds an existing external connection to a repository. One external con- nection is allowed per repository. NOTE: A repository can have one or more upstream repositories, or an ex- ternal connection. See also: AWS API Documentation
+    /// Adds an existing external connection to a repository. One external connection is allowed per repository. NOTE: A repository can have one or more upstream repositories, or an external connection. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Creates a domain. CodeArtifact domains make it easier to manage multi- ple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Ser- vices accounts. An asset is stored only once in a domain, even if it's in multiple repositories. Although you can have multiple domains, we recommend a single produc- tion domain that contains all published artifacts so that your develop- ment teams can find and share packages. You can...
+    /// Creates a domain. CodeArtifact domains make it easier to manage multiple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Services accounts. An asset is stored only once in a domain, even if it's in multiple repositories. Although you can have multiple domains, we recommend a single production domain that contains all published artifacts so that your development teams can find and share packages. You can use a s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Deletes a domain. You cannot delete a domain that contains reposito- ries. If you want to delete a domain with repositories, first delete its repositories. See also: AWS API Documentation
+    /// Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain with repositories, first delete its repositories. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Deletes a package group. Deleting a package group does not delete pack- ages or package versions associated with the package group. When a package group is deleted, the direct child package groups will become children of the package group's direct parent package group. Therefore, if any of the child groups are inheriting any settings from the parent, those settings could change. See also: AWS API Documentation
+    /// Deletes a package group. Deleting a package group does not delete packages or package versions associated with the package group. When a package group is deleted, the direct child package groups will become children of the package group's direct parent package group. Therefore, if any of the child groups are inheriting any settings from the parent, those settings could change. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Deletes a package and all associated package versions. A deleted pack- age cannot be restored. To delete one or more package versions, use the DeletePackageVersions API. See also: AWS API Documentation
+    /// Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the DeletePackageVersions API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Deletes the resource policy that is set on a repository. After a re- source policy is deleted, the permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate. WARNING: Use DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose per- missions to perform the repository actions granted by the deleted policy. See also: AWS API Documentation
+    /// Deletes the resource policy that is set on a repository. After a resource policy is deleted, the permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate. WARNING: Use DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform the repository actions granted by the deleted policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Returns a RepositoryDescription object that contains detailed informa- tion about the requested repository. See also: AWS API Documentation
+    /// Returns a RepositoryDescription object that contains detailed information about the requested repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repos- itory in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package be- fore that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see Package group definition syntax and ...
+    /// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repository in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package before that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see Package group definition syntax and matc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Gets the readme file or descriptive text for a package version. The returned text might contain formatting. For example, it might con- tain formatting for Markdown or reStructuredText. See also: AWS API Documentation
+    /// Gets the readme file or descriptive text for a package version. The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format: o cargo o generic o maven o npm o nuget o pypi o ruby o swift See also: AWS API Documentation
+    /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format: • cargo • generic • maven • npm • nuget • pypi • ruby • swift See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about re- striction types and added repository lists, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Documentation list-allowed-repositories-for-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- men...
+    /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types and added repository lists, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Documentation list-allowed-repositories-for-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Whe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned Domain- Summary object contains information about a domain. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the -...
+    /// Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,22 +482,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Returns a list of PackageSummary objects for packages in a repository that match the request parameters. See also: AWS API Documentation list-packages is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPackagesAsync(
-        AwsCodeartifactListPackagesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of AssetSummary objects for assets in a package version. See also: AWS API Documentation list-package-version-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assets
+    /// Returns a list of AssetSummary objects for assets in a package version. See also: AWS API Documentation list-package-version-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +497,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Returns the direct dependencies for a package version. The dependencies are returned as PackageDependency objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the pack- age format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned. See also: AWS API Documentation
+    /// Returns the direct dependencies for a package version. The dependencies are returned as PackageDependency objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +527,22 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Returns a list of RepositorySummary objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters. See also: AWS API Documentation list-repositories-in-domain is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
+    /// Returns a list of PackageSummary objects for packages in a repository that match the request parameters. See also: AWS API Documentation list-packages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pa...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPackagesAsync(
+        AwsCodeartifactListPackagesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of RepositorySummary objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters. See also: AWS API Documentation list-repositories-in-domain is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Un- finished state until all of its assets have been uploaded (see Package version status in the CodeArtifact user guide ). To set the package versions status to Published , omit the unfinished flag when uploading the final asset, or set the status using UpdatePackageVersionStatus . Once a package versions status is set to Published , it cannot change back to...
+    /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Unfinished state until all of its assets have been uploaded (see Package version status in the CodeArtifact user guide ). To set the package versions status to Published , omit the unfinished flag when uploading the final asset, or set the status using UpdatePackageVersionStatus . Once a package versions status is set to Published , it cannot change back to U...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a pack- age can be added to a repository. You can allow or block direct pub- lishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package origin controls and configuration, see Editing package origin controls in the CodeArtifact User Guide . PutPackageOriginConfiguration can b...
+    /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package origin controls and configuration, see Editing package origin controls in the CodeArtifact User Guide . PutPackageOriginConfiguration can be ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a pack- age can be added to a repository. You can allow or block direct pub- lishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Docu...
+    /// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Document...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsCodeartifact : IAwsCodeartifact
     }
 
     /// <summary>
-    /// Updates the status of one or more versions of a package. Using Up- datePackageVersionsStatus , you can update the status of package ver- sions to Archived , Published , or Unlisted . To set the status of a package version to Disposed , use DisposePackageVersions . See also: AWS API Documentation
+    /// Updates the status of one or more versions of a package. Using UpdatePackageVersionsStatus , you can update the status of package versions to Archived , Published , or Unlisted . To set the status of a package version to Disposed , use DisposePackageVersions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

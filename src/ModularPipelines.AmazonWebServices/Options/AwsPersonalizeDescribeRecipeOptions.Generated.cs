@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a recipe. A recipe contains three items: o An algorithm that trains a model. o Hyperparameters that govern the training. o Feature transformation information for modifying the input data be- fore training. Amazon Personalize provides a set of predefined recipes. You specify a recipe when you create a solution with the CreateSolution API. CreateS- olution trains a model by using the algorithm in the specified recipe and a training dataset. The solution, when deployed as a campaign, can ...
+/// Describes a recipe. A recipe contains three items: • An algorithm that trains a model. • Hyperparameters that govern the training. • Feature transformation information for modifying the input data before training. Amazon Personalize provides a set of predefined recipes. You specify a recipe when you create a solution with the CreateSolution API. CreateSolution trains a model by using the algorithm in the specified recipe and a training dataset. The solution, when deployed as a campaign, can prov...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsPersonalizeDescribeRecipeOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a recipe. A recipe contains three items: o An algorithm that trains a model. o Hyperparameters that govern the training. o Feature transformation information for modifying the input data be- fore training. Amazon Personalize provides a set of predefined recipes. You specify a recipe when you create a solution with the CreateSolution API. CreateS- olution trains a model by using the algorithm in the specified recipe and a training dataset. The solution, when deployed as a campaign, can ...
+    /// Describes a recipe. A recipe contains three items: • An algorithm that trains a model. • Hyperparameters that govern the training. • Feature transformation information for modifying the input data before training. Amazon Personalize provides a set of predefined recipes. You specify a recipe when you create a solution with the CreateSolution API. CreateSolution trains a model by using the algorithm in the specified recipe and a training dataset. The solution, when deployed as a campaign, can prov...
     /// </summary>
-    /// <param name="RecipeArn">The Amazon Resource Name (ARN) of the recipe to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="RecipeArn">The Amazon Resource Name (ARN) of the recipe to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeRecipeOptions(
         string RecipeArn
     )
@@ -56,7 +58,7 @@ public record AwsPersonalizeDescribeRecipeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recipe to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the recipe to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--recipe-arn")]
     public string? RecipeArn { get; private init; }

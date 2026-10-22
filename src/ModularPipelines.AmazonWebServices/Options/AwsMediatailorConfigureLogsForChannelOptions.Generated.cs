@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsMediatailorConfigureLogsForChannelOptions : AwsOptions, IValida
     /// Configures Amazon CloudWatch log settings for a channel. See also: AWS API Documentation
     /// </summary>
     /// <param name="ChannelName">The name of the channel.</param>
-    /// <param name="LogTypes">The types of logs to collect. (string) Possible values: o AS_RUN Syntax: "string" "string" ...</param>
+    /// <param name="LogTypes">The types of logs to collect. (string) Possible values: • AS_RUN Syntax: "string" "string" ...</param>
     public AwsMediatailorConfigureLogsForChannelOptions(
         string ChannelName,
         IEnumerable<string> LogTypes
@@ -77,7 +79,7 @@ public record AwsMediatailorConfigureLogsForChannelOptions : AwsOptions, IValida
     public string? ChannelName { get; private init; }
 
     /// <summary>
-    /// The types of logs to collect. (string) Possible values: o AS_RUN Syntax: "string" "string" ...
+    /// The types of logs to collect. (string) Possible values: • AS_RUN Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-types", GroupValues = true)]
     public IEnumerable<string>? LogTypes { get; private init; }

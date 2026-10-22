@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the code of a CloudFront function. To get configuration informa- tion and metadata about a function, use DescribeFunction . To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
+/// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction . To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudfrontGetFunctionOptions : AwsOptions
 {
     /// <summary>
-    /// Gets the code of a CloudFront function. To get configuration informa- tion and metadata about a function, use DescribeFunction . To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
+    /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction . To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the function whose code you are getting. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="Name">The name of the function whose code you are getting. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsCloudfrontGetFunctionOptions(
         string Name,
@@ -44,13 +44,13 @@ public record AwsCloudfrontGetFunctionOptions : AwsOptions
     }
 
     /// <summary>
-    /// The name of the function whose code you are getting. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// The name of the function whose code you are getting. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string Name { get; private init; }
 
     /// <summary>
-    /// The function's stage, either DEVELOPMENT or LIVE . Possible values: o DEVELOPMENT o LIVE outfile (string) [required] Filename where the content will be saved
+    /// The function's stage, either DEVELOPMENT or LIVE . Possible values: • DEVELOPMENT • LIVE outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--stage")]
     public string? Stage { get; set; }

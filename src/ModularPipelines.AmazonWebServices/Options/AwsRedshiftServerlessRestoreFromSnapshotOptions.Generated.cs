@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftServerlessRestoreFromSnapshotOptions : AwsOptions, IVal
     /// <summary>
     /// Restores a namespace from a snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NamespaceName">The name of the namespace to restore the snapshot to. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
-    /// <param name="WorkgroupName">The name of the workgroup used to restore the snapshot. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="NamespaceName">The name of the namespace to restore the snapshot to. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
+    /// <param name="WorkgroupName">The name of the workgroup used to restore the snapshot. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessRestoreFromSnapshotOptions(
         string NamespaceName,
         string WorkgroupName
@@ -60,13 +62,13 @@ public record AwsRedshiftServerlessRestoreFromSnapshotOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the namespace to restore the snapshot to. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the namespace to restore the snapshot to. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--namespace-name")]
     public string? NamespaceName { get; private init; }
 
     /// <summary>
-    /// The name of the workgroup used to restore the snapshot. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the workgroup used to restore the snapshot. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; private init; }
@@ -78,13 +80,13 @@ public record AwsRedshiftServerlessRestoreFromSnapshotOptions : AwsOptions, IVal
     public string? AdminPasswordSecretKmsKeyId { get; set; }
 
     /// <summary>
-    /// If true , maintain existing data sharing, zero-ETL and S3 event in- tegrations when restoring. Otherwise, integrations will not be main- tained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+    /// If true , maintain existing data sharing, zero-ETL and S3 event integrations when restoring. Otherwise, integrations will not be maintained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
     /// </summary>
     [CliFlag("--maintain-integration", NegatedName = "--no-maintain-integration")]
     public bool? MaintainIntegration { get; set; }
 
     /// <summary>
-    /// If true , Amazon Redshift uses Secrets Manager to manage the re- stored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
+    /// If true , Amazon Redshift uses Secrets Manager to manage the restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
     /// </summary>
     [CliFlag("--manage-admin-password", NegatedName = "--no-manage-admin-password")]
     public bool? ManageAdminPassword { get; set; }
@@ -96,7 +98,7 @@ public record AwsRedshiftServerlessRestoreFromSnapshotOptions : AwsOptions, IVal
     public string? OwnerAccount { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the snapshot to restore from. Re- quired if restoring from a provisioned cluster to Amazon Redshift Serverless. Must not be specified at the same time as snapshotName . The format of the ARN is arn:aws:redshift:&lt;region&gt;:&lt;ac- count_id&gt;:snapshot:&lt;cluster_identifier&gt;/&lt;snapshot_identifier&gt;.
+    /// The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from a provisioned cluster to Amazon Redshift Serverless. Must not be specified at the same time as snapshotName . The format of the ARN is arn:aws:redshift:&lt;region&gt;:&lt;account_id&gt;:snapshot:&lt;cluster_identifier&gt;/&lt;snapshot_identifier&gt;.
     /// </summary>
     [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }

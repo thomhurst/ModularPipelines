@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsCloudtrailGetQueryResultsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryId">The ID of the query for which you want to get results. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9\-]+$</param>
+    /// <param name="QueryId">The ID of the query for which you want to get results. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9\-]+$</param>
     public AwsCloudtrailGetQueryResultsOptions(
         string QueryId
     )
@@ -57,32 +59,32 @@ public record AwsCloudtrailGetQueryResultsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the query for which you want to get results. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9\-]+$
+    /// The ID of the query for which you want to get results. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9\-]+$
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; private init; }
 
     /// <summary>
-    /// The ARN (or ID suffix of the ARN) of the event data store against which the query was run. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or ID suffix of the ARN) of the event data store against which the query was run. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }
 
     /// <summary>
-    /// A token you can use to get the next page of query results. Constraints: o min: 4 o max: 1000 o pattern: .*
+    /// A token you can use to get the next page of query results. Constraints: • min: 4 • max: 1000 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of query results to display on a single page. Constraints: o min: 1 o max: 1000
+    /// The maximum number of query results to display on a single page. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-query-results")]
     public int? MaxQueryResults { get; set; }
 
     /// <summary>
-    /// The account ID of the event data store owner. Constraints: o min: 12 o max: 16 o pattern: \d+
+    /// The account ID of the event data store owner. Constraints: • min: 12 • max: 16 • pattern: \d+
     /// </summary>
     [CliOption("--event-data-store-owner-account-id")]
     public string? EventDataStoreOwnerAccountId { get; set; }

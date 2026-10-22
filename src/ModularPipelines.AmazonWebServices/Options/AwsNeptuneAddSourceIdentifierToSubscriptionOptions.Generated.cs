@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a source identifier to an existing event notification subscrip- tion. See also: AWS API Documentation
+/// Adds a source identifier to an existing event notification subscription. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsNeptuneAddSourceIdentifierToSubscriptionOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a source identifier to an existing event notification subscrip- tion. See also: AWS API Documentation
+    /// Adds a source identifier to an existing event notification subscription. See also: AWS API Documentation
     /// </summary>
     /// <param name="SubscriptionName">The name of the event notification subscription you want to add a source identifier to.</param>
-    /// <param name="SourceIdentifier">The identifier of the event source to be added. Constraints: o If the source type is a DB instance, then a DBInstanceIdentifier must be supplied. o If the source type is a DB security group, a DBSecurityGroupName must be supplied. o If the source type is a DB parameter group, a DBParameterGroupName must be supplied. o If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.</param>
+    /// <param name="SourceIdentifier">The identifier of the event source to be added. Constraints: • If the source type is a DB instance, then a DBInstanceIdentifier must be supplied. • If the source type is a DB security group, a DBSecurityGroupName must be supplied. • If the source type is a DB parameter group, a DBParameterGroupName must be supplied. • If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.</param>
     public AwsNeptuneAddSourceIdentifierToSubscriptionOptions(
         string SubscriptionName,
         string SourceIdentifier
@@ -66,7 +68,7 @@ public record AwsNeptuneAddSourceIdentifierToSubscriptionOptions : AwsOptions, I
     public string? SubscriptionName { get; private init; }
 
     /// <summary>
-    /// The identifier of the event source to be added. Constraints: o If the source type is a DB instance, then a DBInstanceIdentifier must be supplied. o If the source type is a DB security group, a DBSecurityGroupName must be supplied. o If the source type is a DB parameter group, a DBParameterGroupName must be supplied. o If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.
+    /// The identifier of the event source to be added. Constraints: • If the source type is a DB instance, then a DBInstanceIdentifier must be supplied. • If the source type is a DB security group, a DBSecurityGroupName must be supplied. • If the source type is a DB parameter group, a DBParameterGroupName must be supplied. • If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.
     /// </summary>
     [CliOption("--source-identifier")]
     public string? SourceIdentifier { get; private init; }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists your rescore execution plans. A rescore execution plan is an Ama- zon Kendra Intelligent Ranking resource used for provisioning the Rescore API. See also: AWS API Documentation
+/// Lists your rescore execution plans. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKendraRankingListRescoreExecutionPlansOptions : AwsOptions
 {
     /// <summary>
-    /// If the response is truncated, Amazon Kendra Intelligent Ranking re- turns a pagination token in the response. You can use this pagina- tion token to retrieve the next set of rescore execution plans. Constraints: o min: 1 o max: 800 o pattern: ^\P{C}*$
+    /// If the response is truncated, Amazon Kendra Intelligent Ranking returns a pagination token in the response. You can use this pagination token to retrieve the next set of rescore execution plans. Constraints: • min: 1 • max: 800 • pattern: ^\P{C}*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of rescore execution plans to return. Constraints: o min: 1 o max: 50
+    /// The maximum number of rescore execution plans to return. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

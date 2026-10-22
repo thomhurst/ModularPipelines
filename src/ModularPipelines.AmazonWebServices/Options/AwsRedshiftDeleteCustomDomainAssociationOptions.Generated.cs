@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsRedshiftDeleteCustomDomainAssociationOptions : AwsOptions, IVal
     /// <summary>
     /// Contains information about deleting a custom domain association for a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The identifier of the cluster to delete a custom domain association for. Constraints: o max: 2147483647</param>
-    /// <param name="CustomDomainName">The custom domain name for the custom domain association. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
+    /// <param name="ClusterIdentifier">The identifier of the cluster to delete a custom domain association for. Constraints: • max: 2147483647</param>
+    /// <param name="CustomDomainName">The custom domain name for the custom domain association. Constraints: • min: 1 • max: 253 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
     public AwsRedshiftDeleteCustomDomainAssociationOptions(
         string ClusterIdentifier,
         string CustomDomainName
@@ -60,13 +62,13 @@ public record AwsRedshiftDeleteCustomDomainAssociationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster to delete a custom domain association for. Constraints: o max: 2147483647
+    /// The identifier of the cluster to delete a custom domain association for. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The custom domain name for the custom domain association. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
+    /// The custom domain name for the custom domain association. Constraints: • min: 1 • max: 253 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
     /// </summary>
     [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsRumDeleteResourcePolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes the association of a resource-based policy from an app monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The app monitor that you want to remove the resource policy from. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Name">The app monitor that you want to remove the resource policy from. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
     public AwsRumDeleteResourcePolicyOptions(
         string Name
     )
@@ -56,13 +58,13 @@ public record AwsRumDeleteResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The app monitor that you want to remove the resource policy from. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// The app monitor that you want to remove the resource policy from. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies a specific policy revision to delete. Provide a PolicyRe- visionId to ensure an atomic delete operation. If the revision ID that you provide doesn't match the latest policy revision ID, the request will be rejected with an InvalidPolicyRevisionIdException error. Constraints: o min: 1 o max: 255
+    /// Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation. If the revision ID that you provide doesn't match the latest policy revision ID, the request will be rejected with an InvalidPolicyRevisionIdException error. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--policy-revision-id")]
     public string? PolicyRevisionId { get; set; }

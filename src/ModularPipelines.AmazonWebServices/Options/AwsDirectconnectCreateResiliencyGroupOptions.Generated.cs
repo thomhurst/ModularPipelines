@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsDirectconnectCreateResiliencyGroupOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a resiliency group. A resiliency group lets you group Direct Connect connections together and manage them as a single unit to meet a target resiliency model. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResiliencyGroupName">The name of the resiliency group. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_\-]+$</param>
-    /// <param name="IntendedResiliencyModel">The resiliency model that the resiliency group is intended to meet. The valid values are maximum-resiliency , high-resiliency , and ba- sic-resiliency . Possible values: o maximum-resiliency o high-resiliency o basic-resiliency</param>
+    /// <param name="ResiliencyGroupName">The name of the resiliency group. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_\-]+$</param>
+    /// <param name="IntendedResiliencyModel">The resiliency model that the resiliency group is intended to meet. The valid values are maximum-resiliency , high-resiliency , and basic-resiliency . Possible values: • maximum-resiliency • high-resiliency • basic-resiliency</param>
     public AwsDirectconnectCreateResiliencyGroupOptions(
         string ResiliencyGroupName,
         AwsDirectconnectCreateResiliencyGroupIntendedResiliencyModel IntendedResiliencyModel
@@ -61,26 +63,26 @@ public record AwsDirectconnectCreateResiliencyGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resiliency group. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_\-]+$
+    /// The name of the resiliency group. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_\-]+$
     /// </summary>
     [CliOption("--resiliency-group-name")]
     public string? ResiliencyGroupName { get; private init; }
 
     /// <summary>
-    /// The resiliency model that the resiliency group is intended to meet. The valid values are maximum-resiliency , high-resiliency , and ba- sic-resiliency . Possible values: o maximum-resiliency o high-resiliency o basic-resiliency
+    /// The resiliency model that the resiliency group is intended to meet. The valid values are maximum-resiliency , high-resiliency , and basic-resiliency . Possible values: • maximum-resiliency • high-resiliency • basic-resiliency
     /// </summary>
     [CliOption("--intended-resiliency-model")]
     public AwsDirectconnectCreateResiliencyGroupIntendedResiliencyModel? IntendedResiliencyModel { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to associate with the resiliency group. Constraints: o min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to associate with the resiliency group. Constraints: • min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

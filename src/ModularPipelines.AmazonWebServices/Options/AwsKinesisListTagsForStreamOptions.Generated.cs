@@ -22,31 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisListTagsForStreamOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the stream. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey . Constraints: o min: 1 o max: 128
+    /// The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--exclusive-start-tag-key")]
     public string? ExclusiveStartTagKey { get; set; }
 
     /// <summary>
-    /// The number of tags to return. If this number is less than the total number of tags associated with the stream, HasMoreTags is set to true . To list additional tags, set ExclusiveStartTagKey to the last key in the response. Constraints: o min: 1 o max: 50
+    /// The number of tags to return. If this number is less than the total number of tags associated with the stream, HasMoreTags is set to true . To list additional tags, set ExclusiveStartTagKey to the last key in the response. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// The ARN of the stream. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }

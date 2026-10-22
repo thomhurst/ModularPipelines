@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specific application. You cannot delete a running applica- tion. See also: AWS API Documentation
+/// Deletes a specific application. You cannot delete a running application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsM2DeleteApplicationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specific application. You cannot delete a running applica- tion. See also: AWS API Documentation
+    /// Deletes a specific application. You cannot delete a running application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the application you want to delete. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ApplicationId">The unique identifier of the application you want to delete. Constraints: • pattern: ^\S{1,80}$</param>
     public AwsM2DeleteApplicationOptions(
         string ApplicationId
     )
@@ -56,7 +58,7 @@ public record AwsM2DeleteApplicationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the application you want to delete. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the application you want to delete. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsGlueStopCrawlerScheduleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Sets the schedule state of the specified crawler to NOT_SCHEDULED , but does not stop the crawler if it is already running. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CrawlerName">Name of the crawler whose schedule state to set. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="CrawlerName">Name of the crawler whose schedule state to set. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsGlueStopCrawlerScheduleOptions(
         string CrawlerName
     )
@@ -56,7 +58,7 @@ public record AwsGlueStopCrawlerScheduleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the crawler whose schedule state to set. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// Name of the crawler whose schedule state to set. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--crawler-name")]
     public string? CrawlerName { get; private init; }

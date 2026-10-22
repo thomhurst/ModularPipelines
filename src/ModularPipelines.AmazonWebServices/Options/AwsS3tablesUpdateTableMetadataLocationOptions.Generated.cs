@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse loca- tion. The metadata location for an Apache Iceberg table must end with .metadata.json , or if the metadata file is Gzip-compressed, .meta- data.json.gz . Permissions You must have the s3tables:UpdateTableMetadataLocation permission to use this operation. See also: AWS API Documentation
+/// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json , or if the metadata file is Gzip-compressed, .metadata.json.gz . Permissions You must have the s3tables:UpdateTableMetadataLocation permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +28,13 @@ public record AwsS3tablesUpdateTableMetadataLocationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse loca- tion. The metadata location for an Apache Iceberg table must end with .metadata.json , or if the metadata file is Gzip-compressed, .meta- data.json.gz . Permissions You must have the s3tables:UpdateTableMetadataLocation permission to use this operation. See also: AWS API Documentation
+    /// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json , or if the metadata file is Gzip-compressed, .metadata.json.gz . Permissions You must have the s3tables:UpdateTableMetadataLocation permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="Namespace">The namespace of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
-    /// <param name="Name">The name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
-    /// <param name="VersionToken">The version token of the table. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="MetadataLocation">The new metadata location for the table. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Namespace">The namespace of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
+    /// <param name="Name">The name of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
+    /// <param name="VersionToken">The version token of the table. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="MetadataLocation">The new metadata location for the table. Constraints: • min: 1 • max: 2048</param>
     public AwsS3tablesUpdateTableMetadataLocationOptions(
         string TableBucketArn,
         string Namespace,
@@ -73,32 +75,32 @@ public record AwsS3tablesUpdateTableMetadataLocationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// The namespace of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The namespace of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The name of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The version token of the table. Constraints: o min: 1 o max: 2048
+    /// The version token of the table. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--version-token")]
     public string? VersionToken { get; private init; }
 
     /// <summary>
-    /// The new metadata location for the table. Constraints: o min: 1 o max: 2048
+    /// The new metadata location for the table. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--metadata-location")]
     public string? MetadataLocation { get; private init; }

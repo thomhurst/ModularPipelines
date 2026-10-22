@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,7 +31,7 @@ public record AwsVpcLatticeCreateResourceGatewayOptions : AwsOptions, IValidatab
     /// <summary>
     /// A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the resource gateway. Constraints: o min: 3 o max: 40 o pattern: (?!rgw-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+</param>
+    /// <param name="Name">The name of the resource gateway. Constraints: • min: 3 • max: 40 • pattern: (?!rgw-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+</param>
     public AwsVpcLatticeCreateResourceGatewayOptions(
         string Name
     )
@@ -59,56 +60,56 @@ public record AwsVpcLatticeCreateResourceGatewayOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource gateway. Constraints: o min: 3 o max: 40 o pattern: (?!rgw-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+
+    /// The name of the resource gateway. Constraints: • min: 3 • max: 40 • pattern: (?!rgw-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: • min: 1 • max: 64 • pattern: .*[!-~]+.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The ID of the VPC for the resource gateway. Constraints: o min: 5 o max: 50 o pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17}))
+    /// The ID of the VPC for the resource gateway. Constraints: • min: 5 • max: 50 • pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17}))
     /// </summary>
     [CliOption("--vpc-identifier")]
     public string? VpcIdentifier { get; set; }
 
     /// <summary>
-    /// The IDs of the VPC subnets in which to create the resource gateway. (string) Constraints: o min: 5 o max: 200 Syntax: "string" "string" ...
+    /// The IDs of the VPC subnets in which to create the resource gateway. (string) Constraints: • min: 5 • max: 200 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
-    /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 5 o max: 200 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
+    /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 5 • max: 200 • pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// A resource gateway can have IPv4, IPv6 or dualstack addresses. The IP address type of a resource gateway must be compatible with the subnets of the resource gateway and the IP address type of the re- source, as described here: o IPv4 Assign IPv4 addresses to your resource gateway network inter- faces. This option is supported only if all selected subnets have IPv4 address ranges, and the resource also has an IPv4 address. o IPv6 Assign IPv6 addresses to your resource gateway network inter- faces. This option is supported only if all selected subnets are IPv6 only subnets, and the resource also has an IPv6 address. o Dualstack Assign both IPv4 and IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have both IPv4 and IPv6 address ranges, and the resource either has an IPv4 or IPv6 address. The IP address type of the resource gateway is independent of the IP address type of the client or the VPC endpoint through which the re- source is accessed. Possible values: o IPV4 o IPV6 o DUALSTACK
+    /// A resource gateway can have IPv4, IPv6 or dualstack addresses. The IP address type of a resource gateway must be compatible with the subnets of the resource gateway and the IP address type of the resource, as described here: • IPv4 Assign IPv4 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have IPv4 address ranges, and the resource also has an IPv4 address. • IPv6 Assign IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets are IPv6 only subnets, and the resource also has an IPv6 address. • Dualstack Assign both IPv4 and IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have both IPv4 and IPv6 address ranges, and the resource either has an IPv4 or IPv6 address. The IP address type of the resource gateway is independent of the IP address type of the client or the VPC endpoint through which the resource is accessed. Possible values: • IPV4 • IPV6 • DUALSTACK
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsVpcLatticeCreateResourceGatewayIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The number of IPv4 addresses in each ENI for the resource gateway. Constraints: o min: 1 o max: 62
+    /// The number of IPv4 addresses in each ENI for the resource gateway. Constraints: • min: 1 • max: 62
     /// </summary>
     [CliOption("--ipv4-addresses-per-eni")]
     public int? Ipv4AddressesPerEni { get; set; }
 
     /// <summary>
-    /// Indicates how DNS is resolved for resource configurations associated with this resource gateway. This value is set when you create the resource gateway and can't be changed afterward. The default is PUB- LIC . o IN_VPC - DNS resolution occurs privately within the resource gate- way's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in pri- vate Route 53 hosted zones or on-premises DNS servers reachable from the VPC. A CIDR resource configuration requires a resource gateway that uses IN_VPC , and an IN_VPC resource gateway can't be used for ARN resource configurations, so a single resource gateway can't serve both ARN and CIDR resource configurations. o PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable. Possible values: o IN_VPC o PUBLIC
+    /// Indicates how DNS is resolved for resource configurations associated with this resource gateway. This value is set when you create the resource gateway and can't be changed afterward. The default is PUBLIC . • IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC. A CIDR resource configuration requires a resource gateway that uses IN_VPC , and an IN_VPC resource gateway can't be used for ARN resource configurations, so a single resource gateway can't serve both ARN and CIDR resource configurations. • PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable. Possible values: • IN_VPC • PUBLIC
     /// </summary>
     [CliOption("--resource-config-dns-resolution")]
     public AwsVpcLatticeCreateResourceGatewayResourceConfigDnsResolution? ResourceConfigDnsResolution { get; set; }
 
     /// <summary>
-    /// The tags for the resource gateway. Constraints: o min: 0 o max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: o min: 1 o max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags for the resource gateway. Constraints: • min: 0 • max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: • min: 1 • max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

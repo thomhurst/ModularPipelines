@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Grants permission to update a connectorV2 based on its id and input pa- rameters. See also: AWS API Documentation
+/// Grants permission to update a connectorV2 based on its id and input parameters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsSecurityhubUpdateConnectorV2Options : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Grants permission to update a connectorV2 based on its id and input pa- rameters. See also: AWS API Documentation
+    /// Grants permission to update a connectorV2 based on its id and input parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ConnectorId">The UUID of the connectorV2 to identify connectorV2 resource. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubUpdateConnectorV2Options(
         string ConnectorId
     )
@@ -56,19 +58,19 @@ public record AwsSecurityhubUpdateConnectorV2Options : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The UUID of the connectorV2 to identify connectorV2 resource. Constraints: o pattern: .*\S.*
+    /// The UUID of the connectorV2 to identify connectorV2 resource. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// The description of the connectorV2. Constraints: o pattern: .*\S.*
+    /// The description of the connectorV2. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The third-party providers service configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: JiraCloud, ServiceNow, Azure. JiraCloud -&gt; (structure) The parameters required to update the configuration for a Jira Cloud integration. ProjectKey -&gt; (string) The project key for a JiraCloud instance. Constraints: o pattern: .*\S.* ServiceNow -&gt; (structure) The parameters required to update the configuration for a Servi- ceNow integration. SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the ServiceNow creden- tials. Constraints: o pattern: .*\S.* Azure -&gt; (structure) The parameters required to update the configuration for a Mi- crosoft Azure CSPM integration. ScopeConfiguration -&gt; (structure) [required] The updated scope configuration. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The updated list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "JiraCloud": { "ProjectKey": "string" }, "ServiceNow": { "SecretArn": "string" }, "Azure": { "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
+    /// The third-party providers service configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: JiraCloud, ServiceNow, Azure. JiraCloud -&gt; (structure) The parameters required to update the configuration for a Jira Cloud integration. ProjectKey -&gt; (string) The project key for a JiraCloud instance. Constraints: • pattern: .*\S.* ServiceNow -&gt; (structure) The parameters required to update the configuration for a ServiceNow integration. SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the ServiceNow credentials. Constraints: • pattern: .*\S.* Azure -&gt; (structure) The parameters required to update the configuration for a Microsoft Azure CSPM integration. ScopeConfiguration -&gt; (structure) [required] The updated scope configuration. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscription . Possible values: • TENANT • SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: • min: 0 • max: 100 (string) Constraints: • pattern: .*\S.* AzureRegions -&gt; (list) [required] The updated list of Azure regions to monitor. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*\S.* JSON Syntax: { "JiraCloud": { "ProjectKey": "string" }, "ServiceNow": { "SecretArn": "string" }, "Azure": { "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; set; }

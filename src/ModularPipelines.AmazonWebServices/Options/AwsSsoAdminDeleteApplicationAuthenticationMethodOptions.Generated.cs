@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsSsoAdminDeleteApplicationAuthenticationMethodOptions : AwsOptio
     /// <summary>
     /// Deletes an authentication method from an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationArn">Specifies the ARN of the application with the authentication method to delete. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
-    /// <param name="AuthenticationMethodType">Specifies the authentication method type to delete from the applica- tion. Possible values: o IAM</param>
+    /// <param name="ApplicationArn">Specifies the ARN of the application with the authentication method to delete. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="AuthenticationMethodType">Specifies the authentication method type to delete from the application. Possible values: • IAM</param>
     public AwsSsoAdminDeleteApplicationAuthenticationMethodOptions(
         string ApplicationArn,
         string AuthenticationMethodType
@@ -60,13 +62,13 @@ public record AwsSsoAdminDeleteApplicationAuthenticationMethodOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the application with the authentication method to delete. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// Specifies the ARN of the application with the authentication method to delete. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }
 
     /// <summary>
-    /// Specifies the authentication method type to delete from the applica- tion. Possible values: o IAM
+    /// Specifies the authentication method type to delete from the application. Possible values: • IAM
     /// </summary>
     [CliOption("--authentication-method-type")]
     public string? AuthenticationMethodType { get; private init; }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +30,10 @@ public record AwsVoiceIdStartSpeakerEnrollmentJobOptions : AwsOptions, IValidata
     /// <summary>
     /// Starts a new batch speaker enrollment job using specified details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataAccessRoleArn">The IAM role Amazon Resource Name (ARN) that grants Voice ID permis- sions to access customer's buckets to read the input manifest file and write the job output file. Refer to Batch enrollment using audio data from prior calls for the permissions needed in this role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$</param>
-    /// <param name="DomainId">The identifier of the domain that contains the speaker enrollment job and in which the speakers are enrolled. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
-    /// <param name="InputDataConfig">The input data config containing the S3 location for the input mani- fest file that contains the list of speaker enrollment requests. S3Uri -&gt; (string) [required] The S3 location for the input manifest file that contains the list of individual enrollment or registration job requests. Constraints: o min: 0 o max: 1024 o pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: S3Uri=string JSON Syntax: { "S3Uri": "string" }</param>
-    /// <param name="OutputDataConfig">The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file. KmsKeyId -&gt; (string) The identifier of the KMS key you want Voice ID to use to en- crypt the output file of a speaker enrollment job/fraudster reg- istration job. Constraints: o min: 1 o max: 2048 S3Uri -&gt; (string) [required] The S3 path of the folder where Voice ID writes the job output file. It has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://out- put-bucket/output-folder , the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out . Constraints: o min: 0 o max: 1024 o pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: KmsKeyId=string,S3Uri=string JSON Syntax: { "KmsKeyId": "string", "S3Uri": "string" }</param>
+    /// <param name="DataAccessRoleArn">The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file. Refer to Batch enrollment using audio data from prior calls for the permissions needed in this role. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$</param>
+    /// <param name="DomainId">The identifier of the domain that contains the speaker enrollment job and in which the speakers are enrolled. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="InputDataConfig">The input data config containing the S3 location for the input manifest file that contains the list of speaker enrollment requests. S3Uri -&gt; (string) [required] The S3 location for the input manifest file that contains the list of individual enrollment or registration job requests. Constraints: • min: 0 • max: 1024 • pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: S3Uri=string JSON Syntax: { "S3Uri": "string" }</param>
+    /// <param name="OutputDataConfig">The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file. KmsKeyId -&gt; (string) The identifier of the KMS key you want Voice ID to use to encrypt the output file of a speaker enrollment job/fraudster registration job. Constraints: • min: 1 • max: 2048 S3Uri -&gt; (string) [required] The S3 path of the folder where Voice ID writes the job output file. It has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://output-bucket/output-folder , the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out . Constraints: • min: 0 • max: 1024 • pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: KmsKeyId=string,S3Uri=string JSON Syntax: { "KmsKeyId": "string", "S3Uri": "string" }</param>
     public AwsVoiceIdStartSpeakerEnrollmentJobOptions(
         string DataAccessRoleArn,
         string DomainId,
@@ -69,44 +71,44 @@ public record AwsVoiceIdStartSpeakerEnrollmentJobOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permis- sions to access customer's buckets to read the input manifest file and write the job output file. Refer to Batch enrollment using audio data from prior calls for the permissions needed in this role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$
+    /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file. Refer to Batch enrollment using audio data from prior calls for the permissions needed in this role. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$
     /// </summary>
     [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; private init; }
 
     /// <summary>
-    /// The identifier of the domain that contains the speaker enrollment job and in which the speakers are enrolled. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain that contains the speaker enrollment job and in which the speakers are enrolled. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The input data config containing the S3 location for the input mani- fest file that contains the list of speaker enrollment requests. S3Uri -&gt; (string) [required] The S3 location for the input manifest file that contains the list of individual enrollment or registration job requests. Constraints: o min: 0 o max: 1024 o pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: S3Uri=string JSON Syntax: { "S3Uri": "string" }
+    /// The input data config containing the S3 location for the input manifest file that contains the list of speaker enrollment requests. S3Uri -&gt; (string) [required] The S3 location for the input manifest file that contains the list of individual enrollment or registration job requests. Constraints: • min: 0 • max: 1024 • pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: S3Uri=string JSON Syntax: { "S3Uri": "string" }
     /// </summary>
     [CliOption("--input-data-config")]
     public string? InputDataConfig { get; private init; }
 
     /// <summary>
-    /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file. KmsKeyId -&gt; (string) The identifier of the KMS key you want Voice ID to use to en- crypt the output file of a speaker enrollment job/fraudster reg- istration job. Constraints: o min: 1 o max: 2048 S3Uri -&gt; (string) [required] The S3 path of the folder where Voice ID writes the job output file. It has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://out- put-bucket/output-folder , the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out . Constraints: o min: 0 o max: 1024 o pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: KmsKeyId=string,S3Uri=string JSON Syntax: { "KmsKeyId": "string", "S3Uri": "string" }
+    /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file. KmsKeyId -&gt; (string) The identifier of the KMS key you want Voice ID to use to encrypt the output file of a speaker enrollment job/fraudster registration job. Constraints: • min: 1 • max: 2048 S3Uri -&gt; (string) [required] The S3 path of the folder where Voice ID writes the job output file. It has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://output-bucket/output-folder , the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out . Constraints: • min: 0 • max: 1024 • pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: KmsKeyId=string,S3Uri=string JSON Syntax: { "KmsKeyId": "string", "S3Uri": "string" }
     /// </summary>
     [CliOption("--output-data-config")]
     public string? OutputDataConfig { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The enrollment config that contains details such as the action to take when a speaker is already enrolled in Voice ID or when a speaker is identified as a fraudster. ExistingEnrollmentAction -&gt; (string) The action to take when the specified speaker is already en- rolled in the specified domain. The default value is SKIP , which skips the enrollment for the existing speaker. Setting the value to OVERWRITE replaces the existing voice prints and en- rollment audio stored for that speaker with new data generated from the latest audio. Possible values: o SKIP o OVERWRITE FraudDetectionConfig -&gt; (structure) The fraud detection configuration to use for the speaker enroll- ment job. FraudDetectionAction -&gt; (string) The action to take when the given speaker is flagged by the fraud detection system. The default value is FAIL , which fails the speaker enrollment. Changing this value to IGNORE results in the speaker being enrolled even if they are flagged by the fraud detection system. Possible values: o IGNORE o FAIL RiskThreshold -&gt; (integer) Threshold value for determining whether the speaker is a high risk to be fraudulent. If the detected risk score calculated by Voice ID is greater than or equal to the threshold, the speaker is considered a fraudster. Constraints: o min: 0 o max: 100 WatchlistIds -&gt; (list) The identifier of watchlists against which fraud detection is performed. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$ Shorthand Syntax: ExistingEnrollmentAction=string,FraudDetectionConfig={FraudDetectionAction=string,RiskThreshold=integer,WatchlistIds=[string,string]} JSON Syntax: { "ExistingEnrollmentAction": "SKIP"|"OVERWRITE", "FraudDetectionConfig": { "FraudDetectionAction": "IGNORE"|"FAIL", "RiskThreshold": integer, "WatchlistIds": ["string", ...] } }
+    /// The enrollment config that contains details such as the action to take when a speaker is already enrolled in Voice ID or when a speaker is identified as a fraudster. ExistingEnrollmentAction -&gt; (string) The action to take when the specified speaker is already enrolled in the specified domain. The default value is SKIP , which skips the enrollment for the existing speaker. Setting the value to OVERWRITE replaces the existing voice prints and enrollment audio stored for that speaker with new data generated from the latest audio. Possible values: • SKIP • OVERWRITE FraudDetectionConfig -&gt; (structure) The fraud detection configuration to use for the speaker enrollment job. FraudDetectionAction -&gt; (string) The action to take when the given speaker is flagged by the fraud detection system. The default value is FAIL , which fails the speaker enrollment. Changing this value to IGNORE results in the speaker being enrolled even if they are flagged by the fraud detection system. Possible values: • IGNORE • FAIL RiskThreshold -&gt; (integer) Threshold value for determining whether the speaker is a high risk to be fraudulent. If the detected risk score calculated by Voice ID is greater than or equal to the threshold, the speaker is considered a fraudster. Constraints: • min: 0 • max: 100 WatchlistIds -&gt; (list) The identifier of watchlists against which fraud detection is performed. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$ Shorthand Syntax: ExistingEnrollmentAction=string,FraudDetectionConfig={FraudDetectionAction=string,RiskThreshold=integer,WatchlistIds=[string,string]} JSON Syntax: { "ExistingEnrollmentAction": "SKIP"|"OVERWRITE", "FraudDetectionConfig": { "FraudDetectionAction": "IGNORE"|"FAIL", "RiskThreshold": integer, "WatchlistIds": ["string", ...] } }
     /// </summary>
     [CliOption("--enrollment-config")]
     public string? EnrollmentConfig { get; set; }
 
     /// <summary>
-    /// A name for your speaker enrollment job. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
+    /// A name for your speaker enrollment job. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }

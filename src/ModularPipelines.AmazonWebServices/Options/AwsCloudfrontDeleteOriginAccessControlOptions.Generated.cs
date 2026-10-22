@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, up- date all distributions to remove the origin access control from all origins, then delete the origin access control. See also: AWS API Documentation
+/// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsCloudfrontDeleteOriginAccessControlOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, up- date all distributions to remove the origin access control from all origins, then delete the origin access control. See also: AWS API Documentation
+    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The unique identifier of the origin access control that you are deleting.</param>
     public AwsCloudfrontDeleteOriginAccessControlOptions(

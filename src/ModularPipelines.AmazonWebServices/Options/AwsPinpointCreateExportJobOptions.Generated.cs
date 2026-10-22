@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsPinpointCreateExportJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an export job for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
-    /// <param name="ExportJobRequest">Specifies the settings for a job that exports endpoint definitions to an Amazon Simple Storage Service (Amazon S3) bucket. RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location where you want to export endpoint defini- tions to. S3UrlPrefix -&gt; (string) [required] The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where you want to export endpoint definitions to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/. SegmentId -&gt; (string) The identifier for the segment to export endpoint definitions from. If you don't specify this value, Amazon Pinpoint exports definitions for all the endpoints that are associated with the application. SegmentVersion -&gt; (integer) The version of the segment to export endpoint definitions from, if specified. Shorthand Syntax: RoleArn=string,S3UrlPrefix=string,SegmentId=string,SegmentVersion=integer JSON Syntax: { "RoleArn": "string", "S3UrlPrefix": "string", "SegmentId": "string", "SegmentVersion": integer }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="ExportJobRequest">Specifies the settings for a job that exports endpoint definitions to an Amazon Simple Storage Service (Amazon S3) bucket. RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location where you want to export endpoint definitions to. S3UrlPrefix -&gt; (string) [required] The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where you want to export endpoint definitions to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/. SegmentId -&gt; (string) The identifier for the segment to export endpoint definitions from. If you don't specify this value, Amazon Pinpoint exports definitions for all the endpoints that are associated with the application. SegmentVersion -&gt; (integer) The version of the segment to export endpoint definitions from, if specified. Shorthand Syntax: RoleArn=string,S3UrlPrefix=string,SegmentId=string,SegmentVersion=integer JSON Syntax: { "RoleArn": "string", "S3UrlPrefix": "string", "SegmentId": "string", "SegmentVersion": integer }</param>
     public AwsPinpointCreateExportJobOptions(
         string ApplicationId,
         string ExportJobRequest
@@ -60,13 +62,13 @@ public record AwsPinpointCreateExportJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Specifies the settings for a job that exports endpoint definitions to an Amazon Simple Storage Service (Amazon S3) bucket. RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location where you want to export endpoint defini- tions to. S3UrlPrefix -&gt; (string) [required] The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where you want to export endpoint definitions to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/. SegmentId -&gt; (string) The identifier for the segment to export endpoint definitions from. If you don't specify this value, Amazon Pinpoint exports definitions for all the endpoints that are associated with the application. SegmentVersion -&gt; (integer) The version of the segment to export endpoint definitions from, if specified. Shorthand Syntax: RoleArn=string,S3UrlPrefix=string,SegmentId=string,SegmentVersion=integer JSON Syntax: { "RoleArn": "string", "S3UrlPrefix": "string", "SegmentId": "string", "SegmentVersion": integer }
+    /// Specifies the settings for a job that exports endpoint definitions to an Amazon Simple Storage Service (Amazon S3) bucket. RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location where you want to export endpoint definitions to. S3UrlPrefix -&gt; (string) [required] The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where you want to export endpoint definitions to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/. SegmentId -&gt; (string) The identifier for the segment to export endpoint definitions from. If you don't specify this value, Amazon Pinpoint exports definitions for all the endpoints that are associated with the application. SegmentVersion -&gt; (integer) The version of the segment to export endpoint definitions from, if specified. Shorthand Syntax: RoleArn=string,S3UrlPrefix=string,SegmentId=string,SegmentVersion=integer JSON Syntax: { "RoleArn": "string", "S3UrlPrefix": "string", "SegmentId": "string", "SegmentVersion": integer }
     /// </summary>
     [CliOption("--export-job-request")]
     public string? ExportJobRequest { get; private init; }

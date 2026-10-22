@@ -23,26 +23,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsListSyslogConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// The name or ARN of the log group to filter syslog configurations for. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// The name or ARN of the log group to filter syslog configurations for. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
 
     /// <summary>
-    /// The ID of the VPC endpoint to filter syslog configurations for. Constraints: o pattern: ^vpce-[0-9a-f]{1,64}$
+    /// The ID of the VPC endpoint to filter syslog configurations for. Constraints: • pattern: ^vpce-[0-9a-f]{1,64}$
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. You received this to- ken from a previous call. Constraints: o min: 1
+    /// The token for the next set of items to return. You received this token from a previous call. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of syslog configurations to return in the re- sponse. Constraints: o min: 0 o max: 50
+    /// The maximum number of syslog configurations to return in the response. Constraints: • min: 0 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

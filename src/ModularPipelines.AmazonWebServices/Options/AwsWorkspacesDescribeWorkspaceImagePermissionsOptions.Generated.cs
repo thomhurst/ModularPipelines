@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +30,7 @@ public record AwsWorkspacesDescribeWorkspaceImagePermissionsOptions : AwsOptions
     /// <summary>
     /// Describes the permissions that the owner of an image has granted to other Amazon Web Services accounts for an image. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageId">The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$</param>
+    /// <param name="ImageId">The identifier of the image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$</param>
     public AwsWorkspacesDescribeWorkspaceImagePermissionsOptions(
         string ImageId
     )
@@ -57,20 +59,20 @@ public record AwsWorkspacesDescribeWorkspaceImagePermissionsOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$
+    /// The identifier of the image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$
     /// </summary>
     [CliOption("--image-id")]
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: o min: 1 o max: 2048
+    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return. Constraints: o min: 1 o max: 25
+    /// The maximum number of items to return. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an in- sight's events in the Impact Timeline on the Inspect page in the X-Ray console. See also: AWS API Documentation
+/// X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray console. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsXrayGetInsightEventsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an in- sight's events in the Impact Timeline on the Inspect page in the X-Ray console. See also: AWS API Documentation
+    /// X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray console. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InsightId">The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}</param>
+    /// <param name="InsightId">The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}</param>
     public AwsXrayGetInsightEventsOptions(
         string InsightId
     )
@@ -57,19 +59,19 @@ public record AwsXrayGetInsightEventsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}
+    /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--insight-id")]
     public string? InsightId { get; private init; }
 
     /// <summary>
-    /// Used to retrieve at most the specified value of events. Constraints: o min: 1 o max: 50
+    /// Used to retrieve at most the specified value of events. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Specify the pagination token returned by a previous request to re- trieve the next page of events. Constraints: o min: 1 o max: 2000
+    /// Specify the pagination token returned by a previous request to retrieve the next page of events. Constraints: • min: 1 • max: 2000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]

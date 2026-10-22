@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Re- served Instance listing at a time. To get a list of your Standard Re- served Instances, you can use the DescribeReservedInstances operation. NOTE: Only Standard Reserved Instances can be sold in the Reserved In- stance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard R...
+/// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your Standard Reserved Instances, you can use the DescribeReservedInstances operation. NOTE: Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard Reserve...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsEc2CreateReservedInstancesListingOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Re- served Instance listing at a time. To get a list of your Standard Re- served Instances, you can use the DescribeReservedInstances operation. NOTE: Only Standard Reserved Instances can be sold in the Reserved In- stance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard R...
+    /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your Standard Reserved Instances, you can use the DescribeReservedInstances operation. NOTE: Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard Reserve...
     /// </summary>
     /// <param name="ReservedInstancesId">The ID of the active Standard Reserved Instance.</param>
-    /// <param name="InstanceCount">The number of instances that are a part of a Reserved Instance ac- count to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.</param>
-    /// <param name="PriceSchedules">A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term. (structure) Describes the price for a Reserved Instance. Term -&gt; (long) The number of months remaining in the reservation. For exam- ple, 2 is the second to the last month before the capacity reservation expires. Price -&gt; (double) The fixed price for the term. CurrencyCode -&gt; (string) The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD . Possible values: o USD Shorthand Syntax: Term=long,Price=double,CurrencyCode=string ... JSON Syntax: [ { "Term": long, "Price": double, "CurrencyCode": "USD" } ... ]</param>
-    /// <param name="ClientToken">Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more in- formation, see Ensuring Idempotency .</param>
+    /// <param name="InstanceCount">The number of instances that are a part of a Reserved Instance account to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.</param>
+    /// <param name="PriceSchedules">A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term. (structure) Describes the price for a Reserved Instance. Term -&gt; (long) The number of months remaining in the reservation. For example, 2 is the second to the last month before the capacity reservation expires. Price -&gt; (double) The fixed price for the term. CurrencyCode -&gt; (string) The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD . Possible values: • USD Shorthand Syntax: Term=long,Price=double,CurrencyCode=string ... JSON Syntax: [ { "Term": long, "Price": double, "CurrencyCode": "USD" } ... ]</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency .</param>
     public AwsEc2CreateReservedInstancesListingOptions(
         string ReservedInstancesId,
         int InstanceCount,
@@ -85,19 +87,19 @@ public record AwsEc2CreateReservedInstancesListingOptions : AwsOptions, IValidat
     public string? ReservedInstancesId { get; private init; }
 
     /// <summary>
-    /// The number of instances that are a part of a Reserved Instance ac- count to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.
+    /// The number of instances that are a part of a Reserved Instance account to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.
     /// </summary>
     [CliOption("--instance-count")]
     public int? InstanceCount { get; private init; }
 
     /// <summary>
-    /// A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term. (structure) Describes the price for a Reserved Instance. Term -&gt; (long) The number of months remaining in the reservation. For exam- ple, 2 is the second to the last month before the capacity reservation expires. Price -&gt; (double) The fixed price for the term. CurrencyCode -&gt; (string) The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD . Possible values: o USD Shorthand Syntax: Term=long,Price=double,CurrencyCode=string ... JSON Syntax: [ { "Term": long, "Price": double, "CurrencyCode": "USD" } ... ]
+    /// A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term. (structure) Describes the price for a Reserved Instance. Term -&gt; (long) The number of months remaining in the reservation. For example, 2 is the second to the last month before the capacity reservation expires. Price -&gt; (double) The fixed price for the term. CurrencyCode -&gt; (string) The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD . Possible values: • USD Shorthand Syntax: Term=long,Price=double,CurrencyCode=string ... JSON Syntax: [ { "Term": long, "Price": double, "CurrencyCode": "USD" } ... ]
     /// </summary>
     [CliOption("--price-schedules", GroupValues = true)]
     public IEnumerable<string>? PriceSchedules { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more in- formation, see Ensuring Idempotency .
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

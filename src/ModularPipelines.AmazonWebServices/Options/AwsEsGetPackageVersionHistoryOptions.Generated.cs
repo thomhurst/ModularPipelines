@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,7 +65,7 @@ public record AwsEsGetPackageVersionHistoryOptions : AwsOptions, IValidatableObj
     public string? PackageId { get; private init; }
 
     /// <summary>
-    /// Limits results to a maximum number of versions. Constraints: o max: 100
+    /// Limits results to a maximum number of versions. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }

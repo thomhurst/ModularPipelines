@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +30,9 @@ public record AwsCodepipelineDeleteCustomActionTypeOptions : AwsOptions, IValida
     /// <summary>
     /// Marks a custom action as deleted. PollForJobs for the custom action fails after the action is marked for deletion. Used for custom actions only. WARNING: To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field. See als...
     /// </summary>
-    /// <param name="Category">The category of the custom action that you want to delete, such as source or deploy. Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute</param>
-    /// <param name="Provider">The provider of the service used in the custom action, such as Cod- eDeploy. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+</param>
-    /// <param name="ActionVersion">The version of the custom action to delete. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+</param>
+    /// <param name="Category">The category of the custom action that you want to delete, such as source or deploy. Possible values: • Source • Build • Deploy • Test • Invoke • Approval • Compute</param>
+    /// <param name="Provider">The provider of the service used in the custom action, such as CodeDeploy. Constraints: • min: 1 • max: 35 • pattern: [0-9A-Za-z_-]+</param>
+    /// <param name="ActionVersion">The version of the custom action to delete. Constraints: • min: 1 • max: 9 • pattern: [0-9A-Za-z_-]+</param>
     public AwsCodepipelineDeleteCustomActionTypeOptions(
         AwsCodepipelineDeleteCustomActionTypeCategory Category,
         string Provider,
@@ -64,19 +66,19 @@ public record AwsCodepipelineDeleteCustomActionTypeOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The category of the custom action that you want to delete, such as source or deploy. Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute
+    /// The category of the custom action that you want to delete, such as source or deploy. Possible values: • Source • Build • Deploy • Test • Invoke • Approval • Compute
     /// </summary>
     [CliOption("--category")]
     public AwsCodepipelineDeleteCustomActionTypeCategory? Category { get; private init; }
 
     /// <summary>
-    /// The provider of the service used in the custom action, such as Cod- eDeploy. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+
+    /// The provider of the service used in the custom action, such as CodeDeploy. Constraints: • min: 1 • max: 35 • pattern: [0-9A-Za-z_-]+
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; private init; }
 
     /// <summary>
-    /// The version of the custom action to delete. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+
+    /// The version of the custom action to delete. Constraints: • min: 1 • max: 9 • pattern: [0-9A-Za-z_-]+
     /// </summary>
     [CliOption("--action-version")]
     public string? ActionVersion { get; private init; }

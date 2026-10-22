@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runs one or more SQL statements, which can be data manipulation lan- guage (DML) or data definition language (DDL). Depending on the autho- rization method, use one of the following combinations of request para- meters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supp...
+/// Runs one or more SQL statements, which can be data manipulation language (DML) or data definition language (DDL). Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Runs one or more SQL statements, which can be data manipulation lan- guage (DML) or data definition language (DDL). Depending on the autho- rization method, use one of the following combinations of request para- meters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supp...
+    /// Runs one or more SQL statements, which can be data manipulation language (DML) or data definition language (DDL). Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the d...
     /// </summary>
-    /// <param name="Sqls">One or more SQL statements to run. The SQL statements run serially in the order of the array. Subsequent SQL statements don't start un- til the previous statement in the array completes. By default, the SQL statements are run as a single transaction. If any SQL statement fails, all work is rolled back. To change this behavior, see the Ex- ecutionMode parameter. Constraints: o min: 1 o max: 40 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Sqls">One or more SQL statements to run. The SQL statements run serially in the order of the array. Subsequent SQL statements don't start until the previous statement in the array completes. By default, the SQL statements are run as a single transaction. If any SQL statement fails, all work is rolled back. To change this behavior, see the ExecutionMode parameter. Constraints: • min: 1 • max: 40 (string) Syntax: "string" "string" ...</param>
     public AwsRedshiftDataBatchExecuteStatementOptions(
         IEnumerable<string> Sqls
     )
@@ -69,19 +71,19 @@ public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// One or more SQL statements to run. The SQL statements run serially in the order of the array. Subsequent SQL statements don't start un- til the previous statement in the array completes. By default, the SQL statements are run as a single transaction. If any SQL statement fails, all work is rolled back. To change this behavior, see the Ex- ecutionMode parameter. Constraints: o min: 1 o max: 40 (string) Syntax: "string" "string" ...
+    /// One or more SQL statements to run. The SQL statements run serially in the order of the array. Subsequent SQL statements don't start until the previous statement in the array completes. By default, the SQL statements are run as a single transaction. If any SQL statement fails, all work is rolled back. To change this behavior, see the ExecutionMode parameter. Constraints: • min: 1 • max: 40 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--sqls", GroupValues = true)]
     public IEnumerable<string>? Sqls { get; private init; }
 
     /// <summary>
-    /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or tem- porary credentials. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials. Constraints: • min: 1 • max: 63 • pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Man- ager.
+    /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     /// </summary>
     [CliOption("--secret-arn")]
     public string? SecretArn { get; set; }
@@ -93,68 +95,68 @@ public record AwsRedshiftDataBatchExecuteStatementOptions : AwsOptions, IValidat
     public string? DbUser { get; set; }
 
     /// <summary>
-    /// The name of the database. This parameter is required when authenti- cating using either Secrets Manager or temporary credentials.
+    /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
     /// </summary>
     [CliOption("--database")]
     public string? Database { get; set; }
 
     /// <summary>
-    /// A value that indicates whether to send an event to the Amazon Event- Bridge event bus after the SQL statements run.
+    /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statements run.
     /// </summary>
     [CliFlag("--with-event", NegatedName = "--no-with-event")]
     public bool? WithEvent { get; set; }
 
     /// <summary>
-    /// The name of the SQL statements. You can name the SQL statements when you create them to identify the query. Constraints: o min: 0 o max: 2048
+    /// The name of the SQL statements. You can name the SQL statements when you create them to identify the query. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--statement-name")]
     public string? StatementName { get; set; }
 
     /// <summary>
-    /// The parameters for the SQL statements. The parameters are available to all SQL statements in the batch. Each statement can reference any subset of the provided parameters. Each provided parameter must be referenced by at least one SQL statement in the batch. Constraints: o min: 1 (structure) A parameter used in a SQL statement. name -&gt; (string) [required] The name of the parameter. Constraints: o pattern: [0-9a-zA-Z_]+ value -&gt; (string) [required] The value of the parameter. Amazon Redshift implicitly con- verts to the proper data type. For more information, see Data types in the Amazon Redshift Database Developer Guide . Constraints: o min: 1 Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
+    /// The parameters for the SQL statements. The parameters are available to all SQL statements in the batch. Each statement can reference any subset of the provided parameters. Each provided parameter must be referenced by at least one SQL statement in the batch. Constraints: • min: 1 (structure) A parameter used in a SQL statement. name -&gt; (string) [required] The name of the parameter. Constraints: • pattern: [0-9a-zA-Z_]+ value -&gt; (string) [required] The value of the parameter. Amazon Redshift implicitly converts to the proper data type. For more information, see Data types in the Amazon Redshift Database Developer Guide . Constraints: • min: 1 Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
-    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary creden- tials. Constraints: o min: 3 o max: 128 o pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-server- less:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:work- group/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials. Constraints: • min: 3 • max: 128 • pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The data format of the result of the SQL statement. If no format is specified, the default is JSON. Possible values: o JSON o CSV
+    /// The data format of the result of the SQL statement. If no format is specified, the default is JSON. Possible values: • JSON • CSV
     /// </summary>
     [CliOption("--result-format")]
     public AwsRedshiftDataBatchExecuteStatementResultFormat? ResultFormat { get; set; }
 
     /// <summary>
-    /// The number of seconds to keep the session alive after the query fin- ishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the session is forced closed and the query is terminated. Constraints: o min: 0 o max: 86400
+    /// The number of seconds to keep the session alive after the query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the session is forced closed and the query is terminated. Constraints: • min: 0 • max: 86400
     /// </summary>
     [CliOption("--session-keep-alive-seconds")]
     public int? SessionKeepAliveSeconds { get; set; }
 
     /// <summary>
-    /// The session identifier of the query. Constraints: o pattern: [a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}(:\d{0,2})?
+    /// The session identifier of the query. Constraints: • pattern: [a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}(:\d{0,2})?
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
     /// <summary>
-    /// Determines how the SQL statements in the batch are run. If set to TRANSACTION (the default), all SQL statements are run as a single transaction and they are committed or rolled back together. If set to AUTO_COMMIT , each SQL statement is committed individually, and a failure of one statement does not affect the others. Possible values: o TRANSACTION o AUTO_COMMIT
+    /// Determines how the SQL statements in the batch are run. If set to TRANSACTION (the default), all SQL statements are run as a single transaction and they are committed or rolled back together. If set to AUTO_COMMIT , each SQL statement is committed individually, and a failure of one statement does not affect the others. Possible values: • TRANSACTION • AUTO_COMMIT
     /// </summary>
     [CliOption("--execution-mode")]
     public AwsRedshiftDataBatchExecuteStatementExecutionMode? ExecutionMode { get; set; }
 
     /// <summary>
-    /// The number of seconds to wait for all SQL statements in the batch to complete execution before returning the response. If the SQL state- ments do not complete within the specified time, the response re- turns the current status. The maximum value is 30 seconds. Constraints: o min: 1 o max: 30
+    /// The number of seconds to wait for all SQL statements in the batch to complete execution before returning the response. If the SQL statements do not complete within the specified time, the response returns the current status. The maximum value is 30 seconds. Constraints: • min: 1 • max: 30
     /// </summary>
     [CliOption("--wait-time-seconds")]
     public int? WaitTimeSeconds { get; set; }

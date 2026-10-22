@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
@@ -30,9 +31,9 @@ public record AwsResiliencehubCreateResiliencyPolicyOptions : AwsOptions, IValid
     /// <summary>
     /// Creates a resiliency policy for an application. NOTE: Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs , the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached . See also: AWS API Documen...
     /// </summary>
-    /// <param name="Policy">The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds. key -&gt; (string) Possible values: o Software o Hardware o AZ o Region value -&gt; (structure) Defines a failure policy. rpoInSecs -&gt; (integer) [required] Recovery Point Objective (RPO) in seconds. Constraints: o min: 0 rtoInSecs -&gt; (integer) [required] Recovery Time Objective (RTO) in seconds. Constraints: o min: 0 Shorthand Syntax: KeyName1={rpoInSecs=integer,rtoInSecs=integer},KeyName2={rpoInSecs=integer,rtoInSecs=integer} Where valid key names are: Software Hardware AZ Region JSON Syntax: {"Software"|"Hardware"|"AZ"|"Region": { "rpoInSecs": integer, "rtoInSecs": integer } ...}</param>
-    /// <param name="PolicyName">Name of the resiliency policy. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
-    /// <param name="Tier">The tier for this resiliency policy, ranging from the highest sever- ity (MissionCritical ) to lowest (NonCritical ). Possible values: o MissionCritical o Critical o Important o CoreServices o NonCritical o NotApplicable</param>
+    /// <param name="Policy">The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds. key -&gt; (string) Possible values: • Software • Hardware • AZ • Region value -&gt; (structure) Defines a failure policy. rpoInSecs -&gt; (integer) [required] Recovery Point Objective (RPO) in seconds. Constraints: • min: 0 rtoInSecs -&gt; (integer) [required] Recovery Time Objective (RTO) in seconds. Constraints: • min: 0 Shorthand Syntax: KeyName1={rpoInSecs=integer,rtoInSecs=integer},KeyName2={rpoInSecs=integer,rtoInSecs=integer} Where valid key names are: Software Hardware AZ Region JSON Syntax: {"Software"|"Hardware"|"AZ"|"Region": { "rpoInSecs": integer, "rtoInSecs": integer } ...}</param>
+    /// <param name="PolicyName">Name of the resiliency policy. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
+    /// <param name="Tier">The tier for this resiliency policy, ranging from the highest severity (MissionCritical ) to lowest (NonCritical ). Possible values: • MissionCritical • Critical • Important • CoreServices • NonCritical • NotApplicable</param>
     public AwsResiliencehubCreateResiliencyPolicyOptions(
         IReadOnlyList<KeyValue> Policy,
         string PolicyName,
@@ -77,44 +78,44 @@ public record AwsResiliencehubCreateResiliencyPolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds. key -&gt; (string) Possible values: o Software o Hardware o AZ o Region value -&gt; (structure) Defines a failure policy. rpoInSecs -&gt; (integer) [required] Recovery Point Objective (RPO) in seconds. Constraints: o min: 0 rtoInSecs -&gt; (integer) [required] Recovery Time Objective (RTO) in seconds. Constraints: o min: 0 Shorthand Syntax: KeyName1={rpoInSecs=integer,rtoInSecs=integer},KeyName2={rpoInSecs=integer,rtoInSecs=integer} Where valid key names are: Software Hardware AZ Region JSON Syntax: {"Software"|"Hardware"|"AZ"|"Region": { "rpoInSecs": integer, "rtoInSecs": integer } ...}
+    /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds. key -&gt; (string) Possible values: • Software • Hardware • AZ • Region value -&gt; (structure) Defines a failure policy. rpoInSecs -&gt; (integer) [required] Recovery Point Objective (RPO) in seconds. Constraints: • min: 0 rtoInSecs -&gt; (integer) [required] Recovery Time Objective (RTO) in seconds. Constraints: • min: 0 Shorthand Syntax: KeyName1={rpoInSecs=integer,rtoInSecs=integer},KeyName2={rpoInSecs=integer,rtoInSecs=integer} Where valid key names are: Software Hardware AZ Region JSON Syntax: {"Software"|"Hardware"|"AZ"|"Region": { "rpoInSecs": integer, "rtoInSecs": integer } ...}
     /// </summary>
     [CliOption("--policy", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Policy { get; private init; }
 
     /// <summary>
-    /// Name of the resiliency policy. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// Name of the resiliency policy. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The tier for this resiliency policy, ranging from the highest sever- ity (MissionCritical ) to lowest (NonCritical ). Possible values: o MissionCritical o Critical o Important o CoreServices o NonCritical o NotApplicable
+    /// The tier for this resiliency policy, ranging from the highest severity (MissionCritical ) to lowest (NonCritical ). Possible values: • MissionCritical • Critical • Important • CoreServices • NonCritical • NotApplicable
     /// </summary>
     [CliOption("--tier")]
     public AwsResiliencehubCreateResiliencyPolicyTier? Tier { get; private init; }
 
     /// <summary>
-    /// Used for an idempotency token. A client token is a unique, case-sen- sitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z0-9_.-]{0,63}$
+    /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: • min: 1 • max: 63 • pattern: ^[A-Za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored. Possible values: o AnyLocation o SameContinent o SameCountry
+    /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored. Possible values: • AnyLocation • SameContinent • SameCountry
     /// </summary>
     [CliOption("--data-location-constraint")]
     public AwsResiliencehubCreateResiliencyPolicyDataLocationConstraint? DataLocationConstraint { get; set; }
 
     /// <summary>
-    /// Description of the resiliency policy. Constraints: o min: 0 o max: 500
+    /// Description of the resiliency policy. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--policy-description")]
     public string? PolicyDescription { get; set; }
 
     /// <summary>
-    /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[^\x00-\x1f\x22]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[^\x00-\x1f\x22]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^[^\x00-\x1f\x22]+$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^[^\x00-\x1f\x22]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }

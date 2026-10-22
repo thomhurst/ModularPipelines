@@ -28,8 +28,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAwsAccountWithPartnerAccountAsync(AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAwsAccountWithPartnerAccountAsync(AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate a multicast group with a FUOTA task. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateMulticastGroupWithFuotaTaskAsync(AwsIotwirelessAssociateMulticastGroupWithFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateMulticastGroupWithFuotaTaskAsync(AwsIotwirelessAssociateMulticastGroupWithFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate a wireless device with a FUOTA task. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessDeviceWithFuotaTaskAsync(AwsIotwirelessAssociateWirelessDeviceWithFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateWirelessDeviceWithFuotaTaskAsync(AwsIotwirelessAssociateWirelessDeviceWithFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a wireless device with a multicast group. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessDeviceWithMulticastGroupAsync(AwsIotwirelessAssociateWirelessDeviceWithMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateWirelessDeviceWithMulticastGroupAsync(AwsIotwirelessAssociateWirelessDeviceWithMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a wireless device with a thing. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessDeviceWithThingAsync(AwsIotwirelessAssociateWirelessDeviceWithThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateWirelessDeviceWithThingAsync(AwsIotwirelessAssociateWirelessDeviceWithThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a wireless gateway with a certificate. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessGatewayWithCertificateAsync(AwsIotwirelessAssociateWirelessGatewayWithCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateWirelessGatewayWithCertificateAsync(AwsIotwirelessAssociateWirelessGatewayWithCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a wireless gateway with a thing. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWirelessGatewayWithThingAsync(AwsIotwirelessAssociateWirelessGatewayWithThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateWirelessGatewayWithThingAsync(AwsIotwirelessAssociateWirelessGatewayWithThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an existing multicast group session. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelMulticastGroupSessionAsync(AwsIotwirelessCancelMulticastGroupSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelMulticastGroupSessionAsync(AwsIotwirelessCancelMulticastGroupSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new destination that maps a device message to an AWS IoT rule. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDestinationAsync(AwsIotwirelessCreateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDestinationAsync(AwsIotwirelessCreateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new device profile. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDeviceProfileAsync(AwsIotwirelessCreateDeviceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDeviceProfileAsync(AwsIotwirelessCreateDeviceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a FUOTA task. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFuotaTaskAsync(AwsIotwirelessCreateFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFuotaTaskAsync(AwsIotwirelessCreateFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a multicast group. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMulticastGroupAsync(AwsIotwirelessCreateMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMulticastGroupAsync(AwsIotwirelessCreateMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new network analyzer configuration. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkAnalyzerConfigurationAsync(AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkAnalyzerConfigurationAsync(AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new service profile. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateServiceProfileAsync(AwsIotwirelessCreateServiceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateServiceProfileAsync(AwsIotwirelessCreateServiceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provisions a wireless device. See also: AWS API Documentation
@@ -168,18 +154,16 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWirelessDeviceAsync(AwsIotwirelessCreateWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWirelessDeviceAsync(AwsIotwirelessCreateWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provisions a wireless gateway. NOTE: When provisioning a wireless gateway, you might run into duplication errors for the following reasons. o If you specify a GatewayEui value that already exists. o If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
+    /// Provisions a wireless gateway. NOTE: When provisioning a wireless gateway, you might run into duplication errors for the following reasons. • If you specify a GatewayEui value that already exists. • If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWirelessGatewayAsync(AwsIotwirelessCreateWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWirelessGatewayAsync(AwsIotwirelessCreateWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a gateway task definition. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWirelessGatewayTaskDefinitionAsync(AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWirelessGatewayTaskDefinitionAsync(AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a task for a wireless gateway. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWirelessGatewayTaskAsync(AwsIotwirelessCreateWirelessGatewayTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWirelessGatewayTaskAsync(AwsIotwirelessCreateWirelessGatewayTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a destination. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDestinationAsync(AwsIotwirelessDeleteDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDestinationAsync(AwsIotwirelessDeleteDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a device profile. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDeviceProfileAsync(AwsIotwirelessDeleteDeviceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDeviceProfileAsync(AwsIotwirelessDeleteDeviceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a FUOTA task. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFuotaTaskAsync(AwsIotwirelessDeleteFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFuotaTaskAsync(AwsIotwirelessDeleteFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a multicast group if it is not in use by a FUOTA task. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMulticastGroupAsync(AwsIotwirelessDeleteMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMulticastGroupAsync(AwsIotwirelessDeleteMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a network analyzer configuration. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkAnalyzerConfigurationAsync(AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkAnalyzerConfigurationAsync(AwsIotwirelessDeleteNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove queued messages from the downlink queue. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQueuedMessagesAsync(AwsIotwirelessDeleteQueuedMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQueuedMessagesAsync(AwsIotwirelessDeleteQueuedMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a service profile. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceProfileAsync(AwsIotwirelessDeleteServiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteServiceProfileAsync(AwsIotwirelessDeleteServiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an import task. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessDeviceImportTaskAsync(AwsIotwirelessDeleteWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWirelessDeviceImportTaskAsync(AwsIotwirelessDeleteWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a wireless device. See also: AWS API Documentation
@@ -288,28 +262,25 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessDeviceAsync(AwsIotwirelessDeleteWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWirelessDeviceAsync(AwsIotwirelessDeleteWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a wireless gateway. NOTE: When deleting a wireless gateway, you might run into duplication er- rors for the following reasons. o If you specify a GatewayEui value that already exists. o If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
+    /// Deletes a wireless gateway. NOTE: When deleting a wireless gateway, you might run into duplication errors for the following reasons. • If you specify a GatewayEui value that already exists. • If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessGatewayAsync(AwsIotwirelessDeleteWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWirelessGatewayAsync(AwsIotwirelessDeleteWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a wireless gateway task definition. Deleting this task defini- tion does not affect tasks that are currently in progress. See also: AWS API Documentation
+    /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessGatewayTaskDefinitionAsync(AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWirelessGatewayTaskDefinitionAsync(AwsIotwirelessDeleteWirelessGatewayTaskDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a wireless gateway task. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWirelessGatewayTaskAsync(AwsIotwirelessDeleteWirelessGatewayTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWirelessGatewayTaskAsync(AwsIotwirelessDeleteWirelessGatewayTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregister a wireless device from AWS IoT Wireless. See also: AWS API Documentation
@@ -328,18 +298,16 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterWirelessDeviceAsync(AwsIotwirelessDeregisterWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterWirelessDeviceAsync(AwsIotwirelessDeregisterWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disassociates your AWS account from a partner account. If PartnerAc- countId and PartnerType are null , disassociates your AWS account from all partner accounts. See also: AWS API Documentation
+    /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null , disassociates your AWS account from all partner accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAwsAccountFromPartnerAccountAsync(AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateAwsAccountFromPartnerAccountAsync(AwsIotwirelessDisassociateAwsAccountFromPartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a multicast group from a FUOTA task. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateMulticastGroupFromFuotaTaskAsync(AwsIotwirelessDisassociateMulticastGroupFromFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateMulticastGroupFromFuotaTaskAsync(AwsIotwirelessDisassociateMulticastGroupFromFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a wireless device from a FUOTA task. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessDeviceFromFuotaTaskAsync(AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateWirelessDeviceFromFuotaTaskAsync(AwsIotwirelessDisassociateWirelessDeviceFromFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a wireless device from a multicast group. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessDeviceFromMulticastGroupAsync(AwsIotwirelessDisassociateWirelessDeviceFromMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateWirelessDeviceFromMulticastGroupAsync(AwsIotwirelessDisassociateWirelessDeviceFromMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a wireless device from its currently associated thing. See also: AWS API Documentation
@@ -378,18 +343,16 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessDeviceFromThingAsync(AwsIotwirelessDisassociateWirelessDeviceFromThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateWirelessDeviceFromThingAsync(AwsIotwirelessDisassociateWirelessDeviceFromThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disassociates a wireless gateway from its currently associated certifi- cate. See also: AWS API Documentation
+    /// Disassociates a wireless gateway from its currently associated certificate. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessGatewayFromCertificateAsync(AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateWirelessGatewayFromCertificateAsync(AwsIotwirelessDisassociateWirelessGatewayFromCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a wireless gateway from its currently associated thing. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWirelessGatewayFromThingAsync(AwsIotwirelessDisassociateWirelessGatewayFromThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateWirelessGatewayFromThingAsync(AwsIotwirelessDisassociateWirelessGatewayFromThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a destination. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDestinationAsync(AwsIotwirelessGetDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDestinationAsync(AwsIotwirelessGetDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a device profile. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeviceProfileAsync(AwsIotwirelessGetDeviceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeviceProfileAsync(AwsIotwirelessGetDeviceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the event configuration based on resource types. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEventConfigurationByResourceTypesAsync(AwsIotwirelessGetEventConfigurationByResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEventConfigurationByResourceTypesAsync(AwsIotwirelessGetEventConfigurationByResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a FUOTA task. See also: AWS API Documentation
@@ -438,18 +397,16 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFuotaTaskAsync(AwsIotwirelessGetFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFuotaTaskAsync(AwsIotwirelessGetFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless de- vice, wireless gateway, or FUOTA task log options. See also: AWS API Documentation
+    /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log options. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLogLevelsByResourceTypesAsync(AwsIotwirelessGetLogLevelsByResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLogLevelsByResourceTypesAsync(AwsIotwirelessGetLogLevelsByResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the metric configuration status for this AWS account. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMetricConfigurationAsync(AwsIotwirelessGetMetricConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMetricConfigurationAsync(AwsIotwirelessGetMetricConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the summary metrics for this AWS account. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMetricsAsync(AwsIotwirelessGetMetricsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMetricsAsync(AwsIotwirelessGetMetricsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a multicast group. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMulticastGroupAsync(AwsIotwirelessGetMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMulticastGroupAsync(AwsIotwirelessGetMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a multicast group session. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMulticastGroupSessionAsync(AwsIotwirelessGetMulticastGroupSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMulticastGroupSessionAsync(AwsIotwirelessGetMulticastGroupSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get network analyzer configuration. See also: AWS API Documentation
@@ -498,18 +451,16 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNetworkAnalyzerConfigurationAsync(AwsIotwirelessGetNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNetworkAnalyzerConfigurationAsync(AwsIotwirelessGetNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about a partner account. If PartnerAccountId and Part- nerType are null , returns all partner accounts. See also: AWS API Documentation
+    /// Gets information about a partner account. If PartnerAccountId and PartnerType are null , returns all partner accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPartnerAccountAsync(AwsIotwirelessGetPartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPartnerAccountAsync(AwsIotwirelessGetPartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPositionEstimateAsync(AwsIotwirelessGetPositionEstimateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPositionEstimateAsync(AwsIotwirelessGetPositionEstimateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the event configuration for a particular resource identifier. See also: AWS API Documentation
@@ -528,28 +478,25 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceEventConfigurationAsync(AwsIotwirelessGetResourceEventConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceEventConfigurationAsync(AwsIotwirelessGetResourceEventConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Fetches the log-level override, if any, for a given resource ID and re- source type.. See also: AWS API Documentation
+    /// Fetches the log-level override, if any, for a given resource ID and resource type.. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceLogLevelAsync(AwsIotwirelessGetResourceLogLevelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceLogLevelAsync(AwsIotwirelessGetResourceLogLevelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the World Geodetic Sys- tem (WGS84) . See also: AWS API Documentation
+    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the World Geodetic System (WGS84) . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePositionAsync(AwsIotwirelessGetResourcePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePositionAsync(AwsIotwirelessGetResourcePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceEndpointAsync(AwsIotwirelessGetServiceEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceEndpointAsync(AwsIotwirelessGetServiceEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a service profile. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceProfileAsync(AwsIotwirelessGetServiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceProfileAsync(AwsIotwirelessGetServiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an import task and count of device onboarding summary information for the import task. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessDeviceImportTaskAsync(AwsIotwirelessGetWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWirelessDeviceImportTaskAsync(AwsIotwirelessGetWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a wireless device. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessDeviceAsync(AwsIotwirelessGetWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWirelessDeviceAsync(AwsIotwirelessGetWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets operating information about a wireless device. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessDeviceStatisticsAsync(AwsIotwirelessGetWirelessDeviceStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWirelessDeviceStatisticsAsync(AwsIotwirelessGetWirelessDeviceStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the ID of the certificate that is currently associated with a wireless gateway. See also: AWS API Documentation
@@ -608,18 +550,16 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayCertificateAsync(AwsIotwirelessGetWirelessGatewayCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWirelessGatewayCertificateAsync(AwsIotwirelessGetWirelessGatewayCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the firmware version and other information about a wireless gate- way. See also: AWS API Documentation
+    /// Gets the firmware version and other information about a wireless gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayFirmwareInformationAsync(AwsIotwirelessGetWirelessGatewayFirmwareInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWirelessGatewayFirmwareInformationAsync(AwsIotwirelessGetWirelessGatewayFirmwareInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a wireless gateway. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayAsync(AwsIotwirelessGetWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWirelessGatewayAsync(AwsIotwirelessGetWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets operating information about a wireless gateway. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayStatisticsAsync(AwsIotwirelessGetWirelessGatewayStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWirelessGatewayStatisticsAsync(AwsIotwirelessGetWirelessGatewayStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a wireless gateway task definition. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayTaskDefinitionAsync(AwsIotwirelessGetWirelessGatewayTaskDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWirelessGatewayTaskDefinitionAsync(AwsIotwirelessGetWirelessGatewayTaskDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a wireless gateway task. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWirelessGatewayTaskAsync(AwsIotwirelessGetWirelessGatewayTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWirelessGatewayTaskAsync(AwsIotwirelessGetWirelessGatewayTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the destinations registered to your AWS account. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDestinationsAsync(AwsIotwirelessListDestinationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDestinationsAsync(AwsIotwirelessListDestinationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the device profiles registered to your AWS account. See also: AWS API Documentation
@@ -678,28 +613,25 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeviceProfilesAsync(AwsIotwirelessListDeviceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeviceProfilesAsync(AwsIotwirelessListDeviceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List the Sidewalk devices in an import task and their onboarding sta- tus. See also: AWS API Documentation
+    /// List the Sidewalk devices in an import task and their onboarding status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDevicesForWirelessDeviceImportTaskAsync(AwsIotwirelessListDevicesForWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDevicesForWirelessDeviceImportTaskAsync(AwsIotwirelessListDevicesForWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List event configurations where at least one event topic has been en- abled. See also: AWS API Documentation
+    /// List event configurations where at least one event topic has been enabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEventConfigurationsAsync(AwsIotwirelessListEventConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEventConfigurationsAsync(AwsIotwirelessListEventConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the FUOTA tasks registered to your AWS account. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFuotaTasksAsync(AwsIotwirelessListFuotaTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFuotaTasksAsync(AwsIotwirelessListFuotaTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all multicast groups associated with a FUOTA task. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMulticastGroupsByFuotaTaskAsync(AwsIotwirelessListMulticastGroupsByFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMulticastGroupsByFuotaTaskAsync(AwsIotwirelessListMulticastGroupsByFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the multicast groups registered to your AWS account. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMulticastGroupsAsync(AwsIotwirelessListMulticastGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMulticastGroupsAsync(AwsIotwirelessListMulticastGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the network analyzer configurations. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNetworkAnalyzerConfigurationsAsync(AwsIotwirelessListNetworkAnalyzerConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNetworkAnalyzerConfigurationsAsync(AwsIotwirelessListNetworkAnalyzerConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the partner accounts associated with your AWS account. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPartnerAccountsAsync(AwsIotwirelessListPartnerAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPartnerAccountsAsync(AwsIotwirelessListPartnerAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List queued messages in the downlink queue. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQueuedMessagesAsync(AwsIotwirelessListQueuedMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQueuedMessagesAsync(AwsIotwirelessListQueuedMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the service profiles registered to your AWS account. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceProfilesAsync(AwsIotwirelessListServiceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceProfilesAsync(AwsIotwirelessListServiceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags (metadata) you have assigned to the resource. See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsIotwirelessListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsIotwirelessListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List of import tasks and summary information of onboarding status of devices in each import task. See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWirelessDeviceImportTasksAsync(AwsIotwirelessListWirelessDeviceImportTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWirelessDeviceImportTasksAsync(AwsIotwirelessListWirelessDeviceImportTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the wireless devices registered to your AWS account. See also: AWS API Documentation
@@ -798,8 +721,16 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWirelessDevicesAsync(AwsIotwirelessListWirelessDevicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWirelessDevicesAsync(AwsIotwirelessListWirelessDevicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// List the wireless gateway tasks definitions registered to your AWS account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListWirelessGatewayTaskDefinitionsAsync(AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the wireless gateways registered to your AWS account. See also: AWS API Documentation
@@ -808,18 +739,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWirelessGatewaysAsync(AwsIotwirelessListWirelessGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// List the wireless gateway tasks definitions registered to your AWS ac- count. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWirelessGatewayTaskDefinitionsAsync(AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWirelessGatewaysAsync(AwsIotwirelessListWirelessGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the log-level override for a resource ID and resource type. A limit of 200 log level override can be set per account. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourceLogLevelAsync(AwsIotwirelessPutResourceLogLevelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourceLogLevelAsync(AwsIotwirelessPutResourceLogLevelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and FUOTA tasks. See also: AWS API Documentation
@@ -838,18 +757,16 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetAllResourceLogLevelsAsync(AwsIotwirelessResetAllResourceLogLevelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetAllResourceLogLevelsAsync(AwsIotwirelessResetAllResourceLogLevelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gate- way, or a FUOTA task. See also: AWS API Documentation
+    /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gateway, or a FUOTA task. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetResourceLogLevelAsync(AwsIotwirelessResetResourceLogLevelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetResourceLogLevelAsync(AwsIotwirelessResetResourceLogLevelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends the specified data to a multicast group. See also: AWS API Documentation
@@ -858,8 +775,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendDataToMulticastGroupAsync(AwsIotwirelessSendDataToMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendDataToMulticastGroupAsync(AwsIotwirelessSendDataToMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a decrypted application data frame to a device. See also: AWS API Documentation
@@ -868,8 +784,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendDataToWirelessDeviceAsync(AwsIotwirelessSendDataToWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendDataToWirelessDeviceAsync(AwsIotwirelessSendDataToWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a bulk association of all qualifying wireless devices with a multicast group. See also: AWS API Documentation
@@ -878,8 +793,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBulkAssociateWirelessDeviceWithMulticastGroupAsync(AwsIotwirelessStartBulkAssociateWirelessDeviceWithMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartBulkAssociateWirelessDeviceWithMulticastGroupAsync(AwsIotwirelessStartBulkAssociateWirelessDeviceWithMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group. See also: AWS API Documentation
@@ -888,8 +802,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBulkDisassociateWirelessDeviceFromMulticastGroupAsync(AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartBulkDisassociateWirelessDeviceFromMulticastGroupAsync(AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a FUOTA task. See also: AWS API Documentation
@@ -898,8 +811,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFuotaTaskAsync(AwsIotwirelessStartFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFuotaTaskAsync(AwsIotwirelessStartFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a multicast group session. See also: AWS API Documentation
@@ -908,8 +820,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMulticastGroupSessionAsync(AwsIotwirelessStartMulticastGroupSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMulticastGroupSessionAsync(AwsIotwirelessStartMulticastGroupSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start import task for a single wireless device. See also: AWS API Documentation
@@ -918,8 +829,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSingleWirelessDeviceImportTaskAsync(AwsIotwirelessStartSingleWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSingleWirelessDeviceImportTaskAsync(AwsIotwirelessStartSingleWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file. See also: AWS API Documentation
@@ -928,8 +838,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartWirelessDeviceImportTaskAsync(AwsIotwirelessStartWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartWirelessDeviceImportTaskAsync(AwsIotwirelessStartWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a tag to a resource. See also: AWS API Documentation
@@ -938,8 +847,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsIotwirelessTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsIotwirelessTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Simulates a provisioned device by sending an uplink data payload of Hello . See also: AWS API Documentation
@@ -948,8 +856,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestWirelessDeviceAsync(AwsIotwirelessTestWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestWirelessDeviceAsync(AwsIotwirelessTestWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from a resource. See also: AWS API Documentation
@@ -958,8 +865,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsIotwirelessUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsIotwirelessUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates properties of a destination. See also: AWS API Documentation
@@ -968,8 +874,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDestinationAsync(AwsIotwirelessUpdateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDestinationAsync(AwsIotwirelessUpdateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the event configuration based on resource types. See also: AWS API Documentation
@@ -978,8 +883,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEventConfigurationByResourceTypesAsync(AwsIotwirelessUpdateEventConfigurationByResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEventConfigurationByResourceTypesAsync(AwsIotwirelessUpdateEventConfigurationByResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates properties of a FUOTA task. See also: AWS API Documentation
@@ -988,8 +892,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFuotaTaskAsync(AwsIotwirelessUpdateFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFuotaTaskAsync(AwsIotwirelessUpdateFuotaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set default log level, or log levels by resource types. This can be for wireless device, wireless gateway, or FUOTA task log options, and is used to control the log messages that'll be displayed in CloudWatch. See also: AWS API Documentation
@@ -998,8 +901,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLogLevelsByResourceTypesAsync(AwsIotwirelessUpdateLogLevelsByResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLogLevelsByResourceTypesAsync(AwsIotwirelessUpdateLogLevelsByResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the summary metric configuration. See also: AWS API Documentation
@@ -1008,8 +910,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMetricConfigurationAsync(AwsIotwirelessUpdateMetricConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMetricConfigurationAsync(AwsIotwirelessUpdateMetricConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates properties of a multicast group session. See also: AWS API Documentation
@@ -1018,8 +919,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMulticastGroupAsync(AwsIotwirelessUpdateMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMulticastGroupAsync(AwsIotwirelessUpdateMulticastGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update network analyzer configuration. See also: AWS API Documentation
@@ -1028,8 +928,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNetworkAnalyzerConfigurationAsync(AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNetworkAnalyzerConfigurationAsync(AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates properties of a partner account. See also: AWS API Documentation
@@ -1038,8 +937,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePartnerAccountAsync(AwsIotwirelessUpdatePartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePartnerAccountAsync(AwsIotwirelessUpdatePartnerAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the event configuration for a particular resource identifier. See also: AWS API Documentation
@@ -1048,18 +946,16 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceEventConfigurationAsync(AwsIotwirelessUpdateResourceEventConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourceEventConfigurationAsync(AwsIotwirelessUpdateResourceEventConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Update the position information of a given wireless device or a wire- less gateway resource. The position coordinates are based on the World Geodetic System (WGS84) . See also: AWS API Documentation
+    /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the World Geodetic System (WGS84) . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourcePositionAsync(AwsIotwirelessUpdateResourcePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourcePositionAsync(AwsIotwirelessUpdateResourcePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an import task to add more devices to the task. See also: AWS API Documentation
@@ -1068,8 +964,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWirelessDeviceImportTaskAsync(AwsIotwirelessUpdateWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWirelessDeviceImportTaskAsync(AwsIotwirelessUpdateWirelessDeviceImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates properties of a wireless device. See also: AWS API Documentation
@@ -1078,8 +973,7 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWirelessDeviceAsync(AwsIotwirelessUpdateWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWirelessDeviceAsync(AwsIotwirelessUpdateWirelessDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates properties of a wireless gateway. See also: AWS API Documentation
@@ -1088,7 +982,6 @@ public interface IAwsIotwireless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWirelessGatewayAsync(AwsIotwirelessUpdateWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWirelessGatewayAsync(AwsIotwirelessUpdateWirelessGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

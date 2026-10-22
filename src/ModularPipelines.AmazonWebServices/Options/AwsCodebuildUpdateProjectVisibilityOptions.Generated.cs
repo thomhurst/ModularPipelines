@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the public visibility for a project. The project's build re- sults, logs, and artifacts are available to the general public. For more information, see Public build projects in the CodeBuild User Guide . WARNING: The following should be kept in mind when making your projects pub- lic: o All of a project's build results, logs, and artifacts, including builds that were run when the project was private, are available to the general public. o All build logs and artifacts are available to the ...
+/// Changes the public visibility for a project. The project's build results, logs, and artifacts are available to the general public. For more information, see Public build projects in the CodeBuild User Guide . WARNING: The following should be kept in mind when making your projects public: • All of a project's build results, logs, and artifacts, including builds that were run when the project was private, are available to the general public. • All build logs and artifacts are available to the publ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCodebuildUpdateProjectVisibilityOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the public visibility for a project. The project's build re- sults, logs, and artifacts are available to the general public. For more information, see Public build projects in the CodeBuild User Guide . WARNING: The following should be kept in mind when making your projects pub- lic: o All of a project's build results, logs, and artifacts, including builds that were run when the project was private, are available to the general public. o All build logs and artifacts are available to the ...
+    /// Changes the public visibility for a project. The project's build results, logs, and artifacts are available to the general public. For more information, see Public build projects in the CodeBuild User Guide . WARNING: The following should be kept in mind when making your projects public: • All of a project's build results, logs, and artifacts, including builds that were run when the project was private, are available to the general public. • All build logs and artifacts are available to the publ...
     /// </summary>
-    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the build project. Constraints: o min: 1</param>
-    /// <param name="ProjectVisibility">Specifies the visibility of the project's builds. Possible values are: PUBLIC_READ The project builds are visible to the public. PRIVATE The project builds are not visible to the public. Possible values: o PUBLIC_READ o PRIVATE</param>
+    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the build project. Constraints: • min: 1</param>
+    /// <param name="ProjectVisibility">Specifies the visibility of the project's builds. Possible values are: PUBLIC_READ The project builds are visible to the public. PRIVATE The project builds are not visible to the public. Possible values: • PUBLIC_READ • PRIVATE</param>
     public AwsCodebuildUpdateProjectVisibilityOptions(
         string ProjectArn,
         AwsCodebuildUpdateProjectVisibilityProjectVisibility ProjectVisibility
@@ -60,19 +62,19 @@ public record AwsCodebuildUpdateProjectVisibilityOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the build project. Constraints: o min: 1
+    /// The Amazon Resource Name (ARN) of the build project. Constraints: • min: 1
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
 
     /// <summary>
-    /// Specifies the visibility of the project's builds. Possible values are: PUBLIC_READ The project builds are visible to the public. PRIVATE The project builds are not visible to the public. Possible values: o PUBLIC_READ o PRIVATE
+    /// Specifies the visibility of the project's builds. Possible values are: PUBLIC_READ The project builds are visible to the public. PRIVATE The project builds are not visible to the public. Possible values: • PUBLIC_READ • PRIVATE
     /// </summary>
     [CliOption("--project-visibility")]
     public AwsCodebuildUpdateProjectVisibilityProjectVisibility? ProjectVisibility { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that enables CodeBuild to access the Cloud- Watch Logs and Amazon S3 artifacts for the project's builds. Constraints: o min: 1
+    /// The ARN of the IAM role that enables CodeBuild to access the CloudWatch Logs and Amazon S3 artifacts for the project's builds. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-access-role")]
     public string? ResourceAccessRole { get; set; }

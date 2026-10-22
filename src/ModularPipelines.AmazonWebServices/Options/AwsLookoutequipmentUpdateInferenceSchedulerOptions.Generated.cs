@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsLookoutequipmentUpdateInferenceSchedulerOptions : AwsOptions, I
     /// <summary>
     /// Updates an inference scheduler. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InferenceSchedulerName">The name of the inference scheduler to be updated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="InferenceSchedulerName">The name of the inference scheduler to be updated. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentUpdateInferenceSchedulerOptions(
         string InferenceSchedulerName
     )
@@ -57,37 +59,37 @@ public record AwsLookoutequipmentUpdateInferenceSchedulerOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the inference scheduler to be updated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the inference scheduler to be updated. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--inference-scheduler-name")]
     public string? InferenceSchedulerName { get; private init; }
 
     /// <summary>
-    /// A period of time (in minutes) by which inference on the data is de- layed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data un- til the first data measurement after the five minute mark. For exam- ple, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data. Constraints: o min: 0 o max: 60
+    /// A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data. Constraints: • min: 0 • max: 60
     /// </summary>
     [CliOption("--data-delay-offset-in-minutes")]
-    public int? DataDelayOffsetInMinutes { get; set; }
+    public long? DataDelayOffsetInMinutes { get; set; }
 
     /// <summary>
-    /// How often data is uploaded to the source S3 bucket for the input data. The value chosen is the length of time between data uploads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment starts a scheduled inference on your data. In this exam- ple, it starts once every 5 minutes. Possible values: o PT5M o PT10M o PT15M o PT30M o PT1H
+    /// How often data is uploaded to the source S3 bucket for the input data. The value chosen is the length of time between data uploads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment starts a scheduled inference on your data. In this example, it starts once every 5 minutes. Possible values: • PT5M • PT10M • PT15M • PT30M • PT1H
     /// </summary>
     [CliOption("--data-upload-frequency")]
     public AwsLookoutequipmentUpdateInferenceSchedulerDataUploadFrequency? DataUploadFrequency { get; set; }
 
     /// <summary>
-    /// Specifies information for the input data for the inference sched- uler, including delimiter, format, and dataset location. S3InputConfiguration -&gt; (structure) Specifies configuration information for the input data for the inference, including Amazon S3 location of input data. Bucket -&gt; (string) [required] The bucket containing the input dataset for the inference. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the input data for the inference. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) InputTimeZoneOffset -&gt; (string) Indicates the difference between your time zone and Coordinated Universal Time (UTC). Constraints: o pattern: ^(\+|\-)[0-9]{2}\:[0-9]{2}$ InferenceInputNameConfiguration -&gt; (structure) Specifies configuration information for the input data for the inference, including timestamp format and delimiter. TimestampFormat -&gt; (string) The format of the timestamp, whether Epoch time, or standard, with or without hyphens (-). Constraints: o pattern: ^EPOCH|yyyy-MM-dd-HH-mm-ss|yyyyMMddHHmmss$ ComponentTimestampDelimiter -&gt; (string) Indicates the delimiter character used between items in the data. Constraints: o min: 0 o max: 1 o pattern: ^(\-|\_|\s)?$ Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string},InputTimeZoneOffset=string,InferenceInputNameConfiguration={TimestampFormat=string,ComponentTimestampDelimiter=string} JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string" }, "InputTimeZoneOffset": "string", "InferenceInputNameConfiguration": { "TimestampFormat": "string", "ComponentTimestampDelimiter": "string" } }
+    /// Specifies information for the input data for the inference scheduler, including delimiter, format, and dataset location. S3InputConfiguration -&gt; (structure) Specifies configuration information for the input data for the inference, including Amazon S3 location of input data. Bucket -&gt; (string) [required] The bucket containing the input dataset for the inference. Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the input data for the inference. Constraints: • min: 0 • max: 1024 • pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) InputTimeZoneOffset -&gt; (string) Indicates the difference between your time zone and Coordinated Universal Time (UTC). Constraints: • pattern: ^(\+|\-)[0-9]{2}\:[0-9]{2}$ InferenceInputNameConfiguration -&gt; (structure) Specifies configuration information for the input data for the inference, including timestamp format and delimiter. TimestampFormat -&gt; (string) The format of the timestamp, whether Epoch time, or standard, with or without hyphens (-). Constraints: • pattern: ^EPOCH|yyyy-MM-dd-HH-mm-ss|yyyyMMddHHmmss$ ComponentTimestampDelimiter -&gt; (string) Indicates the delimiter character used between items in the data. Constraints: • min: 0 • max: 1 • pattern: ^(\-|\_|\s)?$ Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string},InputTimeZoneOffset=string,InferenceInputNameConfiguration={TimestampFormat=string,ComponentTimestampDelimiter=string} JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string" }, "InputTimeZoneOffset": "string", "InferenceInputNameConfiguration": { "TimestampFormat": "string", "ComponentTimestampDelimiter": "string" } }
     /// </summary>
     [CliOption("--data-input-configuration")]
     public string? DataInputConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies information for the output results from the inference scheduler, including the output S3 location. S3OutputConfiguration -&gt; (structure) [required] Specifies configuration information for the output results from for the inference, output S3 location. Bucket -&gt; (string) [required] The bucket containing the output results from the inference Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the output results from the inference. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) KmsKeyId -&gt; (string) The ID number for the KMS key key used to encrypt the inference output. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$ Shorthand Syntax: S3OutputConfiguration={Bucket=string,Prefix=string},KmsKeyId=string JSON Syntax: { "S3OutputConfiguration": { "Bucket": "string", "Prefix": "string" }, "KmsKeyId": "string" }
+    /// Specifies information for the output results from the inference scheduler, including the output S3 location. S3OutputConfiguration -&gt; (structure) [required] Specifies configuration information for the output results from for the inference, output S3 location. Bucket -&gt; (string) [required] The bucket containing the output results from the inference Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the output results from the inference. Constraints: • min: 0 • max: 1024 • pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) KmsKeyId -&gt; (string) The ID number for the KMS key key used to encrypt the inference output. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$ Shorthand Syntax: S3OutputConfiguration={Bucket=string,Prefix=string},KmsKeyId=string JSON Syntax: { "S3OutputConfiguration": { "Bucket": "string", "Prefix": "string" }, "KmsKeyId": "string" }
     /// </summary>
     [CliOption("--data-output-configuration")]
     public string? DataOutputConfiguration { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a role with permission to access the data source for the inference scheduler. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of a role with permission to access the data source for the inference scheduler. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }

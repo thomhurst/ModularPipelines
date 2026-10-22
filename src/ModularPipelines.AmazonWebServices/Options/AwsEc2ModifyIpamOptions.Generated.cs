@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,7 +65,7 @@ public record AwsEc2ModifyIpamOptions : AwsOptions, IValidatableObject
     public string? IpamId { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -75,31 +77,31 @@ public record AwsEc2ModifyIpamOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// Choose the operating Regions for the IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide . Constraints: o min: 0 o max: 50 (structure) Add an operating Region to an IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP ad- dress CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide . RegionName -&gt; (string) The name of the operating Region. Shorthand Syntax: RegionName=string ... JSON Syntax: [ { "RegionName": "string" } ... ]
+    /// Choose the operating Regions for the IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide . Constraints: • min: 0 • max: 50 (structure) Add an operating Region to an IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide . RegionName -&gt; (string) The name of the operating Region. Shorthand Syntax: RegionName=string ... JSON Syntax: [ { "RegionName": "string" } ... ]
     /// </summary>
     [CliOption("--add-operating-regions", GroupValues = true)]
     public IEnumerable<string>? AddOperatingRegions { get; set; }
 
     /// <summary>
-    /// The operating Regions to remove. Constraints: o min: 0 o max: 50 (structure) Remove an operating Region from an IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide RegionName -&gt; (string) The name of the operating Region you want to remove. Shorthand Syntax: RegionName=string ... JSON Syntax: [ { "RegionName": "string" } ... ]
+    /// The operating Regions to remove. Constraints: • min: 0 • max: 50 (structure) Remove an operating Region from an IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide RegionName -&gt; (string) The name of the operating Region you want to remove. Shorthand Syntax: RegionName=string ... JSON Syntax: [ { "RegionName": "string" } ... ]
     /// </summary>
     [CliOption("--remove-operating-regions", GroupValues = true)]
     public IEnumerable<string>? RemoveOperatingRegions { get; set; }
 
     /// <summary>
-    /// IPAM is offered in a Free Tier and an Advanced Tier. For more infor- mation about the features available in each tier and the costs asso- ciated with the tiers, see Amazon VPC pricing &gt; IPAM tab . Possible values: o free o advanced
+    /// IPAM is offered in a Free Tier and an Advanced Tier. For more information about the features available in each tier and the costs associated with the tiers, see Amazon VPC pricing &gt; IPAM tab . Possible values: • free • advanced
     /// </summary>
     [CliOption("--tier")]
     public AwsEc2ModifyIpamTier? Tier { get; set; }
 
     /// <summary>
-    /// Enable this option to use your own GUA ranges as private IPv6 ad- dresses. This option is disabled by default.
+    /// Enable this option to use your own GUA ranges as private IPv6 addresses. This option is disabled by default.
     /// </summary>
     [CliFlag("--enable-private-gua", NegatedName = "--no-enable-private-gua")]
     public bool? EnablePrivateGua { get; set; }
 
     /// <summary>
-    /// A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide . Possible values: o ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM. o resource-owner : The Amazon Web Services account that owns the IP address is charged for the active IP address. Possible values: o ipam-owner o resource-owner
+    /// A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide . Possible values: • ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM. • resource-owner : The Amazon Web Services account that owns the IP address is charged for the active IP address. Possible values: • ipam-owner • resource-owner
     /// </summary>
     [CliOption("--metered-account")]
     public string? MeteredAccount { get; set; }

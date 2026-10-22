@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsSimpledbv2StartDomainExportOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Initiates the export of a SimpleDB domain to an S3 bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain to export. Constraints: o min: 1</param>
-    /// <param name="S3Bucket">The name of the S3 bucket where the domain data will be exported. Constraints: o min: 3 o max: 255 o pattern: [a-z0-9A-Z]+[\.\-\w]*[a-z0-9A-Z]+</param>
+    /// <param name="DomainName">The name of the domain to export. Constraints: • min: 1</param>
+    /// <param name="S3Bucket">The name of the S3 bucket where the domain data will be exported. Constraints: • min: 3 • max: 255 • pattern: [a-z0-9A-Z]+[\.\-\w]*[a-z0-9A-Z]+</param>
     public AwsSimpledbv2StartDomainExportOptions(
         string DomainName,
         string S3Bucket
@@ -62,44 +64,44 @@ public record AwsSimpledbv2StartDomainExportOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain to export. Constraints: o min: 1
+    /// The name of the domain to export. Constraints: • min: 1
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the S3 bucket where the domain data will be exported. Constraints: o min: 3 o max: 255 o pattern: [a-z0-9A-Z]+[\.\-\w]*[a-z0-9A-Z]+
+    /// The name of the S3 bucket where the domain data will be exported. Constraints: • min: 3 • max: 255 • pattern: [a-z0-9A-Z]+[\.\-\w]*[a-z0-9A-Z]+
     /// </summary>
     [CliOption("--s3-bucket")]
     public string? S3Bucket { get; private init; }
 
     /// <summary>
-    /// Providing a ClientToken makes the call to StartDomainExport API idempotent, meaning that multiple identical calls have the same ef- fect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any re- quest with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a re- quest with the same client token but a change in other parameters within the 8-hour idempotency window, a ConflictException will be returned. Constraints: o min: 1
+    /// Providing a ClientToken makes the call to StartDomainExport API idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, a ConflictException will be returned. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The prefix string to be used to generate the S3 object keys for ex- port artifacts. Constraints: o min: 1 o max: 850
+    /// The prefix string to be used to generate the S3 object keys for export artifacts. Constraints: • min: 1 • max: 850
     /// </summary>
     [CliOption("--s3-key-prefix")]
     public string? S3KeyPrefix { get; set; }
 
     /// <summary>
-    /// The server-side encryption algorithm to use for the exported data in S3. Valid values are: AES256 (SSE-S3) and KMS (SSE-KMS). If not specified, bucket's default encryption will apply. Possible values: o AES256 o KMS
+    /// The server-side encryption algorithm to use for the exported data in S3. Valid values are: AES256 (SSE-S3) and KMS (SSE-KMS). If not specified, bucket's default encryption will apply. Possible values: • AES256 • KMS
     /// </summary>
     [CliOption("--s3-sse-algorithm")]
     public AwsSimpledbv2StartDomainExportS3SseAlgorithm? S3SseAlgorithm { get; set; }
 
     /// <summary>
-    /// The KMS key ID to use for server-side encryption with AWS KMS-man- aged keys (SSE-KMS). This parameter is only expected with KMS as the S3 SSE algorithm. Constraints: o min: 1 o max: 2048
+    /// The KMS key ID to use for server-side encryption with AWS KMS-managed keys (SSE-KMS). This parameter is only expected with KMS as the S3 SSE algorithm. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--s3-sse-kms-key-id")]
     public string? S3SseKmsKeyId { get; set; }
 
     /// <summary>
-    /// The ID of the AWS account that owns the bucket the export will be stored in. Constraints: o pattern: [0-9]{12}
+    /// The ID of the AWS account that owns the bucket the export will be stored in. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--s3-bucket-owner")]
     public string? S3BucketOwner { get; set; }

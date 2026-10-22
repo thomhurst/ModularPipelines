@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,12 +30,12 @@ public record AwsLightsailGetContainerServiceMetricDataOptions : AwsOptions, IVa
     /// <summary>
     /// Returns the data points of a specific metric of your Amazon Lightsail container service. Metrics report the utilization of your resources. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceName">The name of the container service for which to get metric data. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
-    /// <param name="MetricName">The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the pub- lished unit value. o CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . o MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container ser- vice. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . Possible values: o CPUUtilization o MemoryUtilization</param>
+    /// <param name="ServiceName">The name of the container service for which to get metric data. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="MetricName">The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the published unit value. • CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . • MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container service. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . Possible values: • CPUUtilization • MemoryUtilization</param>
     /// <param name="StartTime">The start time of the time period.</param>
     /// <param name="EndTime">The end time of the time period.</param>
-    /// <param name="Period">The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 sec- onds) granularity. Constraints: o min: 60 o max: 86400</param>
-    /// <param name="Statistics">The statistic for the metric. The following statistics are available: o Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your ap- plication. o Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your ap- plication. o Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a met- ric. o Average - The value of Sum / SampleCount during the specified pe- riod. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This compar- ison helps you to know when to increase or decrease your re- sources. o SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: o Minimum o Maximum o Sum o Average o SampleCount Syntax: "string" "string" ...</param>
+    /// <param name="Period">The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 seconds) granularity. Constraints: • min: 60 • max: 86400</param>
+    /// <param name="Statistics">The statistic for the metric. The following statistics are available: • Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application. • Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application. • Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric. • Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources. • SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: • Minimum • Maximum • Sum • Average • SampleCount Syntax: "string" "string" ...</param>
     public AwsLightsailGetContainerServiceMetricDataOptions(
         string ServiceName,
         AwsLightsailGetContainerServiceMetricDataMetricName MetricName,
@@ -86,13 +88,13 @@ public record AwsLightsailGetContainerServiceMetricDataOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container service for which to get metric data. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// The name of the container service for which to get metric data. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }
 
     /// <summary>
-    /// The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the pub- lished unit value. o CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . o MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container ser- vice. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . Possible values: o CPUUtilization o MemoryUtilization
+    /// The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the published unit value. • CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . • MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container service. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . Possible values: • CPUUtilization • MemoryUtilization
     /// </summary>
     [CliOption("--metric-name")]
     public AwsLightsailGetContainerServiceMetricDataMetricName? MetricName { get; private init; }
@@ -110,13 +112,13 @@ public record AwsLightsailGetContainerServiceMetricDataOptions : AwsOptions, IVa
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 sec- onds) granularity. Constraints: o min: 60 o max: 86400
+    /// The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 seconds) granularity. Constraints: • min: 60 • max: 86400
     /// </summary>
     [CliOption("--period")]
     public int? Period { get; private init; }
 
     /// <summary>
-    /// The statistic for the metric. The following statistics are available: o Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your ap- plication. o Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your ap- plication. o Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a met- ric. o Average - The value of Sum / SampleCount during the specified pe- riod. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This compar- ison helps you to know when to increase or decrease your re- sources. o SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: o Minimum o Maximum o Sum o Average o SampleCount Syntax: "string" "string" ...
+    /// The statistic for the metric. The following statistics are available: • Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application. • Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application. • Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric. • Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources. • SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: • Minimum • Maximum • Sum • Average • SampleCount Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--statistics", GroupValues = true)]
     public IEnumerable<string>? Statistics { get; private init; }

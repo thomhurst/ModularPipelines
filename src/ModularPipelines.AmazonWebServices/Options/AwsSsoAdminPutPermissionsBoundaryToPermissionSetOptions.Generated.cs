@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsSsoAdminPutPermissionsBoundaryToPermissionSetOptions : AwsOptio
     /// <summary>
     /// Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="PermissionSetArn">The ARN of the PermissionSet . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
-    /// <param name="PermissionsBoundary">The permissions boundary that you want to attach to a PermissionSet . CustomerManagedPolicyReference -&gt; (structure) Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your per- mission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each account where you want to deploy your permission set. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The de- fault is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: o min: 1 o max: 512 o pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ ManagedPolicyArn -&gt; (string) The Amazon Web Services managed policy ARN that you want to at- tach to a permission set as a permissions boundary. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:pol- icy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+) Shorthand Syntax: CustomerManagedPolicyReference={Name=string,Path=string},ManagedPolicyArn=string JSON Syntax: { "CustomerManagedPolicyReference": { "Name": "string", "Path": "string" }, "ManagedPolicyArn": "string" }</param>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the operation will be executed. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PermissionSetArn">The ARN of the PermissionSet . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
+    /// <param name="PermissionsBoundary">The permissions boundary that you want to attach to a PermissionSet . CustomerManagedPolicyReference -&gt; (structure) Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each account where you want to deploy your permission set. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The default is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: • min: 1 • max: 512 • pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ ManagedPolicyArn -&gt; (string) The Amazon Web Services managed policy ARN that you want to attach to a permission set as a permissions boundary. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:policy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+) Shorthand Syntax: CustomerManagedPolicyReference={Name=string,Path=string},ManagedPolicyArn=string JSON Syntax: { "CustomerManagedPolicyReference": { "Name": "string", "Path": "string" }, "ManagedPolicyArn": "string" }</param>
     public AwsSsoAdminPutPermissionsBoundaryToPermissionSetOptions(
         string InstanceArn,
         string PermissionSetArn,
@@ -64,19 +66,19 @@ public record AwsSsoAdminPutPermissionsBoundaryToPermissionSetOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the PermissionSet . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
+    /// The ARN of the PermissionSet . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
     /// </summary>
     [CliOption("--permission-set-arn")]
     public string? PermissionSetArn { get; private init; }
 
     /// <summary>
-    /// The permissions boundary that you want to attach to a PermissionSet . CustomerManagedPolicyReference -&gt; (structure) Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your per- mission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each account where you want to deploy your permission set. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The de- fault is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: o min: 1 o max: 512 o pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ ManagedPolicyArn -&gt; (string) The Amazon Web Services managed policy ARN that you want to at- tach to a permission set as a permissions boundary. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:pol- icy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+) Shorthand Syntax: CustomerManagedPolicyReference={Name=string,Path=string},ManagedPolicyArn=string JSON Syntax: { "CustomerManagedPolicyReference": { "Name": "string", "Path": "string" }, "ManagedPolicyArn": "string" }
+    /// The permissions boundary that you want to attach to a PermissionSet . CustomerManagedPolicyReference -&gt; (structure) Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each account where you want to deploy your permission set. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The default is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: • min: 1 • max: 512 • pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ ManagedPolicyArn -&gt; (string) The Amazon Web Services managed policy ARN that you want to attach to a permission set as a permissions boundary. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:policy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+) Shorthand Syntax: CustomerManagedPolicyReference={Name=string,Path=string},ManagedPolicyArn=string JSON Syntax: { "CustomerManagedPolicyReference": { "Name": "string", "Path": "string" }, "ManagedPolicyArn": "string" }
     /// </summary>
     [CliOption("--permissions-boundary")]
     public string? PermissionsBoundary { get; private init; }

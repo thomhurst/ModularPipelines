@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCloudwatchomniStopTelemetryQuerySessionOptions : AwsOptions, IV
     /// <summary>
     /// Stops a telemetry query session. Terminates the specified session. After a session is stopped it cannot be reused. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The unique ID of the session. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9-]+</param>
+    /// <param name="SessionId">The unique ID of the session. Constraints: • min: 1 • max: 64 • pattern: [a-z0-9-]+</param>
     public AwsCloudwatchomniStopTelemetryQuerySessionOptions(
         string SessionId
     )
@@ -56,7 +58,7 @@ public record AwsCloudwatchomniStopTelemetryQuerySessionOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the session. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9-]+
+    /// The unique ID of the session. Constraints: • min: 1 • max: 64 • pattern: [a-z0-9-]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

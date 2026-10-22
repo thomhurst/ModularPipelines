@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets details and status of a phone number thats claimed to your Connect Customer instance or traffic distribution group. WARNING: If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic dis- tribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alterna...
+/// Gets details and status of a phone number thats claimed to your Connect Customer instance or traffic distribution group. WARNING: If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +27,7 @@ public record AwsConnectDescribePhoneNumberOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets details and status of a phone number thats claimed to your Connect Customer instance or traffic distribution group. WARNING: If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic dis- tribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alterna...
+    /// Gets details and status of a phone number thats claimed to your Connect Customer instance or traffic distribution group. WARNING: If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate...
     /// </summary>
     /// <param name="PhoneNumberId">A unique identifier for the phone number.</param>
     public AwsConnectDescribePhoneNumberOptions(

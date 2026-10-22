@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the state of a signing profile to REVOKED . This indicates that signatures generated using the signing profile after an effective start date are no longer valid. A revoked profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a re- voked signing profile. See also: AWS API Documentation
+/// Changes the state of a signing profile to REVOKED . This indicates that signatures generated using the signing profile after an effective start date are no longer valid. A revoked profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a revoked signing profile. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsSignerRevokeSigningProfileOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the state of a signing profile to REVOKED . This indicates that signatures generated using the signing profile after an effective start date are no longer valid. A revoked profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a re- voked signing profile. See also: AWS API Documentation
+    /// Changes the state of a signing profile to REVOKED . This indicates that signatures generated using the signing profile after an effective start date are no longer valid. A revoked profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a revoked signing profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileName">The name of the signing profile to be revoked. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
-    /// <param name="ProfileVersion">The version of the signing profile to be revoked. Constraints: o min: 10 o max: 10 o pattern: ^[a-zA-Z0-9]{10}$</param>
-    /// <param name="Reason">The reason for revoking a signing profile. Constraints: o min: 1 o max: 500</param>
+    /// <param name="ProfileName">The name of the signing profile to be revoked. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="ProfileVersion">The version of the signing profile to be revoked. Constraints: • min: 10 • max: 10 • pattern: ^[a-zA-Z0-9]{10}$</param>
+    /// <param name="Reason">The reason for revoking a signing profile. Constraints: • min: 1 • max: 500</param>
     /// <param name="EffectiveTime">A timestamp for when revocation of a Signing Profile should become effective. Signatures generated using the signing profile after this timestamp are not trusted.</param>
     public AwsSignerRevokeSigningProfileOptions(
         string ProfileName,
@@ -68,19 +70,19 @@ public record AwsSignerRevokeSigningProfileOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the signing profile to be revoked. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// The name of the signing profile to be revoked. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }
 
     /// <summary>
-    /// The version of the signing profile to be revoked. Constraints: o min: 10 o max: 10 o pattern: ^[a-zA-Z0-9]{10}$
+    /// The version of the signing profile to be revoked. Constraints: • min: 10 • max: 10 • pattern: ^[a-zA-Z0-9]{10}$
     /// </summary>
     [CliOption("--profile-version")]
     public string? ProfileVersion { get; private init; }
 
     /// <summary>
-    /// The reason for revoking a signing profile. Constraints: o min: 1 o max: 500
+    /// The reason for revoking a signing profile. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }

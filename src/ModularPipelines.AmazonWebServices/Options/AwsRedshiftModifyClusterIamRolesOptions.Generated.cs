@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services ser- vices. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Red- shift Cluster Management Guide . See also: AWS API Documentation
+/// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsRedshiftModifyClusterIamRolesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services ser- vices. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Red- shift Cluster Management Guide . See also: AWS API Documentation
+    /// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier of the cluster for which you want to associate or disassociate IAM roles. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier of the cluster for which you want to associate or disassociate IAM roles. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyClusterIamRolesOptions(
         string ClusterIdentifier
     )
@@ -56,25 +58,25 @@ public record AwsRedshiftModifyClusterIamRolesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles. Constraints: o max: 2147483647
+    /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--add-iam-roles", GroupValues = true)]
     public IEnumerable<string>? AddIamRoles { get; set; }
 
     /// <summary>
-    /// Zero or more IAM roles in ARN format to disassociate from the clus- ter. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// Zero or more IAM roles in ARN format to disassociate from the cluster. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-iam-roles", GroupValues = true)]
     public IEnumerable<string>? RemoveIamRoles { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the IAM role that was set as de- fault for the cluster when the cluster was last modified. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was last modified. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--default-iam-role-arn")]
     public string? DefaultIamRoleArn { get; set; }

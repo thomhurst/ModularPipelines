@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists tags for a resource. Tagging is currently supported for detec- tors, finding filters, IP sets, threat intel sets, and publishing des- tination, with a limit of 50 tags per resource. When invoked, this op- eration returns all assigned tags for a given resource. See also: AWS API Documentation
+/// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsGuarddutyListTagsForResourceOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists tags for a resource. Tagging is currently supported for detec- tors, finding filters, IP sets, threat intel sets, and publishing des- tination, with a limit of 50 tags per resource. When invoked, this op- eration returns all assigned tags for a given resource. See also: AWS API Documentation
+    /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the given GuardDuty resource. Constraints: o pattern: arn:[A-Za-z_.-]{1,20}:guard- duty:[A-Za-z0-9_/.-]{0,63}:\d+:detector/[A-Za-z0-9_/.-]{32,264}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the given GuardDuty resource. Constraints: • pattern: arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\d+:detector/[A-Za-z0-9_/.-]{32,264}</param>
     public AwsGuarddutyListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsGuarddutyListTagsForResourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the given GuardDuty resource. Constraints: o pattern: arn:[A-Za-z_.-]{1,20}:guard- duty:[A-Za-z0-9_/.-]{0,63}:\d+:detector/[A-Za-z0-9_/.-]{32,264}
+    /// The Amazon Resource Name (ARN) for the given GuardDuty resource. Constraints: • pattern: arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\d+:detector/[A-Za-z0-9_/.-]{32,264}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

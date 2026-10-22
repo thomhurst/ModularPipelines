@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the lists of resources and principals that associated for re- source shares that you own. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-share-associations is a paginated operatio...
+/// Retrieves the lists of resources and principals that associated for resource shares that you own. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-share-associations is a paginated operation. Mul...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsRamGetResourceShareAssociationsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the lists of resources and principals that associated for re- source shares that you own. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-share-associations is a paginated operatio...
+    /// Retrieves the lists of resources and principals that associated for resource shares that you own. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation get-resource-share-associations is a paginated operation. Mul...
     /// </summary>
-    /// <param name="AssociationType">Specifies whether you want to retrieve the associations that involve a specified resource or principal. o PRINCIPAL list the principals whose associations you want to see. o RESOURCE list the resources whose associations you want to see. Possible values: o PRINCIPAL o RESOURCE o SOURCE</param>
+    /// <param name="AssociationType">Specifies whether you want to retrieve the associations that involve a specified resource or principal. • PRINCIPAL list the principals whose associations you want to see. • RESOURCE list the resources whose associations you want to see. Possible values: • PRINCIPAL • RESOURCE • SOURCE</param>
     public AwsRamGetResourceShareAssociationsOptions(
         AwsRamGetResourceShareAssociationsAssociationType AssociationType
     )
@@ -57,7 +59,7 @@ public record AwsRamGetResourceShareAssociationsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies whether you want to retrieve the associations that involve a specified resource or principal. o PRINCIPAL list the principals whose associations you want to see. o RESOURCE list the resources whose associations you want to see. Possible values: o PRINCIPAL o RESOURCE o SOURCE
+    /// Specifies whether you want to retrieve the associations that involve a specified resource or principal. • PRINCIPAL list the principals whose associations you want to see. • RESOURCE list the resources whose associations you want to see. Possible values: • PRINCIPAL • RESOURCE • SOURCE
     /// </summary>
     [CliOption("--association-type")]
     public AwsRamGetResourceShareAssociationsAssociationType? AssociationType { get; private init; }
@@ -69,28 +71,25 @@ public record AwsRamGetResourceShareAssociationsOptions : AwsOptions, IValidatab
     public IEnumerable<string>? ResourceShareArns { get; set; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of a resource whose re- source shares you want to retrieve. You cannot specify this parameter if the association type is PRINCI- PAL .
+    /// Specifies the Amazon Resource Name (ARN) of a resource whose resource shares you want to retrieve. You cannot specify this parameter if the association type is PRINCIPAL .
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
     /// <summary>
-    /// Specifies the ID of the principal whose resource shares you want to retrieve. This can be an Amazon Web Services account ID, an organi- zation ID, an organizational unit ID, or the Amazon Resource Name (ARN) of an individual IAM role or user. You cannot specify this parameter if the association type is RE- SOURCE .
+    /// Specifies the ID of the principal whose resource shares you want to retrieve. This can be an Amazon Web Services account ID, an organization ID, an organizational unit ID, or the Amazon Resource Name (ARN) of an individual IAM role or user. You cannot specify this parameter if the association type is RESOURCE .
     /// </summary>
     [CliOption("--principal")]
     public string? Principal { get; set; }
 
     /// <summary>
-    /// Specifies that you want to retrieve only associations that have this status. Possible values: o ASSOCIATING o ASSOCIATED o FAILED o DISASSOCIATING o DISASSOCIATED o SUSPENDED o SUSPENDING o RESTORING
+    /// Specifies that you want to retrieve only associations that have this status. Possible values: • ASSOCIATING • ASSOCIATED • FAILED • DISASSOCIATING • DISASSOCIATED • SUSPENDED • SUSPENDING • RESTORING
     /// </summary>
     [CliOption("--association-status")]
     public AwsRamGetResourceShareAssociationsAssociationStatus? AssociationStatus { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -100,16 +99,19 @@ public record AwsRamGetResourceShareAssociationsOptions : AwsOptions, IValidatab
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 500
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

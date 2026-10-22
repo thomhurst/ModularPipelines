@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists information about revisions for an application. See also: AWS API Documentation list-application-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: revisions
+/// Lists information about revisions for an application. See also: AWS API Documentation list-application-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: revisions
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsDeployListApplicationRevisionsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists information about revisions for an application. See also: AWS API Documentation list-application-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: revisions
+    /// Lists information about revisions for an application. See also: AWS API Documentation list-application-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: revisions
     /// </summary>
-    /// <param name="ApplicationName">The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    /// <param name="ApplicationName">The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*</param>
     public AwsDeployListApplicationRevisionsOptions(
         string ApplicationName
     )
@@ -58,19 +60,19 @@ public record AwsDeployListApplicationRevisionsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The column name to use to sort the list results: o registerTime : Sort by the time the revisions were registered with CodeDeploy. o firstUsedTime : Sort by the time the revisions were first used in a deployment. o lastUsedTime : Sort by the time the revisions were last used in a deployment. If not specified or set to null, the results are returned in an ar- bitrary order. Possible values: o registerTime o firstUsedTime o lastUsedTime
+    /// The column name to use to sort the list results: • registerTime : Sort by the time the revisions were registered with CodeDeploy. • firstUsedTime : Sort by the time the revisions were first used in a deployment. • lastUsedTime : Sort by the time the revisions were last used in a deployment. If not specified or set to null, the results are returned in an arbitrary order. Possible values: • registerTime • firstUsedTime • lastUsedTime
     /// </summary>
     [CliOption("--sort-by")]
     public AwsDeployListApplicationRevisionsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The order in which to sort the list results: o ascending : ascending order. o descending : descending order. If not specified, the results are sorted in ascending order. If set to null, the results are sorted in an arbitrary order. Possible values: o ascending o descending
+    /// The order in which to sort the list results: • ascending : ascending order. • descending : descending order. If not specified, the results are sorted in ascending order. If set to null, the results are sorted in an arbitrary order. Possible values: • ascending • descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsDeployListApplicationRevisionsSortOrder? SortOrder { get; set; }
@@ -88,16 +90,13 @@ public record AwsDeployListApplicationRevisionsOptions : AwsOptions, IValidatabl
     public string? S3KeyPrefix { get; set; }
 
     /// <summary>
-    /// Whether to list revisions based on whether the revision is the tar- get revision of a deployment group: o include : List revisions that are target revisions of a deployment group. o exclude : Do not list revisions that are target revisions of a de- ployment group. o ignore : List all revisions. Possible values: o include o exclude o ignore
+    /// Whether to list revisions based on whether the revision is the target revision of a deployment group: • include : List revisions that are target revisions of a deployment group. • exclude : Do not list revisions that are target revisions of a deployment group. • ignore : List all revisions. Possible values: • include • exclude • ignore
     /// </summary>
     [CliOption("--deployed")]
     public AwsDeployListApplicationRevisionsDeployed? Deployed { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -107,10 +106,13 @@ public record AwsDeployListApplicationRevisionsOptions : AwsOptions, IValidatabl
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

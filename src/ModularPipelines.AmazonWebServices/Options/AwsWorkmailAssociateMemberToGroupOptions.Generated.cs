@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsWorkmailAssociateMemberToGroupOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Adds a member (user or group) to the group's set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The organization under which the group exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="GroupId">The group to which the member (user or group) is associated. The identifier can accept GroupId , Groupname , or email . The fol- lowing identity formats are available: o Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: group@domain.tld o Group name: group Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
-    /// <param name="MemberId">The member (user or group) to associate to the group. The member ID can accept UserID or GroupId , Username or Groupname , or email . o Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: member@domain.tld o Member name: member Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="OrganizationId">The organization under which the group exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="GroupId">The group to which the member (user or group) is associated. The identifier can accept GroupId , Groupname , or email . The following identity formats are available: • Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: group@domain.tld • Group name: group Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="MemberId">The member (user or group) to associate to the group. The member ID can accept UserID or GroupId , Username or Groupname , or email . • Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: member@domain.tld • Member name: member Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
     public AwsWorkmailAssociateMemberToGroupOptions(
         string OrganizationId,
         string GroupId,
@@ -64,19 +66,19 @@ public record AwsWorkmailAssociateMemberToGroupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The organization under which the group exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The organization under which the group exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The group to which the member (user or group) is associated. The identifier can accept GroupId , Groupname , or email . The fol- lowing identity formats are available: o Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: group@domain.tld o Group name: group Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The group to which the member (user or group) is associated. The identifier can accept GroupId , Groupname , or email . The following identity formats are available: • Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: group@domain.tld • Group name: group Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; private init; }
 
     /// <summary>
-    /// The member (user or group) to associate to the group. The member ID can accept UserID or GroupId , Username or Groupname , or email . o Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: member@domain.tld o Member name: member Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The member (user or group) to associate to the group. The member ID can accept UserID or GroupId , Username or Groupname , or email . • Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: member@domain.tld • Member name: member Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; private init; }

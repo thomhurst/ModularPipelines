@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attach- ment. WARNING: After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use DescribeFirewall to moni- tor the deletion status. See also: AWS API Documentation
+/// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment. WARNING: After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use DescribeFirewall to monitor the deletion status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attach- ment. WARNING: After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use DescribeFirewall to moni- tor the deletion status. See also: AWS API Documentation
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment. WARNING: After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use DescribeFirewall to monitor the deletion status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TransitGatewayAttachmentId">Required. The unique identifier of the transit gateway attachment to delete. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$</param>
+    /// <param name="TransitGatewayAttachmentId">Required. The unique identifier of the transit gateway attachment to delete. Constraints: • min: 1 • max: 128 • pattern: ^tgw-attach-[0-9a-z]+$</param>
     public AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOptions(
         string TransitGatewayAttachmentId
     )
@@ -56,7 +58,7 @@ public record AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required. The unique identifier of the transit gateway attachment to delete. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$
+    /// Required. The unique identifier of the transit gateway attachment to delete. Constraints: • min: 1 • max: 128 • pattern: ^tgw-attach-[0-9a-z]+$
     /// </summary>
     [CliOption("--transit-gateway-attachment-id")]
     public string? TransitGatewayAttachmentId { get; private init; }

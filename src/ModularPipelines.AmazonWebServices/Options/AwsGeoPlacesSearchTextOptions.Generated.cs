@@ -24,74 +24,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGeoPlacesSearchTextOptions : AwsOptions
 {
     /// <summary>
-    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: Exactly one of the following fields must be set: QueryText or QueryId . Constraints: o min: 1 o max: 200
+    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: Exactly one of the following fields must be set: QueryText or QueryId . Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--query-text")]
     public string? QueryText { get; set; }
 
     /// <summary>
-    /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. NOTE: Exactly one of the following fields must be set: QueryText or QueryId . Constraints: o min: 1 o max: 500
+    /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. NOTE: Exactly one of the following fields must be set: QueryText or QueryId . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; set; }
 
     /// <summary>
-    /// An optional limit for the number of results returned in a single call. Default value: 20 Constraints: o min: 1 o max: 100
+    /// An optional limit for the number of results returned in a single call. Default value: 20 Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. NOTE: Exactly one of the following fields must be set: BiasPosition , Filter.BoundingBox , or Filter.Circle . Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. NOTE: Exactly one of the following fields must be set: BiasPosition , Filter.BoundingBox , or Filter.Circle . Constraints: • min: 2 • max: 2 (double) Syntax: double double ...
     /// </summary>
     [CliOption("--bias-position", GroupValues = true)]
     public IEnumerable<string>? BiasPosition { get; set; }
 
     /// <summary>
-    /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result. BoundingBox -&gt; (list) The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}] Constraints: o min: 4 o max: 4 (double) Circle -&gt; (structure) The Circle that all results must be in. Center -&gt; (list) [required] The center position in World Geodetic System (WGS 84) format: [longitude, latitude]. Constraints: o min: 2 o max: 2 (double) Radius -&gt; (long) [required] The radius, in meters, of the FilterCircle . For GrabMaps customers,``ap-southeast-1`` and ap-southeast-5 regions sup- port only up to a maximum value of 300,000. Constraints: o min: 1 o max: 21000000 IncludeCountries -&gt; (list) A list of countries that all results must be in. Countries are represented by either their alpha-2 or alpha-3 character codes. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 2 o max: 3 o pattern: ([A-Z]{2}|[A-Z]{3}) Shorthand Syntax: BoundingBox=double,double,Circle={Center=[double,double],Radius=long},IncludeCountries=string,string JSON Syntax: { "BoundingBox": [double, ...], "Circle": { "Center": [double, ...], "Radius": long }, "IncludeCountries": ["string", ...] }
+    /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result. BoundingBox -&gt; (list) The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}] Constraints: • min: 4 • max: 4 (double) Circle -&gt; (structure) The Circle that all results must be in. Center -&gt; (list) [required] The center position in World Geodetic System (WGS 84) format: [longitude, latitude]. Constraints: • min: 2 • max: 2 (double) Radius -&gt; (long) [required] The radius, in meters, of the FilterCircle . For GrabMaps customers,``ap-southeast-1`` and ap-southeast-5 regions support only up to a maximum value of 300,000. Constraints: • min: 1 • max: 21000000 IncludeCountries -&gt; (list) A list of countries that all results must be in. Countries are represented by either their alpha-2 or alpha-3 character codes. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 2 • max: 3 • pattern: ([A-Z]{2}|[A-Z]{3}) Shorthand Syntax: BoundingBox=double,double,Circle={Center=[double,double],Radius=long},IncludeCountries=string,string JSON Syntax: { "BoundingBox": [double, ...], "Circle": { "Center": [double, ...], "Radius": long }, "IncludeCountries": ["string", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// A list of optional additional parameters, such as time zone, that can be requested for each result. For GrabMaps customers, ap-south- east-1 and ap-southeast-5 regions support only the TimeZone value. Constraints: o min: 1 o max: 5 (string) Possible values: o TimeZone o Phonemes o Access o Contact o CrossReferences Syntax: "string" "string" ...
+    /// A list of optional additional parameters, such as time zone, that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value. Constraints: • min: 1 • max: 5 (string) Possible values: • TimeZone • Phonemes • Access • Contact • CrossReferences Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     /// <summary>
-    /// A list of BCP 47 compliant language codes for the results to be ren- dered in. If there is no data for the result in the requested lan- guage, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh Constraints: o min: 2 o max: 35
+    /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh Constraints: • min: 2 • max: 35
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
 
     /// <summary>
-    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-south- east-5 regions for GrabMaps customers. Constraints: o min: 2 o max: 3 o pattern: ([A-Z]{2}|[A-Z]{3})
+    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Constraints: • min: 2 • max: 3 • pattern: ([A-Z]{2}|[A-Z]{3})
     /// </summary>
     [CliOption("--political-view")]
     public string? PoliticalView { get; set; }
 
     /// <summary>
-    /// Indicates if the query results will be persisted in customer infra- structure. Defaults to SingleUse (not stored). NOTE: When storing SearchText responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case. Possible values: o SingleUse o Storage
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). NOTE: When storing SearchText responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case. Possible values: • SingleUse • Storage
     /// </summary>
     [CliOption("--intended-use")]
     public AwsGeoPlacesSearchTextIntendedUse? IntendedUse { get; set; }
 
     /// <summary>
-    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Constraints: o min: 1 o max: 2000
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Constraints: • min: 1 • max: 2000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car , Scooter , and Truck . Possible values: o Car o Scooter o Truck
+    /// Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car , Scooter , and Truck . Possible values: • Car • Scooter • Truck
     /// </summary>
     [CliOption("--travel-mode")]
     public AwsGeoPlacesSearchTextTravelMode? TravelMode { get; set; }
 
     /// <summary>
-    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000
+    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }

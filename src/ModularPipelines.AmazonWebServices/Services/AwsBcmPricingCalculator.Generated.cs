@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bcmpricingcalculator commands.
+/// aws bcm-pricing-calculator commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
@@ -32,7 +32,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     #region Commands
 
     /// <summary>
-    /// Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Re- served Instances commitments that you want to model in a Bill Scenario. NOTE: The BatchCreateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calcula- tor:CreateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
+    /// Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario. NOTE: The BatchCreateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:CreateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Create Amazon Web Services service usage that you want to model in a Bill Scenario. NOTE: The BatchCreateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calcula- tor:CreateBillScenarioUsageModification in your policies. See also: AWS API Documentation
+    /// Create Amazon Web Services service usage that you want to model in a Bill Scenario. NOTE: The BatchCreateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:CreateBillScenarioUsageModification in your policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Create Amazon Web Services service usage that you want to model in a Workload Estimate. NOTE: The BatchCreateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:Create- WorkloadEstimateUsage in your policies. See also: AWS API Documentation
+    /// Create Amazon Web Services service usage that you want to model in a Workload Estimate. NOTE: The BatchCreateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:CreateWorkloadEstimateUsage in your policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateBillScenarioUsageModification . NOTE: The BatchDeleteBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calcula- tor:DeleteBillScenarioUsageModification...
+    /// Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateBillScenarioUsageModification . NOTE: The BatchDeleteBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteBillScenarioUsageModification i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage . NOTE: The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:Delete- WorkloadEstimateUsage in your policies. S...
+    /// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage . NOTE: The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteWorkloadEstimateUsage in your policies. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Update a newly added or existing commitment. You can update the commit- ment group based on a commitment ID and a Bill scenario ID. NOTE: The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calcula- tor:UpdateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
+    /// Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID. NOTE: The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID. NOTE: The BatchUpdateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calcula- tor:UpdateBillScenarioUsageModification in your policies. See also: AWS API Documentation
+    /// Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID. NOTE: The BatchUpdateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateBillScenarioUsageModification in your policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID. NOTE: The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:Update- WorkloadEstimateUsage in your policies. See also: AWS API Documentation
+    /// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID. NOTE: The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateWorkloadEstimateUsage in your policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill esti- mate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing us- age and commitme...
+    /// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Lists the commitments associated with a bill estimate. See also: AWS API Documentation list-bill-estimate-commitments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the commitments associated with a bill estimate. See also: AWS API Documentation list-bill-estimate-commitments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Lists the input commitment modifications associated with a bill esti- mate. See also: AWS API Documentation list-bill-estimate-input-commitment-modifications is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expr...
+    /// Lists the input commitment modifications associated with a bill estimate. See also: AWS API Documentation list-bill-estimate-input-commitment-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Lists the input usage modifications associated with a bill estimate. See also: AWS API Documentation list-bill-estimate-input-usage-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: ite...
+    /// Lists the input usage modifications associated with a bill estimate. See also: AWS API Documentation list-bill-estimate-input-usage-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Lists the line items associated with a bill estimate. See also: AWS API Documentation list-bill-estimate-line-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the line items associated with a bill estimate. See also: AWS API Documentation list-bill-estimate-line-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Lists the commitment modifications associated with a bill scenario. See also: AWS API Documentation list-bill-scenario-commitment-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: items
+    /// Lists the commitment modifications associated with a bill scenario. See also: AWS API Documentation list-bill-scenario-commitment-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -400,6 +400,21 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBillScenarioCommitmentModificationsAsync(
         AwsBcmPricingCalculatorListBillScenarioCommitmentModificationsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the usage modifications associated with a bill scenario. See also: AWS API Documentation list-bill-scenario-usage-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListBillScenarioUsageModificationsAsync(
+        AwsBcmPricingCalculatorListBillScenarioUsageModificationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -422,21 +437,6 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Lists the usage modifications associated with a bill scenario. See also: AWS API Documentation list-bill-scenario-usage-modifications is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListBillScenarioUsageModificationsAsync(
-        AwsBcmPricingCalculatorListBillScenarioUsageModificationsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all tags associated with a specified resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -452,22 +452,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     }
 
     /// <summary>
-    /// Lists all workload estimates for the account. See also: AWS API Documentation list-workload-estimates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListWorkloadEstimatesAsync(
-        AwsBcmPricingCalculatorListWorkloadEstimatesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListWorkloadEstimatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the usage associated with a workload estimate. See also: AWS API Documentation list-workload-estimate-usage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the usage associated with a workload estimate. See also: AWS API Documentation list-workload-estimate-usage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -479,6 +464,21 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all workload estimates for the account. See also: AWS API Documentation list-workload-estimates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListWorkloadEstimatesAsync(
+        AwsBcmPricingCalculatorListWorkloadEstimatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListWorkloadEstimatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

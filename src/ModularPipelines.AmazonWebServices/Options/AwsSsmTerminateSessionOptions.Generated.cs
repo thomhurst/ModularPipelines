@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSsmTerminateSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Permanently ends a session and closes the data connection between the Session Manager client and SSM Agent on the managed node. A terminated session can't be resumed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The ID of the session to terminate. Constraints: o min: 1 o max: 96</param>
+    /// <param name="SessionId">The ID of the session to terminate. Constraints: • min: 1 • max: 96</param>
     public AwsSsmTerminateSessionOptions(
         string SessionId
     )
@@ -56,7 +58,7 @@ public record AwsSsmTerminateSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the session to terminate. Constraints: o min: 1 o max: 96
+    /// The ID of the session to terminate. Constraints: • min: 1 • max: 96
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

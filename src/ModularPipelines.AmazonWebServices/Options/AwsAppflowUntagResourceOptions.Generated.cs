@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAppflowUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes a tag from the specified flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the flow that you want to untag. Constraints: o max: 512 o pattern: arn:aws:.*:.*:[0-9]+:.*</param>
-    /// <param name="TagKeys">The tag keys associated with the tag that you want to remove from your flow. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the flow that you want to untag. Constraints: • max: 512 • pattern: arn:aws:.*:.*:[0-9]+:.*</param>
+    /// <param name="TagKeys">The tag keys associated with the tag that you want to remove from your flow. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
     public AwsAppflowUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +73,13 @@ public record AwsAppflowUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the flow that you want to untag. Constraints: o max: 512 o pattern: arn:aws:.*:.*:[0-9]+:.*
+    /// The Amazon Resource Name (ARN) of the flow that you want to untag. Constraints: • max: 512 • pattern: arn:aws:.*:.*:[0-9]+:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag keys associated with the tag that you want to remove from your flow. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
+    /// The tag keys associated with the tag that you want to remove from your flow. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }

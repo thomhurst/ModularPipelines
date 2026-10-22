@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a forecast created using the CreateForecast operation. In addition to listing the properties provided in the CreateForecast request, this operation lists the following properties: o DatasetGroupArn - The dataset group that provided the training data. o CreationTime o LastModificationTime o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
+/// Describes a forecast created using the CreateForecast operation. In addition to listing the properties provided in the CreateForecast request, this operation lists the following properties: • DatasetGroupArn - The dataset group that provided the training data. • CreationTime • LastModificationTime • Status • Message - If an error occurred, information about the error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsForecastDescribeForecastOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a forecast created using the CreateForecast operation. In addition to listing the properties provided in the CreateForecast request, this operation lists the following properties: o DatasetGroupArn - The dataset group that provided the training data. o CreationTime o LastModificationTime o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
+    /// Describes a forecast created using the CreateForecast operation. In addition to listing the properties provided in the CreateForecast request, this operation lists the following properties: • DatasetGroupArn - The dataset group that provided the training data. • CreationTime • LastModificationTime • Status • Message - If an error occurred, information about the error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ForecastArn">The Amazon Resource Name (ARN) of the forecast. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="ForecastArn">The Amazon Resource Name (ARN) of the forecast. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribeForecastOptions(
         string ForecastArn
     )
@@ -56,7 +58,7 @@ public record AwsForecastDescribeForecastOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the forecast. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the forecast. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--forecast-arn")]
     public string? ForecastArn { get; private init; }

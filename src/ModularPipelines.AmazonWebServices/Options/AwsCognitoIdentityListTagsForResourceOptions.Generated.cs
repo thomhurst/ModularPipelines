@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsCognitoIdentityListTagsForResourceOptions : AwsOptions, IValida
     /// <summary>
     /// Lists the tags that are assigned to an Amazon Cognito identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to. Constraints: • min: 20 • max: 2048</param>
     public AwsCognitoIdentityListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsCognitoIdentityListTagsForResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

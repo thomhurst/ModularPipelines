@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +30,9 @@ public record AwsRamCreatePermissionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a customer managed permission for a specified resource type that you can attach to resource shares. It is created in the Amazon Web Services Region in which you call the operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region. Constraints: o min: 1 o max: 36 o pattern: [\w.-]*</param>
-    /// <param name="ResourceType">Specifies the name of the resource type that this customer managed permission applies to. The format is `` &lt;service-code&gt; :&lt;resource-type&gt; `` and is case sen- sitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet . To see the list of valid values for this pa- rameter, query the ListResourceTypes operation. This value must match the display name of the resource (available in ListResource- Types ).</param>
-    /// <param name="PolicyTemplate">A string in JSON format string that contains the following elements of a resource-based policy: o Effect : must be set to ALLOW . o Action : specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all ac- tions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide . o Condition : (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see IAM policies: Condition element in the Identity and Access Manage- ment User Guide . This template can't include either the Resource or Principal ele- ments. Those are both filled in by RAM when it instantiates the re- source-based policy on each resource shared using this managed per- mission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identi- ties added to the resource share.</param>
+    /// <param name="Name">Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region. Constraints: • min: 1 • max: 36 • pattern: [\w.-]*</param>
+    /// <param name="ResourceType">Specifies the name of the resource type that this customer managed permission applies to. The format is `` &lt;service-code&gt; :&lt;resource-type&gt; `` and is case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet . To see the list of valid values for this parameter, query the ListResourceTypes operation. This value must match the display name of the resource (available in ListResourceTypes ).</param>
+    /// <param name="PolicyTemplate">A string in JSON format string that contains the following elements of a resource-based policy: • Effect : must be set to ALLOW . • Action : specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide . • Condition : (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see IAM policies: Condition element in the Identity and Access Management User Guide . This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates the resource-based policy on each resource shared using this managed permission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identities added to the resource share.</param>
     public AwsRamCreatePermissionOptions(
         string Name,
         string ResourceType,
@@ -65,32 +67,32 @@ public record AwsRamCreatePermissionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region. Constraints: o min: 1 o max: 36 o pattern: [\w.-]*
+    /// Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region. Constraints: • min: 1 • max: 36 • pattern: [\w.-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies the name of the resource type that this customer managed permission applies to. The format is `` &lt;service-code&gt; :&lt;resource-type&gt; `` and is case sen- sitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet . To see the list of valid values for this pa- rameter, query the ListResourceTypes operation. This value must match the display name of the resource (available in ListResource- Types ).
+    /// Specifies the name of the resource type that this customer managed permission applies to. The format is `` &lt;service-code&gt; :&lt;resource-type&gt; `` and is case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet . To see the list of valid values for this parameter, query the ListResourceTypes operation. This value must match the display name of the resource (available in ListResourceTypes ).
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
 
     /// <summary>
-    /// A string in JSON format string that contains the following elements of a resource-based policy: o Effect : must be set to ALLOW . o Action : specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all ac- tions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide . o Condition : (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see IAM policies: Condition element in the Identity and Access Manage- ment User Guide . This template can't include either the Resource or Principal ele- ments. Those are both filled in by RAM when it instantiates the re- source-based policy on each resource shared using this managed per- mission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identi- ties added to the resource share.
+    /// A string in JSON format string that contains the following elements of a resource-based policy: • Effect : must be set to ALLOW . • Action : specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide . • Condition : (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see IAM policies: Condition element in the Identity and Access Management User Guide . This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates the resource-based policy on each resource shared using this managed permission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identities added to the resource share.
     /// </summary>
     [CliOption("--policy-template")]
     public string? PolicyTemplate { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies a list of one or more tag key and value pairs to attach to the permission. (structure) A structure containing a tag. A tag is metadata that you can at- tach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see Controlling access to Amazon Web Services re- sources using tags . For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . key -&gt; (string) The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive. value -&gt; (string) The string value attached to the tag. The value can be an empty string. Key values are case sensitive. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Specifies a list of one or more tag key and value pairs to attach to the permission. (structure) A structure containing a tag. A tag is metadata that you can attach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see Controlling access to Amazon Web Services resources using tags . For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . key -&gt; (string) The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive. value -&gt; (string) The string value attached to the tag. The value can be an empty string. Key values are case sensitive. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

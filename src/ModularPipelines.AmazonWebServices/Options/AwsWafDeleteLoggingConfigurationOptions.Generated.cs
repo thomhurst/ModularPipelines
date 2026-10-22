@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWafDeleteLoggingConfigurationOptions : AwsOptions, IValidatable
     /// <summary>
     /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes the LoggingConfiguration from the specified web ACL. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration . Constraints: o min: 1 o max: 1224 o pattern: .*\S.*</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration . Constraints: • min: 1 • max: 1224 • pattern: .*\S.*</param>
     public AwsWafDeleteLoggingConfigurationOptions(
         string ResourceArn
     )
@@ -56,7 +58,7 @@ public record AwsWafDeleteLoggingConfigurationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration . Constraints: o min: 1 o max: 1224 o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration . Constraints: • min: 1 • max: 1224 • pattern: .*\S.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

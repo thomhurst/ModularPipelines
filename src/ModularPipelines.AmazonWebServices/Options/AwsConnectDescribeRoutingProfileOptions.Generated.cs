@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the specified routing profile. NOTE: DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incor- rect; we are working to update it. SearchRoutingProfiles does in- clude AssociatedQueueIds. See also: AWS API Documentation
+/// Describes the specified routing profile. NOTE: DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incorrect; we are working to update it. SearchRoutingProfiles does include AssociatedQueueIds. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsConnectDescribeRoutingProfileOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the specified routing profile. NOTE: DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incor- rect; we are working to update it. SearchRoutingProfiles does in- clude AssociatedQueueIds. See also: AWS API Documentation
+    /// Describes the specified routing profile. NOTE: DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incorrect; we are working to update it. SearchRoutingProfiles does include AssociatedQueueIds. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="RoutingProfileId">The identifier of the routing profile.</param>
     public AwsConnectDescribeRoutingProfileOptions(
         string InstanceId,
@@ -60,7 +62,7 @@ public record AwsConnectDescribeRoutingProfileOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }

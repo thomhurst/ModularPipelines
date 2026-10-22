@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +31,8 @@ public record AwsEc2ModifyVpcEndpointPayerResponsibilityOptions : AwsOptions, IV
     /// Modifies the billing account for VPC endpoint usage/charges. See also: AWS API Documentation
     /// </summary>
     /// <param name="VpcEndpointId">The ID of the VPC endpoint.</param>
-    /// <param name="PayerResponsibility">The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: o vpc-endpoint-account o resource-gateway-account o vpc-endpoint-service-account</param>
-    /// <param name="Scope">The scope of usage/charges for which the billing account is being modified. Possible values: o vpc-endpoint-charges o resource-gateway-charges</param>
+    /// <param name="PayerResponsibility">The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: • vpc-endpoint-account • resource-gateway-account • vpc-endpoint-service-account</param>
+    /// <param name="Scope">The scope of usage/charges for which the billing account is being modified. Possible values: • vpc-endpoint-charges • resource-gateway-charges</param>
     public AwsEc2ModifyVpcEndpointPayerResponsibilityOptions(
         string VpcEndpointId,
         AwsEc2ModifyVpcEndpointPayerResponsibilityPayerResponsibility PayerResponsibility,
@@ -69,19 +71,19 @@ public record AwsEc2ModifyVpcEndpointPayerResponsibilityOptions : AwsOptions, IV
     public string? VpcEndpointId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: o vpc-endpoint-account o resource-gateway-account o vpc-endpoint-service-account
+    /// The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: • vpc-endpoint-account • resource-gateway-account • vpc-endpoint-service-account
     /// </summary>
     [CliOption("--payer-responsibility")]
     public AwsEc2ModifyVpcEndpointPayerResponsibilityPayerResponsibility? PayerResponsibility { get; private init; }
 
     /// <summary>
-    /// The scope of usage/charges for which the billing account is being modified. Possible values: o vpc-endpoint-charges o resource-gateway-charges
+    /// The scope of usage/charges for which the billing account is being modified. Possible values: • vpc-endpoint-charges • resource-gateway-charges
     /// </summary>
     [CliOption("--scope")]
     public AwsEc2ModifyVpcEndpointPayerResponsibilityScope? Scope { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

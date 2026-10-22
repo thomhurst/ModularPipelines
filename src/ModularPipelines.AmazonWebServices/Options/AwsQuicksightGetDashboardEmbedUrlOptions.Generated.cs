@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL: o They must be used together. o They can be used one time only. o They are valid for 5 min...
+/// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL: • They must be used together. • They can be used one time only. • They are valid for 5 min...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +28,11 @@ public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL: o They must be used together. o They can be used one time only. o They are valid for 5 min...
+    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL: • They must be used together. • They can be used one time only. • They are valid for 5 min...
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the dash- board that you're embedding. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DashboardId">The ID for the dashboard, also added to the Identity and Access Man- agement (IAM) policy. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="IdentityType">The authentication method that the user uses to sign in. Possible values: o IAM o QUICKSIGHT o ANONYMOUS</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the dashboard that you're embedding. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardId">The ID for the dashboard, also added to the Identity and Access Management (IAM) policy. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="IdentityType">The authentication method that the user uses to sign in. Possible values: • IAM • QUICKSIGHT • ANONYMOUS</param>
     public AwsQuicksightGetDashboardEmbedUrlOptions(
         string AwsAccountId,
         string DashboardId,
@@ -64,28 +66,28 @@ public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that contains the dash- board that you're embedding. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the dashboard, also added to the Identity and Access Man- agement (IAM) policy. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the dashboard, also added to the Identity and Access Management (IAM) policy. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; private init; }
 
     /// <summary>
-    /// The authentication method that the user uses to sign in. Possible values: o IAM o QUICKSIGHT o ANONYMOUS
+    /// The authentication method that the user uses to sign in. Possible values: • IAM • QUICKSIGHT • ANONYMOUS
     /// </summary>
     [CliOption("--identity-type")]
     public AwsQuicksightGetDashboardEmbedUrlIdentityType? IdentityType { get; private init; }
 
     /// <summary>
-    /// How many minutes the session is valid. The session lifetime must be 15-600 minutes. Constraints: o min: 15 o max: 600
+    /// How many minutes the session is valid. The session lifetime must be 15-600 minutes. Constraints: • min: 15 • max: 600
     /// </summary>
     [CliOption("--session-lifetime-in-minutes")]
-    public int? SessionLifetimeInMinutes { get; set; }
+    public long? SessionLifetimeInMinutes { get; set; }
 
     /// <summary>
     /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
@@ -100,25 +102,25 @@ public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions, IValidatabl
     public bool? ResetDisabled { get; set; }
 
     /// <summary>
-    /// Adds persistence of state for the user session in an embedded dash- board. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon Quick Sight reader) chooses while viewing the dashboard. If this is set to TRUE , the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon Quick Sight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE .
+    /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon Quick Sight reader) chooses while viewing the dashboard. If this is set to TRUE , the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon Quick Sight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE .
     /// </summary>
     [CliFlag("--state-persistence-enabled", NegatedName = "--no-state-persistence-enabled")]
     public bool? StatePersistenceEnabled { get; set; }
 
     /// <summary>
-    /// The Amazon Quick user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon Quick users in your account (readers, authors, or admins) authenticated as one of the following: o Active Directory (AD) users or group members o Invited nonfederated users o IAM users and IAM role-based sessions authenticated through Feder- ated Single Sign-On using SAML, OpenID Connect, or IAM federation. Omit this parameter for users in the third group IAM users and IAM role-based sessions.
+    /// The Amazon Quick user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon Quick users in your account (readers, authors, or admins) authenticated as one of the following: • Active Directory (AD) users or group members • Invited nonfederated users • IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation. Omit this parameter for users in the third group IAM users and IAM role-based sessions.
     /// </summary>
     [CliOption("--user-arn")]
     public string? UserArn { get; set; }
 
     /// <summary>
-    /// The Amazon Quick Sight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set Namespace = default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The Amazon Quick Sight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set Namespace = default . Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Quick or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS ", the session can access all three dashboards. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ Syntax: "string" "string" ...
+    /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Quick or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS ", the session can access all three dashboards. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 512 • pattern: [\w\-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-dashboard-ids", GroupValues = true)]
     public IEnumerable<string>? AdditionalDashboardIds { get; set; }

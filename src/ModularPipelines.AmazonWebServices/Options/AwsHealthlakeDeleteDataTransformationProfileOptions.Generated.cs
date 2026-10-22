@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsHealthlakeDeleteDataTransformationProfileOptions : AwsOptions, 
     /// <summary>
     /// Deletes a data transformation profile and all its versions, including the DRAFT and all published versions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of the profile to delete. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
+    /// <param name="ProfileId">The unique identifier of the profile to delete. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}</param>
     public AwsHealthlakeDeleteDataTransformationProfileOptions(
         string ProfileId
     )
@@ -56,7 +58,7 @@ public record AwsHealthlakeDeleteDataTransformationProfileOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the profile to delete. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// The unique identifier of the profile to delete. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsOsisDeletePipelineEndpointOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes a VPC endpoint for an OpenSearch Ingestion pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointId">The unique identifier of the pipeline endpoint to delete. Constraints: o min: 3 o max: 512 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$</param>
+    /// <param name="EndpointId">The unique identifier of the pipeline endpoint to delete. Constraints: • min: 3 • max: 512 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$</param>
     public AwsOsisDeletePipelineEndpointOptions(
         string EndpointId
     )
@@ -56,7 +58,7 @@ public record AwsOsisDeletePipelineEndpointOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the pipeline endpoint to delete. Constraints: o min: 3 o max: 512 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$
+    /// The unique identifier of the pipeline endpoint to delete. Constraints: • min: 3 • max: 512 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--endpoint-id")]
     public string? EndpointId { get; private init; }

@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the identities in an identity pool. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+/// Lists the identities in an identity pool. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsCognitoIdentityListIdentitiesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the identities in an identity pool. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+    /// Lists the identities in an identity pool. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="MaxResults">The maximum number of identities to return. Constraints: o min: 1 o max: 60</param>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="MaxResults">The maximum number of identities to return. Constraints: • min: 1 • max: 60</param>
     public AwsCognitoIdentityListIdentitiesOptions(
         string IdentityPoolId,
         int MaxResults
@@ -60,26 +62,26 @@ public record AwsCognitoIdentityListIdentitiesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// The maximum number of identities to return. Constraints: o min: 1 o max: 60
+    /// The maximum number of identities to return. Constraints: • min: 1 • max: 60
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; private init; }
 
     /// <summary>
-    /// A pagination token. Constraints: o min: 1 o max: 65535 o pattern: [\S]+
+    /// A pagination token. Constraints: • min: 1 • max: 65535 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// An optional boolean parameter that allows you to hide disabled iden- tities. If omitted, the ListIdentities API will include disabled identities in the response.
+    /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
     /// </summary>
     [CliFlag("--hide-disabled", NegatedName = "--no-hide-disabled")]
     public bool? HideDisabled { get; set; }

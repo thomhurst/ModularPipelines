@@ -33,7 +33,7 @@ public class AwsGroundstation : IAwsGroundstation
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws groundstation wait sub-commands.
     /// </summary>
     public AwsGroundstationWait Wait => _wait ??= new AwsGroundstationWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsGroundstation : IAwsGroundstation
     #region Commands
 
     /// <summary>
-    /// Cancels or stops a contact with a specified contact ID based on its po- sition in the contact lifecycle . For contacts that: o Have yet to start, the contact will be cancelled. o Have started but have yet to finish, the contact will be stopped. See also: AWS API Documentation
+    /// Cancels or stops a contact with a specified contact ID based on its position in the contact lifecycle . For contacts that: • Have yet to start, the contact will be cancelled. • Have started but have yet to finish, the contact will be stopped. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a con- tact. When a contact uses multiple DataflowEndpointConfig objects, each Con- fig must match a DataflowEndpoint in the same group. See also: AWS API Documentation
+    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// Creates a DataflowEndpoint group containing the specified list of Ground Station Agent based endpoints. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a con- tact. When a contact uses multiple DataflowEndpointConfig objects, each Con- fig must match a DataflowEndpoint in the same group. See also: AWS API Documentation
+    /// Creates a DataflowEndpoint group containing the specified list of Ground Station Agent based endpoints. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Gets the latest configuration information for a registered agent. See also: AWS API Documentation
+    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Gets the latest configuration information for a registered agent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Gets a presigned URL for uploading agent task response logs. See also: AWS API Documentation
+    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Gets a presigned URL for uploading agent task response logs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// Returns a list of antennas at a specified ground station. See also: AWS API Documentation list-antennas is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: antennaList
+    /// Returns a list of antennas at a specified ground station. See also: AWS API Documentation list-antennas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: antennaList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// Returns a list of Config objects. See also: AWS API Documentation list-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: configList
+    /// Returns a list of Config objects. See also: AWS API Documentation list-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -369,21 +369,6 @@ public class AwsGroundstation : IAwsGroundstation
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGroundstationListConfigsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundSta- tion , missionprofileArn , and satelliteArn . See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListContactsAsync(
-        AwsGroundstationListContactsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -402,7 +387,22 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// Returns a list of DataflowEndpoint groups. See also: AWS API Documentation list-dataflow-endpoint-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataflowEndpointGroupList
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation , missionprofileArn , and satelliteArn . See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListContactsAsync(
+        AwsGroundstationListContactsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of DataflowEndpoint groups. See also: AWS API Documentation list-dataflow-endpoint-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataflowEndpointGroupList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// Returns a list of reservations for a specified ground station. See also: AWS API Documentation list-ground-station-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reservationList
+    /// Returns a list of reservations for a specified ground station. See also: AWS API Documentation list-ground-station-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reservationList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// Returns a list of satellites. See also: AWS API Documentation list-satellites is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: satellites
+    /// Returns a list of satellites. See also: AWS API Documentation list-satellites is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: satellites
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Registers a new agent with AWS Ground Station. See also: AWS API Documentation
+    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new agent with AWS Ground Station. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Update the status of the agent. See also: AWS API Documentation
+    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Update the status of the agent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

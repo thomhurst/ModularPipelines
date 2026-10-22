@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an association between a geofence collection and a tracker re- source. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker re- source. NOTE: Currently not supported Cross-account configurations, such as cre- ating associations between a tracker resource in one account and a geofence collection in another account. See also: AWS API Documentation
+/// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker resource. NOTE: Currently not supported Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsLocationAssociateTrackerConsumerOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an association between a geofence collection and a tracker re- source. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker re- source. NOTE: Currently not supported Cross-account configurations, such as cre- ating associations between a tracker resource in one account and a geofence collection in another account. See also: AWS API Documentation
+    /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker resource. NOTE: Currently not supported Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackerName">The name of the tracker resource to be associated with a geofence collection. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="ConsumerArn">The Amazon Resource Name (ARN) for the geofence collection to be as- sociated to tracker resource. Used when you need to specify a re- source across all Amazon Web Services. o Format example: arn:aws:geo:region:account-id:geofence-collec- tion/ExampleGeofenceCollectionConsumer Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
+    /// <param name="TrackerName">The name of the tracker resource to be associated with a geofence collection. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="ConsumerArn">The Amazon Resource Name (ARN) for the geofence collection to be associated to tracker resource. Used when you need to specify a resource across all Amazon Web Services. • Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer Constraints: • min: 0 • max: 1600 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
     public AwsLocationAssociateTrackerConsumerOptions(
         string TrackerName,
         string ConsumerArn
@@ -60,13 +62,13 @@ public record AwsLocationAssociateTrackerConsumerOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tracker resource to be associated with a geofence collection. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the tracker resource to be associated with a geofence collection. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--tracker-name")]
     public string? TrackerName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the geofence collection to be as- sociated to tracker resource. Used when you need to specify a re- source across all Amazon Web Services. o Format example: arn:aws:geo:region:account-id:geofence-collec- tion/ExampleGeofenceCollectionConsumer Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
+    /// The Amazon Resource Name (ARN) for the geofence collection to be associated to tracker resource. Used when you need to specify a resource across all Amazon Web Services. • Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer Constraints: • min: 0 • max: 1600 • pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
     /// </summary>
     [CliOption("--consumer-arn")]
     public string? ConsumerArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsMediaconnectWaitFlowStandbyOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Wait until a flow is in standby mode It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowArn">The ARN of the flow that you want to describe. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="FlowArn">The ARN of the flow that you want to describe. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
     public AwsMediaconnectWaitFlowStandbyOptions(
         string FlowArn
     )
@@ -56,7 +58,7 @@ public record AwsMediaconnectWaitFlowStandbyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the flow that you want to describe. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The ARN of the flow that you want to describe. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the settings for the specified voice profile domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceProfileDomainId">The domain ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="VoiceProfileDomainId">The domain ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions(
         string VoiceProfileDomainId
     )
@@ -56,19 +58,19 @@ public record AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The domain ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-profile-domain-id")]
     public string? VoiceProfileDomainId { get; private init; }
 
     /// <summary>
-    /// The name of the voice profile domain. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// The name of the voice profile domain. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the voice profile domain. Constraints: o min: 0 o max: 1024
+    /// The description of the voice profile domain. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

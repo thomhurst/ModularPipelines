@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsWorkspacesRebootWorkspacesOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state is AVAILABLE , UNHEALTHY , or REBOOTING . Reboot a WorkSpace in the REBOOTING state only if your WorkSpace has been stuck in the REBOOTING state for over 20 minutes. This operation is asynchronous and returns before the WorkSpaces have rebooted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RebootWorkspaceRequests">The WorkSpaces to reboot. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to reboot a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --reboot-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
+    /// <param name="RebootWorkspaceRequests">The WorkSpaces to reboot. You can specify up to 25 WorkSpaces. Constraints: • min: 1 • max: 25 (structure) Describes the information used to reboot a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --reboot-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
     public AwsWorkspacesRebootWorkspacesOptions(
         IEnumerable<string> RebootWorkspaceRequests
     )
@@ -67,7 +69,7 @@ public record AwsWorkspacesRebootWorkspacesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to reboot a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --reboot-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]
+    /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces. Constraints: • min: 1 • max: 25 (structure) Describes the information used to reboot a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --reboot-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]
     /// </summary>
     [CliOption("--reboot-workspace-requests", GroupValues = true)]
     public IEnumerable<string>? RebootWorkspaceRequests { get; private init; }

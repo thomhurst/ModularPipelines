@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the host ARN and details such as status, provider type, end- point, and, if applicable, the VPC configuration. See also: AWS API Documentation
+/// Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsCodeconnectionsGetHostOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the host ARN and details such as status, provider type, end- point, and, if applicable, the VPC configuration. See also: AWS API Documentation
+    /// Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HostArn">The Amazon Resource Name (ARN) of the requested host. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnec- tions):.+:[0-9]{12}:host\/.+</param>
+    /// <param name="HostArn">The Amazon Resource Name (ARN) of the requested host. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnections):.+:[0-9]{12}:host\/.+</param>
     public AwsCodeconnectionsGetHostOptions(
         string HostArn
     )
@@ -56,7 +58,7 @@ public record AwsCodeconnectionsGetHostOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the requested host. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnec- tions):.+:[0-9]{12}:host\/.+
+    /// The Amazon Resource Name (ARN) of the requested host. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnections):.+:[0-9]{12}:host\/.+
     /// </summary>
     [CliOption("--host-arn")]
     public string? HostArn { get; private init; }

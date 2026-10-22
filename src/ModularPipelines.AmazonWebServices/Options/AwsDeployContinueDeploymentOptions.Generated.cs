@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replace- ment environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) See also: AWS API Documentation
+/// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -29,7 +29,7 @@ public record AwsDeployContinueDeploymentOptions : AwsOptions
     public string? DeploymentId { get; set; }
 
     /// <summary>
-    /// The status of the deployment's waiting period. READY_WAIT indicates that the deployment is ready to start shifting traffic. TERMINA- TION_WAIT indicates that the traffic is shifted, but the original target is not terminated. Possible values: o READY_WAIT o TERMINATION_WAIT
+    /// The status of the deployment's waiting period. READY_WAIT indicates that the deployment is ready to start shifting traffic. TERMINATION_WAIT indicates that the traffic is shifted, but the original target is not terminated. Possible values: • READY_WAIT • TERMINATION_WAIT
     /// </summary>
     [CliOption("--deployment-wait-type")]
     public AwsDeployContinueDeploymentDeploymentWaitType? DeploymentWaitType { get; set; }

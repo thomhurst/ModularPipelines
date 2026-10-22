@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsChimeCreateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a user under the specified Amazon Chime account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeCreateUserOptions(
         string AccountId
     )
@@ -57,7 +59,7 @@ public record AwsChimeCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -69,13 +71,13 @@ public record AwsChimeCreateUserOptions : AwsOptions, IValidatableObject
     public string? Username { get; set; }
 
     /// <summary>
-    /// The user's email address. Constraints: o pattern: .+@.+\..+
+    /// The user's email address. Constraints: • pattern: .+@.+\..+
     /// </summary>
     [CliOption("--email")]
     public string? Email { get; set; }
 
     /// <summary>
-    /// The user type. Possible values: o PrivateUser o SharedDevice
+    /// The user type. Possible values: • PrivateUser • SharedDevice
     /// </summary>
     [CliOption("--user-type")]
     public AwsChimeCreateUserUserType? UserType { get; set; }

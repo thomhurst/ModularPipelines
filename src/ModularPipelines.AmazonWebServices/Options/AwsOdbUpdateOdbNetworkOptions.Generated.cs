@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsOdbUpdateOdbNetworkOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates properties of a specified ODB network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OdbNetworkId">The unique identifier of the ODB network to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="OdbNetworkId">The unique identifier of the ODB network to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbUpdateOdbNetworkOptions(
         string OdbNetworkId
     )
@@ -57,79 +59,79 @@ public record AwsOdbUpdateOdbNetworkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the ODB network to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the ODB network to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--odb-network-id")]
     public string? OdbNetworkId { get; private init; }
 
     /// <summary>
-    /// The new user-friendly name of the ODB network. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// The new user-friendly name of the ODB network. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The list of CIDR ranges from the peered VPC that allow access to the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The list of CIDR ranges from the peered VPC that allow access to the ODB network. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--peered-cidrs-to-be-added", GroupValues = true)]
     public IEnumerable<string>? PeeredCidrsToBeAdded { get; set; }
 
     /// <summary>
-    /// The list of CIDR ranges from the peered VPC to remove from the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The list of CIDR ranges from the peered VPC to remove from the ODB network. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--peered-cidrs-to-be-removed", GroupValues = true)]
     public IEnumerable<string>? PeeredCidrsToBeRemoved { get; set; }
 
     /// <summary>
-    /// Specifies the updated configuration for Amazon S3 access from the ODB network. Possible values: o ENABLED o DISABLED
+    /// Specifies the updated configuration for Amazon S3 access from the ODB network. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--s3-access")]
     public AwsOdbUpdateOdbNetworkS3Access? S3Access { get; set; }
 
     /// <summary>
-    /// Specifies the updated configuration for Zero-ETL access from the ODB network. Possible values: o ENABLED o DISABLED
+    /// Specifies the updated configuration for Zero-ETL access from the ODB network. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--zero-etl-access")]
     public AwsOdbUpdateOdbNetworkZeroEtlAccess? ZeroEtlAccess { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Security Token Service (STS) access configu- ration for the ODB network. Possible values: o ENABLED o DISABLED
+    /// The Amazon Web Services Security Token Service (STS) access configuration for the ODB network. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--sts-access")]
     public AwsOdbUpdateOdbNetworkStsAccess? StsAccess { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Key Management Service (KMS) access configu- ration for the ODB network. Possible values: o ENABLED o DISABLED
+    /// The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--kms-access")]
     public AwsOdbUpdateOdbNetworkKmsAccess? KmsAccess { get; set; }
 
     /// <summary>
-    /// Specifies the updated endpoint policy for Amazon S3 access from the ODB network. Constraints: o min: 3 o max: 20480
+    /// Specifies the updated endpoint policy for Amazon S3 access from the ODB network. Constraints: • min: 3 • max: 20480
     /// </summary>
     [CliOption("--s3-policy-document")]
     public string? S3PolicyDocument { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB net- work. Constraints: o min: 3 o max: 20480
+    /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network. Constraints: • min: 3 • max: 20480
     /// </summary>
     [CliOption("--sts-policy-document")]
     public string? StsPolicyDocument { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network. Constraints: o min: 3 o max: 20480
+    /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network. Constraints: • min: 3 • max: 20480
     /// </summary>
     [CliOption("--kms-policy-document")]
     public string? KmsPolicyDocument { get; set; }
 
     /// <summary>
-    /// The cross-Region Amazon S3 restore sources to enable for the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The cross-Region Amazon S3 restore sources to enable for the ODB network. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cross-region-s3-restore-sources-to-enable", GroupValues = true)]
     public IEnumerable<string>? CrossRegionS3RestoreSourcesToEnable { get; set; }
 
     /// <summary>
-    /// The cross-Region Amazon S3 restore sources to disable for the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The cross-Region Amazon S3 restore sources to disable for the ODB network. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cross-region-s3-restore-sources-to-disable", GroupValues = true)]
     public IEnumerable<string>? CrossRegionS3RestoreSourcesToDisable { get; set; }

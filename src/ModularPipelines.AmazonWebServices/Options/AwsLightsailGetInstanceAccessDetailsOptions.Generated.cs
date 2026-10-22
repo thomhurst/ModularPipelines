@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance . The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by in- stance name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance . The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instance name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +28,9 @@ public record AwsLightsailGetInstanceAccessDetailsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance . The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by in- stance name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance . The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instance name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceName">The name of the instance to access. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The name of the instance to access. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetInstanceAccessDetailsOptions(
         string InstanceName
     )
@@ -57,13 +59,13 @@ public record AwsLightsailGetInstanceAccessDetailsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the instance to access. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the instance to access. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }
 
     /// <summary>
-    /// The protocol to use to connect to your instance. Defaults to ssh . Possible values: o ssh o rdp
+    /// The protocol to use to connect to your instance. Defaults to ssh . Possible values: • ssh • rdp
     /// </summary>
     [CliOption("--protocol")]
     public AwsLightsailGetInstanceAccessDetailsProtocol? Protocol { get; set; }

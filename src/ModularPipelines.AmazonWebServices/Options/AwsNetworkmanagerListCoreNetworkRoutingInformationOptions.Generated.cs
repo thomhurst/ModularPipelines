@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists routing information for a core network, including routes and their attributes. See also: AWS API Documentation list-core-network-routing-information is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expre...
+/// Lists routing information for a core network, including routes and their attributes. See also: AWS API Documentation list-core-network-routing-information is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsNetworkmanagerListCoreNetworkRoutingInformationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists routing information for a core network, including routes and their attributes. See also: AWS API Documentation list-core-network-routing-information is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expre...
+    /// Lists routing information for a core network, including routes and their attributes. See also: AWS API Documentation list-core-network-routing-information is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of the core network to retrieve routing information for. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
-    /// <param name="SegmentName">The name of the segment to filter routing information by. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*</param>
-    /// <param name="EdgeLocation">The edge location to filter routing information by. Constraints: o min: 1 o max: 63 o pattern: [\s\S]*</param>
+    /// <param name="CoreNetworkId">The ID of the core network to retrieve routing information for. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="SegmentName">The name of the segment to filter routing information by. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*</param>
+    /// <param name="EdgeLocation">The edge location to filter routing information by. Constraints: • min: 1 • max: 63 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerListCoreNetworkRoutingInformationOptions(
         string CoreNetworkId,
         string SegmentName,
@@ -66,58 +67,55 @@ public record AwsNetworkmanagerListCoreNetworkRoutingInformationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the core network to retrieve routing information for. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of the core network to retrieve routing information for. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
 
     /// <summary>
-    /// The name of the segment to filter routing information by. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The name of the segment to filter routing information by. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--segment-name")]
     public string? SegmentName { get; private init; }
 
     /// <summary>
-    /// The edge location to filter routing information by. Constraints: o min: 1 o max: 63 o pattern: [\s\S]*
+    /// The edge location to filter routing information by. Constraints: • min: 1 • max: 63 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--edge-location")]
     public string? EdgeLocation { get; private init; }
 
     /// <summary>
-    /// Filters to apply based on next hop information. key -&gt; (string) Constraints: o max: 128 o pattern: ^[0-9a-zA-Z\.-]*$ value -&gt; (list) (string) Constraints: o max: 255 o pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// Filters to apply based on next hop information. key -&gt; (string) Constraints: • max: 128 • pattern: ^[0-9a-zA-Z\.-]*$ value -&gt; (list) (string) Constraints: • max: 255 • pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--next-hop-filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NextHopFilters { get; set; }
 
     /// <summary>
-    /// Local preference values to match when filtering routing information. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// Local preference values to match when filtering routing information. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--local-preference-matches", GroupValues = true)]
     public IEnumerable<string>? LocalPreferenceMatches { get; set; }
 
     /// <summary>
-    /// Exact AS path values to match when filtering routing information. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// Exact AS path values to match when filtering routing information. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--exact-as-path-matches", GroupValues = true)]
     public IEnumerable<string>? ExactAsPathMatches { get; set; }
 
     /// <summary>
-    /// Multi-Exit Discriminator (MED) values to match when filtering rout- ing information. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// Multi-Exit Discriminator (MED) values to match when filtering routing information. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--med-matches", GroupValues = true)]
     public IEnumerable<string>? MedMatches { get; set; }
 
     /// <summary>
-    /// BGP community values to match when filtering routing information. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// BGP community values to match when filtering routing information. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--community-matches", GroupValues = true)]
     public IEnumerable<string>? CommunityMatches { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -127,16 +125,19 @@ public record AwsNetworkmanagerListCoreNetworkRoutingInformationOptions : AwsOpt
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 500
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

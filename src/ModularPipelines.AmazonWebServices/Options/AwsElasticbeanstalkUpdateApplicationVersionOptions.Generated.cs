@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified application version to have the specified proper- ties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear properties, specify an empty string. See also: AWS API Documentation
+/// Updates the specified application version to have the specified properties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear properties, specify an empty string. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsElasticbeanstalkUpdateApplicationVersionOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified application version to have the specified proper- ties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear properties, specify an empty string. See also: AWS API Documentation
+    /// Updates the specified application version to have the specified properties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear properties, specify an empty string. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application associated with this version. If no application is found with this name, UpdateApplication returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100</param>
-    /// <param name="VersionLabel">The name of the version to update. If no application version is found with this label, UpdateApplica- tion returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApplicationName">The name of the application associated with this version. If no application is found with this name, UpdateApplication returns an InvalidParameterValue error. Constraints: • min: 1 • max: 100</param>
+    /// <param name="VersionLabel">The name of the version to update. If no application version is found with this label, UpdateApplication returns an InvalidParameterValue error. Constraints: • min: 1 • max: 100</param>
     public AwsElasticbeanstalkUpdateApplicationVersionOptions(
         string ApplicationName,
         string VersionLabel
@@ -60,19 +62,19 @@ public record AwsElasticbeanstalkUpdateApplicationVersionOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application associated with this version. If no application is found with this name, UpdateApplication returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100
+    /// The name of the application associated with this version. If no application is found with this name, UpdateApplication returns an InvalidParameterValue error. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The name of the version to update. If no application version is found with this label, UpdateApplica- tion returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100
+    /// The name of the version to update. If no application version is found with this label, UpdateApplication returns an InvalidParameterValue error. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; private init; }
 
     /// <summary>
-    /// A new description for this version. Constraints: o max: 200
+    /// A new description for this version. Constraints: • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

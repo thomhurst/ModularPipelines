@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes an alias reference, breaking the named connection to the under- lying module version without affecting the version itself. See also: AWS API Documentation
+/// Removes an alias reference, breaking the named connection to the underlying module version without affecting the version itself. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +27,11 @@ public record AwsConnectDeleteContactFlowModuleAliasOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes an alias reference, breaking the named connection to the under- lying module version without affecting the version itself. See also: AWS API Documentation
+    /// Removes an alias reference, breaking the named connection to the underlying module version without affecting the version itself. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: o min: 1 o max: 500</param>
-    /// <param name="AliasId">The identifier of the alias. Constraints: o min: 1 o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: • min: 1 • max: 500</param>
+    /// <param name="AliasId">The identifier of the alias. Constraints: • min: 1 • max: 500</param>
     public AwsConnectDeleteContactFlowModuleAliasOptions(
         string InstanceId,
         string ContactFlowModuleId,
@@ -64,19 +66,19 @@ public record AwsConnectDeleteContactFlowModuleAliasOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow module. Constraints: o min: 1 o max: 500
+    /// The identifier of the flow module. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--contact-flow-module-id")]
     public string? ContactFlowModuleId { get; private init; }
 
     /// <summary>
-    /// The identifier of the alias. Constraints: o min: 1 o max: 500
+    /// The identifier of the alias. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }

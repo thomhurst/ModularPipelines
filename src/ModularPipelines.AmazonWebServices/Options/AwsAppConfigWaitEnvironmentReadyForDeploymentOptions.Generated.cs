@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsAppConfigWaitEnvironmentReadyForDeploymentOptions : AwsOptions,
     /// <summary>
     /// Wait until JMESPath query State returns ReadyForDeployment when polling with get-environment. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 999 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application that includes the environment you want to get. Constraints: o min: 1 o max: 64</param>
-    /// <param name="EnvironmentId">The ID of the environment that you want to get. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ApplicationId">The ID of the application that includes the environment you want to get. Constraints: • min: 1 • max: 64</param>
+    /// <param name="EnvironmentId">The ID of the environment that you want to get. Constraints: • min: 1 • max: 64</param>
     public AwsAppConfigWaitEnvironmentReadyForDeploymentOptions(
         string ApplicationId,
         string EnvironmentId
@@ -60,13 +62,13 @@ public record AwsAppConfigWaitEnvironmentReadyForDeploymentOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application that includes the environment you want to get. Constraints: o min: 1 o max: 64
+    /// The ID of the application that includes the environment you want to get. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the environment that you want to get. Constraints: o min: 1 o max: 64
+    /// The ID of the environment that you want to get. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }

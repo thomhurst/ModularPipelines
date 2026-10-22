@@ -32,7 +32,7 @@ public class AwsHealth : IAwsHealth
     #region Commands
 
     /// <summary>
-    /// Returns a list of accounts in the organization from Organizations that are affected by the provided event. For more information about the dif- ferent types of Health events, see Event . Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the EnableHealthServiceAccessForOrganization operation from your organiza- tion's management account. NOTE: This API operation uses pagination. Specify the nextToken parameter in the next request to retur...
+    /// Returns a list of accounts in the organization from Organizations that are affected by the provided event. For more information about the different types of Health events, see Event . Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the EnableHealthServiceAccessForOrganization operation from your organization's management account. NOTE: This API operation uses pagination. Specify the nextToken parameter in the next request to return mo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
-    /// Returns a list of entities that have been affected by one or more events for one or more accounts in your organization in Organizations, based on the filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, de- pending on the Amazon Web Services service. At least one event Amazon Resource Name (ARN) and account ID are re- quired. Before you can call this operation, you must first enable Health to work with Organizations. To do th...
+    /// Returns a list of entities that have been affected by one or more events for one or more accounts in your organization in Organizations, based on the filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. At least one event Amazon Resource Name (ARN) and account ID are required. Before you can call this operation, you must first enable Health to work with Organizations. To do this, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
-    /// Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. Events that have impact beyond that of the affected entities, or where the ex- tent of impact is unknown, include at least one entity indicating this. At least one event ARN is required. NOTE: o This API operation uses pagination. ...
+    /// Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. Events that have impact beyond that of the affected entities, or where the extent of impact is unknown, include at least one entity indicating this. At least one event ARN is required. NOTE: • This API operation uses pagination. Sp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
-    /// Returns a list of entity aggregates for your Organizations that are af- fected by each of the specified events. See also: AWS API Documentation
+    /// Returns a list of entity aggregates for your Organizations that are affected by each of the specified events. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
-    /// Returns the number of entities that are affected by each of the speci- fied events. See also: AWS API Documentation
+    /// Returns the number of entities that are affected by each of the specified events. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
-    /// Returns detailed information about one or more specified events for one or more Amazon Web Services accounts in your organization. This infor- mation includes standard event data (such as the Amazon Web Services Region and service), an event description, and (depending on the event) possible metadata. This operation doesn't return affected entities, such as the resources related to the event. To return affected enti- ties, use the DescribeAffectedEntitiesForOrganization operation. NOTE: Before y...
+    /// Returns detailed information about one or more specified events for one or more Amazon Web Services accounts in your organization. This information includes standard event data (such as the Amazon Web Services Region and service), an event description, and (depending on the event) possible metadata. This operation doesn't return affected entities, such as the resources related to the event. To return affected entities, use the DescribeAffectedEntitiesForOrganization operation. NOTE: Before you c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
-    /// Returns detailed information about one or more specified events. Infor- mation includes standard event data (Amazon Web Services Region, ser- vice, and so on, as returned by DescribeEvents ), a detailed event de- scription, and possible additional metadata that depends upon the na- ture of the event. Affected entities are not included. To retrieve the entities, use the DescribeAffectedEntities operation. If a specified event can't be retrieved, an error message is returned for that event. NOTE: ...
+    /// Returns detailed information about one or more specified events. Information includes standard event data (Amazon Web Services Region, service, and so on, as returned by DescribeEvents ), a detailed event description, and possible additional metadata that depends upon the nature of the event. Affected entities are not included. To retrieve the entities, use the DescribeAffectedEntities operation. If a specified event can't be retrieved, an error message is returned for that event. NOTE: This ope...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -149,36 +149,6 @@ public class AwsHealth : IAwsHealth
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns information about events across your organization in Organiza- tions. You can use the``filters`` parameter to specify the events that you want to return. Events are returned in a summary form and don't in- clude the affected accounts, detailed description, any additional meta- data that depends on the event type, or any affected resources. To re- trieve that information, use the following operations: o DescribeAffectedAccountsForOrganization o DescribeEventDetailsForOrganization o Descri...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEventsForOrganizationAsync(
-        AwsHealthDescribeEventsForOrganizationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsHealthDescribeEventsForOrganizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns information about events that meet the specified filter crite- ria. Events are returned in a summary form and do not include the de- tailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the DescribeEventDetails and DescribeAffectedEntities operations. If no filter criteria are specified, all events are returned. Results are sorted by lastModifiedTime , starting with the most recent event. NOTE: o When you...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEventsAsync(
-        AwsHealthDescribeEventsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsHealthDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -197,6 +167,36 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
+    /// Returns information about events across your organization in Organizations. You can use the``filters`` parameter to specify the events that you want to return. Events are returned in a summary form and don't include the affected accounts, detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the following operations: • DescribeAffectedAccountsForOrganization • DescribeEventDetailsForOrganization • DescribeAffect...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEventsForOrganizationAsync(
+        AwsHealthDescribeEventsForOrganizationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsHealthDescribeEventsForOrganizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about events that meet the specified filter criteria. Events are returned in a summary form and do not include the detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the DescribeEventDetails and DescribeAffectedEntities operations. If no filter criteria are specified, all events are returned. Results are sorted by lastModifiedTime , starting with the most recent event. NOTE: • When you cal...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEventsAsync(
+        AwsHealthDescribeEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsHealthDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// This operation provides status information on enabling or disabling Health to work with your organization. To call this operation, you must use the organization's management account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -212,7 +212,22 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
-    /// Disables Health from working with Organizations. To call this opera- tion, you must sign in to the organization's management account. For more information, see Aggregating Health events in the Health User Guide . This operation doesn't remove the service-linked role from the manage- ment account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see Deleting a Service-Linked Role in the IAM User Guide ...
+    /// Returns lifecycle information for Amazon Web Services services, including end-of-life dates, version recommendations, and lifecycle events. See also: AWS API Documentation describe-service-lifecycle is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeServiceLifecycleAsync(
+        AwsHealthDescribeServiceLifecycleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsHealthDescribeServiceLifecycleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Disables Health from working with Organizations. To call this operation, you must sign in to the organization's management account. For more information, see Aggregating Health events in the Health User Guide . This operation doesn't remove the service-linked role from the management account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see Deleting a Service-Linked Role in the IAM User Guide . NO...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +242,7 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
-    /// Enables Health to work with Organizations. You can use the organiza- tional view feature to aggregate events from all Amazon Web Services accounts in your organization in a centralized location. This operation also creates a service-linked role for the management account in the organization. NOTE: To call this operation, you must meet the following requirements: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan from Amazon Web Services Support to use the Health API. If...
+    /// Enables Health to work with Organizations. You can use the organizational view feature to aggregate events from all Amazon Web Services accounts in your organization in a centralized location. This operation also creates a service-linked role for the management account in the organization. NOTE: To call this operation, you must meet the following requirements: • You must have a Business, Enterprise On-Ramp, or Enterprise Support plan from Amazon Web Services Support to use the Health API. If you...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

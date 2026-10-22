@@ -35,7 +35,7 @@ public record AwsApigatewayGetDomainNameAccessAssociationsOptions : AwsOptions
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The owner of the domain name access association. Use SELF to only list the domain name access associations owned by your own account. Use OTHER_ACCOUNTS to list the domain name access associations with your private custom domain names that are owned by other AWS ac- counts. Possible values: o SELF o OTHER_ACCOUNTS
+    /// The owner of the domain name access association. Use SELF to only list the domain name access associations owned by your own account. Use OTHER_ACCOUNTS to list the domain name access associations with your private custom domain names that are owned by other AWS accounts. Possible values: • SELF • OTHER_ACCOUNTS
     /// </summary>
     [CliOption("--resource-owner")]
     public AwsApigatewayGetDomainNameAccessAssociationsResourceOwner? ResourceOwner { get; set; }

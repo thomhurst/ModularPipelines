@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsSsmStopAutomationExecutionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Stop an Automation that is currently running. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutomationExecutionId">The execution ID of the Automation to stop. Constraints: o min: 36 o max: 36</param>
+    /// <param name="AutomationExecutionId">The execution ID of the Automation to stop. Constraints: • min: 36 • max: 36</param>
     public AwsSsmStopAutomationExecutionOptions(
         string AutomationExecutionId
     )
@@ -57,13 +59,13 @@ public record AwsSsmStopAutomationExecutionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The execution ID of the Automation to stop. Constraints: o min: 36 o max: 36
+    /// The execution ID of the Automation to stop. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--automation-execution-id")]
     public string? AutomationExecutionId { get; private init; }
 
     /// <summary>
-    /// The stop request type. Valid types include the following: Cancel and Complete. The default type is Cancel. Possible values: o Complete o Cancel
+    /// The stop request type. Valid types include the following: Cancel and Complete. The default type is Cancel. Possible values: • Complete • Cancel
     /// </summary>
     [CliOption("--type")]
     public AwsSsmStopAutomationExecutionType? Type { get; set; }

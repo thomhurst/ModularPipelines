@@ -10,13 +10,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Slack channel configuration for your Amazon Web Services ac- count. NOTE: o You can add up to 5 Slack workspaces for your account. o You can add up to 20 Slack channels for your account. A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Ama- zon Web Services Support App. We recommend that you only add the ac- counts that you need to manage support cases for your organization. This can reduce the noti...
+/// Creates a Slack channel configuration for your Amazon Web Services account. NOTE: • You can add up to 5 Slack workspaces for your account. • You can add up to 20 Slack channels for your account. A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Amazon Web Services Support App. We recommend that you only add the accounts that you need to manage support cases for your organization. This can reduce the notificati...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +28,12 @@ public record AwsSupportAppCreateSlackChannelConfigurationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Slack channel configuration for your Amazon Web Services ac- count. NOTE: o You can add up to 5 Slack workspaces for your account. o You can add up to 20 Slack channels for your account. A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Ama- zon Web Services Support App. We recommend that you only add the ac- counts that you need to manage support cases for your organization. This can reduce the noti...
+    /// Creates a Slack channel configuration for your Amazon Web Services account. NOTE: • You can add up to 5 Slack workspaces for your account. • You can add up to 20 Slack channels for your account. A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Amazon Web Services Support App. We recommend that you only add the accounts that you need to manage support cases for your organization. This can reduce the notificati...
     /// </summary>
-    /// <param name="ChannelId">The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
-    /// <param name="ChannelRoleArn">The Amazon Resource Name (ARN) of an IAM role that you want to use to perform operations on Amazon Web Services. For more information, see Managing access to the Amazon Web Services Support App in the Amazon Web Services Support User Guide . Constraints: o min: 31 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/(.+)$</param>
-    /// <param name="NotifyOnCaseSeverity">The case severity for a support case that you want to receive noti- fications. If you specify high or all , you must specify true for at least one of the following parameters: o notifyOnAddCorrespondenceToCase o notifyOnCreateOrReopenCase o notifyOnResolveCase If you specify none , the following parameters must be null or false : o notifyOnAddCorrespondenceToCase o notifyOnCreateOrReopenCase o notifyOnResolveCase NOTE: If you don't specify these parameters in your request, they de- fault to false . Possible values: o none o all o high</param>
-    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
+    /// <param name="ChannelId">The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: • min: 1 • max: 256 • pattern: ^\S+$</param>
+    /// <param name="ChannelRoleArn">The Amazon Resource Name (ARN) of an IAM role that you want to use to perform operations on Amazon Web Services. For more information, see Managing access to the Amazon Web Services Support App in the Amazon Web Services Support User Guide . Constraints: • min: 31 • max: 2048 • pattern: ^arn:aws:iam::[0-9]{12}:role/(.+)$</param>
+    /// <param name="NotifyOnCaseSeverity">The case severity for a support case that you want to receive notifications. If you specify high or all , you must specify true for at least one of the following parameters: • notifyOnAddCorrespondenceToCase • notifyOnCreateOrReopenCase • notifyOnResolveCase If you specify none , the following parameters must be null or false : • notifyOnAddCorrespondenceToCase • notifyOnCreateOrReopenCase • notifyOnResolveCase NOTE: If you don't specify these parameters in your request, they default to false . Possible values: • none • all • high</param>
+    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: • min: 1 • max: 256 • pattern: ^\S+$</param>
     public AwsSupportAppCreateSlackChannelConfigurationOptions(
         string ChannelId,
         string ChannelRoleArn,
@@ -68,43 +70,43 @@ public record AwsSupportAppCreateSlackChannelConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: • min: 1 • max: 256 • pattern: ^\S+$
     /// </summary>
     [CliOption("--channel-id")]
     public string? ChannelId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role that you want to use to perform operations on Amazon Web Services. For more information, see Managing access to the Amazon Web Services Support App in the Amazon Web Services Support User Guide . Constraints: o min: 31 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/(.+)$
+    /// The Amazon Resource Name (ARN) of an IAM role that you want to use to perform operations on Amazon Web Services. For more information, see Managing access to the Amazon Web Services Support App in the Amazon Web Services Support User Guide . Constraints: • min: 31 • max: 2048 • pattern: ^arn:aws:iam::[0-9]{12}:role/(.+)$
     /// </summary>
     [CliOption("--channel-role-arn")]
     public string? ChannelRoleArn { get; private init; }
 
     /// <summary>
-    /// The case severity for a support case that you want to receive noti- fications. If you specify high or all , you must specify true for at least one of the following parameters: o notifyOnAddCorrespondenceToCase o notifyOnCreateOrReopenCase o notifyOnResolveCase If you specify none , the following parameters must be null or false : o notifyOnAddCorrespondenceToCase o notifyOnCreateOrReopenCase o notifyOnResolveCase NOTE: If you don't specify these parameters in your request, they de- fault to false . Possible values: o none o all o high
+    /// The case severity for a support case that you want to receive notifications. If you specify high or all , you must specify true for at least one of the following parameters: • notifyOnAddCorrespondenceToCase • notifyOnCreateOrReopenCase • notifyOnResolveCase If you specify none , the following parameters must be null or false : • notifyOnAddCorrespondenceToCase • notifyOnCreateOrReopenCase • notifyOnResolveCase NOTE: If you don't specify these parameters in your request, they default to false . Possible values: • none • all • high
     /// </summary>
     [CliOption("--notify-on-case-severity")]
     public AwsSupportAppCreateSlackChannelConfigurationNotifyOnCaseSeverity? NotifyOnCaseSeverity { get; private init; }
 
     /// <summary>
-    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: • min: 1 • max: 256 • pattern: ^\S+$
     /// </summary>
     [CliOption("--team-id")]
     public string? TeamId { get; private init; }
 
     /// <summary>
-    /// The name of the Slack channel that you configure for the Amazon Web Services Support App. Constraints: o min: 1 o max: 256 o pattern: ^.+$
+    /// The name of the Slack channel that you configure for the Amazon Web Services Support App. Constraints: • min: 1 • max: 256 • pattern: ^.+$
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; set; }
 
     /// <summary>
-    /// dence-to-case (boolean) Whether you want to get notified when a support case has a new cor- respondence.
+    /// Whether you want to get notified when a support case has a new correspondence.
     /// </summary>
     [CliFlag("--notify-on-add-correspondence-to-case", NegatedName = "--no-notify-on-add-correspondence-to-case")]
     public bool? NotifyOnAddCorrespondenceToCase { get; set; }
 
     /// <summary>
-    /// open-case (boolean) Whether you want to get notified when a support case is created or reopened.
+    /// Whether you want to get notified when a support case is created or reopened.
     /// </summary>
     [CliFlag("--notify-on-create-or-reopen-case", NegatedName = "--no-notify-on-create-or-reopen-case")]
     public bool? NotifyOnCreateOrReopenCase { get; set; }

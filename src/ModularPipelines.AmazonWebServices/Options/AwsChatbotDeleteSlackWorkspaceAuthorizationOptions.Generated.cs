@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsChatbotDeleteSlackWorkspaceAuthorizationOptions : AwsOptions, I
     /// <summary>
     /// Deletes the Slack workspace authorization that allows channels to be configured in that workspace. This requires all configured channels in the workspace to be deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SlackTeamId">The ID of the Slack workspace authorized with AWS Chatbot. Constraints: o min: 1 o max: 255 o pattern: [0-9A-Z]{1,255}</param>
+    /// <param name="SlackTeamId">The ID of the Slack workspace authorized with AWS Chatbot. Constraints: • min: 1 • max: 255 • pattern: [0-9A-Z]{1,255}</param>
     public AwsChatbotDeleteSlackWorkspaceAuthorizationOptions(
         string SlackTeamId
     )
@@ -56,7 +58,7 @@ public record AwsChatbotDeleteSlackWorkspaceAuthorizationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Slack workspace authorized with AWS Chatbot. Constraints: o min: 1 o max: 255 o pattern: [0-9A-Z]{1,255}
+    /// The ID of the Slack workspace authorized with AWS Chatbot. Constraints: • min: 1 • max: 255 • pattern: [0-9A-Z]{1,255}
     /// </summary>
     [CliOption("--slack-team-id")]
     public string? SlackTeamId { get; private init; }

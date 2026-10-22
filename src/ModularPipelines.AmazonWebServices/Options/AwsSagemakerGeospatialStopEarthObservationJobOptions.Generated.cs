@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsSagemakerGeospatialStopEarthObservationJobOptions : AwsOptions,
     /// <summary>
     /// Use this operation to stop an existing earth observation job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the Earth Observation job being stopped. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the Earth Observation job being stopped. Constraints: • pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$</param>
     public AwsSagemakerGeospatialStopEarthObservationJobOptions(
         string Arn
     )
@@ -56,7 +58,7 @@ public record AwsSagemakerGeospatialStopEarthObservationJobOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Earth Observation job being stopped. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$
+    /// The Amazon Resource Name (ARN) of the Earth Observation job being stopped. Constraints: • pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

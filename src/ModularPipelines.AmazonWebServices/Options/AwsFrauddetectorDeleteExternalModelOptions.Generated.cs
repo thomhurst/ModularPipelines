@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +29,7 @@ public record AwsFrauddetectorDeleteExternalModelOptions : AwsOptions, IValidata
     /// <summary>
     /// Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelEndpoint">The endpoint of the Amazon Sagemaker model to delete. Constraints: o min: 1 o max: 63 o pattern: ^[0-9A-Za-z_-]+$</param>
+    /// <param name="ModelEndpoint">The endpoint of the Amazon Sagemaker model to delete. Constraints: • min: 1 • max: 63 • pattern: ^[0-9A-Za-z_-]+$</param>
     public AwsFrauddetectorDeleteExternalModelOptions(
         string ModelEndpoint
     )
@@ -56,7 +58,7 @@ public record AwsFrauddetectorDeleteExternalModelOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The endpoint of the Amazon Sagemaker model to delete. Constraints: o min: 1 o max: 63 o pattern: ^[0-9A-Za-z_-]+$
+    /// The endpoint of the Amazon Sagemaker model to delete. Constraints: • min: 1 • max: 63 • pattern: ^[0-9A-Za-z_-]+$
     /// </summary>
     [CliOption("--model-endpoint")]
     public string? ModelEndpoint { get; private init; }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,7 +74,7 @@ public record AwsSesv2CreateContactOptions : AwsOptions, IValidatableObject
     public string? EmailAddress { get; private init; }
 
     /// <summary>
-    /// The contact's preferences for being opted-in to or opted-out of top- ics. (structure) The contact's preference for being opted-in to or opted-out of a topic. TopicName -&gt; (string) [required] The name of the topic. SubscriptionStatus -&gt; (string) [required] The contact's subscription status to a topic which is either OPT_IN or OPT_OUT . Possible values: o OPT_IN o OPT_OUT Shorthand Syntax: TopicName=string,SubscriptionStatus=string ... JSON Syntax: [ { "TopicName": "string", "SubscriptionStatus": "OPT_IN"|"OPT_OUT" } ... ]
+    /// The contact's preferences for being opted-in to or opted-out of topics. (structure) The contact's preference for being opted-in to or opted-out of a topic. TopicName -&gt; (string) [required] The name of the topic. SubscriptionStatus -&gt; (string) [required] The contact's subscription status to a topic which is either OPT_IN or OPT_OUT . Possible values: • OPT_IN • OPT_OUT Shorthand Syntax: TopicName=string,SubscriptionStatus=string ... JSON Syntax: [ { "TopicName": "string", "SubscriptionStatus": "OPT_IN"|"OPT_OUT" } ... ]
     /// </summary>
     [CliOption("--topic-preferences", GroupValues = true)]
     public IEnumerable<string>? TopicPreferences { get; set; }

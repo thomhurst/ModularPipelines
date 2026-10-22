@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +30,7 @@ public record AwsMailmanagerGetIngressPointOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Fetch ingress endpoint resource attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IngressPointId">The identifier of an ingress endpoint. Constraints: o min: 1 o max: 100</param>
+    /// <param name="IngressPointId">The identifier of an ingress endpoint. Constraints: • min: 1 • max: 100</param>
     public AwsMailmanagerGetIngressPointOptions(
         string IngressPointId
     )
@@ -57,13 +59,13 @@ public record AwsMailmanagerGetIngressPointOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of an ingress endpoint. Constraints: o min: 1 o max: 100
+    /// The identifier of an ingress endpoint. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--ingress-point-id")]
     public string? IngressPointId { get; private init; }
 
     /// <summary>
-    /// Whether to include the trust store contents in the response. Use IN- CLUDE to retrieve trust store certificate and CRL contents. Possible values: o EXCLUDE o INCLUDE
+    /// Whether to include the trust store contents in the response. Use INCLUDE to retrieve trust store certificate and CRL contents. Possible values: • EXCLUDE • INCLUDE
     /// </summary>
     [CliOption("--include-trust-store-contents")]
     public AwsMailmanagerGetIngressPointIncludeTrustStoreContents? IncludeTrustStoreContents { get; set; }

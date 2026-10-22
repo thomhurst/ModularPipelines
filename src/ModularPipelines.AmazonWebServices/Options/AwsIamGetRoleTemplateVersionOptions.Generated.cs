@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a version of the specified role template. Role templates define a reusable configurationincluding role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationthat you use to create IAM roles with AcquireRole . If you do not specify a minor version, the service returns the tem- plate's default minor version. See also: AWS API Documentation
+/// Retrieves information about a version of the specified role template. Role templates define a reusable configurationincluding role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationthat you use to create IAM roles with AcquireRole . If you do not specify a minor version, the service returns the template's default minor version. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +27,9 @@ public record AwsIamGetRoleTemplateVersionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a version of the specified role template. Role templates define a reusable configurationincluding role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationthat you use to create IAM roles with AcquireRole . If you do not specify a minor version, the service returns the tem- plate's default minor version. See also: AWS API Documentation
+    /// Retrieves information about a version of the specified role template. Role templates define a reusable configurationincluding role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationthat you use to create IAM roles with AcquireRole . If you do not specify a minor version, the service returns the template's default minor version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateArn">The Amazon Resource Name (ARN) of the role template whose version you want to retrieve. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    /// <param name="TemplateArn">The Amazon Resource Name (ARN) of the role template whose version you want to retrieve. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048</param>
     public AwsIamGetRoleTemplateVersionOptions(
         string TemplateArn
     )
@@ -56,7 +58,7 @@ public record AwsIamGetRoleTemplateVersionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the role template whose version you want to retrieve. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the role template whose version you want to retrieve. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--template-arn")]
     public string? TemplateArn { get; private init; }

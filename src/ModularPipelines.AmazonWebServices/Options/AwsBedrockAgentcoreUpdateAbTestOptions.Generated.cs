@@ -11,13 +11,15 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an A/B test's configuration, including variants, traffic allo- cation, evaluation settings, or execution status. See also: AWS API Documentation
+/// Updates an A/B test's configuration, including variants, traffic allocation, evaluation settings, or execution status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +29,9 @@ public record AwsBedrockAgentcoreUpdateAbTestOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an A/B test's configuration, including variants, traffic allo- cation, evaluation settings, or execution status. See also: AWS API Documentation
+    /// Updates an A/B test's configuration, including variants, traffic allocation, evaluation settings, or execution status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AbTestId">The unique identifier of the A/B test to update. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="AbTestId">The unique identifier of the A/B test to update. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreUpdateAbTestOptions(
         string AbTestId
     )
@@ -58,56 +60,56 @@ public record AwsBedrockAgentcoreUpdateAbTestOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the A/B test to update. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the A/B test to update. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--ab-test-id")]
     public string? AbTestId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an er- ror. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The updated name of the A/B test. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// The updated name of the A/B test. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated description of the A/B test. Constraints: o min: 1 o max: 200
+    /// The updated description of the A/B test. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated list of variants. Constraints: o min: 2 o max: 2 (structure) A variant in an A/B test, representing either the control (C) or treatment (T1) configuration. name -&gt; (string) [required] The name of the variant. Must be C for control or T1 for treatment. Constraints: o min: 1 o max: 2 o pattern: (C|T1) weight -&gt; (integer) [required] The percentage of traffic to route to this variant. Weights across all variants must sum to 100. Constraints: o min: 1 o max: 100 variantConfiguration -&gt; (structure) [required] The configuration for this variant, including the configura- tion bundle or target reference. configurationBundle -&gt; (structure) A reference to a configuration bundle version to use for this variant. bundleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the configuration bundle. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:configuration-bun- dle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} bundleVersion -&gt; (string) [required] The version of the configuration bundle. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} target -&gt; (structure) A reference to a gateway target to route traffic to for this variant. name -&gt; (string) [required] The name of the gateway target. Constraints: o min: 1 o max: 100 Shorthand Syntax: name=string,weight=integer,variantConfiguration={configurationBundle={bundleArn=string,bundleVersion=string},target={name=string}} ... JSON Syntax: [ { "name": "string", "weight": integer, "variantConfiguration": { "configurationBundle": { "bundleArn": "string", "bundleVersion": "string" }, "target": { "name": "string" } } } ... ]
+    /// The updated list of variants. Constraints: • min: 2 • max: 2 (structure) A variant in an A/B test, representing either the control (C) or treatment (T1) configuration. name -&gt; (string) [required] The name of the variant. Must be C for control or T1 for treatment. Constraints: • min: 1 • max: 2 • pattern: (C|T1) weight -&gt; (integer) [required] The percentage of traffic to route to this variant. Weights across all variants must sum to 100. Constraints: • min: 1 • max: 100 variantConfiguration -&gt; (structure) [required] The configuration for this variant, including the configuration bundle or target reference. configurationBundle -&gt; (structure) A reference to a configuration bundle version to use for this variant. bundleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the configuration bundle. Constraints: • pattern: arn:aws[a-zA-Z-]*:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:configuration-bundle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} bundleVersion -&gt; (string) [required] The version of the configuration bundle. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} target -&gt; (structure) A reference to a gateway target to route traffic to for this variant. name -&gt; (string) [required] The name of the gateway target. Constraints: • min: 1 • max: 100 Shorthand Syntax: name=string,weight=integer,variantConfiguration={configurationBundle={bundleArn=string,bundleVersion=string},target={name=string}} ... JSON Syntax: [ { "name": "string", "weight": integer, "variantConfiguration": { "configurationBundle": { "bundleArn": "string", "bundleVersion": "string" }, "target": { "name": "string" } } } ... ]
     /// </summary>
     [CliOption("--variants", GroupValues = true)]
     public IEnumerable<string>? Variants { get; set; }
 
     /// <summary>
-    /// The updated gateway filter. targetPaths -&gt; (list) A list of target path patterns to include in the A/B test. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 500 Shorthand Syntax: targetPaths=string,string JSON Syntax: { "targetPaths": ["string", ...] }
+    /// The updated gateway filter. targetPaths -&gt; (list) A list of target path patterns to include in the A/B test. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 500 Shorthand Syntax: targetPaths=string,string JSON Syntax: { "targetPaths": ["string", ...] }
     /// </summary>
     [CliOption("--gateway-filter")]
     public string? GatewayFilter { get; set; }
 
     /// <summary>
-    /// The updated evaluation configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: onlineEvaluationConfigArn, perVariantOn- lineEvaluationConfig. onlineEvaluationConfigArn -&gt; (string) The Amazon Resource Name (ARN) of a single online evaluation configuration to use for both variants. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:online-evaluation-con- fig\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} perVariantOnlineEvaluationConfig -&gt; (list) Per-variant online evaluation configurations, allowing different evaluation settings for each variant. Constraints: o min: 2 o max: 2 (structure) An online evaluation configuration associated with a specific A/B test variant. name -&gt; (string) [required] The name of the variant this evaluation configuration ap- plies to. Constraints: o min: 1 o max: 2 o pattern: (C|T1) onlineEvaluationConfigArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the online evaluation configuration for this variant. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:online-evaluation-con- fig\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} Shorthand Syntax: onlineEvaluationConfigArn=string,perVariantOnlineEvaluationConfig=[{name=string,onlineEvaluationConfigArn=string},{name=string,onlineEvaluationConfigArn=string}] JSON Syntax: { "onlineEvaluationConfigArn": "string", "perVariantOnlineEvaluationConfig": [ { "name": "string", "onlineEvaluationConfigArn": "string" } ... ] }
+    /// The updated evaluation configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: onlineEvaluationConfigArn, perVariantOnlineEvaluationConfig. onlineEvaluationConfigArn -&gt; (string) The Amazon Resource Name (ARN) of a single online evaluation configuration to use for both variants. Constraints: • pattern: arn:aws[a-zA-Z-]*:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:online-evaluation-config\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} perVariantOnlineEvaluationConfig -&gt; (list) Per-variant online evaluation configurations, allowing different evaluation settings for each variant. Constraints: • min: 2 • max: 2 (structure) An online evaluation configuration associated with a specific A/B test variant. name -&gt; (string) [required] The name of the variant this evaluation configuration applies to. Constraints: • min: 1 • max: 2 • pattern: (C|T1) onlineEvaluationConfigArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the online evaluation configuration for this variant. Constraints: • pattern: arn:aws[a-zA-Z-]*:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:online-evaluation-config\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} Shorthand Syntax: onlineEvaluationConfigArn=string,perVariantOnlineEvaluationConfig=[{name=string,onlineEvaluationConfigArn=string},{name=string,onlineEvaluationConfigArn=string}] JSON Syntax: { "onlineEvaluationConfigArn": "string", "perVariantOnlineEvaluationConfig": [ { "name": "string", "onlineEvaluationConfigArn": "string" } ... ] }
     /// </summary>
     [CliOption("--evaluation-config")]
     public string? EvaluationConfig { get; set; }
 
     /// <summary>
-    /// The updated IAM role ARN. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
+    /// The updated IAM role ARN. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The updated execution status to enable or disable the A/B test. Possible values: o PAUSED o RUNNING o STOPPED o NOT_STARTED
+    /// The updated execution status to enable or disable the A/B test. Possible values: • PAUSED • RUNNING • STOPPED • NOT_STARTED
     /// </summary>
     [CliOption("--execution-status")]
     public AwsBedrockAgentcoreUpdateAbTestExecutionStatus? ExecutionStatus { get; set; }

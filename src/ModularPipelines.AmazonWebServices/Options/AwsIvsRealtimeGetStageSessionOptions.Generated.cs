@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsIvsRealtimeGetStageSessionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gets information for the specified stage session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StageArn">ARN of the stage for which the information is to be retrieved. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
-    /// <param name="SessionId">ID of a session within the stage. Constraints: o min: 16 o max: 16 o pattern: st-[a-zA-Z0-9]+</param>
+    /// <param name="StageArn">ARN of the stage for which the information is to be retrieved. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="SessionId">ID of a session within the stage. Constraints: • min: 16 • max: 16 • pattern: st-[a-zA-Z0-9]+</param>
     public AwsIvsRealtimeGetStageSessionOptions(
         string StageArn,
         string SessionId
@@ -60,13 +62,13 @@ public record AwsIvsRealtimeGetStageSessionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the stage for which the information is to be retrieved. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// ARN of the stage for which the information is to be retrieved. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--stage-arn")]
     public string? StageArn { get; private init; }
 
     /// <summary>
-    /// ID of a session within the stage. Constraints: o min: 16 o max: 16 o pattern: st-[a-zA-Z0-9]+
+    /// ID of a session within the stage. Constraints: • min: 16 • max: 16 • pattern: st-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }

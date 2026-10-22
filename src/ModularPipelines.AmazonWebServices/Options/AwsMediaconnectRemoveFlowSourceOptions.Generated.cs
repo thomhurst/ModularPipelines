@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +29,8 @@ public record AwsMediaconnectRemoveFlowSourceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to remove a source from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
-    /// <param name="SourceArn">The ARN of the source that you want to remove. Constraints: o pattern: arn:.+:mediaconnect.+:source:.+</param>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to remove a source from. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="SourceArn">The ARN of the source that you want to remove. Constraints: • pattern: arn:.+:mediaconnect.+:source:.+</param>
     public AwsMediaconnectRemoveFlowSourceOptions(
         string FlowArn,
         string SourceArn
@@ -60,13 +62,13 @@ public record AwsMediaconnectRemoveFlowSourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the flow that you want to remove a source from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The Amazon Resource Name (ARN) of the flow that you want to remove a source from. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the source that you want to remove. Constraints: o pattern: arn:.+:mediaconnect.+:source:.+
+    /// The ARN of the source that you want to remove. Constraints: • pattern: arn:.+:mediaconnect.+:source:.+
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; private init; }

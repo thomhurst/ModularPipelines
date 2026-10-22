@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations in the Amazon S3 User Guide . This request is asynch...
+/// NOTE: This operation is not supported by directory buckets. Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide . This request is asynchrono...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +28,10 @@ public record AwsS3controlDeleteMultiRegionAccessPointOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations in the Amazon S3 User Guide . This request is asynch...
+    /// NOTE: This operation is not supported by directory buckets. Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide . This request is asynchrono...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Details">A container element containing details about the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with this request. Constraints: o max: 50 o pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }</param>
+    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Details">A container element containing details about the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with this request. Constraints: • max: 50 • pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }</param>
     public AwsS3controlDeleteMultiRegionAccessPointOptions(
         string AccountId,
         string Details
@@ -61,19 +63,19 @@ public record AwsS3controlDeleteMultiRegionAccessPointOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A container element containing details about the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with this request. Constraints: o max: 50 o pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }
+    /// A container element containing details about the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with this request. Constraints: • max: 50 • pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }
     /// </summary>
     [CliOption("--details")]
     public string? Details { get; private init; }
 
     /// <summary>
-    /// An idempotency token used to identify the request and guarantee that requests are unique. Constraints: o max: 64 o pattern: \S+
+    /// An idempotency token used to identify the request and guarantee that requests are unique. Constraints: • max: 64 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

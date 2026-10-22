@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +30,8 @@ public record AwsDirectconnectUpdateConnectionsBillingModeOptions : AwsOptions, 
     /// <summary>
     /// Updates the billing mode for the specified Direct Connect connections. You can update the billing mode for up to 200 connections in a single request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionIds">The IDs of the connections to update. You can specify from 1 to 200 connections. Constraints: o min: 1 o max: 200 (string) Syntax: "string" "string" ...</param>
-    /// <param name="BillingMode">The billing mode to apply to the specified connections. The valid values are PayAsYouGo , FlatRateTier1 , FlatRateTier2 , Fla- tRateTier3 , FlatRateTier4 , and FlatRateTier5 . Possible values: o PayAsYouGo o FlatRateTier1 o FlatRateTier2 o FlatRateTier3 o FlatRateTier4 o FlatRateTier5</param>
+    /// <param name="ConnectionIds">The IDs of the connections to update. You can specify from 1 to 200 connections. Constraints: • min: 1 • max: 200 (string) Syntax: "string" "string" ...</param>
+    /// <param name="BillingMode">The billing mode to apply to the specified connections. The valid values are PayAsYouGo , FlatRateTier1 , FlatRateTier2 , FlatRateTier3 , FlatRateTier4 , and FlatRateTier5 . Possible values: • PayAsYouGo • FlatRateTier1 • FlatRateTier2 • FlatRateTier3 • FlatRateTier4 • FlatRateTier5</param>
     public AwsDirectconnectUpdateConnectionsBillingModeOptions(
         IEnumerable<string> ConnectionIds,
         AwsDirectconnectUpdateConnectionsBillingModeBillingMode BillingMode
@@ -71,13 +73,13 @@ public record AwsDirectconnectUpdateConnectionsBillingModeOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the connections to update. You can specify from 1 to 200 connections. Constraints: o min: 1 o max: 200 (string) Syntax: "string" "string" ...
+    /// The IDs of the connections to update. You can specify from 1 to 200 connections. Constraints: • min: 1 • max: 200 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--connection-ids", GroupValues = true)]
     public IEnumerable<string>? ConnectionIds { get; private init; }
 
     /// <summary>
-    /// The billing mode to apply to the specified connections. The valid values are PayAsYouGo , FlatRateTier1 , FlatRateTier2 , Fla- tRateTier3 , FlatRateTier4 , and FlatRateTier5 . Possible values: o PayAsYouGo o FlatRateTier1 o FlatRateTier2 o FlatRateTier3 o FlatRateTier4 o FlatRateTier5
+    /// The billing mode to apply to the specified connections. The valid values are PayAsYouGo , FlatRateTier1 , FlatRateTier2 , FlatRateTier3 , FlatRateTier4 , and FlatRateTier5 . Possible values: • PayAsYouGo • FlatRateTier1 • FlatRateTier2 • FlatRateTier3 • FlatRateTier4 • FlatRateTier5
     /// </summary>
     [CliOption("--billing-mode")]
     public AwsDirectconnectUpdateConnectionsBillingModeBillingMode? BillingMode { get; private init; }
