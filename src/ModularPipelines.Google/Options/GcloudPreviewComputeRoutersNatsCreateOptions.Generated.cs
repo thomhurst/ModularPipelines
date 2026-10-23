@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
@@ -284,6 +283,15 @@ public record GcloudPreviewComputeRoutersNatsCreateOptions : GcloudOptions, IVal
             yield return new ValidationResult("At most one of Nat64AllV6SubnetIpRanges or Nat64CustomV6SubnetIpRanges may be specified.", [nameof(Nat64AllV6SubnetIpRanges), nameof(Nat64CustomV6SubnetIpRanges)]);
         }
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

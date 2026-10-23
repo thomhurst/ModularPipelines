@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -423,6 +422,15 @@ public record GcloudPreviewComputeSecurityPoliciesRulesCreateOptions : GcloudOpt
             yield return new ValidationResult("At least one of Expression, NetworkDestIpRanges, NetworkDestPorts, NetworkIpProtocols, NetworkSrcAsns, NetworkSrcIpRanges, NetworkSrcPorts, NetworkSrcRegionCodes, or SrcIpRanges must be specified.", [nameof(Expression), nameof(NetworkDestIpRanges), nameof(NetworkDestPorts), nameof(NetworkIpProtocols), nameof(NetworkSrcAsns), nameof(NetworkSrcIpRanges), nameof(NetworkSrcPorts), nameof(NetworkSrcRegionCodes), nameof(SrcIpRanges)]);
         }
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

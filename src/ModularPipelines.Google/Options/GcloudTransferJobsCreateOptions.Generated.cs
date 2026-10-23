@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -401,6 +400,15 @@ public record GcloudTransferJobsCreateOptions : GcloudOptions, IValidatableObjec
             yield return new ValidationResult("At least one of IncludePrefixes, ExcludePrefixes, MatchGlob, IncludeModifiedBeforeAbsolute, IncludeModifiedAfterAbsolute, IncludeModifiedBeforeRelative, IncludeModifiedAfterRelative, IncludeStorageClasses, OverwriteWhen, DeleteFrom, PreserveMetadata, or CustomStorageClass must be specified.", [nameof(IncludePrefixes), nameof(ExcludePrefixes), nameof(MatchGlob), nameof(IncludeModifiedBeforeAbsolute), nameof(IncludeModifiedAfterAbsolute), nameof(IncludeModifiedBeforeRelative), nameof(IncludeModifiedAfterRelative), nameof(IncludeStorageClasses), nameof(OverwriteWhen), nameof(DeleteFrom), nameof(PreserveMetadata), nameof(CustomStorageClass)]);
         }
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

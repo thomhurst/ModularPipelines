@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
@@ -161,6 +160,15 @@ public record GcloudAgentIdentityAuthProvidersCreateOptions : GcloudOptions, IVa
             yield return new ValidationResult("Exactly one of ApiKey, (ThreeLeggedOauthAuthorizationUrl, ThreeLeggedOauthClientId, ThreeLeggedOauthClientSecret, ThreeLeggedOauthDefaultContinueUri, ThreeLeggedOauthEnablePkce, or ThreeLeggedOauthTokenUrl), or (TwoLeggedOauthClientId, TwoLeggedOauthClientSecret, or TwoLeggedOauthTokenUrl) must be specified.", [nameof(ApiKey), nameof(ThreeLeggedOauthAuthorizationUrl), nameof(ThreeLeggedOauthClientId), nameof(ThreeLeggedOauthClientSecret), nameof(ThreeLeggedOauthDefaultContinueUri), nameof(ThreeLeggedOauthEnablePkce), nameof(ThreeLeggedOauthTokenUrl), nameof(TwoLeggedOauthClientId), nameof(TwoLeggedOauthClientSecret), nameof(TwoLeggedOauthTokenUrl)]);
         }
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

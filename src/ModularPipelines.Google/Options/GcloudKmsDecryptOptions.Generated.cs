@@ -85,4 +85,13 @@ public record GcloudKmsDecryptOptions : GcloudOptions
     [CliFlag("--skip-integrity-verification")]
     public bool? SkipIntegrityVerification { get; set; }
 
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
+
 }
