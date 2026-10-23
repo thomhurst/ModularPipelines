@@ -49,6 +49,26 @@ registries. Configured masking options and supported CI-native masking still app
 Register values before logging them: registration does not redact output that has already been
 written. Null, empty, and whitespace-only values are ignored.
 
+## Exceptions leaving the pipeline
+
+`IPipeline.RunAsync()` masks registered secrets in exceptions before returning them to the caller.
+When masking changes exception text or diagnostics, the pipeline throws a sanitized snapshot with
+masked messages, stack traces, and inner exceptions, including every aggregate exception branch.
+The snapshot remains masked after the pipeline is disposed, so unhandled exception output also
+uses the masked text. The original exception is not exposed through `InnerException`.
+
+Structured or opaque `Exception.Data` keys and values become text snapshots so their original
+objects cannot expose unmasked contents. This conservatively requires a sanitized exception even
+when the object's text contains no secret. Plain scalar values retain their types when unchanged.
+
+Sanitized exceptions can have a different concrete type from the original exception. For example,
+`ModuleFailedException` and `PipelineFailedException` are replaced, so catches for those types and
+access to `PipelineFailedException.Summary` do not apply to sanitized exceptions. Aggregate
+exceptions remain `AggregateException` instances, and cancellation remains an
+`OperationCanceledException` with the original cancellation token. When nothing needs masking,
+the original exception and its type are preserved. Register secrets before throwing an exception
+that contains them; the same masking settings used for logs apply.
+
 ## Mask a configuration section
 
 When a configuration provider supplies a group of secrets, you can register every leaf value in

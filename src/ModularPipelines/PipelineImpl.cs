@@ -222,6 +222,12 @@ internal sealed class PipelineImpl : IPipeline
                 activity,
                 exception,
                 secretObfuscator.Obfuscate(exception.Message, null));
+            var maskedException = ObfuscatedLogException.CreateIfNeeded(exception, secretObfuscator);
+            if (!ReferenceEquals(maskedException, exception))
+            {
+                throw maskedException;
+            }
+
             throw;
         }
     }

@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
+using ModularPipelines.Models;
 using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
@@ -44,8 +43,65 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
             null => null,
             AggregateException aggregateException =>
                 new ObfuscatedAggregateLogException(aggregateException, secretObfuscator),
+            OperationCanceledException cancellationException =>
+                new ObfuscatedCancellationLogException(cancellationException, secretObfuscator),
             _ => new ObfuscatedLogException(exception, secretObfuscator),
         };
+
+    internal static Exception CreateIfNeeded(Exception exception, ISecretObfuscator secretObfuscator)
+    {
+        // Inspect every surface while taking the snapshot, including aggregate branches and Data.
+        // Comparing only ToString() would miss inner exceptions hidden by custom formatting.
+        var trackingObfuscator = new ChangeTrackingObfuscator(secretObfuscator);
+        var snapshot = Create(exception, trackingObfuscator)!;
+        InspectSummaryExceptions(exception, trackingObfuscator, [with(ReferenceEqualityComparer.Instance)]);
+        return trackingObfuscator.WasChanged ? snapshot : exception;
+    }
+
+    private static void InspectSummaryExceptions(
+        Exception exception,
+        ChangeTrackingObfuscator secretObfuscator,
+        HashSet<Exception> visited)
+    {
+        if (secretObfuscator.WasChanged || !visited.Add(exception))
+        {
+            return;
+        }
+
+        if (exception is PipelineFailedException pipelineFailure)
+        {
+            InspectResultExceptions(pipelineFailure.Summary, secretObfuscator, visited);
+        }
+
+        if (exception is AggregateException aggregate)
+        {
+            foreach (var inner in aggregate.InnerExceptions)
+            {
+                InspectSummaryExceptions(inner, secretObfuscator, visited);
+            }
+        }
+        else if (exception.InnerException is { } inner)
+        {
+            InspectSummaryExceptions(inner, secretObfuscator, visited);
+        }
+    }
+
+    private static void InspectResultExceptions(
+        PipelineSummary summary,
+        ChangeTrackingObfuscator secretObfuscator,
+        HashSet<Exception> visited)
+    {
+        foreach (var result in summary.Results)
+        {
+            if (result.ExceptionOrDefault is { } failure)
+            {
+                // The snapshot omits Summary. Still inspect its retained exceptions so
+                // the boundary cannot return an original with sensitive result data.
+                _ = Create(failure, secretObfuscator);
+                InspectSummaryExceptions(failure, secretObfuscator, visited);
+            }
+        }
+    }
 
     Exception IOriginalExceptionIdentity.OriginalException => _originalException;
 
@@ -105,7 +161,8 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
         Exception source,
         ISecretObfuscator secretObfuscator)
     {
-        TryCopyTargetSite(destination, source);
+        // TargetSite exposes reflection metadata that cannot be masked. Keep the
+        // sanitized stack text, but never copy the original method or native frames.
         destination.HResult = source.HResult;
         destination.HelpLink = GetObfuscatedDiagnostic(
             () => source.HelpLink,
@@ -114,37 +171,6 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
             () => source.Source,
             secretObfuscator);
         CopyData(destination, source, secretObfuscator);
-    }
-
-    private static void TryCopyTargetSite(Exception destination, Exception source)
-    {
-        if (!RuntimeFeature.IsDynamicCodeSupported)
-        {
-            TryCopyNativeAotTargetSiteState(destination, source);
-            return;
-        }
-
-        try
-        {
-            GetExceptionMethod(destination) = GetTargetSite(source);
-        }
-        catch (MissingFieldException)
-        {
-            // The private runtime field is unavailable under some runtimes.
-        }
-    }
-
-    private static void TryCopyNativeAotTargetSiteState(Exception destination, Exception source)
-    {
-        try
-        {
-            GetNativeAotStackTrace(destination) = GetNativeAotStackTrace(source)?.ToArray();
-            GetNativeAotStackTraceCount(destination) = GetNativeAotStackTraceCount(source);
-        }
-        catch (MissingFieldException)
-        {
-            // The private runtime fields are unavailable under some runtimes.
-        }
     }
 
     private static void CopyData(
@@ -169,6 +195,7 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
         catch (Exception)
         {
             // Diagnostic data must never make logging fail.
+            RequireSnapshot(secretObfuscator);
         }
     }
 
@@ -201,36 +228,91 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
 
         try
         {
+            // ToString() cannot prove that an arbitrary object has no sensitive state.
+            // Keep only known scalars; never expose an opaque object's fields or contents.
+            var preserveValue = IsScalarDataValue(value);
+            if (!preserveValue)
+            {
+                RequireSnapshot(secretObfuscator);
+            }
+
             var text = value.ToString() ?? string.Empty;
             var obfuscated = secretObfuscator.Obfuscate(text, null);
-            return obfuscated.Equals(text, StringComparison.Ordinal) ? value : obfuscated;
+            return preserveValue && obfuscated.Equals(text, StringComparison.Ordinal) ? value : obfuscated;
         }
         catch (Exception)
         {
+            RequireSnapshot(secretObfuscator);
             return LoggingConstants.SecretMask;
         }
     }
 
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2026",
-        Justification = "TargetSite is copied as an optional diagnostic; missing trimmed metadata is acceptable.")]
-    private static MethodBase? GetTargetSite(Exception exception) => exception.TargetSite;
+    private static bool IsScalarDataValue(object value) =>
+        value is string or decimal or DateTime or DateTimeOffset or TimeSpan or Guid
+        || value.GetType().IsPrimitive
+        || value.GetType().IsEnum;
 
-    // TargetSite is non-virtual and has no public copy API; this is its .NET 10 backing field.
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_exceptionMethod")]
-    private static extern ref MethodBase? GetExceptionMethod(Exception exception);
+    private static void RequireSnapshot(ISecretObfuscator secretObfuscator)
+    {
+        if (secretObfuscator is ChangeTrackingObfuscator tracker)
+        {
+            tracker.MarkChanged();
+        }
+    }
 
-    // NativeAOT computes TargetSite from the first captured native stack trace entry.
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_corDbgStackTrace")]
-    private static extern ref IntPtr[]? GetNativeAotStackTrace(Exception exception);
+    private sealed class ChangeTrackingObfuscator(ISecretObfuscator secretObfuscator) : ISecretObfuscator
+    {
+        public bool WasChanged { get; private set; }
 
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_idxFirstFreeStackTraceEntry")]
-    private static extern ref int GetNativeAotStackTraceCount(Exception exception);
+        public void MarkChanged() => WasChanged = true;
+
+        public string Obfuscate(string? input, object? optionsObject)
+        {
+            try
+            {
+                var output = secretObfuscator.Obfuscate(input, optionsObject);
+                WasChanged |= !string.Equals(input, output, StringComparison.Ordinal);
+                return output;
+            }
+            catch
+            {
+                WasChanged = true;
+                throw;
+            }
+        }
+    }
+
+    private sealed class ObfuscatedCancellationLogException : OperationCanceledException, IOriginalExceptionIdentity
+    {
+        private readonly Exception _originalException;
+        private readonly string? _obfuscatedStackTrace;
+        private readonly string _obfuscatedText;
+
+        public ObfuscatedCancellationLogException(
+            OperationCanceledException exception,
+            ISecretObfuscator secretObfuscator)
+            : base(
+                GetObfuscatedMessage(exception, secretObfuscator),
+                Create(exception.InnerException, secretObfuscator),
+                exception.CancellationToken)
+        {
+            _originalException = exception;
+            _obfuscatedStackTrace = GetObfuscatedDiagnostic(() => exception.StackTrace, secretObfuscator);
+            _obfuscatedText = GetObfuscatedText(exception, secretObfuscator);
+            CopyDiagnostics(this, exception, secretObfuscator);
+        }
+
+        Exception IOriginalExceptionIdentity.OriginalException => _originalException;
+
+        public override string? StackTrace => _obfuscatedStackTrace;
+
+        public override string ToString() => _obfuscatedText;
+    }
 
     private sealed class ObfuscatedAggregateLogException : AggregateException, IOriginalExceptionIdentity
     {
         private readonly Exception _originalException;
+        private readonly string _obfuscatedMessage;
         private readonly string? _obfuscatedStackTrace;
         private readonly string _obfuscatedText;
 
@@ -242,6 +324,9 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
                 exception.InnerExceptions.Select(inner => Create(inner, secretObfuscator)!))
         {
             _originalException = exception;
+            // AggregateException.Message already includes its inner messages. Preserve that
+            // snapshot rather than appending the sanitized branches a second time.
+            _obfuscatedMessage = GetObfuscatedMessage(exception, secretObfuscator);
             _obfuscatedStackTrace = GetObfuscatedDiagnostic(
                 () => exception.StackTrace,
                 secretObfuscator);
@@ -250,6 +335,8 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
         }
 
         Exception IOriginalExceptionIdentity.OriginalException => _originalException;
+
+        public override string Message => _obfuscatedMessage;
 
         public override string? StackTrace => _obfuscatedStackTrace;
 

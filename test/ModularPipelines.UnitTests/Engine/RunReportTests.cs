@@ -2888,8 +2888,10 @@ public class RunReportTests
             builder.AddModule<SuccessfulModule>();
             builder.AddPipelineEventHandler<ThrowingEndHook>();
 
-            await Assert.ThrowsAsync<InvalidOperationException>(
+            var failure = await Assert.ThrowsAsync<Exception>(
                 () => builder.RunAsync());
+            await Assert.That(failure!.ToString()).DoesNotContain("hook-secret-value");
+            await Assert.That(failure.ToString()).Contains("**********");
 
             var report = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));
@@ -3130,8 +3132,10 @@ public class RunReportTests
             });
             builder.AddModule<FailingModule>();
 
-            await Assert.ThrowsAsync<ModuleFailedException>(
+            var failure = await Assert.ThrowsAsync<Exception>(
                 () => builder.RunAsync());
+            await Assert.That(failure!.ToString()).DoesNotContain("report-secret-value");
+            await Assert.That(failure.ToString()).Contains("**********");
 
             var report = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));
@@ -3211,8 +3215,10 @@ public class RunReportTests
             builder.AddModule<FailingModule>();
             builder.AddPipelineEventHandler<WrappedFailureEndHook>();
 
-            await Assert.ThrowsAsync<InvalidOperationException>(
+            var failure = await Assert.ThrowsAsync<Exception>(
                 () => builder.RunAsync());
+            await Assert.That(failure!.ToString()).DoesNotContain("report-secret-value");
+            await Assert.That(failure.ToString()).Contains("**********");
 
             var report = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));

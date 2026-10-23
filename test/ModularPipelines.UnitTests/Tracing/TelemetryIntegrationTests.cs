@@ -467,8 +467,10 @@ public class TelemetryIntegrationTests
 
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, ThrowingCommandInterceptor>();
-        await Assert.ThrowsAsync<ModuleFailedException>(async () =>
+        var failure = await Assert.ThrowsAsync<Exception>(async () =>
             await builder.AddModule<CommandModule>().RunAsync());
+        await Assert.That(failure!.Message).Contains("**********");
+        await Assert.That(failure.ToString()).DoesNotContain(Secret);
 
         var failureActivities = stoppedActivities.Where(activity =>
                 activity.OperationName is "Pipeline.Run"
@@ -837,10 +839,10 @@ public class TelemetryIntegrationTests
 
         await Assert.That(measurements).Count().IsEqualTo(10);
         await Assert.That(measurements.Select(measurement => measurement.Name).Distinct()).Count().IsEqualTo(5);
-        foreach (var measurement in measurements)
+        foreach (var (_, tags) in measurements)
         {
-            await Assert.That(measurement.Tags.Any(tag => tag.Key == PipelineTelemetry.ModuleTypeFullNameTag)).IsFalse();
-            await Assert.That(measurement.Tags.Single(tag => tag.Key == PipelineTelemetry.ModuleTypeTag).Value)
+            await Assert.That(tags.Any(tag => tag.Key == PipelineTelemetry.ModuleTypeFullNameTag)).IsFalse();
+            await Assert.That(tags.Single(tag => tag.Key == PipelineTelemetry.ModuleTypeTag).Value)
                 .IsEqualTo(typeof(GenericModule<>).Name);
         }
     }
