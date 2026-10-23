@@ -97,7 +97,7 @@ public class CliValueNamespaceTests
         };
         foreach (var source in sources)
         {
-            await Assert.That(source).DoesNotContain("ModularPipelines.Models.");
+            await Assert.That(source).DoesNotContain("ModularPipelines.Models");
         }
 
         var harness = CreateHarness(shape, positional, elementType);
@@ -239,7 +239,6 @@ public class CliValueNamespaceTests
             global using System;
             global using System.Collections.Generic;
             global using System.Linq;
-            namespace ModularPipelines.Models { internal sealed class NamespaceMarker; }
             namespace ModularPipelines.Options { public record CommandLineToolOptions; }
             namespace ModularPipelines.Attributes
             {

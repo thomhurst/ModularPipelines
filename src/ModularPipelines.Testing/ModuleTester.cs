@@ -18,7 +18,6 @@ using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 using ModularPipelines.Generated;

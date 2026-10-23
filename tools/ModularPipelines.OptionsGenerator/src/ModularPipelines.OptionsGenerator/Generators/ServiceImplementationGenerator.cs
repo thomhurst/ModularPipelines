@@ -39,8 +39,8 @@ public class ServiceImplementationGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using ModularPipelines;");
         sb.AppendLine("using ModularPipelines.Context;");
-        sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Options;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
         sb.AppendLine();

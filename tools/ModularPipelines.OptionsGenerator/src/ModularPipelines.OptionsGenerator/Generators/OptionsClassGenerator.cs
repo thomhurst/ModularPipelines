@@ -118,12 +118,11 @@ public class OptionsClassGenerator : ICodeGenerator
 
         // Validation and snapshot helpers inspect CLI values even for ordinary collection properties.
         if (RequiresCommandValidation(command)
-            || command.Options.Any(static option => option.RequiresModelsNamespace)
+            || command.Options.Any(static option => option.RequiresRootNamespace)
             || command.PositionalArguments.Any(static argument =>
-                CliOptionDefinition.TypeRequiresModelsNamespace(argument.CSharpType)))
+                CliOptionDefinition.TypeRequiresRootNamespace(argument.CSharpType)))
         {
             sb.AppendLine("using ModularPipelines;");
-            sb.AppendLine("using ModularPipelines.Models;");
         }
 
         if (command.Options.Any(o => o.ValidationConstraints is not null)

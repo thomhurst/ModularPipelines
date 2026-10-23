@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Options;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
