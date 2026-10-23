@@ -4,12 +4,95 @@ using ModularPipelines.Context;
 using ModularPipelines.GitHub;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.FileSystem;
+using Moq;
 using YamlDotNet.RepresentationModel;
 
 namespace ModularPipelines.GitHub.UnitTests.Engine;
 
 public class DistributedPipelineWriterTests : TestBase
 {
+    [Test]
+    [Arguments("REDIS_URL")]
+    [Arguments("Redis__Connection2")]
+    [Arguments("_REDIS")]
+    public async Task GeneratesRedisSecretExpression(string name)
+    {
+        var outputPath = FilePath.GetNewTemporaryFilePath();
+
+        await TestPipelineBuilder.Create()
+            .AddModule<LinuxModule>()
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                RedisSecretName = name,
+            })
+            .RunAsync();
+
+        var yaml = new YamlStream();
+        yaml.Load(new StringReader(await outputPath.ReadAsync()));
+        var root = (YamlMappingNode) yaml.Documents[0].RootNode;
+        var jobs = (YamlMappingNode) root["jobs"];
+        var pipeline = (YamlMappingNode) jobs["pipeline"];
+        var steps = (YamlSequenceNode) pipeline["steps"];
+        var run = steps.Children.Cast<YamlMappingNode>().Single(step => step["name"].ToString() == "Run Pipeline");
+        var environment = (YamlMappingNode) run["env"];
+
+        await Assert.That(environment["REDIS_URL"].ToString()).IsEqualTo($"${{{{ secrets.{name} }}}}");
+    }
+
+    [Test]
+    [Arguments(null)]
+    [Arguments("")]
+    [Arguments(" ")]
+    [Arguments("redis://user:password@localhost:6379")]
+    [Arguments("localhost:6379,password=secret")]
+    [Arguments("literal-secret-value")]
+    [Arguments("${{ secrets.REDIS_URL }}")]
+    [Arguments("REDIS_URL }} ${{ github.token")]
+    [Arguments("REDIS\nOTHER")]
+    [Arguments("REDIS\r")]
+    [Arguments("REDIS'")]
+    [Arguments("RÉDIS")]
+    [Arguments("1REDIS")]
+    [Arguments(" REDIS")]
+    [Arguments("REDIS ")]
+    public async Task RejectsInvalidRedisSecretNamesBeforeWriting(string? name)
+    {
+        var outputPath = FilePath.GetNewTemporaryFilePath();
+        var writer = new DistributedGitHubPipelineFileWriter(new DistributedWorkflowOptions
+        {
+            OutputPath = outputPath,
+            RedisSecretName = name!,
+        }, []);
+
+        var exception = (await Assert.ThrowsAsync<ArgumentException>(() => writer.WriteAsync(Mock.Of<IPipelineContext>())))!;
+
+        await Assert.That(exception.ParamName).IsEqualTo(nameof(DistributedWorkflowOptions.RedisSecretName));
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            await Assert.That(exception.ToString()).DoesNotContain(name);
+        }
+
+        await Assert.That(outputPath.Exists).IsFalse();
+    }
+
+    [Test]
+    public async Task LeavesExistingWorkflowUntouchedForInvalidRedisSecretName()
+    {
+        var outputPath = FilePath.GetNewTemporaryFilePath();
+        const string existingWorkflow = "name: Existing workflow";
+        await outputPath.WriteAsync(existingWorkflow);
+        var writer = new DistributedGitHubPipelineFileWriter(new DistributedWorkflowOptions
+        {
+            OutputPath = outputPath,
+            RedisSecretName = "redis://user:password@localhost:6379",
+        }, []);
+
+        await Assert.ThrowsAsync<ArgumentException>(() => writer.WriteAsync(Mock.Of<IPipelineContext>()));
+
+        await Assert.That(await outputPath.ReadAsync()).IsEqualTo(existingWorkflow);
+    }
+
     [Test]
     [Arguments(true, true)]
     [Arguments(true, false)]

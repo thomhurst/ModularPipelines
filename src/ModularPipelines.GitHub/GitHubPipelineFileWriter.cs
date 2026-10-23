@@ -10,7 +10,9 @@ internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWrite
     {
         var options = await GetGitHubPipelineFileWriterOptions(pipelineHookContext).ConfigureAwait(false);
         var maskEnvironment = options.SecretNamesToMask?
-            .Select((name, index) => KeyValuePair.Create($"MODULARPIPELINES_MASK_VALUE_{index}", GetSecretExpression(name)))
+            .Select((name, index) => KeyValuePair.Create(
+                $"MODULARPIPELINES_MASK_VALUE_{index}",
+                GetSecretExpression(name, nameof(GitHubPipelineFileWriterOptions.SecretNamesToMask))))
             .ToDictionary() ?? [];
         var portableProjectPath = options.PipelineProjectPath.OriginalPath.Replace('\\', '/');
         var quotedProjectPath = $"'{portableProjectPath.Replace("'", "'\"'\"'", StringComparison.Ordinal)}'";
@@ -90,7 +92,7 @@ internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWrite
 
     internal abstract Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(IPipelineContext pipelineHookContext);
 
-    private static string GetSecretExpression(string name)
+    internal static string GetSecretExpression(string name, string parameterName)
     {
         if (string.IsNullOrEmpty(name)
             || (!char.IsAsciiLetter(name[0]) && name[0] != '_')
@@ -99,7 +101,7 @@ internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWrite
             // Do not include the invalid input: it may be a secret value supplied by mistake.
             throw new ArgumentException(
                 "Supply GitHub secret names, not values or expressions. Names must start with an ASCII letter or underscore and contain only ASCII letters, digits, or underscores.",
-                nameof(GitHubPipelineFileWriterOptions.SecretNamesToMask));
+                parameterName);
         }
 
         return $"${{{{ secrets.{name} }}}}";
