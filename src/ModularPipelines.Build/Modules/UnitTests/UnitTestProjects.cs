@@ -9,6 +9,7 @@ public static class UnitTestProjects
     public static Type[] ModuleTypes { get; } =
     [
         typeof(RunCoreUnitTestsModule),
+        typeof(RunConsumerUnitTestsModule),
         typeof(RunSourceGeneratorUnitTestsModule),
         typeof(RunAnsibleUnitTestsModule),
         typeof(RunArgoCdUnitTestsModule),
