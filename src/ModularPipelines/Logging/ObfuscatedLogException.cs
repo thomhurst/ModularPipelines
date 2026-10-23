@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
@@ -164,7 +161,8 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
         Exception source,
         ISecretObfuscator secretObfuscator)
     {
-        TryCopyTargetSite(destination, source);
+        // TargetSite exposes reflection metadata that cannot be masked. Keep the
+        // sanitized stack text, but never copy the original method or native frames.
         destination.HResult = source.HResult;
         destination.HelpLink = GetObfuscatedDiagnostic(
             () => source.HelpLink,
@@ -173,37 +171,6 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
             () => source.Source,
             secretObfuscator);
         CopyData(destination, source, secretObfuscator);
-    }
-
-    private static void TryCopyTargetSite(Exception destination, Exception source)
-    {
-        if (!RuntimeFeature.IsDynamicCodeSupported)
-        {
-            TryCopyNativeAotTargetSiteState(destination, source);
-            return;
-        }
-
-        try
-        {
-            GetExceptionMethod(destination) = GetTargetSite(source);
-        }
-        catch (MissingFieldException)
-        {
-            // The private runtime field is unavailable under some runtimes.
-        }
-    }
-
-    private static void TryCopyNativeAotTargetSiteState(Exception destination, Exception source)
-    {
-        try
-        {
-            GetNativeAotStackTrace(destination) = GetNativeAotStackTrace(source)?.ToArray();
-            GetNativeAotStackTraceCount(destination) = GetNativeAotStackTraceCount(source);
-        }
-        catch (MissingFieldException)
-        {
-            // The private runtime fields are unavailable under some runtimes.
-        }
     }
 
     private static void CopyData(
@@ -292,23 +259,6 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
             tracker.MarkChanged();
         }
     }
-
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2026",
-        Justification = "TargetSite is copied as an optional diagnostic; missing trimmed metadata is acceptable.")]
-    private static MethodBase? GetTargetSite(Exception exception) => exception.TargetSite;
-
-    // TargetSite is non-virtual and has no public copy API; this is its .NET 10 backing field.
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_exceptionMethod")]
-    private static extern ref MethodBase? GetExceptionMethod(Exception exception);
-
-    // NativeAOT computes TargetSite from the first captured native stack trace entry.
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_corDbgStackTrace")]
-    private static extern ref IntPtr[]? GetNativeAotStackTrace(Exception exception);
-
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_idxFirstFreeStackTraceEntry")]
-    private static extern ref int GetNativeAotStackTraceCount(Exception exception);
 
     private sealed class ChangeTrackingObfuscator(ISecretObfuscator secretObfuscator) : ISecretObfuscator
     {

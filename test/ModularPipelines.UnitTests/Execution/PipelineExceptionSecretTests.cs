@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Executors;
@@ -203,6 +204,47 @@ public class PipelineExceptionSecretTests
     }
 
     [Test]
+    [Arguments(0, false)]
+    [Arguments(0, true)]
+    [Arguments(1, false)]
+    [Arguments(1, true)]
+    [Arguments(2, false)]
+    [Arguments(2, true)]
+    public async Task SecretInTargetSite_DoesNotEscapeAfterDisposal(int kind, bool secretInTypeName)
+    {
+        var secret = secretInTypeName ? nameof(PipelineExceptionSecretTests) : nameof(CaptureTargetSiteException);
+        var captured = CaptureTargetSiteException(kind == 2
+            ? new OperationCanceledException("ordinary cancellation")
+            : new InvalidOperationException("ordinary failure"));
+        var original = kind == 1 ? new AggregateException(captured) : captured;
+        var targetSite = captured.TargetSite!;
+        await Assert.That(secretInTypeName ? targetSite.DeclaringType!.Name : targetSite.Name).IsEqualTo(secret);
+
+        var failure = await RunWithFailure(original, registerSecret: true, secret);
+
+        await Assert.That(failure).IsNotSameReferenceAs(original);
+        var snapshot = kind == 1 ? ((AggregateException) failure).InnerExceptions[0] : failure;
+        await Assert.That(snapshot.TargetSite?.Name ?? string.Empty).DoesNotContain(secret);
+        await Assert.That(snapshot.TargetSite?.DeclaringType?.FullName ?? string.Empty).DoesNotContain(secret);
+        await Assert.That(snapshot.StackTrace!).DoesNotContain(secret);
+        await Assert.That(snapshot.ToString()).DoesNotContain(secret);
+        await Assert.That(captured.TargetSite).IsSameReferenceAs(targetSite);
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static Exception CaptureTargetSiteException(Exception exception)
+    {
+        try
+        {
+            throw exception;
+        }
+        catch (Exception failure)
+        {
+            return failure;
+        }
+    }
+
+    [Test]
     public async Task SensitiveCancellation_PreservesCancellationAndToken()
     {
         using var cancellation = new CancellationTokenSource();
@@ -216,7 +258,7 @@ public class PipelineExceptionSecretTests
         await Assert.That(((OperationCanceledException) failure).CancellationToken).IsEqualTo(cancellation.Token);
     }
 
-    private static async Task<Exception> RunWithFailure(Exception exception, bool registerSecret)
+    private static async Task<Exception> RunWithFailure(Exception exception, bool registerSecret, string secret = Secret)
     {
         var orchestrator = new Mock<IExecutionOrchestrator>();
         orchestrator.Setup(service => service.ExecuteAsync(It.IsAny<CancellationToken>()))
@@ -226,7 +268,7 @@ public class PipelineExceptionSecretTests
         await using var pipeline = await builder.BuildAsync();
         if (registerSecret)
         {
-            pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(Secret);
+            pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
         }
 
         var run = pipeline.RunAsync();
