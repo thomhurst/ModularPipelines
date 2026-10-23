@@ -681,14 +681,14 @@ public record CliOptionDefinition
     internal bool IsGeneratedNegation { get; init; }
 
     /// <summary>
-    /// Whether generated code needs the ModularPipelines.Models namespace for this option type.
+    /// Whether generated code needs the root ModularPipelines namespace for this option type.
     /// </summary>
-    public bool RequiresModelsNamespace
+    public bool RequiresRootNamespace
         => IsKeyValue
            || ValueArity == CliOptionValueArity.Optional
-           || TypeRequiresModelsNamespace(CSharpType);
+           || TypeRequiresRootNamespace(CSharpType);
 
-    internal static bool TypeRequiresModelsNamespace(string cSharpType) =>
+    internal static bool TypeRequiresRootNamespace(string cSharpType) =>
         cSharpType.Contains("KeyValue", StringComparison.Ordinal)
         || cSharpType.Contains("CliValuePair", StringComparison.Ordinal)
         || cSharpType.Contains("CliValueGroup", StringComparison.Ordinal)

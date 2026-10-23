@@ -352,3 +352,6 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.GetComm
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.ExecuteVariantHelpCommandAsync(string![]! commandPath, string! variant, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.SuppressOutputLoggingByDefault.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.SuppressOutputLoggingByDefault.init -> void
+
+*REMOVED*ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.RequiresModelsNamespace.get -> bool
+ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.RequiresRootNamespace.get -> bool

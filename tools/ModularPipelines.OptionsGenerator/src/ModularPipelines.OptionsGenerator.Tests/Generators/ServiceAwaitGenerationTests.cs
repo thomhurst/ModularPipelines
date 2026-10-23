@@ -42,6 +42,12 @@ public class ServiceAwaitGenerationTests
         ICodeGenerator generator = nested ? new SubDomainClassGenerator() : new ServiceImplementationGenerator();
 
         var files = await generator.GenerateAsync(tool);
+        foreach (var file in files)
+        {
+            await Assert.That(file.Content).Contains("using ModularPipelines;");
+            await Assert.That(file.Content).DoesNotContain("using ModularPipelines.Models;");
+        }
+
         var service = files.Single(file => file.Content.Contains("return await _command", StringComparison.Ordinal)).Content;
         var options = required ? "options" : "options ?? new ToolRunOptions()";
 

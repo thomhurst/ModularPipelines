@@ -1,5 +1,3 @@
-using ModularPipelines.Models;
-
 namespace ModularPipelines.Node;
 
 /// <summary>

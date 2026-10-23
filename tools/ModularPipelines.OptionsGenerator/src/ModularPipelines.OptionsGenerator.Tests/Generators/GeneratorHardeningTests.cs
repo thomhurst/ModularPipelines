@@ -106,7 +106,7 @@ public class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(generated).Contains("using ModularPipelines.Models;");
+        await Assert.That(generated).Contains("using ModularPipelines;");
         await Assert.That(generated).Contains("public CliOptionValue? RunTests { get; set; }");
     }
 
@@ -197,7 +197,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task Options_Class_Imports_Models_For_Cli_Option_Value_Pairs()
+    public async Task Options_Class_Imports_Root_Contracts_For_Cli_Option_Value_Pairs()
     {
         var option = new CliOptionDefinition
         {
@@ -210,7 +210,7 @@ public class GeneratorHardeningTests
 
         var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
 
-        await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Models;");
+        await Assert.That(generatedFile.Content).Contains("using ModularPipelines;");
     }
 
     [Test]
@@ -228,13 +228,13 @@ public class GeneratorHardeningTests
 
         var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
 
-        await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Models;");
+        await Assert.That(generatedFile.Content).Contains("using ModularPipelines;");
         await Assert.That(generatedFile.Content)
             .Contains("public IEnumerable<CliOptionValue>? AttachDebugger { get; set; }");
     }
 
     [Test]
-    public async Task Global_Options_Class_Imports_Models_For_Cli_Option_Value_Pairs()
+    public async Task Global_Options_Class_Imports_Root_Contracts_For_Cli_Option_Value_Pairs()
     {
         var option = new CliOptionDefinition
         {
@@ -246,7 +246,7 @@ public class GeneratorHardeningTests
 
         var generatedFile = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single();
 
-        await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Models;");
+        await Assert.That(generatedFile.Content).Contains("using ModularPipelines;");
     }
 
     [Test]
@@ -1429,7 +1429,8 @@ public class GeneratorHardeningTests
             Command("ToolRunOptions", "ToolOptions", ["run"]),
             Command("ToolArtifactOptions", "ToolOptions", ["artifact"]),
             Command("ToolArtifactAddOptions", "ToolOptions", ["artifact", "add"], subDomainGroup: "artifact"),
-            Command("ToolArtifactGroupListOptions", "ToolOptions", ["artifact", "group", "list"], subDomainGroup: "artifact"));
+            Command("ToolArtifactGroupListOptions", "ToolOptions", ["artifact", "group", "list"], subDomainGroup: "artifact")) with
+        { TargetNamespace = "External.Tool" };
         var rootInterface = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
         var artifactInterface = (await new SubDomainClassGenerator().GenerateAsync(tool))
             .Single(file => Path.GetFileName(file.RelativePath) == "IToolArtifact.Generated.cs").Content;
@@ -1445,10 +1446,10 @@ public class GeneratorHardeningTests
             ("Group", "public ToolArtifactGroup Group => new();"),
         ];
         var fakeSource = $$"""
-            using ModularPipelines.Models;
+            using ModularPipelines;
             using ModularPipelines.Options;
-            using ModularPipelines.Tool.Options;
-            namespace ModularPipelines.Tool.Services
+            using External.Tool.Options;
+            namespace External.Tool.Services
             {
                 public class ToolArtifactGroup;
                 public class FakeTool : ITool
@@ -1470,9 +1471,9 @@ public class GeneratorHardeningTests
                 CSharpSyntaxTree.ParseText("""
                     global using System.Threading;
                     global using System.Threading.Tasks;
-                    namespace ModularPipelines.Models { public class CommandResult; }
+                    namespace ModularPipelines { public class CommandResult; }
                     namespace ModularPipelines.Options { public record CommandExecutionOptions; }
-                    namespace ModularPipelines.Tool.Options
+                    namespace External.Tool.Options
                     {
                         public record ToolRunOptions;
                         public record ToolArtifactOptions;

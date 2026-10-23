@@ -211,7 +211,7 @@ public class CliOptionDefinitionTests
         };
 
         await Assert.That(option.PropertyType).IsEqualTo("CliOptionValue?");
-        await Assert.That(option.RequiresModelsNamespace).IsTrue();
+        await Assert.That(option.RequiresRootNamespace).IsTrue();
     }
 
     [Test]
@@ -227,11 +227,11 @@ public class CliOptionDefinitionTests
         };
 
         await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
-        await Assert.That(option.RequiresModelsNamespace).IsTrue();
+        await Assert.That(option.RequiresRootNamespace).IsTrue();
     }
 
     [Test]
-    public async Task RequiresModelsNamespace_When_CSharpType_Uses_KeyValue_Without_Metadata()
+    public async Task RequiresRootNamespace_When_CSharpType_Uses_KeyValue_Without_Metadata()
     {
         var option = new CliOptionDefinition
         {
@@ -240,7 +240,7 @@ public class CliOptionDefinitionTests
             CSharpType = "IReadOnlyList<KeyValue>?",
         };
 
-        await Assert.That(option.RequiresModelsNamespace).IsTrue();
+        await Assert.That(option.RequiresRootNamespace).IsTrue();
     }
 
     [Test]

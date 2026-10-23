@@ -55,10 +55,9 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine("using ModularPipelines.Attributes;");
         sb.AppendLine("using ModularPipelines.Options;");
 
-        if (globalOptions.Any(o => o.RequiresModelsNamespace))
+        if (globalOptions.Any(o => o.RequiresRootNamespace))
         {
             sb.AppendLine("using ModularPipelines;");
-            sb.AppendLine("using ModularPipelines.Models;");
         }
 
         if (globalOptions.Any(o => o.ValidationConstraints is not null))
