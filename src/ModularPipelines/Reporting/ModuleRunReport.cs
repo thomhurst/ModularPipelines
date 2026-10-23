@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using ModularPipelines.Enums;
 using ModularPipelines.Serialization;
 
 namespace ModularPipelines.Reporting;
@@ -12,7 +11,8 @@ public sealed record ModuleRunReport
     /// <summary>
     /// Gets the module name.
     /// </summary>
-    public string ModuleName { get; init; } = string.Empty;
+    [JsonPropertyName("moduleName")]
+    public string Name { get; init; } = string.Empty;
 
     /// <summary>
     /// Gets the stable module identifier.
@@ -51,12 +51,14 @@ public sealed record ModuleRunReport
     /// <summary>
     /// Gets when the module started.
     /// </summary>
-    public DateTimeOffset? Start { get; init; }
+    [JsonPropertyName("start")]
+    public DateTimeOffset? StartTime { get; init; }
 
     /// <summary>
     /// Gets when the module finished.
     /// </summary>
-    public DateTimeOffset? End { get; init; }
+    [JsonPropertyName("end")]
+    public DateTimeOffset? EndTime { get; init; }
 
     /// <summary>
     /// Gets the skip reason, when the module was skipped.

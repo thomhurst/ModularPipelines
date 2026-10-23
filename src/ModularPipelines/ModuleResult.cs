@@ -7,7 +7,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Serialization;
 
@@ -69,6 +68,11 @@ public abstract record ModuleResult : IModuleResult
     /// </summary>
     [JsonIgnore]
     public Distributed.WorkerId? WorkerId { get; internal init; }
+
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ModuleId ModuleId { get; init; }
 
     // === Safe accessors (no exceptions) ===
 
@@ -154,6 +158,7 @@ public abstract record ModuleResult : IModuleResult
         {
             Name = ctx.ModuleType.Name,
             TypeName = ctx.ModuleType.FullName,
+            ModuleId = ModuleId.FromType(ctx.ModuleType),
             Duration = duration,
             StartTime = start,
             EndTime = end,
@@ -169,6 +174,7 @@ public abstract record ModuleResult : IModuleResult
         {
             Name = ctx.ModuleType.Name,
             TypeName = ctx.ModuleType.FullName,
+            ModuleId = ModuleId.FromType(ctx.ModuleType),
             Duration = duration,
             StartTime = start,
             EndTime = end,
@@ -245,6 +251,7 @@ public abstract record ModuleResult<T> : ModuleResult
     {
         Name = Name,
         TypeName = TypeName,
+        ModuleId = ModuleId,
         ModuleType = ModuleType,
         WorkerId = WorkerId,
         StartTime = StartTime,
@@ -266,6 +273,7 @@ public abstract record ModuleResult<T> : ModuleResult
         {
             Name = Name,
             TypeName = TypeName,
+            ModuleId = ModuleId,
             ModuleType = ModuleType,
             WorkerId = WorkerId,
             StartTime = StartTime,
@@ -432,6 +440,7 @@ public abstract record ModuleResult<T> : ModuleResult
         {
             Name = failure.Name,
             TypeName = failure.TypeName,
+            ModuleId = failure.ModuleId,
             Duration = failure.Duration,
             StartTime = failure.StartTime,
             EndTime = failure.EndTime,
@@ -449,6 +458,7 @@ public abstract record ModuleResult<T> : ModuleResult
         {
             Name = skipped.Name,
             TypeName = skipped.TypeName,
+            ModuleId = skipped.ModuleId,
             Duration = skipped.Duration,
             StartTime = skipped.StartTime,
             EndTime = skipped.EndTime,
@@ -465,6 +475,7 @@ public abstract record ModuleResult<T> : ModuleResult
         {
             Name = ctx.ModuleType.Name,
             TypeName = ctx.ModuleType.FullName,
+            ModuleId = ModuleId.FromType(ctx.ModuleType),
             Duration = duration,
             StartTime = start,
             EndTime = end,
@@ -480,6 +491,7 @@ public abstract record ModuleResult<T> : ModuleResult
         {
             Name = ctx.ModuleType.Name,
             TypeName = ctx.ModuleType.FullName,
+            ModuleId = ModuleId.FromType(ctx.ModuleType),
             Duration = duration,
             StartTime = start,
             EndTime = end,
@@ -495,6 +507,7 @@ public abstract record ModuleResult<T> : ModuleResult
         {
             Name = ctx.ModuleType.Name,
             TypeName = ctx.ModuleType.FullName,
+            ModuleId = ModuleId.FromType(ctx.ModuleType),
             Duration = duration,
             StartTime = start,
             EndTime = end,
@@ -597,6 +610,8 @@ internal class ModuleResultReadState
 {
     public string? Discriminator { get; set; }
 
+    public ModuleId ModuleId { get; set; }
+
     public string? Name { get; set; }
 
     public string? TypeName { get; set; }
@@ -625,6 +640,9 @@ internal class ModuleResultReadState
         {
             case "$type":
                 Discriminator = reader.GetString();
+                break;
+            case "ModuleId":
+                ModuleId = JsonSerializer.Deserialize<ModuleId>(ref reader, options);
                 break;
             case "Name":
             case "ModuleName":
@@ -730,6 +748,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                 {
                     Name = state.Name,
                     TypeName = state.TypeName,
+                    ModuleId = state.ModuleId,
                     Duration = state.Duration,
                     StartTime = state.StartTime,
                     EndTime = state.EndTime,
@@ -741,6 +760,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                 {
                     Name = state.Name,
                     TypeName = state.TypeName,
+                    ModuleId = state.ModuleId,
                     Duration = state.Duration,
                     StartTime = state.StartTime,
                     EndTime = state.EndTime,
@@ -782,6 +802,11 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
 
         // Write common properties
         writer.WriteString("Name", value.Name);
+        if (value.ModuleId != default)
+        {
+            writer.WritePropertyName("ModuleId");
+            JsonSerializer.Serialize(writer, value.ModuleId, options);
+        }
         if (value.TypeName is not null)
         {
             writer.WriteString("TypeName", value.TypeName);
@@ -898,6 +923,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         {
             Name = state.Name!,
             TypeName = state.TypeName,
+            ModuleId = state.ModuleId,
             Duration = state.Duration,
             StartTime = state.StartTime,
             EndTime = state.EndTime,
@@ -916,6 +942,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         {
             Name = state.Name!,
             TypeName = state.TypeName,
+            ModuleId = state.ModuleId,
             Duration = state.Duration,
             StartTime = state.StartTime,
             EndTime = state.EndTime,
@@ -934,6 +961,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         {
             Name = state.Name!,
             TypeName = state.TypeName,
+            ModuleId = state.ModuleId,
             Duration = state.Duration,
             StartTime = state.StartTime,
             EndTime = state.EndTime,
@@ -1024,6 +1052,11 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         // Write common properties
         writer.WriteString("Name", value.Name);
+        if (value.ModuleId != default)
+        {
+            writer.WritePropertyName("ModuleId");
+            JsonSerializer.Serialize(writer, value.ModuleId, options);
+        }
         if (value.TypeName is not null)
         {
             writer.WriteString("TypeName", value.TypeName);

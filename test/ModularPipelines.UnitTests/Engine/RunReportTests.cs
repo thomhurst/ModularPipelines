@@ -18,7 +18,6 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
@@ -430,23 +429,23 @@ public class RunReportTests
             [
                 new ModuleRunReport
                 {
-                    ModuleName = firstType.Name,
+                    Name = firstType.Name,
                     ModuleId = ModuleId.FromType(firstType),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(10),
                     DurationMeasured = true,
-                    Start = start,
-                    End = start.AddSeconds(10),
+                    StartTime = start,
+                    EndTime = start.AddSeconds(10),
                 },
                 new ModuleRunReport
                 {
-                    ModuleName = secondType.Name,
+                    Name = secondType.Name,
                     ModuleId = ModuleId.FromType(secondType),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(20),
                     DurationMeasured = true,
-                    Start = start,
-                    End = start.AddSeconds(20),
+                    StartTime = start,
+                    EndTime = start.AddSeconds(20),
                 },
             ],
         };
@@ -603,7 +602,7 @@ public class RunReportTests
             .Create(summary, null, "timeline-interval")
             .Modules.Single();
 
-        await Assert.That(moduleReport.Duration).IsEqualTo(moduleReport.End - moduleReport.Start);
+        await Assert.That(moduleReport.Duration).IsEqualTo(moduleReport.EndTime - moduleReport.StartTime);
         await Assert.That(moduleReport.Duration).IsEqualTo(TimeSpan.FromSeconds(4));
     }
 
@@ -618,13 +617,13 @@ public class RunReportTests
             [
                 new ModuleRunReport
                 {
-                    ModuleName = nameof(SuccessfulModule),
+                    Name = nameof(SuccessfulModule),
                     ModuleId = ModuleId.FromType(typeof(SuccessfulModule)),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(10),
                     DurationMeasured = true,
-                    Start = start,
-                    End = start.AddSeconds(10),
+                    StartTime = start,
+                    EndTime = start.AddSeconds(10),
                 },
             ],
         };
@@ -673,13 +672,13 @@ public class RunReportTests
             [
                 new ModuleRunReport
                 {
-                    ModuleName = nameof(SkippedModule),
+                    Name = nameof(SkippedModule),
                     ModuleId = ModuleId.FromType(typeof(SkippedModule)),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(10),
                     DurationMeasured = true,
-                    Start = start,
-                    End = start.AddSeconds(10),
+                    StartTime = start,
+                    EndTime = start.AddSeconds(10),
                 },
             ],
         };
@@ -719,8 +718,8 @@ public class RunReportTests
         {
             await Assert.That(nonExecutedReport.Modules.Single().Status).IsEqualTo(status);
             await Assert.That(nonExecutedReport.Modules.Single().DurationMeasured).IsFalse();
-            await Assert.That(nonExecutedReport.Modules.Single().Start).IsNull();
-            await Assert.That(nonExecutedReport.Modules.Single().End).IsNull();
+            await Assert.That(nonExecutedReport.Modules.Single().StartTime).IsNull();
+            await Assert.That(nonExecutedReport.Modules.Single().EndTime).IsNull();
             await Assert.That(nonExecutedReport.Modules.Single().PreviousDuration).IsNull();
             await Assert.That(nonExecutedReport.Modules.Single().DurationDelta).IsNull();
             await Assert.That(successfulReport.Modules.Single().PreviousDuration).IsNull();
@@ -2905,7 +2904,7 @@ public class RunReportTests
                     .IsEqualTo("Pipeline end hook failed **********");
                 await Assert.That(report.Exception.StackTrace).IsNotNull();
                 await Assert.That(report.Modules).HasSingleItem();
-                await Assert.That(report.Modules[0].ModuleName).IsEqualTo(nameof(SuccessfulModule));
+                await Assert.That(report.Modules[0].Name).IsEqualTo(nameof(SuccessfulModule));
             }
         }
         finally
@@ -3003,7 +3002,7 @@ public class RunReportTests
             {
                 await Assert.That(failedReport.Status).IsEqualTo(ModuleStatus.Failed);
                 await Assert.That(failedReport.Modules).HasSingleItem();
-                await Assert.That(failedReport.Modules[0].ModuleName).IsEqualTo(nameof(SuccessfulModule));
+                await Assert.That(failedReport.Modules[0].Name).IsEqualTo(nameof(SuccessfulModule));
                 await Assert.That(successfulReport.PipelineIdentity).IsEqualTo(failedReport.PipelineIdentity);
                 await Assert.That(successfulReport.PreviousTotalDuration).IsNull();
             }
@@ -4236,13 +4235,13 @@ public class RunReportTests
         DateTimeOffset start,
         TimeSpan duration) => new()
         {
-            ModuleName = moduleType.Name,
+            Name = moduleType.Name,
             ModuleId = ModuleId.FromType(moduleType),
             Status = ModuleStatus.Succeeded,
             Duration = duration,
             DurationMeasured = true,
-            Start = start,
-            End = start + duration,
+            StartTime = start,
+            EndTime = start + duration,
         };
 
     private static PipelineRunReport CreateMeasuredRunReport(
@@ -4284,8 +4283,8 @@ public class RunReportTests
         DateTimeOffset start,
         TimeSpan duration) => new()
         {
-            ModuleName = moduleType.Name,
-            ModuleTypeName = ModuleTypeIdentifier.Get(moduleType),
+            Name = moduleType.Name,
+            TypeName = ModuleTypeIdentifier.Get(moduleType),
             RuntimeModuleTypeName = ModuleTypeIdentifier.GetRuntime(moduleType),
             StartTime = start,
             EndTime = start + duration,
@@ -4332,7 +4331,7 @@ public class RunReportTests
             [
                 new ModuleRunReport
                 {
-                    ModuleName = nameof(SuccessfulModule),
+                    Name = nameof(SuccessfulModule),
                     ModuleId = new ModuleId(moduleTypeName),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(2),

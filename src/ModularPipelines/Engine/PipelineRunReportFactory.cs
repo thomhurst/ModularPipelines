@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Master;
-using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -65,7 +64,7 @@ internal sealed class PipelineRunReportFactory(
         var timelinesByType = summary.ModuleTimelines?
             .ToFirstByKeyDictionary(
                 static timeline => string.IsNullOrWhiteSpace(timeline.RuntimeModuleTypeName)
-                    ? timeline.ModuleTypeName
+                    ? timeline.TypeName
                     : timeline.RuntimeModuleTypeName)
             ?? [with(StringComparer.Ordinal)];
         var uniqueModuleIds = summary.Modules
@@ -184,15 +183,15 @@ internal sealed class PipelineRunReportFactory(
         var previousDuration = GetPreviousDuration(current.Status, current.DurationMeasured, previous);
         return new ModuleRunReport
         {
-            ModuleName = moduleType.Name,
+            Name = moduleType.Name,
             ModuleId = moduleId,
             ResultStartTime = result?.StartTime,
             ResultEndTime = result?.EndTime,
             Status = current.Status,
             Duration = current.Duration,
             DurationMeasured = current.DurationMeasured,
-            Start = current.Start,
-            End = current.End,
+            StartTime = current.Start,
+            EndTime = current.End,
             SkipReason = GetSkipReason(result),
             Exception = CreateExceptionDetails(result?.ExceptionOrDefault),
             Output = CreateOutputExcerpt(moduleType),

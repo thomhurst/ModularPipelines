@@ -2,7 +2,6 @@ using System.Text.Json;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Distributed.UnitTests.Serialization;
@@ -101,6 +100,7 @@ public class ModuleResultSerializerTests
 
         await Assert.That(deserialized!.TypeName)
             .IsEqualTo(ModuleTypeIdentifier.Get(typeof(CustomIdModule)));
+        await Assert.That(deserialized.ModuleId).IsEqualTo(new ModuleId("stable.simple"));
     }
 
     [Test]

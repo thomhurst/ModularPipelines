@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.ProcessTestHost;
 using ModularPipelines.UnitTests.Helpers;
 
@@ -153,6 +152,6 @@ public class ShutdownProcessTests
         var events = await File.ReadAllLinesAsync(Path.Combine(directory, "events.log"), cancellationToken);
         await Assert.That(string.Join(",", events)).IsEqualTo("cleanup,end,disposed-after-report");
         var report = RunReportJsonSerializer.Deserialize(await File.ReadAllTextAsync(Path.Combine(directory, "report.json"), cancellationToken));
-        await Assert.That(report!.Modules.Single(module => module.ModuleName == "CleanupModule").Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(report!.Modules.Single(module => module.Name == "CleanupModule").Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 }

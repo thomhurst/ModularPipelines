@@ -12,7 +12,6 @@ using ModularPipelines.Secrets;
 using Moq;
 using Spectre.Console;
 using Spectre.Console.Rendering;
-using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -54,8 +53,8 @@ public class SpectreResultsPrinterTests
             [
                 new ModuleTimeline
                 {
-                    ModuleName = nameof(SkippedModule),
-                    ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
+                    Name = nameof(SkippedModule),
+                    TypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
                     Status = ModuleStatus.Skipped,
                     WasSkipped = true,
                 },
@@ -143,12 +142,12 @@ public class SpectreResultsPrinterTests
             [
                 new ModuleTimeline
                 {
-                    ModuleName = nameof(SkippedModule),
+                    Name = nameof(SkippedModule),
                     Status = ModuleStatus.Failed,
                 },
                 new ModuleTimeline
                 {
-                    ModuleName = nameof(SkippedModule),
+                    Name = nameof(SkippedModule),
                     Status = ModuleStatus.Skipped,
                     WasSkipped = true,
                 },
@@ -227,8 +226,8 @@ public class SpectreResultsPrinterTests
             [
                 new ModuleTimeline
                 {
-                    ModuleName = nameof(SkippedModule),
-                    ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
+                    Name = nameof(SkippedModule),
+                    TypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
                     Status = ModuleStatus.Succeeded,
                     ExecutionDuration = TimeSpan.FromSeconds(5),
                 },
@@ -242,7 +241,7 @@ public class SpectreResultsPrinterTests
                 [
                     new ModuleRunReport
                     {
-                        ModuleName = nameof(SkippedModule),
+                        Name = nameof(SkippedModule),
                         ModuleId = ModuleId.FromType(typeof(SkippedModule)),
                         DurationDelta = TimeSpan.FromSeconds(2),
                     },
@@ -304,13 +303,13 @@ public class SpectreResultsPrinterTests
                 [
                     new ModuleRunReport
                     {
-                        ModuleName = nameof(SecondModule),
+                        Name = nameof(SecondModule),
                         ModuleId = ModuleId.FromType(typeof(SecondModule)),
                         DurationDelta = TimeSpan.FromSeconds(2),
                     },
                     new ModuleRunReport
                     {
-                        ModuleName = nameof(FirstModule),
+                        Name = nameof(FirstModule),
                         ModuleId = ModuleId.FromType(typeof(FirstModule)),
                         DurationDelta = TimeSpan.FromSeconds(1),
                     },
@@ -371,13 +370,13 @@ public class SpectreResultsPrinterTests
                 [
                     new ModuleRunReport
                     {
-                        ModuleName = nameof(FirstModule),
+                        Name = nameof(FirstModule),
                         ModuleId = ModuleId.FromType(typeof(FirstModule)),
                         DurationDelta = TimeSpan.FromSeconds(1),
                     },
                     new ModuleRunReport
                     {
-                        ModuleName = nameof(FirstModule),
+                        Name = nameof(FirstModule),
                         ModuleId = ModuleId.FromType(typeof(FirstModule)),
                         DurationDelta = TimeSpan.FromSeconds(2),
                     },
@@ -689,8 +688,8 @@ public class SpectreResultsPrinterTests
             [
                 new ModuleTimeline
                 {
-                    ModuleName = nameof(FailedModule),
-                    ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FailedModule)),
+                    Name = nameof(FailedModule),
+                    TypeName = ModuleTypeIdentifier.Get(typeof(FailedModule)),
                     StartTime = start,
                     EndTime = end,
                     ExecutionDuration = end - start,

@@ -1,4 +1,4 @@
-using ModularPipelines.Enums;
+using System.Text.Json.Serialization;
 
 namespace ModularPipelines;
 
@@ -16,6 +16,12 @@ public interface IModuleResult
     /// Gets the fully qualified module type name, when available.
     /// </summary>
     string? TypeName => null;
+
+    /// <summary>
+    /// Gets the stable module identifier, or the default value when unknown.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    ModuleId ModuleId => default;
 
     /// <summary>
     /// Gets how long the module ran for.

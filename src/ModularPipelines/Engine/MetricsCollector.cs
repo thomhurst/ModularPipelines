@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Reporting;
 
@@ -191,8 +190,9 @@ internal class MetricsCollector : IMetricsCollector
         return [.. moduleData
             .Select(data => new ModuleTimeline
             {
-                ModuleName = data.ModuleType.Name,
-                ModuleTypeName = ModuleTypeIdentifier.Get(data.ModuleType),
+                Name = data.ModuleType.Name,
+                ModuleId = ModuleId.FromType(data.ModuleType),
+                TypeName = ModuleTypeIdentifier.Get(data.ModuleType),
                 RuntimeModuleTypeName = ModuleTypeIdentifier.GetRuntime(data.ModuleType),
                 Priority = data.Priority,
                 ExecutionHint = data.ExecutionHint,

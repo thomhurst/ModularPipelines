@@ -1,6 +1,5 @@
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -209,7 +208,7 @@ public class MetricsCollectorTests : TestBase
 
         await Assert.That(result.ModuleTimelines).IsNotNull();
         await Assert.That(result.ModuleTimelines!.Count).IsEqualTo(1);
-        await Assert.That(result.ModuleTimelines![0].ModuleName).IsEqualTo("QuickModule1");
+        await Assert.That(result.ModuleTimelines![0].Name).IsEqualTo("QuickModule1");
     }
 
     [Test]

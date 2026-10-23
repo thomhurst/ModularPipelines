@@ -533,7 +533,8 @@ internal class DistributedModuleExecutor(
         var moduleType = moduleState.ModuleType;
         var restoredResult = ModuleResultFactory.WithStatus(
             cachedResult,
-            ModuleStatus.RestoredFromCache);
+            ModuleStatus.RestoredFromCache,
+            ModuleId.FromType(moduleType));
         var applied = context.TryApplyResult(module, restoredResult);
         var acceptedResult = (applied ? restoredResult : GetCompletedResult(module)) ?? throw new InvalidOperationException($"Module {moduleType.Name} rejected a cache result without a completed result.");
         moduleState.Result = acceptedResult;

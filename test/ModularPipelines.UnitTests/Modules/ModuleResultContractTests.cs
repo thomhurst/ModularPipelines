@@ -3,7 +3,8 @@ using System.Text.Json;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Serialization;
-using ModularPipelines.Enums;
+using ModularPipelines.Engine;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -14,11 +15,51 @@ public class ModuleResultContractTests
     [Test]
     [Arguments(false)]
     [Arguments(true)]
+    public async Task StatusCopies_PreserveMetadata_AndOptionallyReplaceModuleId(bool replaceModuleId)
+    {
+        var context = new ModuleExecutionContext(new IntModule(), typeof(IntModule));
+        var exception = new InvalidOperationException("failure");
+        var skip = SkipDecision.Skip("skip");
+        IModuleResult[] originals =
+        [
+            ModuleResultFactory.CreateSuccess(42, context),
+            ModuleResultFactory.CreateFailure<int>(exception, context),
+            ModuleResultFactory.CreateSkipped<int>(skip, context),
+            ModuleResultFactory.CreateFailure(exception, context),
+            ModuleResultFactory.CreateSkipped(skip, context),
+        ];
+        ModuleId? replacementId = replaceModuleId ? new ModuleId("restored-module") : null;
+
+        foreach (var original in originals)
+        {
+            var copy = ModuleResultFactory.WithStatus(original, ModuleStatus.RestoredFromCache, replacementId);
+            using (Assert.Multiple())
+            {
+                await Assert.That(copy.ModuleId).IsEqualTo(replacementId ?? original.ModuleId);
+                await Assert.That(original.ModuleId).IsEqualTo(ModuleId.FromType(typeof(IntModule)));
+                await Assert.That(copy.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+                await Assert.That(copy.GetType()).IsEqualTo(original.GetType());
+                await Assert.That(copy.Name).IsEqualTo(original.Name);
+                await Assert.That(copy.TypeName).IsEqualTo(original.TypeName);
+                await Assert.That(copy.StartTime).IsEqualTo(original.StartTime);
+                await Assert.That(copy.EndTime).IsEqualTo(original.EndTime);
+                await Assert.That(copy.Duration).IsEqualTo(original.Duration);
+                await Assert.That(copy.ValueOrDefault).IsEqualTo(original.ValueOrDefault);
+                await Assert.That(copy.ExceptionOrDefault).IsSameReferenceAs(original.ExceptionOrDefault);
+                await Assert.That(copy.SkipDecisionOrDefault).IsSameReferenceAs(original.SkipDecisionOrDefault);
+            }
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
     public async Task OutcomeConversions_PreserveMetadata_AndReplacePayload(bool skipped)
     {
         var original = (skipped ? CreateSkipped("original skip") : CreateFailure()) with
         {
             ModuleType = typeof(IntModule),
+            ModuleId = new ModuleId("converted-module"),
             TypeName = typeof(IntModule).FullName,
             WorkerId = new WorkerId("worker-1"),
             Duration = TimeSpan.FromSeconds(2),
@@ -33,6 +74,7 @@ public class ModuleResultContractTests
             {
                 await Assert.That(result.Name).IsEqualTo(original.Name);
                 await Assert.That(result.TypeName).IsEqualTo(original.TypeName);
+                await Assert.That(result.ModuleId).IsEqualTo(original.ModuleId);
                 await Assert.That(result.ModuleType).IsEqualTo(original.ModuleType);
                 await Assert.That(result.WorkerId).IsEqualTo(original.WorkerId);
                 await Assert.That(result.StartTime).IsEqualTo(original.StartTime);
@@ -79,6 +121,7 @@ public class ModuleResultContractTests
             [
                 "Name",
                 "TypeName",
+                "ModuleId",
                 "Duration",
                 "StartTime",
                 "EndTime",

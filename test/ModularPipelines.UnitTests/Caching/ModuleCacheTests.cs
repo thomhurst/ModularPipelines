@@ -11,7 +11,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
-using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
@@ -1483,6 +1482,8 @@ public class ModuleCacheTests
             {
                 await Assert.That(first.ModuleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
                 await Assert.That(second.ModuleResult.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+                await Assert.That(second.ModuleResult.ModuleId)
+                    .IsEqualTo(ModuleId.FromType(typeof(ResultTransformingCachedModule)));
                 await Assert.That(first.ModuleResult.ValueOrDefault).IsEqualTo("transformed");
                 await Assert.That(second.ModuleResult.ValueOrDefault).IsEqualTo("transformed");
                 await Assert.That(first.DependentValue).IsEqualTo("transformed");

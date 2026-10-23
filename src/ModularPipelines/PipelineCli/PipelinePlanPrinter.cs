@@ -35,7 +35,7 @@ internal sealed class PipelinePlanPrinter(IConsoleWriter consoleWriter)
                 table.AddRow(
                     wave.Number.ToString(System.Globalization.CultureInfo.InvariantCulture),
                     Markup.Escape(wave.EstimatedDuration.ToDisplayString()),
-                    Markup.Escape(module.ModuleName),
+                    Markup.Escape(module.TypeName),
                     Markup.Escape(module.Category ?? string.Empty),
                     decision,
                     module.ShouldSkip ? "-" : Markup.Escape(module.EstimatedDuration.ToDisplayString()));

@@ -15,9 +15,19 @@ public sealed record PipelinePlanModule
     public IModule Module { get; }
 
     /// <summary>
-    /// Gets the module type name.
+    /// Gets the short module type name.
     /// </summary>
-    public string ModuleName { get; }
+    public string Name { get; }
+
+    /// <summary>
+    /// Gets the fully qualified module type name.
+    /// </summary>
+    public string TypeName { get; }
+
+    /// <summary>
+    /// Gets the stable module identifier.
+    /// </summary>
+    public ModuleId ModuleId { get; }
 
     /// <summary>
     /// Gets the module category, or <see langword="null"/> when none is configured.
@@ -61,7 +71,9 @@ public sealed record PipelinePlanModule
         bool isCacheCandidate)
     {
         Module = module;
-        ModuleName = module.GetType().FullName ?? module.GetType().Name;
+        Name = module.GetType().Name;
+        TypeName = module.GetType().FullName ?? module.GetType().Name;
+        ModuleId = ModuleId.FromType(module.GetType());
         Category = category;
         SkipDecision = skipDecision;
         EstimatedDuration = estimatedDuration;

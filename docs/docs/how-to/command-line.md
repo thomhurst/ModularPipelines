@@ -180,7 +180,7 @@ foreach (var wave in plan.Waves)
     {
         var decision = module.SkipDecision?.Reason
             ?? (module.IsSkipDecisionKnown ? "Run" : "Unknown: requires module results");
-        Console.WriteLine($"{wave.Number}: {module.ModuleName} - {decision}");
+        Console.WriteLine($"{wave.Number}: {module.Name} - {decision}");
     }
 }
 ```

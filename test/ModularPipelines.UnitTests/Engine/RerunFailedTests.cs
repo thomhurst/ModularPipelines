@@ -9,7 +9,6 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
-using ModularPipelines.Enums;
 using ModularPipelines.Events;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -94,7 +93,7 @@ public class RerunFailedTests
         var report = state.History.Reports.Single();
         state.History.Reports[0] = report with
         {
-            Modules = report.Modules.Select(module => module.ModuleName == nameof(RootModule)
+            Modules = report.Modules.Select(module => module.Name == nameof(RootModule)
                 ? module with { Status = status }
                 : module).ToArray(),
         };

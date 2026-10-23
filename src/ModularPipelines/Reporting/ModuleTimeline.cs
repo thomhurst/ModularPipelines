@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using ModularPipelines.Enums;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines.Reporting;
 
@@ -8,6 +8,7 @@ namespace ModularPipelines.Reporting;
 /// Contains timing information for a single module's execution lifecycle.
 /// </summary>
 [ExcludeFromCodeCoverage]
+[JsonConverter(typeof(ModuleTimelineJsonConverter))]
 public record ModuleTimeline
 {
     [JsonIgnore]
@@ -17,13 +18,19 @@ public record ModuleTimeline
     /// Gets the name of the module.
     /// </summary>
     [JsonInclude]
-    public string ModuleName { get; init; } = string.Empty;
+    public string Name { get; init; } = string.Empty;
 
     /// <summary>
     /// Gets the stable assembly-qualified type identifier of the module.
     /// </summary>
     [JsonInclude]
-    public string ModuleTypeName { get; init; } = string.Empty;
+    public string TypeName { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Gets the stable module identifier.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ModuleId ModuleId { get; init; }
 
     /// <summary>
     /// Gets the priority of the module.

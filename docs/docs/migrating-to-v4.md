@@ -589,9 +589,18 @@ named constructor argument is now `value:` rather than `Value:`.
 | `ModuleStart` / `ModuleEnd` | `StartTime` / `EndTime` |
 | `ModuleStatus` | `Status` |
 
-These renames apply to `ModuleResult` and `IModuleResult`, not every metadata object in the library.
-For example, hook contexts and `ModuleTimeline` still expose `ModuleName`. `ModuleTimeline.ExecutionType`
-is renamed `ExecutionHint`.
+Results, plans, timelines, and module run reports use `Name` for their display name and `ModuleId`
+for stable identity, including IDs configured with `[ModuleId]`. Use `TypeName` on results, plans, and
+timelines for type metadata. `PipelinePlanModule.Name` is now the short type name; use `TypeName` for
+the fully qualified label. Hook contexts retain `ModuleName`.
+
+`ModuleTimeline.ModuleName` / `ModuleTypeName` become `Name` / `TypeName`, and
+`ModuleRunReport.ModuleName` / `Start` / `End` become `Name` / `StartTime` / `EndTime`.
+Report `ResultStartTime` / `ResultEndTime` still describe the original stored result when reused,
+while `StartTime` / `EndTime` describe execution in the current run. Existing report and timeline
+JSON field names are preserved. Manually constructed or legacy results may have a default
+`ModuleId` when their identity is unknown; the engine supplies it when restoring a result.
+`ModuleTimeline.ExecutionType` is renamed `ExecutionHint`.
 
 The status enum moved from `ModularPipelines.Enums.Status` to `ModularPipelines.ModuleStatus`:
 
