@@ -216,6 +216,10 @@ so the master can also execute modules locally. Every built-in backend runs the 
 `DistributedMasterState.Running` also covers a master that has not started yet. `Completed` means the master
 signalled completion; `Lost` means it exited, failed or crashed without signalling completion, or cannot be
 reached. A worker that cannot get a state response for `MasterTimeout` also treats the master as lost.
+Redis workers bound the not-started state with `RedisOptions.MasterStartTimeout` (five minutes by
+default), measured from worker registration. At that deadline they report `Lost` and fail with a
+startup error in the log. Reconnecting does not reset the deadline; a started master uses heartbeat
+liveness instead.
 
 ### Additional Master Operations
 

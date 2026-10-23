@@ -339,8 +339,8 @@ internal static class RedisCoordinationScripts
         """;
 
     // ARGV: master timeout. Returns 0 while the master runs, 1 once it signalled completion and 2 once it
-    // is lost. A master that started is lost once its heartbeat is stale or has expired; a master that
-    // never sent a heartbeat has not started yet.
+    // is lost, or 3 before it starts. A master that started is lost once its heartbeat is stale or has
+    // expired; the worker bounds the not-started state with its local registration deadline.
     public const string GetMasterState = ServerTimeLua + """
         if redis.call('EXISTS', KEYS[9]) == 1 then
             return 1
@@ -350,7 +350,7 @@ internal static class RedisCoordinationScripts
             if redis.call('EXISTS', KEYS[11]) == 1 then
                 return 2
             end
-            return 0
+            return 3
         end
         if now - tonumber(heartbeat) > tonumber(ARGV[1]) then
             return 2

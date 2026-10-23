@@ -50,3 +50,5 @@ static ModularPipelines.Distributed.Redis.RedisOptions.operator !=(ModularPipeli
 static ModularPipelines.Distributed.Redis.RedisOptions.operator ==(ModularPipelines.Distributed.Redis.RedisOptions? left, ModularPipelines.Distributed.Redis.RedisOptions? right) -> bool
 ModularPipelines.Distributed.Redis.RedisOptions.FailOnUnsafeMemoryPolicy.get -> bool
 ModularPipelines.Distributed.Redis.RedisOptions.FailOnUnsafeMemoryPolicy.init -> void
+ModularPipelines.Distributed.Redis.RedisOptions.MasterStartTimeout.get -> System.TimeSpan
+ModularPipelines.Distributed.Redis.RedisOptions.MasterStartTimeout.init -> void

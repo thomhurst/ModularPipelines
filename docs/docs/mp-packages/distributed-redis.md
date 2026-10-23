@@ -31,6 +31,7 @@ builder.AddRedisDistributed(redis => redis with
 {
     ConnectionString = "localhost:6379",
     TimeToLive = TimeSpan.FromHours(2),
+    MasterStartTimeout = TimeSpan.FromMinutes(5),
 });
 ```
 
@@ -39,6 +40,13 @@ startup validation requires it to exceed both `DistributedOptions.ModuleResultTi
 `DistributedOptions.MasterTimeout`; coordinator creation also requires it to exceed
 `DistributedOptions.WorkerTimeout`. An infinite module result timeout does not disable key expiration.
 Named module-cache options require a positive TTL but are not compared with distributed timeouts.
+
+`RedisOptions.MasterStartTimeout` bounds how long a registered worker waits for a master that has
+not started (default: five minutes, positive and finite). A worker that reaches this deadline reports
+the master as lost, logs that it did not start, and fails. Reconnecting the same worker does not restart
+the deadline. Set it long enough to cover CI scheduling and master startup. After the first master
+heartbeat, `DistributedOptions.MasterTimeout` controls heartbeat loss instead. Workers check the
+state every `DistributedOptions.WorkerHeartbeatInterval`, so detection can lag by one polling interval.
 
 `RedisOptions.FailOnUnsafeMemoryPolicy` defaults to `false`: coordinator and artifact-store startup logs a
 warning and continues when `INFO memory` reports finite `maxmemory` with an evicting policy, or when diagnostics

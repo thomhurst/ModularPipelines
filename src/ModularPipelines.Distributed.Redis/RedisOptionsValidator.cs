@@ -44,6 +44,11 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
             failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.ChunkSizeBytes)} must be positive.");
         }
 
+        if (options.MasterStartTimeout <= TimeSpan.Zero)
+        {
+            failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.MasterStartTimeout)} must be positive and finite.");
+        }
+
         if (options.TimeToLive <= TimeSpan.Zero)
         {
             failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.TimeToLive)} must be positive.");
