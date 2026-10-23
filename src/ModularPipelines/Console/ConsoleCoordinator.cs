@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -38,6 +39,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 {
     private const int DefaultCiConsoleWidth = 160;
 
+    private static readonly Lock InstallationLock = new();
+    private static readonly List<ConsoleCoordinator> InstalledCoordinators = [];
+
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly IResultsPrinter _resultsPrinter;
     private readonly ISecretObfuscator _secretObfuscator;
@@ -47,7 +51,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly ILogger? _outputExcerptLogger;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IServiceProvider _serviceProvider;
-    private readonly object _phaseLock = new();
+    private readonly Lock _phaseLock = new();
     private readonly ConcurrentDictionary<Type, ModuleOutputBuffer> _moduleBuffers = new();
     private readonly ModuleOutputBuffer _unattributedBuffer;
     private readonly ConcurrentQueue<string> _deferredExceptions = new();
@@ -58,6 +62,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private TextWriter? _originalConsoleOut;
     private TextWriter? _originalConsoleError;
     private IAnsiConsole? _originalAnsiConsole;
+    private IAnsiConsole? _installedAnsiConsole;
+    private TextWriter? _installedConsoleOut;
+    private TextWriter? _installedConsoleError;
     private CoordinatedTextWriter? _coordinatedOut;
     private CoordinatedTextWriter? _coordinatedError;
     private volatile bool _isProgressActive;
@@ -114,82 +121,95 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     {
         lock (_phaseLock)
         {
-            if (_isInstalled)
+            lock (InstallationLock)
             {
-                throw new InvalidOperationException("ConsoleCoordinator is already installed.");
-            }
-
-            // Save original streams before any modifications
-            var originalOut = System.Console.Out;
-            var originalError = System.Console.Error;
-            var originalAnsi = AnsiConsole.Console;
-
-            try
-            {
-                _originalConsoleOut = originalOut;
-                _originalConsoleError = originalError;
-                _originalAnsiConsole = originalAnsi;
-
-                // Configure Spectre.Console to use the REAL console directly
-                // This bypasses our interception for progress rendering
-                var configuredAnsiConsole = UsesGlobalAnsiConsole
-                    ? AnsiConsole.Create(
-                        CreateAnsiConsoleSettings(_originalConsoleOut, _buildSystemDetector.IsKnownBuildAgent))
-                    : _ansiConsole;
-                configuredAnsiConsole.Profile.Capabilities.Interactive = _options.Value.Console.ShowProgress;
-                if (UsesGlobalAnsiConsole)
+                if (_isInstalled)
                 {
-                    AnsiConsole.Console = configuredAnsiConsole;
+                    throw new InvalidOperationException("ConsoleCoordinator is already installed.");
                 }
 
-                // Configure console width for CI environments
-                // Spectre.Console defaults to 80 characters when it can't detect terminal width,
-                // which is common in CI environments where output is redirected
-                ConfigureConsoleWidth();
+                // Save original streams before any modifications
+                var originalOut = System.Console.Out;
+                var originalError = System.Console.Error;
+                var originalAnsi = AnsiConsole.Console;
 
-                // Create logger for structured output during flush
-                _outputLogger = _loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline);
-
-                // Install our intercepting writers
-                // Buffer module output while the coordinated output phase is active. Flush paths
-                // write to the captured real console, so unrelated module output remains buffered.
-                _coordinatedOut = new CoordinatedTextWriter(
-                    this,
-                    _originalConsoleOut,
-                    () => _isProgressActive,
-                    _secretObfuscator,
-                    _secretProvider);
-
-                _coordinatedError = new CoordinatedTextWriter(
-                    this,
-                    _originalConsoleError,
-                    () => _isProgressActive,
-                    _secretObfuscator,
-                    _secretProvider,
-                    isError: true);
-
-                System.Console.SetOut(_coordinatedOut.CreateSynchronizedWriter());
-                System.Console.SetError(_coordinatedError.CreateSynchronizedWriter());
-
-                _isInstalled = true;
-            }
-            catch
-            {
-                // Restore original streams on failure
-                System.Console.SetOut(originalOut);
-                System.Console.SetError(originalError);
-                if (UsesGlobalAnsiConsole)
+                try
                 {
-                    AnsiConsole.Console = originalAnsi;
+                    // Every installation uses the host streams, never another coordinator's
+                    // interceptors. Each live owner keeps the same restoration snapshot.
+                    var first = InstalledCoordinators.FirstOrDefault();
+                    _originalConsoleOut = first?._originalConsoleOut ?? originalOut;
+                    _originalConsoleError = first?._originalConsoleError ?? originalError;
+                    _originalAnsiConsole = first?._originalAnsiConsole ?? originalAnsi;
+
+                    // Configure Spectre.Console to use the REAL console directly
+                    // This bypasses our interception for progress rendering
+                    var configuredAnsiConsole = UsesGlobalAnsiConsole
+                        ? AnsiConsole.Create(
+                            CreateAnsiConsoleSettings(_originalConsoleOut, _buildSystemDetector.IsKnownBuildAgent))
+                        : _ansiConsole;
+                    configuredAnsiConsole.Profile.Capabilities.Interactive = _options.Value.Console.ShowProgress;
+                    if (UsesGlobalAnsiConsole)
+                    {
+                        AnsiConsole.Console = configuredAnsiConsole;
+                        _installedAnsiConsole = configuredAnsiConsole;
+                    }
+
+                    // Configure console width for CI environments
+                    // Spectre.Console defaults to 80 characters when it can't detect terminal width,
+                    // which is common in CI environments where output is redirected
+                    ConfigureConsoleWidth();
+
+                    // Create logger for structured output during flush
+                    _outputLogger = _loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline);
+
+                    // Install our intercepting writers
+                    // Buffer module output while the coordinated output phase is active. Flush paths
+                    // write to the captured real console, so unrelated module output remains buffered.
+                    _coordinatedOut = new CoordinatedTextWriter(
+                        this,
+                        _originalConsoleOut,
+                        () => _isProgressActive,
+                        _secretObfuscator,
+                        _secretProvider);
+
+                    _coordinatedError = new CoordinatedTextWriter(
+                        this,
+                        _originalConsoleError,
+                        () => _isProgressActive,
+                        _secretObfuscator,
+                        _secretProvider,
+                        isError: true);
+
+                    _installedConsoleOut = _coordinatedOut.CreateSynchronizedWriter();
+                    _installedConsoleError = _coordinatedError.CreateSynchronizedWriter();
+                    System.Console.SetOut(_installedConsoleOut);
+                    System.Console.SetError(_installedConsoleError);
+
+                    InstalledCoordinators.Add(this);
+                    _isInstalled = true;
                 }
+                catch
+                {
+                    // Restore original streams on failure
+                    System.Console.SetOut(originalOut);
+                    System.Console.SetError(originalError);
+                    if (UsesGlobalAnsiConsole)
+                    {
+                        AnsiConsole.Console = originalAnsi;
+                    }
 
-                _originalConsoleOut = null;
-                _originalConsoleError = null;
-                _originalAnsiConsole = null;
-                _coordinatedOut = null;
-                _coordinatedError = null;
+                    _originalConsoleOut = null;
+                    _originalConsoleError = null;
+                    _originalAnsiConsole = null;
+                    _installedAnsiConsole = null;
+                    _installedConsoleOut = null;
+                    _installedConsoleError = null;
+                    _coordinatedOut = null;
+                    _coordinatedError = null;
 
-                throw;
+                    throw;
+                }
             }
         }
     }
@@ -204,32 +224,60 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 return;
             }
 
-            // Flush any remaining buffered content
-            _coordinatedOut?.Flush();
-            _coordinatedError?.Flush();
-
-            // Restore original streams
-            if (_originalConsoleOut != null)
+            try
             {
-                System.Console.SetOut(_originalConsoleOut);
-            }
+                // Flush outside the installation lock: output may call user loggers.
+                List<Exception> exceptions = [];
+                CoordinatedTextWriter?[] writers = [_coordinatedOut, _coordinatedError];
+                foreach (var writer in writers)
+                {
+                    try
+                    {
+                        writer?.Flush();
+                    }
+                    catch (Exception exception)
+                    {
+                        exceptions.Add(exception);
+                    }
+                }
 
-            if (_originalConsoleError != null)
+                if (exceptions.Count == 1)
+                {
+                    ExceptionDispatchInfo.Capture(exceptions[0]).Throw();
+                }
+
+                if (exceptions.Count > 1)
+                {
+                    throw new AggregateException("Console flush failed.", exceptions);
+                }
+            }
+            finally
             {
-                System.Console.SetError(_originalConsoleError);
-            }
+                lock (InstallationLock)
+                {
+                    InstalledCoordinators.Remove(this);
+                    var current = InstalledCoordinators.LastOrDefault();
+                    System.Console.SetOut(current?._installedConsoleOut ?? _originalConsoleOut!);
+                    System.Console.SetError(current?._installedConsoleError ?? _originalConsoleError!);
 
-            if (UsesGlobalAnsiConsole && _originalAnsiConsole != null)
-            {
-                AnsiConsole.Console = _originalAnsiConsole;
-            }
+                    if (UsesGlobalAnsiConsole)
+                    {
+                        AnsiConsole.Console = InstalledCoordinators
+                            .LastOrDefault(coordinator => coordinator.UsesGlobalAnsiConsole)
+                            ?._installedAnsiConsole ?? _originalAnsiConsole!;
+                    }
 
-            _originalConsoleOut = null;
-            _originalConsoleError = null;
-            _originalAnsiConsole = null;
-            _coordinatedOut = null;
-            _coordinatedError = null;
-            _isInstalled = false;
+                    _originalConsoleOut = null;
+                    _originalConsoleError = null;
+                    _originalAnsiConsole = null;
+                    _installedAnsiConsole = null;
+                    _installedConsoleOut = null;
+                    _installedConsoleError = null;
+                    _coordinatedOut = null;
+                    _coordinatedError = null;
+                    _isInstalled = false;
+                }
+            }
         }
     }
 
@@ -465,12 +513,17 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
-        if (_isInstalled)
+        try
         {
-            await FlushUnattributedOutputAsync().ConfigureAwait(false);
+            if (_isInstalled)
+            {
+                await FlushUnattributedOutputAsync().ConfigureAwait(false);
+            }
         }
-
-        Uninstall();
+        finally
+        {
+            Uninstall();
+        }
     }
 
     #region IProgressDisplay Implementation
@@ -564,6 +617,14 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         return settings;
     }
 
+    internal static TextWriter GetOriginalOutput()
+    {
+        lock (InstallationLock)
+        {
+            return InstalledCoordinators.FirstOrDefault()?._originalConsoleOut ?? System.Console.Out;
+        }
+    }
+
     private bool UsesGlobalAnsiConsole => ReferenceEquals(_ansiConsole, DelegatingAnsiConsole.Instance);
 
     private async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync(OutputFlushKind flushKind)
@@ -590,14 +651,13 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             await FlushWriterAsync(error, flushKind).ConfigureAwait(false);
         }
 
-        return _moduleBuffers.Values
+        return [.. _moduleBuffers.Values
             // A canceled completion attempt can leave existing output (or only a
             // final failure header) pending. Teardown must retry it with a fresh token.
             .Where(buffer => flushKind is OutputFlushKind.Complete
                 ? buffer.NeedsCompletionFlush
                 : buffer.HasOutput && !populatedBeforeFlush.Contains(buffer))
-            .Cast<IModuleOutputBuffer>()
-            .ToArray();
+            .Cast<IModuleOutputBuffer>()];
     }
 
     private async Task FlushBufferSafelyAsync(

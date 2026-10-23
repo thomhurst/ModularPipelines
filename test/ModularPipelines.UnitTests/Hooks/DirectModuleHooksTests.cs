@@ -345,7 +345,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnAfterExecuteAsync_CalledWhenNonIgnoredModuleFails()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<NonIgnoredFailingHookTrackingModule>()
             .BuildAsync();
         var module = host.Services.GetServices<IModule>()
@@ -384,7 +384,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnAfterExecuteAsync_ExceptionLogged_ResultPreserved()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<AfterHookFailingModule>()
             .BuildAsync();
 
@@ -403,7 +403,7 @@ public class DirectModuleHooksTests : TestBase
     public async Task Module_WithNoOverrides_ExecutesNormally()
     {
         // A module that doesn't override any hooks should work fine
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<ResultModifyingModule>()
             .BuildAsync();
 

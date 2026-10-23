@@ -20,7 +20,7 @@ public class AfterExecuteReplacementTests
     [Test]
     public async Task FreshReplacement_PreservesIdentityAndTiming_AndDerivesStatus()
     {
-        var host = await TestPipelineBuilder.Create().AddModule<FreshReplacementModule>().BuildAsync();
+        await using var host = await TestPipelineBuilder.Create().AddModule<FreshReplacementModule>().BuildAsync();
         var summary = await host.RunAsync();
         var module = host.Services.GetServices<IModule>().OfType<FreshReplacementModule>().Single();
         var result = summary.GetResult<FreshReplacementModule, string>();
@@ -73,7 +73,7 @@ public class AfterExecuteReplacementTests
     [Test]
     public async Task SuccessReplacedByFailure_AppliesFailurePolicy()
     {
-        var host = await TestPipelineBuilder.Create().AddModule<FailureReplacementModule>().BuildAsync();
+        await using var host = await TestPipelineBuilder.Create().AddModule<FailureReplacementModule>().BuildAsync();
 
         await Assert.ThrowsAsync<ModuleFailedException>(() => host.RunAsync());
         var result = await host.Services.GetServices<IModule>().OfType<FailureReplacementModule>().Single();

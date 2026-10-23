@@ -56,7 +56,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task When_RunOnlyCategories_Specified_Then_Expected_Modules_Run()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<RunnableModule1>()
             .AddModule<RunnableModule2>()
             .AddModule<NonRunnableModule1>()
@@ -84,7 +84,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task RunOnlyCategories_Matches_Module_Category_Ignoring_Case()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<RunnableModule1>()
             .ConfigureOptions(options => options with { RunOnlyCategories = ["run1"] })
             .BuildAsync();
@@ -99,7 +99,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task When_IgnoreCategories_Specified_Then_Expected_Modules_Run()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<RunnableModule1>()
             .AddModule<RunnableModule2>()
             .AddModule<NonRunnableModule1>()
@@ -127,7 +127,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task IgnoreCategories_Matches_Module_Category_Ignoring_Case()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<NonRunnableModule1>()
             .ConfigureOptions(options => options with { IgnoreCategories = ["norun1"] })
             .BuildAsync();
@@ -142,7 +142,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task Configured_Category_Is_Used_For_Run_Filtering()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<ConfiguredCategoryModule>()
             .ConfigureOptions(options => options with { RunOnlyCategories = ["Run1"] })
             .BuildAsync();

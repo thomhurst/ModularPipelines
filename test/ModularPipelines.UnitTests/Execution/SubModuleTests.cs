@@ -237,7 +237,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Submodule_With_Progress()
     {
-        var host = await TestPipelineBuilder.Create(new TestHostSettings { ShowProgressInConsole = true })
+        await using var host = await TestPipelineBuilder.Create(new TestHostSettings { ShowProgressInConsole = true })
             .AddModule<SubModulesWithReturnTypeModule>()
             .BuildAsync();
 
@@ -253,7 +253,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Submodule_With_Return_Type_Does_Not_Fail_And_Runs_Once()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<SubModulesWithReturnTypeModule>()
             .BuildAsync();
 
@@ -269,7 +269,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Submodule_Without_Return_Type_Does_Not_Fail_And_Runs_Once()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<SubModulesWithoutReturnTypeModule>()
             .BuildAsync();
 
@@ -285,7 +285,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Submodule_With_Return_Type_Does_Not_Fail_Synchronous_And_Runs_Once()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<SubModulesWithReturnTypeModuleSynchronous>()
             .BuildAsync();
 
@@ -301,7 +301,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Submodule_Without_Return_Type_Does_Not_Fail_Synchronous_And_Runs_Once()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<SubModulesWithoutReturnTypeModuleSynchronous>()
             .BuildAsync();
 
@@ -387,7 +387,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Module_With_Retry_Policy_Retries_Entire_Execution()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<SucceedingSubModulesDoNotRetryModule>()
             .BuildAsync();
 
@@ -409,7 +409,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Module_With_Retry_Policy_Retries_Entire_Execution_With_Return_Type()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<SucceedingSubModulesDoNotRetryModule_WithReturnType>()
             .BuildAsync();
 

@@ -115,7 +115,7 @@ public class SyncModuleTests : TestBase
     [Test]
     public async Task SyncModule_Exception_Is_Captured()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<ThrowingSyncModule>()
             .BuildAsync();
 
@@ -221,7 +221,7 @@ public class SyncModuleTests : TestBase
     [Test]
     public async Task SyncModule_OnFailed_Is_Called_On_Exception()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<SyncModuleWithFailedHook>()
             .BuildAsync();
 
@@ -269,7 +269,7 @@ public class SyncModuleTests : TestBase
     [Test]
     public async Task SyncModule_OnSkipped_Is_Called_When_Skipped()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<SyncModuleWithSkipConfig>()
             .BuildAsync();
 

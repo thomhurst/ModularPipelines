@@ -111,6 +111,10 @@ internal interface IConsoleCoordinator : IModuleOutputExcerptProvider, IAsyncDis
     /// Restores original Console.Out/Error.
     /// Safe to call multiple times.
     /// </summary>
+    /// <remarks>
+    /// When pipelines overlap, the most recently installed live coordinator owns the
+    /// process-wide writers. The host streams are restored after the last uninstall.
+    /// </remarks>
     void Uninstall();
 
     /// <summary>

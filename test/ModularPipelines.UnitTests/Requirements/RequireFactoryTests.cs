@@ -20,7 +20,7 @@ public class RequireFactoryTests
     [Test]
     public async Task Require_That_With_True_Condition_Passes()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement(Require.That(_ => true, "Should not fail"))
             .BuildAsync();
@@ -52,7 +52,7 @@ public class RequireFactoryTests
     [Test]
     public async Task Require_ThatAsync_With_True_Condition_Passes()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement(Require.ThatAsync(async (_, _) =>
             {
@@ -96,7 +96,7 @@ public class RequireFactoryTests
         Environment.SetEnvironmentVariable(varName, "some-value");
         try
         {
-            var host = await TestPipelineBuilder.Create()
+            await using var host = await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.EnvironmentVariable(varName))
                 .BuildAsync();

@@ -16,7 +16,7 @@ public class PipelineRequirementTests
     [Test]
     public async Task When_Requirement_Succeeds_Then_No_Error()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<SuccessfulRequirement>()
             .BuildAsync();

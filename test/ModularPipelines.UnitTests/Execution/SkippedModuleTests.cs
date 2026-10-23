@@ -26,7 +26,7 @@ public class SkippedModuleTests : TestBase
     [Test]
     public async Task Skipped_Result_Is_As_Expected()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<SkippedModule>()
             .BuildAsync();
 

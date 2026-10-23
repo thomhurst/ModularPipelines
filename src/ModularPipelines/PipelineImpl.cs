@@ -37,6 +37,7 @@ internal sealed class PipelineImpl : IPipeline
     private readonly IDisposable _shutdownRegistration;
     private readonly Lock _disposeLock = new();
     private readonly AsyncLocal<DisposalOwnership?> _disposalOwnership = new();
+    private IConsoleCoordinator? _consoleCoordinator;
     private int _isSynchronousContainerDisposalActive;
     private Task? _disposeTask;
     private TaskCompletionSource? _runCompletion;
@@ -70,6 +71,7 @@ internal sealed class PipelineImpl : IPipeline
                 () => Volatile.Read(ref pipeline._activeRuns) > 0;
 
             var consoleCoordinator = services.GetRequiredService<IConsoleCoordinator>();
+            pipeline._consoleCoordinator = consoleCoordinator;
             consoleCoordinator.Install();
             consoleCoordinator.EnableOutputBuffering();
             cancellationToken.ThrowIfCancellationRequested();
@@ -342,6 +344,17 @@ internal sealed class PipelineImpl : IPipeline
                 }
 
                 await hostDisposal.ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                disposalExceptions.Add(exception);
+            }
+
+            try
+            {
+                // A throwing service can stop container disposal before it reaches the
+                // console coordinator. Always release our process-wide installation.
+                _consoleCoordinator?.Uninstall();
             }
             catch (Exception exception)
             {
