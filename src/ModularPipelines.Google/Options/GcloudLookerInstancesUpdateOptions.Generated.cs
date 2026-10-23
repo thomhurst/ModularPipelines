@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -162,15 +164,15 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
     public IEnumerable<string>? PscAllowedVpcs
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PscAllowedVpcsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __PscAllowedVpcsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __PscAllowedVpcsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -178,9 +180,9 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -196,15 +198,15 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
     public IEnumerable<string>? PscServiceAttachment
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __PscServiceAttachmentSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PscServiceAttachmentSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __PscServiceAttachmentSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __PscServiceAttachmentSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __PscServiceAttachmentSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -212,17 +214,17 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __PscServiceAttachmentSnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -230,9 +232,9 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -309,11 +311,11 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
         {
             yield return new ValidationResult("At most one of ClearPeriodicExportConfig or (PeriodicExportGcsUri, PeriodicExportKmsKey, or PeriodicExportStartTime) may be specified.", [nameof(ClearPeriodicExportConfig), nameof(PeriodicExportGcsUri), nameof(PeriodicExportKmsKey), nameof(PeriodicExportStartTime)]);
         }
-        if ((ClearPscAllowedVpcs == true ? 1 : 0) + (((object?)PscAllowedVpcs is global::System.Collections.Generic.IEnumerable<char> ? (object?)PscAllowedVpcs is not string || !string.IsNullOrWhiteSpace(PscAllowedVpcs?.ToString()) : ((object?)PscAllowedVpcs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PscAllowedVpcs, static item => item is not null) : (PscAllowedVpcs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PscAllowedVpcs), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((ClearPscAllowedVpcs == true ? 1 : 0) + (((object?)PscAllowedVpcs is global::System.Collections.Generic.IEnumerable<char> ? (object?)PscAllowedVpcs is not string || !string.IsNullOrWhiteSpace(PscAllowedVpcs?.ToString()) : ((object?)PscAllowedVpcs is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)PscAllowedVpcs, static item => item is not null) : (PscAllowedVpcs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PscAllowedVpcs), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearPscAllowedVpcs or PscAllowedVpcs may be specified.", [nameof(ClearPscAllowedVpcs), nameof(PscAllowedVpcs)]);
         }
-        if ((ClearPscServiceAttachments == true ? 1 : 0) + (((object?)PscServiceAttachment is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)PscServiceAttachment, static item => item is not null) : ((object?)PscServiceAttachment is global::System.Collections.Generic.IEnumerable<char> ? (object?)PscServiceAttachment is not string || !string.IsNullOrWhiteSpace(PscServiceAttachment?.ToString()) : ((object?)PscServiceAttachment is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PscServiceAttachment, static item => item is not null) : (PscServiceAttachment is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PscServiceAttachment), static item => item is not null))))) ? 1 : 0) > 1)
+        if ((ClearPscServiceAttachments == true ? 1 : 0) + (((object?)PscServiceAttachment is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)PscServiceAttachment, static item => item is not null) : ((object?)PscServiceAttachment is global::System.Collections.Generic.IEnumerable<char> ? (object?)PscServiceAttachment is not string || !string.IsNullOrWhiteSpace(PscServiceAttachment?.ToString()) : ((object?)PscServiceAttachment is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)PscServiceAttachment, static item => item is not null) : (PscServiceAttachment is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PscServiceAttachment), static item => item is not null))))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearPscServiceAttachments or PscServiceAttachment may be specified.", [nameof(ClearPscServiceAttachments), nameof(PscServiceAttachment)]);
         }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
@@ -61,7 +62,7 @@ public record GcloudBackupDrBackupVaultsCreateOptions : GcloudOptions
     /// Authorize certain sources and destinations for data being sent into, or restored from, the backup vault being created. This choice determines the type of resources that can be stored. Restricting access to within your project or organization limits the resources to those managed through the Google Cloud console (e.g., Compute Engine VMs). Unrestricted access is required for resources managed through the management console (e.g., VMware Engine VMs, databases, and file systems). ACCESS_RESTRICTION must be one of: within-project, within-org, unrestricted, within-org-but-unrestricted-for-ba.
     /// </summary>
     [CliOption("--access-restriction", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBackupDrBackupVaultsCreateAccessRestriction? AccessRestriction { get; set; }
+    public string? AccessRestriction { get; set; }
 
     /// <summary>
     /// Wait for the operation in progress to complete.

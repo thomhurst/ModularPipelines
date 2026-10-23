@@ -10,21 +10,40 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// level settings
 /// </summary>
-/// <param name="Ingress">Control what traffic can reach the app. INGRESS must be one of: all, internal-only, internal-and-cloud-load-balancing.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "services", "update")]
-public record GcloudAppServicesUpdateOptions(
-    [property: CliOption("--ingress", Format = OptionFormat.EqualsSeparated)] GcloudAppServicesUpdateIngress Ingress
-) : GcloudOptions
+public record GcloudAppServicesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// level settings
+    /// </summary>
+    /// <param name="Ingress">Control what traffic can reach the app. INGRESS must be one of: all, internal-only, internal-and-cloud-load-balancing.</param>
+    public GcloudAppServicesUpdateOptions(
+        string Ingress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ingress);
+        this.Ingress = Ingress;
+    }
+
+    public void Deconstruct(out string Ingress)
+    {
+        Ingress = this.Ingress;
+    }
+
+    /// <summary>
+    /// Control what traffic can reach the app. INGRESS must be one of: all, internal-only, internal-and-cloud-load-balancing.
+    /// </summary>
+    [CliOption("--ingress", Format = OptionFormat.EqualsSeparated)]
+    public string Ingress { get; private init; }
+
     /// <summary>
     /// The services to modify.
     /// </summary>

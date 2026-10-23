@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
@@ -59,15 +61,15 @@ public record GcloudDataCatalogEntriesUpdateOptions : GcloudOptions, IValidatabl
     public IEnumerable<string>? AddFilePatterns
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddFilePatternsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __AddFilePatternsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __AddFilePatternsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -75,9 +77,9 @@ public record GcloudDataCatalogEntriesUpdateOptions : GcloudOptions, IValidatabl
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -93,15 +95,15 @@ public record GcloudDataCatalogEntriesUpdateOptions : GcloudOptions, IValidatabl
     public IEnumerable<string>? RemoveFilePatterns
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveFilePatternsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __RemoveFilePatternsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __RemoveFilePatternsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -109,9 +111,9 @@ public record GcloudDataCatalogEntriesUpdateOptions : GcloudOptions, IValidatabl
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -139,15 +141,15 @@ public record GcloudDataCatalogEntriesUpdateOptions : GcloudOptions, IValidatabl
     public IEnumerable<string>? Schema
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SchemaSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __SchemaSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __SchemaSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -155,9 +157,9 @@ public record GcloudDataCatalogEntriesUpdateOptions : GcloudOptions, IValidatabl
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -179,15 +181,15 @@ public record GcloudDataCatalogEntriesUpdateOptions : GcloudOptions, IValidatabl
         {
             yield return new ValidationResult("Entry must be specified when other arguments in this group are specified.", [nameof(Entry)]);
         }
-        if (((((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddFilePatterns is not string || !string.IsNullOrWhiteSpace(AddFilePatterns?.ToString()) : ((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddFilePatterns, static item => item is not null) : (AddFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddFilePatterns), static item => item is not null)))) || ClearFilePatterns == true || ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null))))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType)) ? 1 : 0) > 1)
+        if (((((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddFilePatterns is not string || !string.IsNullOrWhiteSpace(AddFilePatterns?.ToString()) : ((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)AddFilePatterns, static item => item is not null) : (AddFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddFilePatterns), static item => item is not null)))) || ClearFilePatterns == true || ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null))))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType)) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of (AddFilePatterns, ClearFilePatterns, or RemoveFilePatterns) or (LinkedResource, UserSpecifiedSystem, or UserSpecifiedType) may be specified.", [nameof(AddFilePatterns), nameof(ClearFilePatterns), nameof(RemoveFilePatterns), nameof(LinkedResource), nameof(UserSpecifiedSystem), nameof(UserSpecifiedType)]);
         }
-        if ((((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddFilePatterns is not string || !string.IsNullOrWhiteSpace(AddFilePatterns?.ToString()) : ((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddFilePatterns, static item => item is not null) : (AddFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddFilePatterns), static item => item is not null)))) || ClearFilePatterns == true || ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType)) && (((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddFilePatterns is not string || !string.IsNullOrWhiteSpace(AddFilePatterns?.ToString()) : ((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddFilePatterns, static item => item is not null) : (AddFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddFilePatterns), static item => item is not null)))) || ClearFilePatterns == true || ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null))))) && ((ClearFilePatterns == true ? 1 : 0) + (((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null)))) ? 1 : 0) > 1))
+        if ((((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddFilePatterns is not string || !string.IsNullOrWhiteSpace(AddFilePatterns?.ToString()) : ((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)AddFilePatterns, static item => item is not null) : (AddFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddFilePatterns), static item => item is not null)))) || ClearFilePatterns == true || ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType)) && (((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddFilePatterns is not string || !string.IsNullOrWhiteSpace(AddFilePatterns?.ToString()) : ((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)AddFilePatterns, static item => item is not null) : (AddFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddFilePatterns), static item => item is not null)))) || ClearFilePatterns == true || ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null))))) && ((ClearFilePatterns == true ? 1 : 0) + (((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null)))) ? 1 : 0) > 1))
         {
             yield return new ValidationResult("At most one of ClearFilePatterns or RemoveFilePatterns may be specified.", [nameof(ClearFilePatterns), nameof(RemoveFilePatterns)]);
         }
-        if ((((object?)Schema is global::System.Collections.Generic.IEnumerable<char> ? (object?)Schema is not string || !string.IsNullOrWhiteSpace(Schema?.ToString()) : ((object?)Schema is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Schema, static item => item is not null) : (Schema is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Schema), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SchemaFromFile) ? 1 : 0) > 1)
+        if ((((object?)Schema is global::System.Collections.Generic.IEnumerable<char> ? (object?)Schema is not string || !string.IsNullOrWhiteSpace(Schema?.ToString()) : ((object?)Schema is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)Schema, static item => item is not null) : (Schema is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Schema), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SchemaFromFile) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of Schema or SchemaFromFile may be specified.", [nameof(Schema), nameof(SchemaFromFile)]);
         }

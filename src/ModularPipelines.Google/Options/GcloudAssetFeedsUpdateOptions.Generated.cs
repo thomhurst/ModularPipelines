@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -75,15 +77,15 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? AddAssetNames
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAssetNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __AddAssetNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __AddAssetNamesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -91,9 +93,9 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -109,15 +111,15 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? RemoveAssetNames
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAssetNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __RemoveAssetNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __RemoveAssetNamesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -125,9 +127,9 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -137,15 +139,15 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? AddAssetTypes
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAssetTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __AddAssetTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __AddAssetTypesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -153,9 +155,9 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -171,15 +173,15 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? RemoveAssetTypes
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAssetTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __RemoveAssetTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __RemoveAssetTypesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -187,9 +189,9 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -199,15 +201,15 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? AddRelationshipTypes
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddRelationshipTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __AddRelationshipTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __AddRelationshipTypesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -215,9 +217,9 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -233,15 +235,15 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? RemoveRelationshipTypes
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveRelationshipTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __RemoveRelationshipTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __RemoveRelationshipTypesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -249,9 +251,9 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -315,15 +317,15 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions, IValidatableObject
         {
             yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
         }
-        if ((((object?)AddAssetNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAssetNames is not string || !string.IsNullOrWhiteSpace(AddAssetNames?.ToString()) : ((object?)AddAssetNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAssetNames, static item => item is not null) : (AddAssetNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAssetNames), static item => item is not null)))) ? 1 : 0) + (ClearAssetNames == true ? 1 : 0) + (((object?)RemoveAssetNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAssetNames is not string || !string.IsNullOrWhiteSpace(RemoveAssetNames?.ToString()) : ((object?)RemoveAssetNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAssetNames, static item => item is not null) : (RemoveAssetNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAssetNames), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((((object?)AddAssetNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAssetNames is not string || !string.IsNullOrWhiteSpace(AddAssetNames?.ToString()) : ((object?)AddAssetNames is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)AddAssetNames, static item => item is not null) : (AddAssetNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAssetNames), static item => item is not null)))) ? 1 : 0) + (ClearAssetNames == true ? 1 : 0) + (((object?)RemoveAssetNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAssetNames is not string || !string.IsNullOrWhiteSpace(RemoveAssetNames?.ToString()) : ((object?)RemoveAssetNames is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RemoveAssetNames, static item => item is not null) : (RemoveAssetNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAssetNames), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of AddAssetNames, ClearAssetNames, or RemoveAssetNames may be specified.", [nameof(AddAssetNames), nameof(ClearAssetNames), nameof(RemoveAssetNames)]);
         }
-        if ((((object?)AddAssetTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAssetTypes is not string || !string.IsNullOrWhiteSpace(AddAssetTypes?.ToString()) : ((object?)AddAssetTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAssetTypes, static item => item is not null) : (AddAssetTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAssetTypes), static item => item is not null)))) ? 1 : 0) + (ClearAssetTypes == true ? 1 : 0) + (((object?)RemoveAssetTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAssetTypes is not string || !string.IsNullOrWhiteSpace(RemoveAssetTypes?.ToString()) : ((object?)RemoveAssetTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAssetTypes, static item => item is not null) : (RemoveAssetTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAssetTypes), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((((object?)AddAssetTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAssetTypes is not string || !string.IsNullOrWhiteSpace(AddAssetTypes?.ToString()) : ((object?)AddAssetTypes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)AddAssetTypes, static item => item is not null) : (AddAssetTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAssetTypes), static item => item is not null)))) ? 1 : 0) + (ClearAssetTypes == true ? 1 : 0) + (((object?)RemoveAssetTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAssetTypes is not string || !string.IsNullOrWhiteSpace(RemoveAssetTypes?.ToString()) : ((object?)RemoveAssetTypes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RemoveAssetTypes, static item => item is not null) : (RemoveAssetTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAssetTypes), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of AddAssetTypes, ClearAssetTypes, or RemoveAssetTypes may be specified.", [nameof(AddAssetTypes), nameof(ClearAssetTypes), nameof(RemoveAssetTypes)]);
         }
-        if ((((object?)AddRelationshipTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRelationshipTypes is not string || !string.IsNullOrWhiteSpace(AddRelationshipTypes?.ToString()) : ((object?)AddRelationshipTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRelationshipTypes, static item => item is not null) : (AddRelationshipTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRelationshipTypes), static item => item is not null)))) ? 1 : 0) + (ClearRelationshipTypes == true ? 1 : 0) + (((object?)RemoveRelationshipTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRelationshipTypes is not string || !string.IsNullOrWhiteSpace(RemoveRelationshipTypes?.ToString()) : ((object?)RemoveRelationshipTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRelationshipTypes, static item => item is not null) : (RemoveRelationshipTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRelationshipTypes), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((((object?)AddRelationshipTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRelationshipTypes is not string || !string.IsNullOrWhiteSpace(AddRelationshipTypes?.ToString()) : ((object?)AddRelationshipTypes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)AddRelationshipTypes, static item => item is not null) : (AddRelationshipTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRelationshipTypes), static item => item is not null)))) ? 1 : 0) + (ClearRelationshipTypes == true ? 1 : 0) + (((object?)RemoveRelationshipTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRelationshipTypes is not string || !string.IsNullOrWhiteSpace(RemoveRelationshipTypes?.ToString()) : ((object?)RemoveRelationshipTypes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RemoveRelationshipTypes, static item => item is not null) : (RemoveRelationshipTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRelationshipTypes), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of AddRelationshipTypes, ClearRelationshipTypes, or RemoveRelationshipTypes may be specified.", [nameof(AddRelationshipTypes), nameof(ClearRelationshipTypes), nameof(RemoveRelationshipTypes)]);
         }

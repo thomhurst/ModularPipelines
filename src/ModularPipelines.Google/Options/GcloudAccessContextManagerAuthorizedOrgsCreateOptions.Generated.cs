@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -30,12 +29,13 @@ public record GcloudAccessContextManagerAuthorizedOrgsCreateOptions : GcloudOpti
     /// <param name="AuthorizationType">The authorization type of the authorized organizations description. For example, trust, troubleshooting or logging. AUTHORIZATION_TYPE must be one of: authorization-type-trust, authorization-type-unspecified.</param>
     /// <param name="AuthorizedOrgsDesc">Authorized orgs desc resource - The authorized organizations description to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the authorized-orgs-desc or fully qualified identifier for the authorized-orgs-desc. To set the authorized_orgs_desc attribute: ▸ provide the argument authorized_orgs_desc on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
     public GcloudAccessContextManagerAuthorizedOrgsCreateOptions(
-        GcloudAccessContextManagerAuthorizedOrgsCreateAssetType AssetType,
+        string AssetType,
         string AuthorizationDirection,
         string AuthorizationType,
         string AuthorizedOrgsDesc
     )
     {
+        global::System.ArgumentNullException.ThrowIfNull(AssetType);
         this.AssetType = AssetType;
         global::System.ArgumentNullException.ThrowIfNull(AuthorizationDirection);
         this.AuthorizationDirection = AuthorizationDirection;
@@ -45,7 +45,7 @@ public record GcloudAccessContextManagerAuthorizedOrgsCreateOptions : GcloudOpti
         this.AuthorizedOrgsDesc = AuthorizedOrgsDesc;
     }
 
-    public void Deconstruct(out GcloudAccessContextManagerAuthorizedOrgsCreateAssetType AssetType, out string AuthorizationDirection, out string AuthorizationType, out string AuthorizedOrgsDesc)
+    public void Deconstruct(out string AssetType, out string AuthorizationDirection, out string AuthorizationType, out string AuthorizedOrgsDesc)
     {
         AssetType = this.AssetType;
         AuthorizationDirection = this.AuthorizationDirection;
@@ -57,7 +57,7 @@ public record GcloudAccessContextManagerAuthorizedOrgsCreateOptions : GcloudOpti
     /// The asset type of this authorized organizations description. For example, device, or credential strength. ASSET_TYPE must be one of: asset-type-credential-strength, asset-type-device, asset-type-unspecified.
     /// </summary>
     [CliOption("--asset_type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudAccessContextManagerAuthorizedOrgsCreateAssetType AssetType { get; private init; }
+    public string AssetType { get; private init; }
 
     /// <summary>
     /// Authorization direction of this authorization relationship. Specifies whether to allow specified organizations to evaluate this organization's traffic, or allow specified organizations traffic to be evaluated by this org. AUTHORIZATION_DIRECTION must be one of: authorization-direction-from, authorization-direction-to, authorization-direction-unspecified.

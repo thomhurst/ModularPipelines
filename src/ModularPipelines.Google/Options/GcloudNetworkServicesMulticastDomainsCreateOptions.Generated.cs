@@ -10,9 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -62,7 +62,7 @@ public record GcloudNetworkServicesMulticastDomainsCreateOptions : GcloudOptions
     /// At least one of these must be specified: The connection type for authorizing multicast traffic. CONNECTION_TYPE must be one of: connection-type-unspecified, ncc, same-vpc.
     /// </summary>
     [CliOption("--connection-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNetworkServicesMulticastDomainsCreateConnectionType? ConnectionType { get; set; }
+    public string? ConnectionType { get; set; }
 
     /// <summary>
     /// At least one of these must be specified: The URI of the NCC hub to be used.
@@ -109,7 +109,7 @@ public record GcloudNetworkServicesMulticastDomainsCreateOptions : GcloudOptions
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (!((object?)ConnectionType is not null || !string.IsNullOrWhiteSpace(NccHub)))
+        if (!(!string.IsNullOrWhiteSpace(ConnectionType) || !string.IsNullOrWhiteSpace(NccHub)))
         {
             yield return new ValidationResult("At least one of ConnectionType or NccHub must be specified.", [nameof(ConnectionType), nameof(NccHub)]);
         }

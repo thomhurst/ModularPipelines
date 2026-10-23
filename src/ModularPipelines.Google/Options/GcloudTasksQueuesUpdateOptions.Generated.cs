@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
@@ -58,15 +60,15 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? HttpHeaderOverride
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __HttpHeaderOverrideSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __HttpHeaderOverrideSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __HttpHeaderOverrideSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __HttpHeaderOverrideSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __HttpHeaderOverrideSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -74,17 +76,17 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __HttpHeaderOverrideSnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -92,9 +94,9 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -170,15 +172,15 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? HttpUriOverride
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __HttpUriOverrideSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __HttpUriOverrideSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __HttpUriOverrideSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -186,9 +188,9 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -300,15 +302,15 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
     public IEnumerable<string>? RoutingOverride
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RoutingOverrideSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __RoutingOverrideSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __RoutingOverrideSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -316,9 +318,9 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -330,7 +332,7 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((ClearHttpHeaderOverride == true ? 1 : 0) + (((object?)HttpHeaderOverride is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)HttpHeaderOverride, static item => item is not null) : ((object?)HttpHeaderOverride is global::System.Collections.Generic.IEnumerable<char> ? (object?)HttpHeaderOverride is not string || !string.IsNullOrWhiteSpace(HttpHeaderOverride?.ToString()) : ((object?)HttpHeaderOverride is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)HttpHeaderOverride, static item => item is not null) : (HttpHeaderOverride is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HttpHeaderOverride), static item => item is not null))))) ? 1 : 0) > 1)
+        if ((ClearHttpHeaderOverride == true ? 1 : 0) + (((object?)HttpHeaderOverride is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)HttpHeaderOverride, static item => item is not null) : ((object?)HttpHeaderOverride is global::System.Collections.Generic.IEnumerable<char> ? (object?)HttpHeaderOverride is not string || !string.IsNullOrWhiteSpace(HttpHeaderOverride?.ToString()) : ((object?)HttpHeaderOverride is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)HttpHeaderOverride, static item => item is not null) : (HttpHeaderOverride is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HttpHeaderOverride), static item => item is not null))))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearHttpHeaderOverride or HttpHeaderOverride may be specified.", [nameof(ClearHttpHeaderOverride), nameof(HttpHeaderOverride)]);
         }
@@ -354,7 +356,7 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
         {
             yield return new ValidationResult("At most one of ClearHttpOidcTokenAudienceOverride or HttpOidcTokenAudienceOverride may be specified.", [nameof(ClearHttpOidcTokenAudienceOverride), nameof(HttpOidcTokenAudienceOverride)]);
         }
-        if ((ClearHttpUriOverride == true ? 1 : 0) + (((object?)HttpUriOverride is global::System.Collections.Generic.IEnumerable<char> ? (object?)HttpUriOverride is not string || !string.IsNullOrWhiteSpace(HttpUriOverride?.ToString()) : ((object?)HttpUriOverride is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)HttpUriOverride, static item => item is not null) : (HttpUriOverride is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HttpUriOverride), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((ClearHttpUriOverride == true ? 1 : 0) + (((object?)HttpUriOverride is global::System.Collections.Generic.IEnumerable<char> ? (object?)HttpUriOverride is not string || !string.IsNullOrWhiteSpace(HttpUriOverride?.ToString()) : ((object?)HttpUriOverride is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)HttpUriOverride, static item => item is not null) : (HttpUriOverride is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HttpUriOverride), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearHttpUriOverride or HttpUriOverride may be specified.", [nameof(ClearHttpUriOverride), nameof(HttpUriOverride)]);
         }
@@ -390,7 +392,7 @@ public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
         {
             yield return new ValidationResult("At most one of ClearMinBackoff or MinBackoff may be specified.", [nameof(ClearMinBackoff), nameof(MinBackoff)]);
         }
-        if ((ClearRoutingOverride == true ? 1 : 0) + (((object?)RoutingOverride is global::System.Collections.Generic.IEnumerable<char> ? (object?)RoutingOverride is not string || !string.IsNullOrWhiteSpace(RoutingOverride?.ToString()) : ((object?)RoutingOverride is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RoutingOverride, static item => item is not null) : (RoutingOverride is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RoutingOverride), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((ClearRoutingOverride == true ? 1 : 0) + (((object?)RoutingOverride is global::System.Collections.Generic.IEnumerable<char> ? (object?)RoutingOverride is not string || !string.IsNullOrWhiteSpace(RoutingOverride?.ToString()) : ((object?)RoutingOverride is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RoutingOverride, static item => item is not null) : (RoutingOverride is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RoutingOverride), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearRoutingOverride or RoutingOverride may be specified.", [nameof(ClearRoutingOverride), nameof(RoutingOverride)]);
         }

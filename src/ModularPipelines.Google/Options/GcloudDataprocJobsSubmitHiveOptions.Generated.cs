@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -36,7 +37,7 @@ public record GcloudDataprocJobsSubmitHiveOptions : GcloudOptions, IValidatableO
     public IReadOnlyList<KeyValue>? ClusterLabels
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
     }
 
     /// <summary>
@@ -132,7 +133,7 @@ public record GcloudDataprocJobsSubmitHiveOptions : GcloudOptions, IValidatableO
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((!string.IsNullOrWhiteSpace(Cluster) ? 1 : 0) + (((object?)ClusterLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClusterLabels is not string || !string.IsNullOrWhiteSpace(ClusterLabels?.ToString()) : ((object?)ClusterLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClusterLabels, static item => item is not null) : (ClusterLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClusterLabels), static item => item is not null)))) ? 1 : 0) != 1)
+        if ((!string.IsNullOrWhiteSpace(Cluster) ? 1 : 0) + (((object?)ClusterLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClusterLabels is not string || !string.IsNullOrWhiteSpace(ClusterLabels?.ToString()) : ((object?)ClusterLabels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)ClusterLabels, static item => item is not null) : (ClusterLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClusterLabels), static item => item is not null)))) ? 1 : 0) != 1)
         {
             yield return new ValidationResult("Exactly one of Cluster or ClusterLabels must be specified.", [nameof(Cluster), nameof(ClusterLabels)]);
         }

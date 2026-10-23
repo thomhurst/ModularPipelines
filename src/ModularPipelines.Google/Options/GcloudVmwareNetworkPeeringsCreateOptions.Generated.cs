@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -31,13 +30,14 @@ public record GcloudVmwareNetworkPeeringsCreateOptions : GcloudOptions
     /// <param name="NetworkPeering">VMware Engine VPC network peering resource - network_peering. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_peering on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine VPC network peering or fully qualified identifier for the VMware Engine VPC network peering. To set the network-peering attribute: ▸ provide the argument network_peering on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
     public GcloudVmwareNetworkPeeringsCreateOptions(
         string PeerNetwork,
-        GcloudVmwareNetworkPeeringsCreatePeerNetworkType PeerNetworkType,
+        string PeerNetworkType,
         string VmwareEngineNetwork,
         string NetworkPeering
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(PeerNetwork);
         this.PeerNetwork = PeerNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(PeerNetworkType);
         this.PeerNetworkType = PeerNetworkType;
         global::System.ArgumentNullException.ThrowIfNull(VmwareEngineNetwork);
         this.VmwareEngineNetwork = VmwareEngineNetwork;
@@ -45,7 +45,7 @@ public record GcloudVmwareNetworkPeeringsCreateOptions : GcloudOptions
         this.NetworkPeering = NetworkPeering;
     }
 
-    public void Deconstruct(out string PeerNetwork, out GcloudVmwareNetworkPeeringsCreatePeerNetworkType PeerNetworkType, out string VmwareEngineNetwork, out string NetworkPeering)
+    public void Deconstruct(out string PeerNetwork, out string PeerNetworkType, out string VmwareEngineNetwork, out string NetworkPeering)
     {
         PeerNetwork = this.PeerNetwork;
         PeerNetworkType = this.PeerNetworkType;
@@ -63,7 +63,7 @@ public record GcloudVmwareNetworkPeeringsCreateOptions : GcloudOptions
     /// Type of the VPC network to peer with the VMware Engine network. PEER_NETWORK_TYPE must be one of the following: ◆ STANDARD: Peering connection used for connecting to another VPC network established by the same user. For example, a peering connection to another VPC network in the same project or to an on-premises network. ◆ VMWARE_ENGINE_NETWORK: Peering connection used for connecting to another VMware Engine network. ◆ PRIVATE_SERVICES_ACCESS: Peering connection used for establishing private services access. ◆ NETAPP_CLOUD_VOLUMES: Peering connection used for connecting to NetApp Cloud Volumes. ◆ THIRD_PARTY_SERVICE: Peering connection used for connecting to third-party services. Most third-party services require manual setup of reverse peering on the VPC network associated with the third-party service. ◆ DELL_POWERSCALE: Peering connection used for connecting to Dell PowerScale Filers. ◆ GOOGLE_CLOUD_NETAPP_VOLUMES: Peering connection used for connecting to Google Cloud NetApp Volumes. PEER_NETWORK_TYPE must be one of: PEER_NETWORK_TYPE_UNSPECIFIED, STANDARD, VMWARE_ENGINE_NETWORK, PRIVATE_SERVICES_ACCESS, NETAPP_CLOUD_VOLUMES, THIRD_PARTY_SERVICE, DELL_POWERSCALE, GOOGLE_CLOUD_NETAPP_VOLUMES.
     /// </summary>
     [CliOption("--peer-network-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudVmwareNetworkPeeringsCreatePeerNetworkType PeerNetworkType { get; private init; }
+    public string PeerNetworkType { get; private init; }
 
     /// <summary>
     /// ID of the VMware Engine network to attach the new peering to.

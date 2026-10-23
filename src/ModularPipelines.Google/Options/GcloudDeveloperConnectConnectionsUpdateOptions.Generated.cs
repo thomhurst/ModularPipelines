@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
@@ -100,15 +102,15 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
     public IEnumerable<string>? Annotations
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __AnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __AnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __AnnotationsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -116,17 +118,17 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __AnnotationsSnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -134,9 +136,9 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -146,15 +148,15 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
     public IEnumerable<string>? UpdateAnnotations
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateAnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateAnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __UpdateAnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __UpdateAnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __UpdateAnnotationsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -162,17 +164,17 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __UpdateAnnotationsSnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -180,9 +182,9 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -474,15 +476,15 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
     public IEnumerable<string>? Labels
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __LabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __LabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __LabelsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -490,17 +492,17 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __LabelsSnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -508,9 +510,9 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -520,15 +522,15 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
     public IEnumerable<string>? UpdateLabels
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateLabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __UpdateLabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __UpdateLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __UpdateLabelsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -536,17 +538,17 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __UpdateLabelsSnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -554,9 +556,9 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -580,11 +582,11 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) ? 1 : 0) > 1)
+        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of Annotations or (UpdateAnnotations, ClearAnnotations, or RemoveAnnotations) may be specified.", [nameof(Annotations), nameof(UpdateAnnotations), nameof(ClearAnnotations), nameof(RemoveAnnotations)]);
         }
-        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) || ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && (((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && ((ClearAnnotations == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveAnnotations) ? 1 : 0) > 1))
+        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) || ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && (((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && ((ClearAnnotations == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveAnnotations) ? 1 : 0) > 1))
         {
             yield return new ValidationResult("At most one of ClearAnnotations or RemoveAnnotations may be specified.", [nameof(ClearAnnotations), nameof(RemoveAnnotations)]);
         }
@@ -616,11 +618,11 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
         {
             yield return new ValidationResult("CryptoKeyConfigReference must be specified when other arguments in this group are specified.", [nameof(CryptoKeyConfigReference)]);
         }
-        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) ? 1 : 0) > 1)
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of Labels or (UpdateLabels, ClearLabels, or RemoveLabels) may be specified.", [nameof(Labels), nameof(UpdateLabels), nameof(ClearLabels), nameof(RemoveLabels)]);
         }
-        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveLabels) ? 1 : 0) > 1))
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveLabels) ? 1 : 0) > 1))
         {
             yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
         }

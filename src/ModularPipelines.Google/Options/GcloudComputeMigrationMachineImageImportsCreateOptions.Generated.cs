@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
@@ -164,7 +165,7 @@ public record GcloudComputeMigrationMachineImageImportsCreateOptions : GcloudOpt
     /// OS adaptation parameters. At most one of these can be specified: Or at least one of these can be specified: This property will trigger an internal process which will convert the image from using the existing boot option to another. The size of the boot disk might be increased to allow the conversion. Currently only support BIOS_TO_EFI. BOOT_CONVERSION must be one of: bios-to-efi, boot-conversion-unspecified, none.
     /// </summary>
     [CliOption("--boot-conversion", Format = OptionFormat.EqualsSeparated)]
-    public GcloudComputeMigrationMachineImageImportsCreateBootConversion? BootConversion { get; set; }
+    public string? BootConversion { get; set; }
 
     /// <summary>
     /// OS adaptation parameters. At most one of these can be specified: Or at least one of these can be specified: If true, generalize the imported machine image. Default false. The generalization process enables co-existence of multiple VMs created from the same machine image. For Windows, generalizing the machine image removes computer-specific information such as installed drivers and the computer security identifier (SID).
@@ -193,7 +194,7 @@ public record GcloudComputeMigrationMachineImageImportsCreateOptions : GcloudOpt
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((SkipOsAdaptation == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AdaptationModifiers) || (object?)BootConversion is not null || Generalize == true || !string.IsNullOrWhiteSpace(LicenseType) || !string.IsNullOrWhiteSpace(RootfsUuid)) ? 1 : 0) > 1)
+        if ((SkipOsAdaptation == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AdaptationModifiers) || !string.IsNullOrWhiteSpace(BootConversion) || Generalize == true || !string.IsNullOrWhiteSpace(LicenseType) || !string.IsNullOrWhiteSpace(RootfsUuid)) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of SkipOsAdaptation or (AdaptationModifiers, BootConversion, Generalize, LicenseType, or RootfsUuid) may be specified.", [nameof(SkipOsAdaptation), nameof(AdaptationModifiers), nameof(BootConversion), nameof(Generalize), nameof(LicenseType), nameof(RootfsUuid)]);
         }

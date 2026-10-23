@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -55,7 +54,7 @@ public record GcloudInfraManagerDeploymentsDeleteOptions : GcloudOptions
     /// Policy on how resources actuated by the deployment should be deleted. The accepted values are DELETE, ABANDON. DELETE = Delete resources actuated by the deployment. ABANDON = Abandon resources and only delete deployment metadata. DELETE_POLICY must be one of: abandon, delete, delete-policy-unspecified.
     /// </summary>
     [CliOption("--delete-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudInfraManagerDeploymentsDeleteDeletePolicy? DeletePolicy { get; set; }
+    public string? DeletePolicy { get; set; }
 
     /// <summary>
     /// Deployment resource - deployments TBD The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.

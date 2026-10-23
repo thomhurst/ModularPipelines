@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -33,7 +35,7 @@ public record GcloudAccessApprovalSettingsUpdateOptions : GcloudOptions, IValida
     /// The preference to configure the approval policy for access requests. APPROVAL_POLICY must be one of: transparency, streamlined-support, access-approval, inherit-policy-from-parent.
     /// </summary>
     [CliOption("--approval_policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudAccessApprovalSettingsUpdateApprovalPolicy? ApprovalPolicy { get; set; }
+    public string? ApprovalPolicy { get; set; }
 
     /// <summary>
     /// Comma-separated list of services to enroll for Access Approval or 'all' for all supported services. Note for project and folder enrollments, only 'all' is supported. Use '' to clear all enrolled services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

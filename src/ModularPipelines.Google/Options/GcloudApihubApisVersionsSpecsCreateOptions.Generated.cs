@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
@@ -75,15 +77,15 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
     public IEnumerable<string>? SpecTypeEnumValues
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __SpecTypeEnumValuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpecTypeEnumValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __SpecTypeEnumValuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __SpecTypeEnumValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __SpecTypeEnumValuesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -91,17 +93,17 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __SpecTypeEnumValuesSnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -109,9 +111,9 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -121,15 +123,15 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
     public IEnumerable<string>? SpecTypeJsonValues
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpecTypeJsonValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __SpecTypeJsonValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __SpecTypeJsonValuesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -137,9 +139,9 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -149,15 +151,15 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
     public IEnumerable<string>? SpecTypeStringValues
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpecTypeStringValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __SpecTypeStringValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __SpecTypeStringValuesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -165,9 +167,9 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -177,15 +179,15 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
     public IEnumerable<string>? SpecTypeUriValues
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpecTypeUriValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __SpecTypeUriValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __SpecTypeUriValuesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -193,9 +195,9 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -265,15 +267,15 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
     public IEnumerable<string>? LintResponseIssues
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LintResponseIssuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LintResponseIssuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __LintResponseIssuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __LintResponseIssuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __LintResponseIssuesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -281,17 +283,17 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __LintResponseIssuesSnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -299,9 +301,9 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -311,15 +313,15 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
     public IEnumerable<string>? LintResponseSummary
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LintResponseSummarySnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LintResponseSummarySnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __LintResponseSummarySnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __LintResponseSummarySnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __LintResponseSummarySnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -327,17 +329,17 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __LintResponseSummarySnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -345,9 +347,9 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -359,7 +361,7 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((((object?)SpecTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)SpecTypeEnumValues, static item => item is not null) : ((object?)SpecTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeEnumValues is not string || !string.IsNullOrWhiteSpace(SpecTypeEnumValues?.ToString()) : ((object?)SpecTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpecTypeEnumValues, static item => item is not null) : (SpecTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeEnumValues), static item => item is not null))))) ? 1 : 0) + (((object?)SpecTypeJsonValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeJsonValues is not string || !string.IsNullOrWhiteSpace(SpecTypeJsonValues?.ToString()) : ((object?)SpecTypeJsonValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpecTypeJsonValues, static item => item is not null) : (SpecTypeJsonValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeJsonValues), static item => item is not null)))) ? 1 : 0) + (((object?)SpecTypeStringValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeStringValues is not string || !string.IsNullOrWhiteSpace(SpecTypeStringValues?.ToString()) : ((object?)SpecTypeStringValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpecTypeStringValues, static item => item is not null) : (SpecTypeStringValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeStringValues), static item => item is not null)))) ? 1 : 0) + (((object?)SpecTypeUriValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeUriValues is not string || !string.IsNullOrWhiteSpace(SpecTypeUriValues?.ToString()) : ((object?)SpecTypeUriValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpecTypeUriValues, static item => item is not null) : (SpecTypeUriValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeUriValues), static item => item is not null)))) ? 1 : 0) != 1)
+        if ((((object?)SpecTypeEnumValues is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)SpecTypeEnumValues, static item => item is not null) : ((object?)SpecTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeEnumValues is not string || !string.IsNullOrWhiteSpace(SpecTypeEnumValues?.ToString()) : ((object?)SpecTypeEnumValues is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)SpecTypeEnumValues, static item => item is not null) : (SpecTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeEnumValues), static item => item is not null))))) ? 1 : 0) + (((object?)SpecTypeJsonValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeJsonValues is not string || !string.IsNullOrWhiteSpace(SpecTypeJsonValues?.ToString()) : ((object?)SpecTypeJsonValues is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)SpecTypeJsonValues, static item => item is not null) : (SpecTypeJsonValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeJsonValues), static item => item is not null)))) ? 1 : 0) + (((object?)SpecTypeStringValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeStringValues is not string || !string.IsNullOrWhiteSpace(SpecTypeStringValues?.ToString()) : ((object?)SpecTypeStringValues is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)SpecTypeStringValues, static item => item is not null) : (SpecTypeStringValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeStringValues), static item => item is not null)))) ? 1 : 0) + (((object?)SpecTypeUriValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeUriValues is not string || !string.IsNullOrWhiteSpace(SpecTypeUriValues?.ToString()) : ((object?)SpecTypeUriValues is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)SpecTypeUriValues, static item => item is not null) : (SpecTypeUriValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeUriValues), static item => item is not null)))) ? 1 : 0) != 1)
         {
             yield return new ValidationResult("Exactly one of SpecTypeEnumValues, SpecTypeJsonValues, SpecTypeStringValues, or SpecTypeUriValues must be specified.", [nameof(SpecTypeEnumValues), nameof(SpecTypeJsonValues), nameof(SpecTypeStringValues), nameof(SpecTypeUriValues)]);
         }
@@ -371,19 +373,19 @@ public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValid
         {
             yield return new ValidationResult("ContentsMimeType must be specified when other arguments in this group are specified.", [nameof(ContentsMimeType)]);
         }
-        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseCreateTime))))
+        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseCreateTime))))
         {
             yield return new ValidationResult("LintResponseCreateTime must be specified when other arguments in this group are specified.", [nameof(LintResponseCreateTime)]);
         }
-        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseLinter))))
+        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseLinter))))
         {
             yield return new ValidationResult("LintResponseLinter must be specified when other arguments in this group are specified.", [nameof(LintResponseLinter)]);
         }
-        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseSource))))
+        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseSource))))
         {
             yield return new ValidationResult("LintResponseSource must be specified when other arguments in this group are specified.", [nameof(LintResponseSource)]);
         }
-        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseState))))
+        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseState))))
         {
             yield return new ValidationResult("LintResponseState must be specified when other arguments in this group are specified.", [nameof(LintResponseState)]);
         }

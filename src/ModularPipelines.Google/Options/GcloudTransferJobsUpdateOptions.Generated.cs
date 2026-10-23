@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -233,15 +235,15 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
     public IEnumerable<string>? IncludePrefixes
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IncludePrefixesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __IncludePrefixesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __IncludePrefixesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -249,9 +251,9 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -261,15 +263,15 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
     public IEnumerable<string>? ExcludePrefixes
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ExcludePrefixesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __ExcludePrefixesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __ExcludePrefixesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -277,9 +279,9 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -319,15 +321,15 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
     public IEnumerable<string>? IncludeStorageClasses
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IncludeStorageClassesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __IncludeStorageClassesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __IncludeStorageClassesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -335,9 +337,9 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -362,13 +364,13 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
     /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS Determine when destination objects are overwritten by source objects. Options include: ◆ 'different' - Overwrites files with the same name if the contents are different (e.g., if etags or checksums don't match) ◆ 'always' - Overwrite destination file whenever source file has the same name -- even if they're identical ◆ 'never' - Never overwrite destination file when source file has the same name OVERWRITE_WHEN must be one of: always, different, never.
     /// </summary>
     [CliOption("--overwrite-when", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTransferJobsUpdateOverwriteWhen? OverwriteWhen { get; set; }
+    public string? OverwriteWhen { get; set; }
 
     /// <summary>
     /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS By default, transfer jobs won't delete any data from your source or destination. These options enable you to delete data if needed for your use case. Options include: ◆ 'destination-if-unique' - Delete files from destination if they're not also at source. Use to sync destination to source (i.e., make destination match source exactly) ◆ 'source-after-transfer' - Delete files from source after they're transferred DELETE_FROM must be one of: destination-if-unique, source-after-transfer.
     /// </summary>
     [CliOption("--delete-from", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTransferJobsUpdateDeleteFrom? DeleteFrom { get; set; }
+    public string? DeleteFrom { get; set; }
 
     /// <summary>
     /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS Specify object metadata values that can optionally be preserved. Example: --preserve-metadata=storage-class,uid For more info, see: https://cloud.google.com/storage-transfer/docs/metadata-preservation. METADATA_FIELDS must be one of: acl, gid, kms-key, mode, storage-class, symlink, temporary-hold, time-created, uid.
@@ -377,15 +379,15 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
     public IEnumerable<GcloudTransferJobsUpdatePreserveMetadata>? PreserveMetadata
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PreserveMetadataSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<GcloudTransferJobsUpdatePreserveMetadata>).Equals((object)values) ? global::System.Array.Empty<GcloudTransferJobsUpdatePreserveMetadata>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudTransferJobsUpdatePreserveMetadata>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __PreserveMetadataSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<GcloudTransferJobsUpdatePreserveMetadata>).Equals((object)values) ? global::System.Array.Empty<GcloudTransferJobsUpdatePreserveMetadata>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudTransferJobsUpdatePreserveMetadata>(values))))) : default;
     }
 
     private sealed class __PreserveMetadataSnapshotKeyValue(
         IEnumerable<GcloudTransferJobsUpdatePreserveMetadata> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<GcloudTransferJobsUpdatePreserveMetadata>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<GcloudTransferJobsUpdatePreserveMetadata>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<GcloudTransferJobsUpdatePreserveMetadata>
             global::System.Collections.Generic.IEnumerable<GcloudTransferJobsUpdatePreserveMetadata>.GetEnumerator() => source.GetEnumerator();
@@ -393,9 +395,9 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -551,7 +553,7 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (!(ClearIncludePrefixes == true || ClearExcludePrefixes == true || ClearMatchGlob == true || ClearIncludeModifiedBeforeAbsolute == true || ClearIncludeModifiedAfterAbsolute == true || ClearIncludeModifiedBeforeRelative == true || ClearIncludeModifiedAfterRelative == true || ClearIncludeStorageClasses == true || ((object?)IncludePrefixes is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludePrefixes is not string || !string.IsNullOrWhiteSpace(IncludePrefixes?.ToString()) : ((object?)IncludePrefixes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludePrefixes, static item => item is not null) : (IncludePrefixes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludePrefixes), static item => item is not null)))) || ((object?)ExcludePrefixes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludePrefixes is not string || !string.IsNullOrWhiteSpace(ExcludePrefixes?.ToString()) : ((object?)ExcludePrefixes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludePrefixes, static item => item is not null) : (ExcludePrefixes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludePrefixes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MatchGlob) || !string.IsNullOrWhiteSpace(IncludeModifiedBeforeAbsolute) || !string.IsNullOrWhiteSpace(IncludeModifiedAfterAbsolute) || !string.IsNullOrWhiteSpace(IncludeModifiedBeforeRelative) || !string.IsNullOrWhiteSpace(IncludeModifiedAfterRelative) || ((object?)IncludeStorageClasses is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeStorageClasses is not string || !string.IsNullOrWhiteSpace(IncludeStorageClasses?.ToString()) : ((object?)IncludeStorageClasses is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeStorageClasses, static item => item is not null) : (IncludeStorageClasses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeStorageClasses), static item => item is not null)))) || ClearDeleteFrom == true || ClearPreserveMetadata == true || ClearCustomStorageClass == true || (object?)OverwriteWhen is not null || (object?)DeleteFrom is not null || ((object?)PreserveMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)PreserveMetadata is not string || !string.IsNullOrWhiteSpace(PreserveMetadata?.ToString()) : ((object?)PreserveMetadata is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PreserveMetadata, static item => item is not null) : (PreserveMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PreserveMetadata), static item => item is not null)))) || !string.IsNullOrWhiteSpace(CustomStorageClass)))
+        if (!(ClearIncludePrefixes == true || ClearExcludePrefixes == true || ClearMatchGlob == true || ClearIncludeModifiedBeforeAbsolute == true || ClearIncludeModifiedAfterAbsolute == true || ClearIncludeModifiedBeforeRelative == true || ClearIncludeModifiedAfterRelative == true || ClearIncludeStorageClasses == true || ((object?)IncludePrefixes is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludePrefixes is not string || !string.IsNullOrWhiteSpace(IncludePrefixes?.ToString()) : ((object?)IncludePrefixes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)IncludePrefixes, static item => item is not null) : (IncludePrefixes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludePrefixes), static item => item is not null)))) || ((object?)ExcludePrefixes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludePrefixes is not string || !string.IsNullOrWhiteSpace(ExcludePrefixes?.ToString()) : ((object?)ExcludePrefixes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)ExcludePrefixes, static item => item is not null) : (ExcludePrefixes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludePrefixes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MatchGlob) || !string.IsNullOrWhiteSpace(IncludeModifiedBeforeAbsolute) || !string.IsNullOrWhiteSpace(IncludeModifiedAfterAbsolute) || !string.IsNullOrWhiteSpace(IncludeModifiedBeforeRelative) || !string.IsNullOrWhiteSpace(IncludeModifiedAfterRelative) || ((object?)IncludeStorageClasses is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeStorageClasses is not string || !string.IsNullOrWhiteSpace(IncludeStorageClasses?.ToString()) : ((object?)IncludeStorageClasses is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)IncludeStorageClasses, static item => item is not null) : (IncludeStorageClasses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeStorageClasses), static item => item is not null)))) || ClearDeleteFrom == true || ClearPreserveMetadata == true || ClearCustomStorageClass == true || !string.IsNullOrWhiteSpace(OverwriteWhen) || !string.IsNullOrWhiteSpace(DeleteFrom) || ((object?)PreserveMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)PreserveMetadata is not string || !string.IsNullOrWhiteSpace(PreserveMetadata?.ToString()) : ((object?)PreserveMetadata is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)PreserveMetadata, static item => item is not null) : (PreserveMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PreserveMetadata), static item => item is not null)))) || !string.IsNullOrWhiteSpace(CustomStorageClass)))
         {
             yield return new ValidationResult("At least one of ClearIncludePrefixes, ClearExcludePrefixes, ClearMatchGlob, ClearIncludeModifiedBeforeAbsolute, ClearIncludeModifiedAfterAbsolute, ClearIncludeModifiedBeforeRelative, ClearIncludeModifiedAfterRelative, ClearIncludeStorageClasses, IncludePrefixes, ExcludePrefixes, MatchGlob, IncludeModifiedBeforeAbsolute, IncludeModifiedAfterAbsolute, IncludeModifiedBeforeRelative, IncludeModifiedAfterRelative, IncludeStorageClasses, ClearDeleteFrom, ClearPreserveMetadata, ClearCustomStorageClass, OverwriteWhen, DeleteFrom, PreserveMetadata, or CustomStorageClass must be specified.", [nameof(ClearIncludePrefixes), nameof(ClearExcludePrefixes), nameof(ClearMatchGlob), nameof(ClearIncludeModifiedBeforeAbsolute), nameof(ClearIncludeModifiedAfterAbsolute), nameof(ClearIncludeModifiedBeforeRelative), nameof(ClearIncludeModifiedAfterRelative), nameof(ClearIncludeStorageClasses), nameof(IncludePrefixes), nameof(ExcludePrefixes), nameof(MatchGlob), nameof(IncludeModifiedBeforeAbsolute), nameof(IncludeModifiedAfterAbsolute), nameof(IncludeModifiedBeforeRelative), nameof(IncludeModifiedAfterRelative), nameof(IncludeStorageClasses), nameof(ClearDeleteFrom), nameof(ClearPreserveMetadata), nameof(ClearCustomStorageClass), nameof(OverwriteWhen), nameof(DeleteFrom), nameof(PreserveMetadata), nameof(CustomStorageClass)]);
         }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
@@ -130,7 +131,7 @@ public record GcloudIamWorkforcePoolsProvidersUpdateOidcOptions : GcloudOptions,
     /// Response Type to request for in the OIDC Authorization Request for web sign-in. Use code to select the authorization code flow (https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth) Use id-token to select the implicit flow (https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth). WEB_SSO_RESPONSE_TYPE must be one of: code, id-token, response-type-unspecified.
     /// </summary>
     [CliOption("--web-sso-response-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIamWorkforcePoolsProvidersUpdateOidcWebSsoResponseType? WebSsoResponseType { get; set; }
+    public string? WebSsoResponseType { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clear the OIDC client secret.
@@ -217,7 +218,7 @@ public record GcloudIamWorkforcePoolsProvidersUpdateOidcOptions : GcloudOptions,
     /// At most one of these can be specified: Or at least one of these can be specified: Represents the identity provider and type of claims that should be fetched. EXTRA_ATTRIBUTES_TYPE must be one of: attributes-type-unspecified, azure-ad-groups-display-name, azure-ad-groups-id, azure-ad-groups-mail.
     /// </summary>
     [CliOption("--extra-attributes-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIamWorkforcePoolsProvidersUpdateOidcExtraAttributesType? ExtraAttributesType { get; set; }
+    public string? ExtraAttributesType { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clear the SCIM usage configuration, resetting it to unspecified.
@@ -248,7 +249,7 @@ public record GcloudIamWorkforcePoolsProvidersUpdateOidcOptions : GcloudOptions,
         {
             yield return new ValidationResult("At most one of ClearExtendedAttributesConfig or (ExtendedAttributesClientId, ExtendedAttributesClientSecretValue, ExtendedAttributesFilter, ExtendedAttributesIssuerUri, or ExtendedAttributesType) may be specified.", [nameof(ClearExtendedAttributesConfig), nameof(ExtendedAttributesClientId), nameof(ExtendedAttributesClientSecretValue), nameof(ExtendedAttributesFilter), nameof(ExtendedAttributesIssuerUri), nameof(ExtendedAttributesType)]);
         }
-        if ((ClearExtraAttributesConfig == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ExtraAttributesClientId) || !string.IsNullOrWhiteSpace(ExtraAttributesClientSecretValue) || !string.IsNullOrWhiteSpace(ExtraAttributesFilter) || !string.IsNullOrWhiteSpace(ExtraAttributesIssuerUri) || (object?)ExtraAttributesType is not null) ? 1 : 0) > 1)
+        if ((ClearExtraAttributesConfig == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ExtraAttributesClientId) || !string.IsNullOrWhiteSpace(ExtraAttributesClientSecretValue) || !string.IsNullOrWhiteSpace(ExtraAttributesFilter) || !string.IsNullOrWhiteSpace(ExtraAttributesIssuerUri) || !string.IsNullOrWhiteSpace(ExtraAttributesType)) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearExtraAttributesConfig or (ExtraAttributesClientId, ExtraAttributesClientSecretValue, ExtraAttributesFilter, ExtraAttributesIssuerUri, or ExtraAttributesType) may be specified.", [nameof(ClearExtraAttributesConfig), nameof(ExtraAttributesClientId), nameof(ExtraAttributesClientSecretValue), nameof(ExtraAttributesFilter), nameof(ExtraAttributesIssuerUri), nameof(ExtraAttributesType)]);
         }

@@ -16,8 +16,20 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudPreviewComputeForwardingRulesCreateIpProtocol
 {
+    [EnumValue("AH")]
+    Ah,
+
+    [EnumValue("ESP")]
+    Esp,
+
+    [EnumValue("ICMP")]
+    Icmp,
+
     [EnumValue("L3_DEFAULT")]
     L3Default,
+
+    [EnumValue("SCTP")]
+    Sctp,
 
     [EnumValue("TCP")]
     Tcp,

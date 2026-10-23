@@ -10,9 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -74,7 +74,7 @@ public record GcloudBillingBudgetsCreateOptions : GcloudOptions, IValidatableObj
     /// Whether to include all credit types when calculating the actual spend against the budget. If this is not specified, then all credit types are used in the calculation. If this is set to include-specified-credits, then --filter-credit-types must be specified with a nonempty list of credits. CREDIT_TYPES_TREATMENT must be one of: credit-types-treatment-unspecified, exclude-all-credits, include-all-credits, include-specified-credits.
     /// </summary>
     [CliOption("--credit-types-treatment", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBillingBudgetsCreateCreditTypesTreatment? CreditTypesTreatment { get; set; }
+    public string? CreditTypesTreatment { get; set; }
 
     /// <summary>
     /// When set to true, disables default notifications sent when a threshold is exceeded. Default notifications are sent to those with Billing Account Administrator and Billing Account User IAM roles for the target account.
@@ -134,7 +134,7 @@ public record GcloudBillingBudgetsCreateOptions : GcloudOptions, IValidatableObj
     /// Sets the ownership scope of the budget. The ownership scope and users' IAM permissions determine who has full access to the budget's data. Must be one of: 'ALL_USERS' or 'BILLING_ACCOUNT'. Use 'ALL_USERS' to allow billing account- level users and project-level users to have full access to the budget (if the users have the required IAM permissions). Use 'BILLING_ACCOUNT' to allow only billing account-level users to have full access to the budget. Project-level users will have read-only access, even if they have the required IAM permissions. OWNERSHIP_SCOPE must be one of: all-users, billing-account, ownership-scope-unspecified.
     /// </summary>
     [CliOption("--ownership-scope", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBillingBudgetsCreateOwnershipScope? OwnershipScope { get; set; }
+    public string? OwnershipScope { get; set; }
 
     /// <summary>
     /// Rule that triggers alerts (notifications of thresholds being crossed) when spend exceeds the specified percentages of the budget. This flag can be repeated to provide multiple thresholds above which an alert is sent. percent Number between 0.0 and 1.0. This is a 1.0-based percentage; for example 0.5 equals 50 percent. An alert is sent for anything above the value set. basis Type of basis used to determine if spend has passed the threshold. Must be one of: 'current-spend' or 'forecasted-spend'. Behavior defaults to 'current-spend' if not set.
@@ -146,7 +146,7 @@ public record GcloudBillingBudgetsCreateOptions : GcloudOptions, IValidatableObj
     /// Specify either the calendar-period or custom-period, not both. At most one of these can be specified: Calendar Period Specified to track usage over recurring calendar period. If you're creating a budget with a custom time period, omit this flag. CALENDAR_PERIOD must be one of: calendar-period-unspecified, month, quarter, year.
     /// </summary>
     [CliOption("--calendar-period", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBillingBudgetsCreateCalendarPeriod? CalendarPeriod { get; set; }
+    public string? CalendarPeriod { get; set; }
 
     /// <summary>
     /// Specify either the calendar-period or custom-period, not both. At most one of these can be specified: Custom Period Specified to track usage after any start date. This time period is static, it does not recur. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -167,11 +167,11 @@ public record GcloudBillingBudgetsCreateOptions : GcloudOptions, IValidatableObj
         {
             yield return new ValidationResult("Exactly one of BudgetAmount or LastPeriodAmount must be specified.", [nameof(BudgetAmount), nameof(LastPeriodAmount)]);
         }
-        if ((((object?)CalendarPeriod is not null) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(StartDate) || !string.IsNullOrWhiteSpace(EndDate)) ? 1 : 0) > 1)
+        if (((!string.IsNullOrWhiteSpace(CalendarPeriod)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(StartDate) || !string.IsNullOrWhiteSpace(EndDate)) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of (CalendarPeriod) or (StartDate or EndDate) may be specified.", [nameof(CalendarPeriod), nameof(StartDate), nameof(EndDate)]);
         }
-        if (((object?)CalendarPeriod is not null || !string.IsNullOrWhiteSpace(StartDate) || !string.IsNullOrWhiteSpace(EndDate)) && (!string.IsNullOrWhiteSpace(StartDate) || !string.IsNullOrWhiteSpace(EndDate)) && (!(!string.IsNullOrWhiteSpace(StartDate))))
+        if ((!string.IsNullOrWhiteSpace(CalendarPeriod) || !string.IsNullOrWhiteSpace(StartDate) || !string.IsNullOrWhiteSpace(EndDate)) && (!string.IsNullOrWhiteSpace(StartDate) || !string.IsNullOrWhiteSpace(EndDate)) && (!(!string.IsNullOrWhiteSpace(StartDate))))
         {
             yield return new ValidationResult("StartDate must be specified when other arguments in this group are specified.", [nameof(StartDate)]);
         }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -31,12 +33,13 @@ public record GcloudComputeNetworkFirewallPoliciesRulesCreateOptions : GcloudOpt
     /// <param name="Layer4Configs">A list of destination protocols and ports to which the firewall rule will apply. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
     /// <param name="Priority">Priority of the rule to be inserted. Valid in [0, 2147483547].</param>
     public GcloudComputeNetworkFirewallPoliciesRulesCreateOptions(
-        GcloudComputeNetworkFirewallPoliciesRulesCreateAction Action,
+        string Action,
         string FirewallPolicy,
         IEnumerable<string> Layer4Configs,
         string Priority
     )
     {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
         global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
         this.FirewallPolicy = FirewallPolicy;
@@ -57,7 +60,7 @@ public record GcloudComputeNetworkFirewallPoliciesRulesCreateOptions : GcloudOpt
         this.Priority = Priority;
     }
 
-    public void Deconstruct(out GcloudComputeNetworkFirewallPoliciesRulesCreateAction Action, out string FirewallPolicy, out IEnumerable<string> Layer4Configs, out string Priority)
+    public void Deconstruct(out string Action, out string FirewallPolicy, out IEnumerable<string> Layer4Configs, out string Priority)
     {
         Action = this.Action;
         FirewallPolicy = this.FirewallPolicy;
@@ -69,7 +72,7 @@ public record GcloudComputeNetworkFirewallPoliciesRulesCreateOptions : GcloudOpt
     /// Action to take if the request matches the match condition. ACTION must be one of: allow, deny, goto_next, apply_security_profile_group.
     /// </summary>
     [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
-    public GcloudComputeNetworkFirewallPoliciesRulesCreateAction Action { get; private init; }
+    public string Action { get; private init; }
 
     /// <summary>
     /// Firewall policy ID with which to create rule.
