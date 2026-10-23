@@ -14,7 +14,7 @@ public class ParallelLimiterConfigurationTests
     [Test]
     public async Task AttributeUsage_PermitsOnlyClasses()
     {
-        foreach (var type in new[] { typeof(ModularPipelines.Attributes.ParallelLimiterAttribute), typeof(ModularPipelines.Attributes.ParallelLimiterAttribute<SingleLimit>) })
+        foreach (var type in new[] { typeof(ModularPipelines.ParallelLimiterAttribute), typeof(ModularPipelines.ParallelLimiterAttribute<SingleLimit>) })
         {
             var usage = type.GetCustomAttribute<AttributeUsageAttribute>()!;
             await Assert.That(usage.ValidOn).IsEqualTo(AttributeTargets.Class);
@@ -135,12 +135,12 @@ public class ParallelLimiterConfigurationTests
             => Task.FromResult(GetType().Name);
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<SingleLimit>]
+    [ModularPipelines.ParallelLimiter<SingleLimit>]
     private class AttributeModule : TestModule;
 
     private sealed class InheritedAttributeModule : AttributeModule;
 
-    [ModularPipelines.Attributes.ParallelLimiter<OtherLimit>]
+    [ModularPipelines.ParallelLimiter<OtherLimit>]
     private sealed class OtherAttributeModule : AttributeModule;
 
     private sealed class PureFluentModule : TestModule
@@ -149,7 +149,7 @@ public class ParallelLimiterConfigurationTests
             .WithParallelLimiter<SingleLimit>();
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<InvalidLimit>]
+    [ModularPipelines.ParallelLimiter<InvalidLimit>]
     private sealed class FluentModule : AttributeModule
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module

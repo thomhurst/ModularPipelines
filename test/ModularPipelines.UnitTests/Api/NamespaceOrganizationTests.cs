@@ -32,6 +32,14 @@ public class NamespaceOrganizationTests
             (typeof(ModuleStatus), "ModularPipelines"),
             (typeof(ModulePriority), "ModularPipelines"),
             (typeof(DependsOnAttribute), "ModularPipelines"),
+            (typeof(ModuleIdAttribute), "ModularPipelines"),
+            (typeof(ParallelLimiterAttribute), "ModularPipelines"),
+            (typeof(ParallelLimiterAttribute<>), "ModularPipelines"),
+            (typeof(CacheInputsAttribute), "ModularPipelines"),
+            (typeof(ProducesArtifactAttribute), "ModularPipelines"),
+            (typeof(ConsumesArtifactAttribute), "ModularPipelines"),
+            (typeof(RequiresCapabilityAttribute), "ModularPipelines"),
+            (typeof(RequiresAnyCapabilityAttribute), "ModularPipelines"),
             (typeof(RunIfAttribute<,>), "ModularPipelines"),
             (typeof(SkipIfAttribute<>), "ModularPipelines"),
             (typeof(RunConditionAttribute), "ModularPipelines"),
@@ -79,6 +87,14 @@ public class NamespaceOrganizationTests
             "ModularPipelines.Models.ModuleResult`1",
             "ModularPipelines.Enums.ModuleStatus",
             "ModularPipelines.Attributes.DependsOnAttribute",
+            "ModularPipelines.Attributes.ModuleIdAttribute",
+            "ModularPipelines.Attributes.ParallelLimiterAttribute",
+            "ModularPipelines.Attributes.ParallelLimiterAttribute`1",
+            "ModularPipelines.Attributes.CacheInputsAttribute",
+            "ModularPipelines.Attributes.ProducesArtifactAttribute",
+            "ModularPipelines.Attributes.ConsumesArtifactAttribute",
+            "ModularPipelines.Attributes.RequiresCapabilityAttribute",
+            "ModularPipelines.Attributes.RequiresAnyCapabilityAttribute",
             "ModularPipelines.Conditions.OnWindows",
             "ModularPipelines.Engine.ISecretRegistry",
             "ModularPipelines.Engine.IRunHistoryStore",
@@ -89,4 +105,13 @@ public class NamespaceOrganizationTests
             await Assert.That(assembly.GetType(typeName)).IsNull();
         }
     }
+
+    [Test]
+    public async Task ModuleIdShorthand_ResolvesToAttributeAlongsideValueType()
+    {
+        await Assert.That(ModuleId.FromType(typeof(ModuleWithId)).Value).IsEqualTo("build");
+    }
+
+    [ModuleId("build")]
+    private sealed class ModuleWithId;
 }

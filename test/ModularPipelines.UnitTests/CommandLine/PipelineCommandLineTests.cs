@@ -506,19 +506,19 @@ public class PipelineCommandLineTests
         public static int Limit => 0;
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<InvalidModuleLimit>]
+    [ModularPipelines.ParallelLimiter<InvalidModuleLimit>]
     private sealed class ExcludedInvalidLimitModule : DryRunModule
     {
     }
 
     [Priority(ModulePriority.High)]
-    [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
+    [ModularPipelines.ParallelLimiter<SingleModuleLimit>]
     private sealed class FirstLimitedModule : DryRunModule
     {
     }
 
     [Priority(ModulePriority.High)]
-    [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
+    [ModularPipelines.ParallelLimiter<SingleModuleLimit>]
     private sealed class SecondLimitedModule : DryRunModule
     {
     }
@@ -540,12 +540,12 @@ public class PipelineCommandLineTests
 
     [Priority(ModulePriority.High)]
     [ExecutionHint(ExecutionHint.CpuBound)]
-    [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
+    [ModularPipelines.ParallelLimiter<SingleModuleLimit>]
     private sealed class CpuAndLimiterWaiterModule : DryRunModule
     {
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
+    [ModularPipelines.ParallelLimiter<SingleModuleLimit>]
     private sealed class LimiterOnlyModule : DryRunModule
     {
     }

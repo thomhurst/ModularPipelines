@@ -13,7 +13,7 @@ public class ParallelLimiterTests
     private static readonly ConcurrentBag<string> _executingModules = new();
     private static readonly ConcurrentBag<string> _violations = new();
 
-    [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
+    [ModularPipelines.ParallelLimiter<MyParallelLimit>]
     public class Module1 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -35,7 +35,7 @@ public class ParallelLimiterTests
         }
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
+    [ModularPipelines.ParallelLimiter<MyParallelLimit>]
     public class Module2 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -57,7 +57,7 @@ public class ParallelLimiterTests
         }
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
+    [ModularPipelines.ParallelLimiter<MyParallelLimit>]
     public class Module3 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -80,7 +80,7 @@ public class ParallelLimiterTests
     }
 
 
-    [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
+    [ModularPipelines.ParallelLimiter<MyParallelLimit>]
     public class Module4 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -102,7 +102,7 @@ public class ParallelLimiterTests
         }
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
+    [ModularPipelines.ParallelLimiter<MyParallelLimit>]
     public class Module5 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -124,7 +124,7 @@ public class ParallelLimiterTests
         }
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
+    [ModularPipelines.ParallelLimiter<MyParallelLimit>]
     public class Module6 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

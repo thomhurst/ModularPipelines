@@ -1,4 +1,4 @@
-namespace ModularPipelines.Attributes;
+namespace ModularPipelines;
 
 /// <summary>
 /// Overrides the stable identifier used for module selection, distributed wires, and cache fingerprints.

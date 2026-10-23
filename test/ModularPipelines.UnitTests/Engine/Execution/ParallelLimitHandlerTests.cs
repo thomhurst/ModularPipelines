@@ -617,7 +617,7 @@ public class ParallelLimitHandlerTests
         public static int Limit => 1;
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<SingleSlotLimit>]
+    [ModularPipelines.ParallelLimiter<SingleSlotLimit>]
     private sealed class ParallelLimitedModule : TestModule;
 
     private class TestModule : Module<bool>

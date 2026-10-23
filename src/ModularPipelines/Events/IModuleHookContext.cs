@@ -25,7 +25,7 @@ public interface IModuleHookContext : IPipelineContext
 
     /// <summary>
     /// Gets the stable identifier for <see cref="ModuleType"/>, including any
-    /// <see cref="ModularPipelines.Attributes.ModuleIdAttribute"/> override.
+    /// <see cref="ModularPipelines.ModuleIdAttribute"/> override.
     /// </summary>
     ModuleId ModuleId { get; }
 

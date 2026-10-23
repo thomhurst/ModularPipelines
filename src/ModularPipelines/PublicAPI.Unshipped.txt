@@ -1654,16 +1654,16 @@ ModularPipelines.Attributes.CliOptionAttribute.CollectionSeparator.set -> void
 ModularPipelines.Attributes.CommandLinePhase.LateOperand = 5 -> ModularPipelines.Attributes.CommandLinePhase
 ModularPipelines.ExecutionHintAttribute.ExecutionHint.get -> ModularPipelines.ExecutionHint
 ModularPipelines.ExecutionHintAttribute.ExecutionHintAttribute(ModularPipelines.ExecutionHint executionHint) -> void
-ModularPipelines.Attributes.ModuleIdAttribute
-ModularPipelines.Attributes.ModuleIdAttribute.Id.get -> string!
-ModularPipelines.Attributes.ModuleIdAttribute.ModuleIdAttribute(string! id) -> void
+ModularPipelines.ModuleIdAttribute
+ModularPipelines.ModuleIdAttribute.Id.get -> string!
+ModularPipelines.ModuleIdAttribute.ModuleIdAttribute(string! id) -> void
 ModularPipelines.PriorityAttribute.Priority.get -> ModularPipelines.ModulePriority
 ModularPipelines.PriorityAttribute.PriorityAttribute(ModularPipelines.ModulePriority priority) -> void
-ModularPipelines.Attributes.RequiresAnyCapabilityAttribute
-ModularPipelines.Attributes.RequiresAnyCapabilityAttribute.Capabilities.get -> System.Collections.Generic.IReadOnlyList<string!>!
-ModularPipelines.Attributes.RequiresAnyCapabilityAttribute.RequiresAnyCapabilityAttribute(params string![]! capabilities) -> void
-ModularPipelines.Attributes.RequiresCapabilityAttribute.Capabilities.get -> System.Collections.Generic.IReadOnlyList<string!>!
-ModularPipelines.Attributes.RequiresCapabilityAttribute.RequiresCapabilityAttribute(params string![]! capabilities) -> void
+ModularPipelines.RequiresAnyCapabilityAttribute
+ModularPipelines.RequiresAnyCapabilityAttribute.Capabilities.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ModularPipelines.RequiresAnyCapabilityAttribute.RequiresAnyCapabilityAttribute(params string![]! capabilities) -> void
+ModularPipelines.RequiresCapabilityAttribute.Capabilities.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ModularPipelines.RequiresCapabilityAttribute.RequiresCapabilityAttribute(params string![]! capabilities) -> void
 ModularPipelines.Caching.ModuleCacheOptions.<Clone>$() -> ModularPipelines.Caching.ModuleCacheOptions!
 ModularPipelines.Caching.ModuleCacheOptions.CacheDirectory.init -> void
 ModularPipelines.Caching.ModuleCacheOptions.Equals(ModularPipelines.Caching.ModuleCacheOptions? other) -> bool
@@ -3924,3 +3924,41 @@ virtual ModularPipelines.KeyValue.EqualityContract.get -> System.Type!
 virtual ModularPipelines.KeyValue.Equals(ModularPipelines.KeyValue? other) -> bool
 *REMOVED*virtual ModularPipelines.Models.KeyValue.PrintMembers(System.Text.StringBuilder! builder) -> bool
 virtual ModularPipelines.KeyValue.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*ModularPipelines.Attributes.CacheInputsAttribute
+ModularPipelines.CacheInputsAttribute
+*REMOVED*ModularPipelines.Attributes.CacheInputsAttribute.CacheInputsAttribute(params string![]! patterns) -> void
+ModularPipelines.CacheInputsAttribute.CacheInputsAttribute(params string![]! patterns) -> void
+*REMOVED*ModularPipelines.Attributes.CacheInputsAttribute.Patterns.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ModularPipelines.CacheInputsAttribute.Patterns.get -> System.Collections.Generic.IReadOnlyList<string!>!
+*REMOVED*ModularPipelines.Attributes.ConsumesArtifactAttribute
+ModularPipelines.ConsumesArtifactAttribute
+*REMOVED*ModularPipelines.Attributes.ConsumesArtifactAttribute.ArtifactName.get -> string!
+ModularPipelines.ConsumesArtifactAttribute.ArtifactName.get -> string!
+*REMOVED*ModularPipelines.Attributes.ConsumesArtifactAttribute.ConsumesArtifactAttribute(System.Type! producerModule, string! artifactName) -> void
+ModularPipelines.ConsumesArtifactAttribute.ConsumesArtifactAttribute(System.Type! producerModule, string! artifactName) -> void
+*REMOVED*ModularPipelines.Attributes.ConsumesArtifactAttribute.ProducerModule.get -> System.Type!
+ModularPipelines.ConsumesArtifactAttribute.ProducerModule.get -> System.Type!
+*REMOVED*ModularPipelines.Attributes.ConsumesArtifactAttribute.RestorePath.get -> string?
+ModularPipelines.ConsumesArtifactAttribute.RestorePath.get -> string?
+*REMOVED*ModularPipelines.Attributes.ConsumesArtifactAttribute.RestorePath.set -> void
+ModularPipelines.ConsumesArtifactAttribute.RestorePath.set -> void
+*REMOVED*ModularPipelines.Attributes.ParallelLimiterAttribute
+ModularPipelines.ParallelLimiterAttribute
+*REMOVED*ModularPipelines.Attributes.ParallelLimiterAttribute.ParallelLimiterAttribute(System.Type! type) -> void
+ModularPipelines.ParallelLimiterAttribute.ParallelLimiterAttribute(System.Type! type) -> void
+*REMOVED*ModularPipelines.Attributes.ParallelLimiterAttribute.Type.get -> System.Type!
+ModularPipelines.ParallelLimiterAttribute.Type.get -> System.Type!
+*REMOVED*ModularPipelines.Attributes.ParallelLimiterAttribute<TParallelLimit>
+ModularPipelines.ParallelLimiterAttribute<TParallelLimit>
+*REMOVED*ModularPipelines.Attributes.ParallelLimiterAttribute<TParallelLimit>.ParallelLimiterAttribute() -> void
+ModularPipelines.ParallelLimiterAttribute<TParallelLimit>.ParallelLimiterAttribute() -> void
+*REMOVED*ModularPipelines.Attributes.ProducesArtifactAttribute
+ModularPipelines.ProducesArtifactAttribute
+*REMOVED*ModularPipelines.Attributes.ProducesArtifactAttribute.Name.get -> string!
+ModularPipelines.ProducesArtifactAttribute.Name.get -> string!
+*REMOVED*ModularPipelines.Attributes.ProducesArtifactAttribute.PathPattern.get -> string!
+ModularPipelines.ProducesArtifactAttribute.PathPattern.get -> string!
+*REMOVED*ModularPipelines.Attributes.ProducesArtifactAttribute.ProducesArtifactAttribute(string! name, string! pathPattern) -> void
+ModularPipelines.ProducesArtifactAttribute.ProducesArtifactAttribute(string! name, string! pathPattern) -> void
+*REMOVED*ModularPipelines.Attributes.RequiresCapabilityAttribute
+ModularPipelines.RequiresCapabilityAttribute

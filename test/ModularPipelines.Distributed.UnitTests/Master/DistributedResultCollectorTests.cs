@@ -93,7 +93,7 @@ public class DistributedResultCollectorTests
         await Assert.That(threw).IsTrue();
     }
 
-    [ModularPipelines.Attributes.ModuleId("build.application")]
+    [ModularPipelines.ModuleId("build.application")]
     private sealed class CustomIdModule : TestModule;
 
     [Test]
