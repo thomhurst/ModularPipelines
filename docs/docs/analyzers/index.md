@@ -15,7 +15,7 @@ sidebar_position: 1
 | [`MP0003`](./MP0003.md) | Usage | Error | Public analyzer package | Injects a logger into a module constructor instead of using the module context. |
 | [`MP0004`](./MP0004.md) | Usage | Disabled | Public analyzer package | Optional policy restricting direct System.Console calls in projects that require structured logging. |
 | [`MP0005`](./MP0005.md) | Usage | Error | Public analyzer package | Creates a circular dependency between modules. |
-| [`MP0006`](./MP0006.md) | Usage | Error | Public analyzer package | Implements ExecuteAsync without the async modifier. |
+| [`MP0006`](./MP0006.md) | Usage | Warning | Public analyzer package | Generic module returns a task without async/await, except Task.FromResult; non-generic modules are exempt. |
 | [`MP0007`](./MP0007.md) | Usage | Error | Public analyzer package | Awaits the current module instance. |
 | [`MP0008`](./MP0008.md) | Design | Warning | Public analyzer package | Declares mutable instance state that can leak between module executions. |
 | [`MP0009`](./MP0009.md) | Usage | Error | Public analyzer package | References a dependency type that does not implement IModule. |

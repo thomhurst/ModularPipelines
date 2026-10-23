@@ -18,10 +18,11 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
         DiagnosticId,
         nameof(Resources.AsyncModuleAnalyzerTitle),
         nameof(Resources.AsyncModuleAnalyzerMessageFormat),
-        nameof(Resources.AsyncModuleAnalyzerDescription));
+        nameof(Resources.AsyncModuleAnalyzerDescription),
+        severity: DiagnosticSeverity.Warning);
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -54,7 +55,9 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (!context.GetClassThatNodeIsIn().IsModule(context.Compilation))
+        var moduleType = context.GetClassThatNodeIsIn();
+        if (!moduleType.IsModule(context.Compilation)
+            || moduleType.InheritsFrom(context.Compilation, AnalyzerConstants.FullyQualifiedTypeNames.NonGenericModule))
         {
             return;
         }

@@ -143,7 +143,7 @@ ${sentence(rule.description)}
 | Default severity | ${rule.severity} |
 | Availability | ${rule.availability} |${rule.severity.toLowerCase() === 'disabled'
     ? '\n\nThis rule is disabled by default. Set an explicit severity to opt in.'
-    : ''}
+    : ''}${renderRuleDetails(rule.id)}
 
 ## Configure severity
 
@@ -161,6 +161,13 @@ Use \`none\` to disable the rule, or \`silent\`, \`suggestion\`, \`warning\`, or
 #pragma warning restore ${rule.id}
 \`\`\`
 `;
+}
+
+function renderRuleDetails(id) {
+  const detailsPath = join(repositoryRoot, 'docs', 'analyzer-details', `${id}.md`);
+  return existsSync(detailsPath)
+    ? `\n\n${readFileSync(detailsPath, 'utf8').trim()}`
+    : '';
 }
 
 function getSidebarPosition(id, index) {

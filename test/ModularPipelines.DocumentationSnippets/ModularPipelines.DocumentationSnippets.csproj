@@ -2,8 +2,12 @@
   <PropertyGroup>
     <TargetFramework>net11.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <!-- Check documentation examples with the analyzer shipped to package consumers, including in CI. -->
+    <RunAnalyzers>true</RunAnalyzers>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="../ModularPipelines.DocumentationSnippets.FSharp/ModularPipelines.DocumentationSnippets.FSharp.fsproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />

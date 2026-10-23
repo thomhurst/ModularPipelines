@@ -7,7 +7,7 @@ MP0002 | Usage | Error | Uses IEnumerable as a module result instead of a concre
 MP0003 | Usage | Error | Injects a logger into a module constructor instead of using the module context
 MP0004 | Usage | Disabled | Optional policy restricting direct System.Console calls in projects that require structured logging
 MP0005 | Usage | Error | Creates a circular dependency between modules
-MP0006 | Usage | Error | Implements ExecuteAsync without the async modifier
+MP0006 | Usage | Warning | Generic module returns a task without async/await, except Task.FromResult; non-generic modules are exempt
 MP0007 | Usage | Error | Awaits the current module instance
 MP0008 | Design | Warning | Declares mutable instance state that can leak between module executions
 MP0009 | Usage | Error | References a dependency type that does not implement IModule

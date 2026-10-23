@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
     ModularPipelines.Analyzers.AsyncModuleAnalyzer,
@@ -124,6 +125,46 @@ public class Module1 : Module<string>
     }}
 }}
 ";
+
+    [TestMethod]
+    [DataRow("Module", "Task.CompletedTask", false)]
+    [DataRow("Module", "Task.CompletedTask", true)]
+    [DataRow("Module", "Task.Delay(1, cancellationToken)", false)]
+    [DataRow("Module", "Task.Delay(1, cancellationToken)", true)]
+    [DataRow("BaseModule<int>", "Task.CompletedTask", false)]
+    [DataRow("BaseModule<int>", "Task.CompletedTask", true)]
+    [DataRow("BaseModule<int>", "Task.Delay(1, cancellationToken)", false)]
+    [DataRow("BaseModule<int>", "Task.Delay(1, cancellationToken)", true)]
+    public async Task AnalyzerIsNotTriggered_For_NonGenericModules(
+        string baseType, string expression, bool expressionBody)
+    {
+        var body = expressionBody ? $"=> {expression};" : $"{{ return {expression}; }}";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeaderWithOptions}}
+
+            public abstract class BaseModule<T> : Module;
+
+            public class Module1 : {{baseType}}
+            {
+                protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    {{body}}
+            }
+            """;
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task PassThroughTaskProducesWarning(bool expressionBody)
+    {
+        var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId)
+            .WithSeverity(DiagnosticSeverity.Warning)
+            .WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(expressionBody ? ExpressionBodiedModuleSource : BadModuleSource, expected);
+    }
 
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Not_Async()
