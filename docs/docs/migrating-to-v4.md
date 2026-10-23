@@ -114,6 +114,7 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | `ModularPipelines.Enums.ModulePriority` | `ModularPipelines.ModulePriority` |
 | `ModularPipelines.Enums.BuildSystem` | `ModularPipelines.BuildSystem` |
 | `ModularPipelines.Attributes.ModuleCategoryAttribute`, `ModuleTagAttribute` | `ModularPipelines` |
+| `ModularPipelines.Attributes.ModuleIdAttribute`, `ParallelLimiterAttribute`, `ParallelLimiterAttribute<T>`, `CacheInputsAttribute`, `ProducesArtifactAttribute`, `ConsumesArtifactAttribute`, `RequiresCapabilityAttribute`, `RequiresAnyCapabilityAttribute` | `ModularPipelines` |
 | Capability interfaces under `Context.Domains` and its subnamespaces | `ModularPipelines.Context` (some renamed; see below) |
 | `Context.Domains.IEnvironmentDomainContext` (`context.Environment`) | `ModularPipelines.Context.IEnvironmentContext` |
 | `Context.Domains.Security.IHasherContext` (`context.Security.Hasher`) | `ModularPipelines.Context.IHashContext` (`context.Security.Hash`) |
@@ -136,6 +137,12 @@ value validation attributes. Update fully qualified references as well, for exam
 `ModularPipelines.Models.KeyValue` becomes `ModularPipelines.KeyValue`. No public core types remain
 in `ModularPipelines.Models`; the old names have no compatibility aliases. `RequirementDecision`
 uses `ModularPipelines.Requirements`, while reporting models keep their feature namespace.
+
+Update fully qualified references to the moved module attributes as well. For example,
+`ModularPipelines.Attributes.ModuleIdAttribute` becomes `ModularPipelines.ModuleIdAttribute`,
+and both forms of `ParallelLimiterAttribute` now use `ModularPipelines`. Shorthand such as
+`[ModuleId("build")]` needs only the root namespace. Keep `using ModularPipelines.Attributes;`
+when the same file also uses CLI attributes.
 
 Do not replace whole namespaces blindly. Some types did not move:
 

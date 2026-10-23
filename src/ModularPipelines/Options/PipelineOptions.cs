@@ -176,7 +176,7 @@ public sealed record PipelineOptions
 
     /// <summary>
     /// Gets module names to execute with their transitive dependency closures.
-    /// Names may be module identifiers (including <see cref="Attributes.ModuleIdAttribute"/> overrides),
+    /// Names may be module identifiers (including <see cref="ModuleIdAttribute"/> overrides),
     /// simple, full, or assembly-qualified module type names, matched case-insensitively.
     /// A complete name is matched before interpreting it as a comma-separated list.
     /// Assembly-qualified type names take precedence over module identifiers with the same value.
@@ -191,7 +191,7 @@ public sealed record PipelineOptions
 
     /// <summary>
     /// Gets module names to exclude from execution.
-    /// Names may be module identifiers (including <see cref="Attributes.ModuleIdAttribute"/> overrides),
+    /// Names may be module identifiers (including <see cref="ModuleIdAttribute"/> overrides),
     /// simple, full, or assembly-qualified module type names, matched case-insensitively.
     /// A complete name is matched before interpreting it as a comma-separated list.
     /// Assembly-qualified type names take precedence over module identifiers with the same value.

@@ -314,7 +314,7 @@ public static class PipelineBuilderExtensions
 
     /// <summary>
     /// Enables fingerprint-based incremental module caching with the specified storage backend.
-    /// Modules opt in through <see cref="Attributes.CacheInputsAttribute"/>,
+    /// Modules opt in through <see cref="CacheInputsAttribute"/>,
     /// <see cref="ModuleConfigurationBuilder.WithCacheKeyPart"/>, or
     /// <see cref="ModuleConfigurationBuilder.WithCacheEnvironmentVariable"/>.
     /// </summary>

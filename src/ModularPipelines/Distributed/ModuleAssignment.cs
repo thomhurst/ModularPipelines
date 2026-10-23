@@ -47,14 +47,14 @@ public sealed record ModuleAssignment
     public IReadOnlyList<string> SatisfiedConditionGroups { get; init; } = [];
 
     /// <summary>
-    /// Gets the names of <see cref="Attributes.ProducesArtifactAttribute"/> artifacts that planned
+    /// Gets the names of <see cref="ProducesArtifactAttribute"/> artifacts that planned
     /// consumers require. The worker fails the module when one of them is not produced.
     /// </summary>
     public IReadOnlyList<string> RequiredArtifacts { get; init; } = [];
 
     /// <summary>
     /// Gets the artifacts, taken from accepted producer results, that this module consumes through
-    /// <see cref="Attributes.ConsumesArtifactAttribute"/>. Workers download exactly these references.
+    /// <see cref="ConsumesArtifactAttribute"/>. Workers download exactly these references.
     /// </summary>
     public IReadOnlyList<ArtifactReference> ConsumedArtifacts { get; init; } = [];
 }

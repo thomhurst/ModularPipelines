@@ -1,4 +1,4 @@
-namespace ModularPipelines.Attributes;
+namespace ModularPipelines;
 
 /// <summary>
 /// Declares that a module requires an artifact produced by another module.

@@ -51,7 +51,7 @@ public class ModuleSchedulerConfigurationTests
         public static int Limit => 1;
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<SingleLimit>]
+    [ModularPipelines.ParallelLimiter<SingleLimit>]
     private sealed class AttributedLimitedModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

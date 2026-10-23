@@ -38,10 +38,10 @@ public class SchedulerLimitTests
         }
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
+    [ModularPipelines.ParallelLimiter<SingleModuleLimit>]
     public class LimitedModule<T>(TaskCompletionSource release, ExecutionHint hint) : WaitingModule<T>(release, hint);
 
-    [ModularPipelines.Attributes.ParallelLimiter<TwoModuleLimit>]
+    [ModularPipelines.ParallelLimiter<TwoModuleLimit>]
     public class TwoLimitedModule<T>(TaskCompletionSource release) : WaitingModule<T>(release, ExecutionHint.Default);
 
     public class UnrelatedModule(TaskCompletionSource release) : Module<string>

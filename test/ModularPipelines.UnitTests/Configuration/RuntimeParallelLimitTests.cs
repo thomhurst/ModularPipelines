@@ -189,7 +189,7 @@ public class RuntimeParallelLimitTests
         public static int Limit => 0;
     }
 
-    [ModularPipelines.Attributes.ParallelLimiter<InvalidLimit>]
+    [ModularPipelines.ParallelLimiter<InvalidLimit>]
     private class KeyedModule<T> : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module.WithParallelLimit("docker");

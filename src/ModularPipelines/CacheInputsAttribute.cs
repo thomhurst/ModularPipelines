@@ -1,4 +1,4 @@
-namespace ModularPipelines.Attributes;
+namespace ModularPipelines;
 
 /// <summary>
 /// Declares files whose contents determine whether a module's cached result is reusable.

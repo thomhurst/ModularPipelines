@@ -1,7 +1,7 @@
-﻿using ModularPipelines.Helpers;
+using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
 
-namespace ModularPipelines.Attributes;
+namespace ModularPipelines;
 
 /// <summary>
 /// Specifies a parallel execution limit for a module using a strongly-typed limit class.
