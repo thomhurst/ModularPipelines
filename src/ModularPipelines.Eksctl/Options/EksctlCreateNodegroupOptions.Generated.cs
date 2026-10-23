@@ -10,7 +10,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Eksctl.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Eksctl.Options;
 
@@ -363,5 +362,14 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// </summary>
     [CliFlag("--cfn-disable-rollback")]
     public bool? CfnDisableRollback { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }
