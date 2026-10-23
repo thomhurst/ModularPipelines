@@ -4,7 +4,6 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Models;
 using NugetVersionGeneratorModule = ModularPipelines.DocumentationSnippets.CurrentApiSnippets.NugetVersionGeneratorModule;
 
 namespace ModularPipelines.DocumentationSnippets.SubModules;

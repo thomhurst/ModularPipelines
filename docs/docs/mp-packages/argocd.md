@@ -63,7 +63,8 @@ Command records inherit 26 persistent settings from `ArgoCdOptions`, including
 They render in the selected command's flag scope, after its command path and operands:
 
 ```csharp
-using ModularPipelines.Models;
+using ModularPipelines;
+using ModularPipelines.ArgoCd.Options;
 
 var result = await context.Tools.ArgoCd.App.GetAsync(
     new ArgoCdAppGetOptions("guestbook")

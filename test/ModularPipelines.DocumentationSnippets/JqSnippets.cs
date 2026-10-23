@@ -1,13 +1,15 @@
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.Jq.Options;
-using ModularPipelines.Models;
 
-namespace ModularPipelines.DocumentationSnippets;
+#pragma warning disable IDE0130 // Use a consumer namespace to verify the documented imports.
+namespace DocumentationExamples;
 
 // docs/docs/mp-packages/jq.md
 public static class JqSnippets
 {
-    public static async Task ProcessJson(IModuleContext context, CancellationToken cancellationToken)
+    // Qualify the harness context so CliValuePair verifies the root import independently.
+    public static async Task ProcessJson(ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
     {
         var result = await context.Tools.Jq.ExecuteAsync(
             new JqExecuteOptions
