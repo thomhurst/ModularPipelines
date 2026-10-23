@@ -342,6 +342,15 @@ foreach ($testCommand in @(
 }
 
 foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |\z)')) {
+    # SDK pin safety applies to every PR, including generated refreshes.
+    if ($step.Value -match '(?m)^      - name: Validate SDK pins for the GA switch\r?$') {
+        if ($step.Value -match '(?m)^        if:' -or
+            -not $step.Value.Contains('./scripts/Test-SdkPins.ps1', [StringComparison]::Ordinal) -or
+            -not $step.Value.Contains('./scripts/Assert-SdkPins.ps1', [StringComparison]::Ordinal)) {
+            throw 'SDK pin validation must run both pin checks unconditionally.'
+        }
+        continue
+    }
     if ($step.Value -match 'actions/checkout@|uses: \./\.github/actions/detect-generated-integration|name: Reject stale generated snapshots|name: Detect validation routes') {
         continue
     }
