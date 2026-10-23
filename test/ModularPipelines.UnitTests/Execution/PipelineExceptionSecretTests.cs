@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -87,6 +89,38 @@ public class PipelineExceptionSecretTests
 
         await AssertMasked(failure);
         await Assert.That(failure.Data["token"]).IsEqualTo("**********");
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task SummaryFailure_InspectsResultExceptions(bool containsSecret, bool aggregate)
+    {
+        var resultException = new HiddenInnerException(
+            new Exception(containsSecret ? Secret : "ordinary failure"));
+        var result = Mock.Of<IModuleResult>(result => result.Status == ModuleStatus.Failed
+            && result.Name == nameof(SecretFailureModule)
+            && result.ExceptionOrDefault == resultException);
+        var now = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary([], [result], TimeSpan.Zero, now, now);
+        var summaryFailure = new PipelineFailedException(summary, [nameof(SecretFailureModule)]);
+        Exception original = aggregate ? new AggregateException(summaryFailure) : summaryFailure;
+
+        var failure = await RunWithFailure(original, registerSecret: true);
+
+        await AssertMasked(failure);
+        if (containsSecret)
+        {
+            await Assert.That(failure).IsNotSameReferenceAs(original);
+            var snapshot = aggregate ? ((AggregateException) failure).InnerExceptions[0] : failure;
+            await Assert.That(snapshot is PipelineFailedException).IsFalse();
+        }
+        else
+        {
+            await Assert.That(failure).IsSameReferenceAs(original);
+        }
     }
 
     [Test]

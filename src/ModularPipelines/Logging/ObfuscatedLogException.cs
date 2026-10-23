@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
@@ -55,7 +56,45 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
         // Comparing only ToString() would miss inner exceptions hidden by custom formatting.
         var trackingObfuscator = new ChangeTrackingObfuscator(secretObfuscator);
         var snapshot = Create(exception, trackingObfuscator)!;
+        InspectSummaryExceptions(exception, trackingObfuscator, [with(ReferenceEqualityComparer.Instance)]);
         return trackingObfuscator.WasChanged ? snapshot : exception;
+    }
+
+    private static void InspectSummaryExceptions(
+        Exception exception,
+        ChangeTrackingObfuscator secretObfuscator,
+        HashSet<Exception> visited)
+    {
+        if (secretObfuscator.WasChanged || !visited.Add(exception))
+        {
+            return;
+        }
+
+        if (exception is PipelineFailedException pipelineFailure)
+        {
+            foreach (var result in pipelineFailure.Summary.Results)
+            {
+                if (result.ExceptionOrDefault is { } failure)
+                {
+                    // The snapshot omits Summary. Still inspect its retained exceptions so
+                    // the boundary cannot return an original with sensitive result data.
+                    _ = Create(failure, secretObfuscator);
+                    InspectSummaryExceptions(failure, secretObfuscator, visited);
+                }
+            }
+        }
+
+        if (exception is AggregateException aggregate)
+        {
+            foreach (var inner in aggregate.InnerExceptions)
+            {
+                InspectSummaryExceptions(inner, secretObfuscator, visited);
+            }
+        }
+        else if (exception.InnerException is { } inner)
+        {
+            InspectSummaryExceptions(inner, secretObfuscator, visited);
+        }
     }
 
     Exception IOriginalExceptionIdentity.OriginalException => _originalException;
