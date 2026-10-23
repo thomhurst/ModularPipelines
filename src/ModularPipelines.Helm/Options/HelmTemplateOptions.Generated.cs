@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Helm.Options;
 
@@ -342,5 +341,14 @@ public record HelmTemplateOptions : HelmOptions
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Chart { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }
