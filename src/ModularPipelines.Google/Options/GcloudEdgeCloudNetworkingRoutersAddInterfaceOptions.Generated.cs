@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
@@ -69,15 +71,15 @@ public record GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions : GcloudOption
     public IEnumerable<string>? LoopbackIpAddresses
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LoopbackIpAddressesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __LoopbackIpAddressesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __LoopbackIpAddressesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -85,9 +87,9 @@ public record GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions : GcloudOption
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -129,7 +131,7 @@ public record GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions : GcloudOption
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((((object?)LoopbackIpAddresses is global::System.Collections.Generic.IEnumerable<char> ? (object?)LoopbackIpAddresses is not string || !string.IsNullOrWhiteSpace(LoopbackIpAddresses?.ToString()) : ((object?)LoopbackIpAddresses is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LoopbackIpAddresses, static item => item is not null) : (LoopbackIpAddresses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LoopbackIpAddresses), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Subnetwork) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(InterconnectAttachment) || !string.IsNullOrWhiteSpace(IpAddress) || !string.IsNullOrWhiteSpace(IpMaskLength)) ? 1 : 0) != 1)
+        if ((((object?)LoopbackIpAddresses is global::System.Collections.Generic.IEnumerable<char> ? (object?)LoopbackIpAddresses is not string || !string.IsNullOrWhiteSpace(LoopbackIpAddresses?.ToString()) : ((object?)LoopbackIpAddresses is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)LoopbackIpAddresses, static item => item is not null) : (LoopbackIpAddresses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LoopbackIpAddresses), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Subnetwork) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(InterconnectAttachment) || !string.IsNullOrWhiteSpace(IpAddress) || !string.IsNullOrWhiteSpace(IpMaskLength)) ? 1 : 0) != 1)
         {
             yield return new ValidationResult("Exactly one of LoopbackIpAddresses, Subnetwork, or (InterconnectAttachment, IpAddress, or IpMaskLength) must be specified.", [nameof(LoopbackIpAddresses), nameof(Subnetwork), nameof(InterconnectAttachment), nameof(IpAddress), nameof(IpMaskLength)]);
         }

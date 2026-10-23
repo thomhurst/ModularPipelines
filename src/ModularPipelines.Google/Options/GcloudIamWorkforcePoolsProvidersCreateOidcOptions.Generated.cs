@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
@@ -38,7 +39,7 @@ public record GcloudIamWorkforcePoolsProvidersCreateOidcOptions : GcloudOptions
         string ClientId,
         string IssuerUri,
         string WebSsoAssertionClaimsBehavior,
-        GcloudIamWorkforcePoolsProvidersCreateOidcWebSsoResponseType WebSsoResponseType,
+        string WebSsoResponseType,
         string Provider
     )
     {
@@ -61,12 +62,13 @@ public record GcloudIamWorkforcePoolsProvidersCreateOidcOptions : GcloudOptions
         this.IssuerUri = IssuerUri;
         global::System.ArgumentNullException.ThrowIfNull(WebSsoAssertionClaimsBehavior);
         this.WebSsoAssertionClaimsBehavior = WebSsoAssertionClaimsBehavior;
+        global::System.ArgumentNullException.ThrowIfNull(WebSsoResponseType);
         this.WebSsoResponseType = WebSsoResponseType;
         global::System.ArgumentNullException.ThrowIfNull(Provider);
         this.Provider = Provider;
     }
 
-    public void Deconstruct(out IReadOnlyList<KeyValue> AttributeMapping, out string ClientId, out string IssuerUri, out string WebSsoAssertionClaimsBehavior, out GcloudIamWorkforcePoolsProvidersCreateOidcWebSsoResponseType WebSsoResponseType, out string Provider)
+    public void Deconstruct(out IReadOnlyList<KeyValue> AttributeMapping, out string ClientId, out string IssuerUri, out string WebSsoAssertionClaimsBehavior, out string WebSsoResponseType, out string Provider)
     {
         AttributeMapping = this.AttributeMapping;
         ClientId = this.ClientId;
@@ -104,7 +106,7 @@ public record GcloudIamWorkforcePoolsProvidersCreateOidcOptions : GcloudOptions
     /// This must be specified. Response Type to request for in the OIDC Authorization Request for web sign-in. Use code to select the authorization code flow (https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth) Use id-token to select the implicit flow (https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth). WEB_SSO_RESPONSE_TYPE must be one of: code, id-token, response-type-unspecified. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--web-sso-response-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIamWorkforcePoolsProvidersCreateOidcWebSsoResponseType WebSsoResponseType { get; private init; }
+    public string WebSsoResponseType { get; private init; }
 
     /// <summary>
     /// Workforce pool provider resource - The workforce pool provider to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument provider on the command line with a fully specified name; ▸ provide the argument --location on the command line.
@@ -233,7 +235,7 @@ public record GcloudIamWorkforcePoolsProvidersCreateOidcOptions : GcloudOptions
     /// Represents the identity provider and type of claims that should be fetched. EXTRA_ATTRIBUTES_TYPE must be one of: attributes-type-unspecified, azure-ad-groups-display-name, azure-ad-groups-id, azure-ad-groups-mail.
     /// </summary>
     [CliOption("--extra-attributes-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIamWorkforcePoolsProvidersCreateOidcExtraAttributesType? ExtraAttributesType { get; set; }
+    public string? ExtraAttributesType { get; set; }
 
     /// <summary>
     /// The filter used to request specific records from the IdP. By default, all of the groups that are associated with a user are fetched. For Microsoft Entra ID, you can add $search query parameters using Keyword Query Language (https://learn.microsoft.com/en-us/sharepoint/dev/general-development/keyword-query-language-kql-syntax-reference). To learn more about $search querying in Microsoft Entra ID, see Use the `$search` query parameter (https://learn.microsoft.com/en-us/graph/search-query-parameter). Additionally, Workforce Identity Federation automatically adds the following `$filter` query parameters (https://learn.microsoft.com/en-us/graph/filter-query-parameter), based on the value of attributes_type. Values passed to filter are converted to $search query parameters. Additional $filter query parameters cannot be added using this field. ◆ AZURE_AD_GROUPS_MAIL: mailEnabled and securityEnabled filters are applied. ◆ AZURE_AD_GROUPS_ID: securityEnabled filter is applied. ◆ AZURE_AD_GROUPS_DISPLAY_NAME: securityEnabled filter is applied.

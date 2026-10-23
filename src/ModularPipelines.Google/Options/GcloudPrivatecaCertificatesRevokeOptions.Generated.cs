@@ -10,8 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -39,7 +40,7 @@ public record GcloudPrivatecaCertificatesRevokeOptions : GcloudOptions, IValidat
     /// Revocation reason to include in the CRL. REASON must be one of: affiliation-changed, attribute-authority-compromise, certificate-authority-compromise, certificate-hold, cessation-of-operation, key-compromise, privilege-withdrawn, unspecified, superseded.
     /// </summary>
     [CliOption("--reason", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPrivatecaCertificatesRevokeReason? Reason { get; set; }
+    public string? Reason { get; set; }
 
     /// <summary>
     /// Issuing CA pool resource - The issuing CA pool of the certificate to revoke. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --issuer-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the Issuing CA pool or fully qualified identifier for the Issuing CA pool. To set the pool attribute: ◆ provide the argument --issuer-pool on the command line. This flag argument must be specified if any of the other arguments in this group are specified.

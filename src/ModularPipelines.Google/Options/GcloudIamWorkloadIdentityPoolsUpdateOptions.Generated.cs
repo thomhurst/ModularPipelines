@@ -10,8 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -86,7 +87,7 @@ public record GcloudIamWorkloadIdentityPoolsUpdateOptions : GcloudOptions, IVali
     /// At most one of these can be specified: Or at least one of these can be specified: Key algorithm to use when generating the key pair. This key pair will be used to create the certificate. KEY_ALGORITHM must be one of: ecdsa-p256, ecdsa-p384, key-algorithm-unspecified, rsa-2048, rsa-3072, rsa-4096.
     /// </summary>
     [CliOption("--key-algorithm", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIamWorkloadIdentityPoolsUpdateKeyAlgorithm? KeyAlgorithm { get; set; }
+    public string? KeyAlgorithm { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: Rotation window percentage indicating when certificate rotation should be initiated based on remaining lifetime.
@@ -109,7 +110,7 @@ public record GcloudIamWorkloadIdentityPoolsUpdateOptions : GcloudOptions, IVali
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((!string.IsNullOrWhiteSpace(InlineCertificateIssuanceConfigFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CertificateLifetime) || (object?)KeyAlgorithm is not null || !string.IsNullOrWhiteSpace(RotationWindowPercentage) || (object?)UseDefaultSharedCa is not null) ? 1 : 0) > 1)
+        if ((!string.IsNullOrWhiteSpace(InlineCertificateIssuanceConfigFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CertificateLifetime) || !string.IsNullOrWhiteSpace(KeyAlgorithm) || !string.IsNullOrWhiteSpace(RotationWindowPercentage) || (object?)UseDefaultSharedCa is not null) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of InlineCertificateIssuanceConfigFile or (CertificateLifetime, KeyAlgorithm, RotationWindowPercentage, or UseDefaultSharedCa) may be specified.", [nameof(InlineCertificateIssuanceConfigFile), nameof(CertificateLifetime), nameof(KeyAlgorithm), nameof(RotationWindowPercentage), nameof(UseDefaultSharedCa)]);
         }

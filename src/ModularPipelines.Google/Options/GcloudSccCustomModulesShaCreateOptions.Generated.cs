@@ -10,8 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -32,17 +33,18 @@ public record GcloudSccCustomModulesShaCreateOptions : GcloudOptions, IValidatab
     public GcloudSccCustomModulesShaCreateOptions(
         string CustomConfigFromFile,
         string DisplayName,
-        GcloudSccCustomModulesShaCreateEnablementState EnablementState
+        string EnablementState
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(CustomConfigFromFile);
         this.CustomConfigFromFile = CustomConfigFromFile;
         global::System.ArgumentNullException.ThrowIfNull(DisplayName);
         this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(EnablementState);
         this.EnablementState = EnablementState;
     }
 
-    public void Deconstruct(out string CustomConfigFromFile, out string DisplayName, out GcloudSccCustomModulesShaCreateEnablementState EnablementState)
+    public void Deconstruct(out string CustomConfigFromFile, out string DisplayName, out string EnablementState)
     {
         CustomConfigFromFile = this.CustomConfigFromFile;
         DisplayName = this.DisplayName;
@@ -65,7 +67,7 @@ public record GcloudSccCustomModulesShaCreateOptions : GcloudOptions, IValidatab
     /// Sets the enablement state of the Security Health Analytics custom module. From the following list of possible enablement states, specify either enabled or disabled only. ENABLEMENT_STATE must be one of: disabled, enabled, enablement-state-unspecified, inherited.
     /// </summary>
     [CliOption("--enablement-state", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSccCustomModulesShaCreateEnablementState EnablementState { get; private init; }
+    public string EnablementState { get; private init; }
 
     /// <summary>
     /// At most one of these can be specified: Folder where the Security Health Analytics custom module resides. Formatted as folders/456 or just 456.

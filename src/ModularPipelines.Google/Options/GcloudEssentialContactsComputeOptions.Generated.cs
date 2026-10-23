@@ -10,8 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -26,14 +27,14 @@ public record GcloudEssentialContactsComputeOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// compute the essential contacts that are     subscribed to the specified notification categories for a resource
     /// </summary>
-    /// <param name="NotificationCategories">list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.</param>
+    /// <param name="NotificationCategories">list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
     public GcloudEssentialContactsComputeOptions(
-        IEnumerable<GcloudEssentialContactsComputeNotificationCategories> NotificationCategories
+        IEnumerable<string> NotificationCategories
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(NotificationCategories);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudEssentialContactsComputeNotificationCategories>(NotificationCategories));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NotificationCategories));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -46,16 +47,16 @@ public record GcloudEssentialContactsComputeOptions : GcloudOptions, IValidatabl
         this.NotificationCategories = NotificationCategories;
     }
 
-    public void Deconstruct(out IEnumerable<GcloudEssentialContactsComputeNotificationCategories> NotificationCategories)
+    public void Deconstruct(out IEnumerable<string> NotificationCategories)
     {
         NotificationCategories = this.NotificationCategories;
     }
 
     /// <summary>
-    /// list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.
+    /// list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudEssentialContactsComputeNotificationCategories> NotificationCategories { get; private init; }
+    public IEnumerable<string> NotificationCategories { get; private init; }
 
     /// <summary>
     /// At most one of these can be specified: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.

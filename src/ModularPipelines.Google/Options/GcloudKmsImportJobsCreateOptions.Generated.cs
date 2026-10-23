@@ -29,18 +29,19 @@ public record GcloudKmsImportJobsCreateOptions : GcloudOptions
     /// <param name="ProtectionLevel">Protection level of the import job. PROTECTION_LEVEL must be one of: software, hsm, hsm-single-tenant.</param>
     /// <param name="ImportJob">Name of the import job to create.</param>
     public GcloudKmsImportJobsCreateOptions(
-        GcloudKmsImportJobsCreateImportMethod ImportMethod,
+        string ImportMethod,
         GcloudKmsImportJobsCreateProtectionLevel ProtectionLevel,
         string ImportJob
     )
     {
+        global::System.ArgumentNullException.ThrowIfNull(ImportMethod);
         this.ImportMethod = ImportMethod;
         this.ProtectionLevel = ProtectionLevel;
         global::System.ArgumentNullException.ThrowIfNull(ImportJob);
         this.ImportJob = ImportJob;
     }
 
-    public void Deconstruct(out GcloudKmsImportJobsCreateImportMethod ImportMethod, out GcloudKmsImportJobsCreateProtectionLevel ProtectionLevel, out string ImportJob)
+    public void Deconstruct(out string ImportMethod, out GcloudKmsImportJobsCreateProtectionLevel ProtectionLevel, out string ImportJob)
     {
         ImportMethod = this.ImportMethod;
         ProtectionLevel = this.ProtectionLevel;
@@ -51,7 +52,7 @@ public record GcloudKmsImportJobsCreateOptions : GcloudOptions
     /// The wrapping method to be used for incoming key material. For more information about choosing an import method, see https://cloud.google.com/kms/docs/key-wrapping. IMPORT_METHOD must be one of: hpke-kem-ml-kem-1024-hkdf-sha256-aes-256-gcm, hpke-kem-ml-kem-768-hkdf-sha256-aes-256-gcm, hpke-kem-xwing-hkdf-sha256-aes-256-gcm, rsa-oaep-3072-sha1-aes-256, rsa-oaep-3072-sha256, rsa-oaep-3072-sha256-aes-256, rsa-oaep-4096-sha1-aes-256, rsa-oaep-4096-sha256, rsa-oaep-4096-sha256-aes-256.
     /// </summary>
     [CliOption("--import-method", Format = OptionFormat.EqualsSeparated)]
-    public GcloudKmsImportJobsCreateImportMethod ImportMethod { get; private init; }
+    public string ImportMethod { get; private init; }
 
     /// <summary>
     /// Protection level of the import job. PROTECTION_LEVEL must be one of: software, hsm, hsm-single-tenant.

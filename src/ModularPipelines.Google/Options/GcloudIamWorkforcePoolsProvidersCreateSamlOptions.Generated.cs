@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
@@ -182,7 +183,7 @@ public record GcloudIamWorkforcePoolsProvidersCreateSamlOptions : GcloudOptions
     /// Represents the identity provider and type of claims that should be fetched. EXTRA_ATTRIBUTES_TYPE must be one of: attributes-type-unspecified, azure-ad-groups-display-name, azure-ad-groups-id, azure-ad-groups-mail.
     /// </summary>
     [CliOption("--extra-attributes-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIamWorkforcePoolsProvidersCreateSamlExtraAttributesType? ExtraAttributesType { get; set; }
+    public string? ExtraAttributesType { get; set; }
 
     /// <summary>
     /// The filter used to request specific records from the IdP. By default, all of the groups that are associated with a user are fetched. For Microsoft Entra ID, you can add $search query parameters using Keyword Query Language (https://learn.microsoft.com/en-us/sharepoint/dev/general-development/keyword-query-language-kql-syntax-reference). To learn more about $search querying in Microsoft Entra ID, see Use the `$search` query parameter (https://learn.microsoft.com/en-us/graph/search-query-parameter). Additionally, Workforce Identity Federation automatically adds the following `$filter` query parameters (https://learn.microsoft.com/en-us/graph/filter-query-parameter), based on the value of attributes_type. Values passed to filter are converted to $search query parameters. Additional $filter query parameters cannot be added using this field. ◆ AZURE_AD_GROUPS_MAIL: mailEnabled and securityEnabled filters are applied. ◆ AZURE_AD_GROUPS_ID: securityEnabled filter is applied. ◆ AZURE_AD_GROUPS_DISPLAY_NAME: securityEnabled filter is applied.

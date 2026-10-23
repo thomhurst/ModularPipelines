@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -69,7 +70,7 @@ public record GcloudContainerBinauthzAttestorsAddIamPolicyBindingOptions : Gclou
     public IReadOnlyList<KeyValue>? Condition
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
     }
 
     /// <summary>
@@ -87,7 +88,7 @@ public record GcloudContainerBinauthzAttestorsAddIamPolicyBindingOptions : Gclou
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((((object?)Condition is global::System.Collections.Generic.IEnumerable<char> ? (object?)Condition is not string || !string.IsNullOrWhiteSpace(Condition?.ToString()) : ((object?)Condition is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Condition, static item => item is not null) : (Condition is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Condition), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConditionFromFile) ? 1 : 0) > 1)
+        if ((((object?)Condition is global::System.Collections.Generic.IEnumerable<char> ? (object?)Condition is not string || !string.IsNullOrWhiteSpace(Condition?.ToString()) : ((object?)Condition is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)Condition, static item => item is not null) : (Condition is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Condition), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConditionFromFile) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of Condition or ConditionFromFile may be specified.", [nameof(Condition), nameof(ConditionFromFile)]);
         }

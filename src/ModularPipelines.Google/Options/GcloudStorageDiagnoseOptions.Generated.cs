@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -95,15 +97,15 @@ public record GcloudStorageDiagnoseOptions : GcloudOptions, IValidatableObject
     public IEnumerable<int>? ObjectSizes
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ObjectSizesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<int>).Equals((object)values) ? global::System.Array.Empty<int>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<int>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __ObjectSizesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<int>).Equals((object)values) ? global::System.Array.Empty<int>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<int>(values))))) : default;
     }
 
     private sealed class __ObjectSizesSnapshotKeyValue(
         IEnumerable<int> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<int>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<int>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<int>
             global::System.Collections.Generic.IEnumerable<int>.GetEnumerator() => source.GetEnumerator();
@@ -111,9 +113,9 @@ public record GcloudStorageDiagnoseOptions : GcloudOptions, IValidatableObject
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -137,11 +139,11 @@ public record GcloudStorageDiagnoseOptions : GcloudOptions, IValidatableObject
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (((object?)ObjectCount is not null || (object?)ObjectSize is not null || ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ObjectSizes is not string || !string.IsNullOrWhiteSpace(ObjectSizes?.ToString()) : ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ObjectSizes, static item => item is not null) : (ObjectSizes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ObjectSizes), static item => item is not null))))) && (!((object?)ObjectCount is not null)))
+        if (((object?)ObjectCount is not null || (object?)ObjectSize is not null || ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ObjectSizes is not string || !string.IsNullOrWhiteSpace(ObjectSizes?.ToString()) : ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)ObjectSizes, static item => item is not null) : (ObjectSizes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ObjectSizes), static item => item is not null))))) && (!((object?)ObjectCount is not null)))
         {
             yield return new ValidationResult("ObjectCount must be specified when other arguments in this group are specified.", [nameof(ObjectCount)]);
         }
-        if (((object?)ObjectCount is not null || (object?)ObjectSize is not null || ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ObjectSizes is not string || !string.IsNullOrWhiteSpace(ObjectSizes?.ToString()) : ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ObjectSizes, static item => item is not null) : (ObjectSizes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ObjectSizes), static item => item is not null))))) && (((object?)ObjectSize is not null ? 1 : 0) + (((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ObjectSizes is not string || !string.IsNullOrWhiteSpace(ObjectSizes?.ToString()) : ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ObjectSizes, static item => item is not null) : (ObjectSizes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ObjectSizes), static item => item is not null)))) ? 1 : 0) != 1))
+        if (((object?)ObjectCount is not null || (object?)ObjectSize is not null || ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ObjectSizes is not string || !string.IsNullOrWhiteSpace(ObjectSizes?.ToString()) : ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)ObjectSizes, static item => item is not null) : (ObjectSizes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ObjectSizes), static item => item is not null))))) && (((object?)ObjectSize is not null ? 1 : 0) + (((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ObjectSizes is not string || !string.IsNullOrWhiteSpace(ObjectSizes?.ToString()) : ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)ObjectSizes, static item => item is not null) : (ObjectSizes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ObjectSizes), static item => item is not null)))) ? 1 : 0) != 1))
         {
             yield return new ValidationResult("Exactly one of ObjectSize or ObjectSizes must be specified.", [nameof(ObjectSize), nameof(ObjectSizes)]);
         }

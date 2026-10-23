@@ -54,7 +54,7 @@ public record GcloudComputeFirewallPoliciesRulesUpdateOptions : GcloudOptions
     /// Action to take if the request matches the match condition. ACTION must be one of: allow, deny, goto_next, apply_security_profile_group.
     /// </summary>
     [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
-    public GcloudComputeFirewallPoliciesRulesUpdateAction? Action { get; set; }
+    public string? Action { get; set; }
 
     /// <summary>
     /// An optional, textual description for the rule.

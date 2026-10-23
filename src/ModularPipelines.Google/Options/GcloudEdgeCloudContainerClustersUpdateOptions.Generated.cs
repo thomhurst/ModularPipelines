@@ -10,8 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -68,7 +69,7 @@ public record GcloudEdgeCloudContainerClustersUpdateOptions : GcloudOptions, IVa
     /// Release channel a cluster is subscribed to. It supports two values, NONE and REGULAR. NONE is used to opt out of any release channel. Clusters subscribed to the REGULAR channel will be automatically upgraded to versions that are considered GA quality, and cannot be manually upgraded. RELEASE_CHANNEL must be one of: none, regular, release-channel-unspecified.
     /// </summary>
     [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
-    public GcloudEdgeCloudContainerClustersUpdateReleaseChannel? ReleaseChannel { get; set; }
+    public string? ReleaseChannel { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: If set, removes the maintenance window setting from the cluster. If any exclusion windows exist, they must be removed beforehand as a maintenance policy cannot exist without a maintenance window.

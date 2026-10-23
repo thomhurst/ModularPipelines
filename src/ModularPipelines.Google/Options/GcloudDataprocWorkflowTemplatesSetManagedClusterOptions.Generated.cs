@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
@@ -354,15 +355,15 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public IEnumerable<string>? SecureMultiTenancyUserMapping
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SecureMultiTenancyUserMappingSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __SecureMultiTenancyUserMappingSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __SecureMultiTenancyUserMappingSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -370,9 +371,9 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -532,10 +533,10 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public GcloudDataprocWorkflowTemplatesSetManagedClusterReservationAffinity? ReservationAffinity { get; set; }
 
     /// <summary>
-    /// Specifies a list of cluster Metric Sources (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect custom metrics. METRIC_SOURCE must be one of: FLINK, HDFS, HIVEMETASTORE, HIVESERVER2, MONITORING_AGENT_DEFAULTS, SPARK, SPARK_HISTORY_SERVER, YARN.
+    /// Specifies a list of cluster Metric Sources (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect custom metrics. METRIC_SOURCE must be one of: FLINK, HDFS, HIVEMETASTORE, HIVESERVER2, MONITORING_AGENT_DEFAULTS, SPARK, SPARK_HISTORY_SERVER, YARN. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--metric-sources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudDataprocWorkflowTemplatesSetManagedClusterMetricSources>? MetricSources { get; set; }
+    public IEnumerable<string>? MetricSources { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: List of metrics that override the default metrics enabled for the metric sources. Any of the available OSS metrics (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) and all Spark metrics, can be listed for collection as a metric override. Override metric values are case sensitive, and must be provided, if appropriate, in CamelCase format, for example: sparkHistoryServer:JVM:Memory:NonHeapMemoryUsage.committed hiveserver2:JVM:Memory:NonHeapMemoryUsage.used Only the specified overridden metrics will be collected from a given metric source. For example, if one or more spark:executive metrics are listed as metric overrides, other SPARK metrics will not be collected. The collection of default OSS metrics from other metric sources is unaffected. For example, if both SPARK and YARN metric sources are enabled, and overrides are provided for Spark metrics only, all default YARN metrics will be collected. The source of the specified metric override must be enabled. For example, if one or more spark:driver metrics are provided as metric overrides, the spark metric source must be enabled (--metric-sources=spark). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -544,15 +545,15 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public IEnumerable<string>? MetricOverrides
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MetricOverridesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __MetricOverridesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __MetricOverridesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -560,9 +561,9 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -668,15 +669,15 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public IEnumerable<string>? AutoZoneExcludeZones
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutoZoneExcludeZonesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __AutoZoneExcludeZonesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __AutoZoneExcludeZonesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -684,9 +685,9 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -708,7 +709,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
         {
             yield return new ValidationResult("At most one of ConfidentialCompute or ConfidentialComputeType may be specified.", [nameof(ConfidentialCompute), nameof(ConfidentialComputeType)]);
         }
-        if ((!string.IsNullOrWhiteSpace(IdentityConfigFile) ? 1 : 0) + (((object?)SecureMultiTenancyUserMapping is global::System.Collections.Generic.IEnumerable<char> ? (object?)SecureMultiTenancyUserMapping is not string || !string.IsNullOrWhiteSpace(SecureMultiTenancyUserMapping?.ToString()) : ((object?)SecureMultiTenancyUserMapping is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SecureMultiTenancyUserMapping, static item => item is not null) : (SecureMultiTenancyUserMapping is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SecureMultiTenancyUserMapping), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((!string.IsNullOrWhiteSpace(IdentityConfigFile) ? 1 : 0) + (((object?)SecureMultiTenancyUserMapping is global::System.Collections.Generic.IEnumerable<char> ? (object?)SecureMultiTenancyUserMapping is not string || !string.IsNullOrWhiteSpace(SecureMultiTenancyUserMapping?.ToString()) : ((object?)SecureMultiTenancyUserMapping is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)SecureMultiTenancyUserMapping, static item => item is not null) : (SecureMultiTenancyUserMapping is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SecureMultiTenancyUserMapping), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of IdentityConfigFile or SecureMultiTenancyUserMapping may be specified.", [nameof(IdentityConfigFile), nameof(SecureMultiTenancyUserMapping)]);
         }
@@ -736,7 +737,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
         {
             yield return new ValidationResult("At most one of Network or Subnet may be specified.", [nameof(Network), nameof(Subnet)]);
         }
-        if ((((object?)MetricOverrides is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetricOverrides is not string || !string.IsNullOrWhiteSpace(MetricOverrides?.ToString()) : ((object?)MetricOverrides is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetricOverrides, static item => item is not null) : (MetricOverrides is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetricOverrides), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MetricOverridesFile) ? 1 : 0) > 1)
+        if ((((object?)MetricOverrides is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetricOverrides is not string || !string.IsNullOrWhiteSpace(MetricOverrides?.ToString()) : ((object?)MetricOverrides is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)MetricOverrides, static item => item is not null) : (MetricOverrides is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetricOverrides), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MetricOverridesFile) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of MetricOverrides or MetricOverridesFile may be specified.", [nameof(MetricOverrides), nameof(MetricOverridesFile)]);
         }
@@ -756,7 +757,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
         {
             yield return new ValidationResult("At most one of WorkerInstanceFlexibilityPolicyFile, WorkerInstanceSelection, WorkerMachineType, or WorkerMachineTypes may be specified.", [nameof(WorkerInstanceFlexibilityPolicyFile), nameof(WorkerInstanceSelection), nameof(WorkerMachineType), nameof(WorkerMachineTypes)]);
         }
-        if ((!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) + ((((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoZoneExcludeZones is not string || !string.IsNullOrWhiteSpace(AutoZoneExcludeZones?.ToString()) : ((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoZoneExcludeZones, static item => item is not null) : (AutoZoneExcludeZones is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoZoneExcludeZones), static item => item is not null)))) || Multizone == true) ? 1 : 0) > 1)
+        if ((!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) + ((((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoZoneExcludeZones is not string || !string.IsNullOrWhiteSpace(AutoZoneExcludeZones?.ToString()) : ((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)AutoZoneExcludeZones, static item => item is not null) : (AutoZoneExcludeZones is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoZoneExcludeZones), static item => item is not null)))) || Multizone == true) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of Zone or (AutoZoneExcludeZones or Multizone) may be specified.", [nameof(Zone), nameof(AutoZoneExcludeZones), nameof(Multizone)]);
         }

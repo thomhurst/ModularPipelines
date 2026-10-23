@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
@@ -222,15 +223,15 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions, IValidatableObjec
     public IEnumerable<string>? RemoveLabels
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __RemoveLabelsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -238,9 +239,9 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions, IValidatableObjec
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -316,15 +317,15 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions, IValidatableObjec
     public IEnumerable<string>? MessageStoragePolicyAllowedRegions
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MessageStoragePolicyAllowedRegionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __MessageStoragePolicyAllowedRegionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __MessageStoragePolicyAllowedRegionsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -332,9 +333,9 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions, IValidatableObjec
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -472,7 +473,7 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions, IValidatableObjec
         {
             yield return new ValidationResult("KinesisIngestionStreamArn must be specified when other arguments in this group are specified.", [nameof(KinesisIngestionStreamArn)]);
         }
-        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
         }
@@ -500,11 +501,11 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions, IValidatableObjec
         {
             yield return new ValidationResult("Schema must be specified when other arguments in this group are specified.", [nameof(Schema)]);
         }
-        if ((RecomputeMessageStoragePolicy == true ? 1 : 0) + ((((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))) || MessageStoragePolicyEnforceInTransit == true) ? 1 : 0) > 1)
+        if ((RecomputeMessageStoragePolicy == true ? 1 : 0) + ((((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))) || MessageStoragePolicyEnforceInTransit == true) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of RecomputeMessageStoragePolicy or (MessageStoragePolicyAllowedRegions or MessageStoragePolicyEnforceInTransit) may be specified.", [nameof(RecomputeMessageStoragePolicy), nameof(MessageStoragePolicyAllowedRegions), nameof(MessageStoragePolicyEnforceInTransit)]);
         }
-        if ((RecomputeMessageStoragePolicy == true || ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))) || MessageStoragePolicyEnforceInTransit == true) && (((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))) || MessageStoragePolicyEnforceInTransit == true) && (((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))) || MessageStoragePolicyEnforceInTransit == true) && (!(((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))))))
+        if ((RecomputeMessageStoragePolicy == true || ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))) || MessageStoragePolicyEnforceInTransit == true) && (((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))) || MessageStoragePolicyEnforceInTransit == true) && (((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))) || MessageStoragePolicyEnforceInTransit == true) && (!(((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)MessageStoragePolicyAllowedRegions is not string || !string.IsNullOrWhiteSpace(MessageStoragePolicyAllowedRegions?.ToString()) : ((object?)MessageStoragePolicyAllowedRegions is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)MessageStoragePolicyAllowedRegions, static item => item is not null) : (MessageStoragePolicyAllowedRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MessageStoragePolicyAllowedRegions), static item => item is not null)))))))
         {
             yield return new ValidationResult("MessageStoragePolicyAllowedRegions must be specified when other arguments in this group are specified.", [nameof(MessageStoragePolicyAllowedRegions)]);
         }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
@@ -63,10 +64,10 @@ public record GcloudKmsKeysCreateOptions : GcloudOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// The list of allowed Key Access Justifications access reasons on the key. The key must be enrolled in Key Access Justifications to configure this field. By default, this field is absent, and all justification codes are allowed. For more information about justification codes, see https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes. ALLOWED_ACCESS_REASONS must be one of: customer-authorized-workflow-servicing, customer-initiated-access, customer-initiated-support, google-initiated-review, google-initiated-service, google-initiated-system-operation, google-response-to-production-alert, modified-customer-initiated-access, modified-google-initiated-system-operation, reason-not-expected, reason-unspecified, third-party-data-request.
+    /// The list of allowed Key Access Justifications access reasons on the key. The key must be enrolled in Key Access Justifications to configure this field. By default, this field is absent, and all justification codes are allowed. For more information about justification codes, see https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes. ALLOWED_ACCESS_REASONS must be one of: customer-authorized-workflow-servicing, customer-initiated-access, customer-initiated-support, google-initiated-review, google-initiated-service, google-initiated-system-operation, google-response-to-production-alert, modified-customer-initiated-access, modified-google-initiated-system-operation, reason-not-expected, reason-unspecified, third-party-data-request. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--allowed-access-reasons", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudKmsKeysCreateAllowedAccessReasons>? AllowedAccessReasons { get; set; }
+    public IEnumerable<string>? AllowedAccessReasons { get; set; }
 
     /// <summary>
     /// For keys with the external-vpc protection level, the name of the EkmConnection that is used to access the key material in your EKM.

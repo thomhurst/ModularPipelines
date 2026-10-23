@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
@@ -74,7 +75,7 @@ public record GcloudNetworkConnectivityHubsCreateOptions : GcloudOptions
     /// Topology of the hub. Only applicable when --policy-mode=PRESET. PRESET_TOPOLOGY must be one of: hybrid-inspection, mesh, preset-topology-unspecified, star.
     /// </summary>
     [CliOption("--preset-topology", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNetworkConnectivityHubsCreatePresetTopology? PresetTopology { get; set; }
+    public string? PresetTopology { get; set; }
 
     /// <summary>
     /// Hub resource - Name of the hub to be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
@@ -118,10 +119,10 @@ public record GcloudBackupDrBackupsRestoreDiskOptions : GcloudOptions, IValidata
     public string? Description { get; set; }
 
     /// <summary>
-    /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: VIRTIO_SCSI_MULTIQUEUE, WINDOWS, MULTI_IP_SUBNET, UEFI_COMPATIBLE, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, GVNIC, IDPF, TDX_CAPABLE, SUSPEND_RESUME_COMPATIBLE.
+    /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: VIRTIO_SCSI_MULTIQUEUE, WINDOWS, MULTI_IP_SUBNET, UEFI_COMPATIBLE, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, GVNIC, IDPF, TDX_CAPABLE, SUSPEND_RESUME_COMPATIBLE. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudBackupDrBackupsRestoreDiskGuestOsFeatures>? GuestOsFeatures { get; set; }
+    public IEnumerable<string>? GuestOsFeatures { get; set; }
 
     /// <summary>
     /// The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk Provide the full resource name of the cryptokey in the format: projects/&lt;project&gt;/locations/&lt;location&gt;/keyRings/&lt;key-ring&gt;/cryptoKeys/&lt;key&gt;

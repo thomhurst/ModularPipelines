@@ -10,8 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -90,7 +90,7 @@ public record GcloudNetworkServicesMulticastGroupRangesCreateOptions : GcloudOpt
     /// Distribution scope of this multicast group range. DISTRIBUTION_SCOPE must be one of: distribution-scope-unspecified, intra-region, intra-zone.
     /// </summary>
     [CliOption("--distribution-scope", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNetworkServicesMulticastGroupRangesCreateDistributionScope? DistributionScope { get; set; }
+    public string? DistributionScope { get; set; }
 
     /// <summary>
     /// Whether to enable logging for this multicast group range. Use --enable-logging to enable and --no-enable-logging to disable.

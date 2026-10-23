@@ -10,9 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -116,7 +116,7 @@ public record GcloudMigrationVmsImageImportsCreateOptions : GcloudOptions, IVali
     /// OS adaptation parameters At most one of these can be specified: This property will trigger an internal process which will convert the image from using the existing boot option to another. The size of the boot disk might be increased to allow the conversion. Currently only support BIOS_TO_EFI. BOOT_CONVERSION must be one of: bios-to-efi, boot-conversion-unspecified, none.
     /// </summary>
     [CliOption("--boot-conversion", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMigrationVmsImageImportsCreateBootConversion? BootConversion { get; set; }
+    public string? BootConversion { get; set; }
 
     /// <summary>
     /// OS adaptation parameters At most one of these can be specified: If true, generalize the imported image. Default false. The generalization process enables co-existence of multiple VMs created from the same image. For Windows, generalizing the image removes computer-specific information such as installed drivers and the computer security identifier (SID).
@@ -149,15 +149,15 @@ public record GcloudMigrationVmsImageImportsCreateOptions : GcloudOptions, IVali
     public IEnumerable<string>? GuestOsFeatures
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __GuestOsFeaturesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __GuestOsFeaturesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __GuestOsFeaturesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -165,9 +165,9 @@ public record GcloudMigrationVmsImageImportsCreateOptions : GcloudOptions, IVali
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -179,11 +179,11 @@ public record GcloudMigrationVmsImageImportsCreateOptions : GcloudOptions, IVali
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (((!string.IsNullOrWhiteSpace(AdaptationModifiers) || (object?)BootConversion is not null || Generalize == true || !string.IsNullOrWhiteSpace(LicenseType) || !string.IsNullOrWhiteSpace(RootfsUuid)) ? 1 : 0) + ((SkipOsAdaptation == true || ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<char> ? (object?)GuestOsFeatures is not string || !string.IsNullOrWhiteSpace(GuestOsFeatures?.ToString()) : ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GuestOsFeatures, static item => item is not null) : (GuestOsFeatures is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GuestOsFeatures), static item => item is not null))))) ? 1 : 0) > 1)
+        if (((!string.IsNullOrWhiteSpace(AdaptationModifiers) || !string.IsNullOrWhiteSpace(BootConversion) || Generalize == true || !string.IsNullOrWhiteSpace(LicenseType) || !string.IsNullOrWhiteSpace(RootfsUuid)) ? 1 : 0) + ((SkipOsAdaptation == true || ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<char> ? (object?)GuestOsFeatures is not string || !string.IsNullOrWhiteSpace(GuestOsFeatures?.ToString()) : ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)GuestOsFeatures, static item => item is not null) : (GuestOsFeatures is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GuestOsFeatures), static item => item is not null))))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of (AdaptationModifiers, BootConversion, Generalize, LicenseType, or RootfsUuid) or (SkipOsAdaptation or GuestOsFeatures) may be specified.", [nameof(AdaptationModifiers), nameof(BootConversion), nameof(Generalize), nameof(LicenseType), nameof(RootfsUuid), nameof(SkipOsAdaptation), nameof(GuestOsFeatures)]);
         }
-        if ((!string.IsNullOrWhiteSpace(AdaptationModifiers) || (object?)BootConversion is not null || Generalize == true || !string.IsNullOrWhiteSpace(LicenseType) || !string.IsNullOrWhiteSpace(RootfsUuid) || SkipOsAdaptation == true || ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<char> ? (object?)GuestOsFeatures is not string || !string.IsNullOrWhiteSpace(GuestOsFeatures?.ToString()) : ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GuestOsFeatures, static item => item is not null) : (GuestOsFeatures is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GuestOsFeatures), static item => item is not null))))) && (SkipOsAdaptation == true || ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<char> ? (object?)GuestOsFeatures is not string || !string.IsNullOrWhiteSpace(GuestOsFeatures?.ToString()) : ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GuestOsFeatures, static item => item is not null) : (GuestOsFeatures is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GuestOsFeatures), static item => item is not null))))) && (!(SkipOsAdaptation == true)))
+        if ((!string.IsNullOrWhiteSpace(AdaptationModifiers) || !string.IsNullOrWhiteSpace(BootConversion) || Generalize == true || !string.IsNullOrWhiteSpace(LicenseType) || !string.IsNullOrWhiteSpace(RootfsUuid) || SkipOsAdaptation == true || ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<char> ? (object?)GuestOsFeatures is not string || !string.IsNullOrWhiteSpace(GuestOsFeatures?.ToString()) : ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)GuestOsFeatures, static item => item is not null) : (GuestOsFeatures is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GuestOsFeatures), static item => item is not null))))) && (SkipOsAdaptation == true || ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<char> ? (object?)GuestOsFeatures is not string || !string.IsNullOrWhiteSpace(GuestOsFeatures?.ToString()) : ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)GuestOsFeatures, static item => item is not null) : (GuestOsFeatures is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GuestOsFeatures), static item => item is not null))))) && (!(SkipOsAdaptation == true)))
         {
             yield return new ValidationResult("SkipOsAdaptation must be specified when other arguments in this group are specified.", [nameof(SkipOsAdaptation)]);
         }

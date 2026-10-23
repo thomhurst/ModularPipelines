@@ -11,8 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -99,7 +99,7 @@ public record GcloudHealthcareConsentStoresEvaluateUserConsentsOptions : GcloudO
     /// The requested view of information provided in the response (BASIC or FULL). RESPONSE_VIEW must be one of: basic, full, response-view-unspecified.
     /// </summary>
     [CliOption("--response-view", Format = OptionFormat.EqualsSeparated)]
-    public GcloudHealthcareConsentStoresEvaluateUserConsentsResponseView? ResponseView { get; set; }
+    public string? ResponseView { get; set; }
 
     /// <summary>
     /// ConsentStore resource - Cloud Healthcare API consent store where the requested data is stored. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument consent_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the consentStore or fully qualified identifier for the consentStore. To set the consent_store attribute: ▸ provide the argument consent_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.

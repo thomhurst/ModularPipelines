@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
@@ -126,15 +127,15 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions, IValidatable
     public IEnumerable<string>? AuxiliaryVersions
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AuxiliaryVersionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __AuxiliaryVersionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __AuxiliaryVersionsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -142,9 +143,9 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions, IValidatable
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -160,15 +161,15 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions, IValidatable
     public IEnumerable<string>? ConsumerSubnetworks
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ConsumerSubnetworksSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __ConsumerSubnetworksSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __ConsumerSubnetworksSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -176,9 +177,9 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions, IValidatable
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -200,7 +201,7 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions, IValidatable
     public IReadOnlyList<KeyValue>? HiveMetastoreConfigs
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
     }
 
     /// <summary>
@@ -302,15 +303,15 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions, IValidatable
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((((object?)AuxiliaryVersions is global::System.Collections.Generic.IEnumerable<char> ? (object?)AuxiliaryVersions is not string || !string.IsNullOrWhiteSpace(AuxiliaryVersions?.ToString()) : ((object?)AuxiliaryVersions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AuxiliaryVersions, static item => item is not null) : (AuxiliaryVersions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AuxiliaryVersions), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AuxiliaryVersionsFromFile) ? 1 : 0) > 1)
+        if ((((object?)AuxiliaryVersions is global::System.Collections.Generic.IEnumerable<char> ? (object?)AuxiliaryVersions is not string || !string.IsNullOrWhiteSpace(AuxiliaryVersions?.ToString()) : ((object?)AuxiliaryVersions is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)AuxiliaryVersions, static item => item is not null) : (AuxiliaryVersions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AuxiliaryVersions), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AuxiliaryVersionsFromFile) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of AuxiliaryVersions or AuxiliaryVersionsFromFile may be specified.", [nameof(AuxiliaryVersions), nameof(AuxiliaryVersionsFromFile)]);
         }
-        if ((((object?)ConsumerSubnetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)ConsumerSubnetworks is not string || !string.IsNullOrWhiteSpace(ConsumerSubnetworks?.ToString()) : ((object?)ConsumerSubnetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ConsumerSubnetworks, static item => item is not null) : (ConsumerSubnetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ConsumerSubnetworks), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Network) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NetworkConfigFromFile) ? 1 : 0) > 1)
+        if ((((object?)ConsumerSubnetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)ConsumerSubnetworks is not string || !string.IsNullOrWhiteSpace(ConsumerSubnetworks?.ToString()) : ((object?)ConsumerSubnetworks is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)ConsumerSubnetworks, static item => item is not null) : (ConsumerSubnetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ConsumerSubnetworks), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Network) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NetworkConfigFromFile) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ConsumerSubnetworks, Network, or NetworkConfigFromFile may be specified.", [nameof(ConsumerSubnetworks), nameof(Network), nameof(NetworkConfigFromFile)]);
         }
-        if ((((object?)HiveMetastoreConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)HiveMetastoreConfigs is not string || !string.IsNullOrWhiteSpace(HiveMetastoreConfigs?.ToString()) : ((object?)HiveMetastoreConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)HiveMetastoreConfigs, static item => item is not null) : (HiveMetastoreConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HiveMetastoreConfigs), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(HiveMetastoreConfigsFromFile) ? 1 : 0) > 1)
+        if ((((object?)HiveMetastoreConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)HiveMetastoreConfigs is not string || !string.IsNullOrWhiteSpace(HiveMetastoreConfigs?.ToString()) : ((object?)HiveMetastoreConfigs is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)HiveMetastoreConfigs, static item => item is not null) : (HiveMetastoreConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HiveMetastoreConfigs), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(HiveMetastoreConfigsFromFile) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of HiveMetastoreConfigs or HiveMetastoreConfigsFromFile may be specified.", [nameof(HiveMetastoreConfigs), nameof(HiveMetastoreConfigsFromFile)]);
         }
