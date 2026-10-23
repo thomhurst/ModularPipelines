@@ -163,7 +163,7 @@ public class ModuleMetadataTests
         public string Obfuscate(string? input, object? optionsObject) => input ?? string.Empty;
     }
 
-    [ModularPipelines.Attributes.ModuleId("metadata-test-module")]
+    [ModularPipelines.ModuleId("metadata-test-module")]
     private sealed class IdentifiedModule : Module<int>
     {
         protected internal override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
