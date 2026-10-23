@@ -12,24 +12,30 @@ namespace ModularPipelines.Console;
 /// Coordinates immediate flushing of module output with FIFO ordering and synchronization.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal sealed class OutputCoordinator : IOutputCoordinator
+internal sealed class OutputCoordinator(
+    IBuildSystemFormatterProvider formatterProvider,
+    ILoggerFactory loggerFactory,
+    IServiceProvider serviceProvider,
+    ISpectreConsoleLoggerControl loggerControl,
+    INonSpectreLoggerFactory nonSpectreLoggerFactory) : IOutputCoordinator
 {
-    private readonly IBuildSystemFormatterProvider _formatterProvider;
-    private readonly ILoggerFactory _loggerFactory;
-    private readonly IServiceProvider _serviceProvider;
-    private readonly ILogger _logger;
-    private readonly TextWriter _console;
-    private readonly ISpectreConsoleLoggerControl _loggerControl;
-    private readonly INonSpectreLoggerFactory _nonSpectreLoggerFactory;
+    private readonly IBuildSystemFormatterProvider _formatterProvider = formatterProvider ?? throw new ArgumentNullException(nameof(formatterProvider));
+    private readonly ILoggerFactory _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+    private readonly IServiceProvider _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+    private readonly ILogger _logger = loggerFactory.CreateLogger<OutputCoordinator>();
+    private readonly TextWriter _console = ConsoleCoordinator.GetOriginalOutput();
+    private readonly ISpectreConsoleLoggerControl _loggerControl = loggerControl ?? throw new ArgumentNullException(nameof(loggerControl));
+    private readonly INonSpectreLoggerFactory _nonSpectreLoggerFactory = nonSpectreLoggerFactory
+                                   ?? throw new ArgumentNullException(nameof(nonSpectreLoggerFactory));
 
-    private readonly object _queueLock = new();
+    private readonly Lock _queueLock = new();
     private readonly Queue<PendingFlush> _pendingQueue = new();
     private readonly SemaphoreSlim _writeLock = new(1, 1);
 
     // Separate lock for deferred output operations to reduce contention
     // with immediate flush operations that use _queueLock
-    private readonly object _deferredLock = new();
-    private readonly List<DeferredModuleOutput> _deferredOutputs = new();
+    private readonly Lock _deferredLock = new();
+    private readonly List<DeferredModuleOutput> _deferredOutputs = [];
 
     private IProgressController _progressController = NoOpProgressController.Instance;
     private bool _isProcessingQueue;
@@ -41,23 +47,6 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         Type ModuleType,
         DateTimeOffset CompletedAt
     );
-
-    public OutputCoordinator(
-        IBuildSystemFormatterProvider formatterProvider,
-        ILoggerFactory loggerFactory,
-        IServiceProvider serviceProvider,
-        ISpectreConsoleLoggerControl loggerControl,
-        INonSpectreLoggerFactory nonSpectreLoggerFactory)
-    {
-        _formatterProvider = formatterProvider ?? throw new ArgumentNullException(nameof(formatterProvider));
-        _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
-        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-        _loggerControl = loggerControl ?? throw new ArgumentNullException(nameof(loggerControl));
-        _nonSpectreLoggerFactory = nonSpectreLoggerFactory
-                                   ?? throw new ArgumentNullException(nameof(nonSpectreLoggerFactory));
-        _logger = loggerFactory.CreateLogger<OutputCoordinator>();
-        _console = System.Console.Out;
-    }
 
     /// <inheritdoc />
     public void SetProgressController(IProgressController controller)
@@ -134,11 +123,10 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             }
 
             // Order by completion time to maintain consistent output ordering
-            toFlush = _deferredOutputs
+            toFlush = [.. _deferredOutputs
                 // Teardown may rediscover a buffer already scheduled at module completion.
                 .DistinctBy(output => output.Buffer, ReferenceEqualityComparer.Instance)
-                .OrderBy(x => x.CompletedAt)
-                .ToList();
+                .OrderBy(x => x.CompletedAt)];
             _deferredOutputs.Clear();
         }
 
@@ -501,24 +489,17 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             inner.Log(logLevel, eventId, state, exception, formatter);
     }
 
-    private sealed class PendingFlush
+    private sealed class PendingFlush(
+        IModuleOutputBuffer buffer,
+        OutputFlushKind flushKind,
+        CancellationToken cancellationToken)
     {
-        public IModuleOutputBuffer Buffer { get; }
+        public IModuleOutputBuffer Buffer { get; } = buffer;
 
-        public CancellationToken CancellationToken { get; }
+        public CancellationToken CancellationToken { get; } = cancellationToken;
 
-        public OutputFlushKind FlushKind { get; }
+        public OutputFlushKind FlushKind { get; } = flushKind;
 
         public TaskCompletionSource CompletionSource { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
-
-        public PendingFlush(
-            IModuleOutputBuffer buffer,
-            OutputFlushKind flushKind,
-            CancellationToken cancellationToken)
-        {
-            Buffer = buffer;
-            FlushKind = flushKind;
-            CancellationToken = cancellationToken;
-        }
     }
 }

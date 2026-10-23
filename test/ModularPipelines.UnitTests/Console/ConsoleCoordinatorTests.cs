@@ -21,6 +21,262 @@ namespace ModularPipelines.UnitTests.Console;
 public class ConsoleCoordinatorTests
 {
     [Test]
+    [Arguments(false, false, false)]
+    [Arguments(true, false, false)]
+    [Arguments(false, false, true)]
+    [Arguments(true, false, true)]
+    [Arguments(false, true, false)]
+    [Arguments(true, true, false)]
+    [Arguments(false, true, true)]
+    [Arguments(true, true, true)]
+    public async Task OverlappingCoordinators_RestoreOnlyLiveWriters(
+        bool uninstallFirst, bool firstScoped, bool secondScoped)
+    {
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var originalAnsi = AnsiConsole.Console;
+        var first = CreateCoordinator(Mock.Of<IOutputCoordinator>(), ansiConsole: CreateAnsiConsole(firstScoped));
+        var second = CreateCoordinator(Mock.Of<IOutputCoordinator>(), ansiConsole: CreateAnsiConsole(secondScoped));
+
+        try
+        {
+            first.Install();
+            var firstOut = System.Console.Out;
+            var firstError = System.Console.Error;
+            var firstAnsi = AnsiConsole.Console;
+            second.Install();
+            var secondOut = System.Console.Out;
+            var secondError = System.Console.Error;
+            var secondAnsi = AnsiConsole.Console;
+
+            await (uninstallFirst ? first : second).DisposeAsync();
+
+            await Assert.That(System.Console.Out).IsSameReferenceAs(uninstallFirst ? secondOut : firstOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(uninstallFirst ? secondError : firstError);
+            var expectedAnsi = uninstallFirst
+                ? (secondScoped ? originalAnsi : secondAnsi)
+                : (firstScoped ? originalAnsi : firstAnsi);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(expectedAnsi);
+
+            await (uninstallFirst ? second : first).DisposeAsync();
+
+            await Assert.That(System.Console.Out).IsSameReferenceAs(originalOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(originalError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(originalAnsi);
+        }
+        finally
+        {
+            second.Uninstall();
+            first.Uninstall();
+#pragma warning disable TUnit0055 // Restore process-wide streams even when the regression fails.
+            System.Console.SetOut(originalOut);
+            System.Console.SetError(originalError);
+#pragma warning restore TUnit0055
+            AnsiConsole.Console = originalAnsi;
+        }
+    }
+
+    [Test]
+    public async Task LaterInstallation_WritesToHostStreamsAfterFirstOwnerUninstalls()
+    {
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        using var output = new StringWriter();
+        using var error = new StringWriter();
+        var first = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+        var second = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+        var third = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+
+        try
+        {
+#pragma warning disable TUnit0055 // Globally non-parallel test restores both streams in finally.
+            System.Console.SetOut(output);
+            System.Console.SetError(error);
+#pragma warning restore TUnit0055
+            var hostOut = System.Console.Out;
+            var hostError = System.Console.Error;
+            first.Install();
+            first.EnableOutputBuffering();
+            second.Install();
+            second.EnableOutputBuffering();
+            first.Uninstall();
+            third.Install();
+
+            System.Console.WriteLine("host stdout");
+            System.Console.Error.WriteLine("host stderr");
+            AnsiConsole.Write(new Text("host spectre"));
+
+            await Assert.That(output.ToString()).Contains("host stdout");
+            await Assert.That(output.ToString()).Contains("host spectre");
+            await Assert.That(error.ToString()).Contains("host stderr");
+            await Assert.That(second.GetUnattributedBuffer().HasOutput).IsFalse();
+
+            // Also exercise removal of a middle owner and repeated uninstall.
+            second.Uninstall();
+            second.Uninstall();
+            third.Uninstall();
+            await Assert.That(System.Console.Out).IsSameReferenceAs(hostOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(hostError);
+        }
+        finally
+        {
+            third.Uninstall();
+            second.Uninstall();
+            first.Uninstall();
+#pragma warning disable TUnit0055 // Restore the host's process-wide streams.
+            System.Console.SetOut(originalOut);
+            System.Console.SetError(originalError);
+#pragma warning restore TUnit0055
+        }
+    }
+
+    [Test]
+    public async Task FailedInstallation_PreservesActiveOwnerAndCanBeRetried()
+    {
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var originalAnsi = AnsiConsole.Console;
+        var loggerFactory = new Mock<ILoggerFactory>();
+        loggerFactory.Setup(factory => factory.CreateLogger(OutputLoggerCategories.Pipeline))
+            .Throws(new InvalidOperationException("logger installation failed"));
+        var first = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+        var second = CreateCoordinator(Mock.Of<IOutputCoordinator>(), loggerFactory: loggerFactory.Object);
+
+        try
+        {
+            first.Install();
+            var activeOut = System.Console.Out;
+            var activeError = System.Console.Error;
+            var activeAnsi = AnsiConsole.Console;
+
+            await Assert.That(() => second.Install()).Throws<InvalidOperationException>();
+
+            await Assert.That(System.Console.Out).IsSameReferenceAs(activeOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(activeError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(activeAnsi);
+
+            loggerFactory.Setup(factory => factory.CreateLogger(OutputLoggerCategories.Pipeline))
+                .Returns(NullLogger.Instance);
+            second.Install();
+            first.Uninstall();
+            second.Uninstall();
+
+            await Assert.That(System.Console.Out).IsSameReferenceAs(originalOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(originalError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(originalAnsi);
+        }
+        finally
+        {
+            second.Uninstall();
+            first.Uninstall();
+        }
+    }
+
+    [Test]
+    public async Task FailedDispose_ReleasesConsoleOwnership()
+    {
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var originalAnsi = AnsiConsole.Console;
+        var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
+        formatterProvider.Setup(provider => provider.GetFormatter())
+            .Throws(new InvalidOperationException("flush failed"));
+        var first = CreateCoordinator(
+            Mock.Of<IOutputCoordinator>(), formatterProvider: formatterProvider.Object);
+        var second = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+
+        try
+        {
+            first.Install();
+            second.Install();
+            var activeOut = System.Console.Out;
+            var activeError = System.Console.Error;
+            var activeAnsi = AnsiConsole.Console;
+
+            await Assert.That(async () => await first.DisposeAsync()).Throws<InvalidOperationException>();
+
+            await Assert.That(System.Console.Out).IsSameReferenceAs(activeOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(activeError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(activeAnsi);
+            second.Uninstall();
+
+            await Assert.That(System.Console.Out).IsSameReferenceAs(originalOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(originalError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(originalAnsi);
+        }
+        finally
+        {
+            second.Uninstall();
+            first.Uninstall();
+        }
+    }
+
+    [Test]
+    public async Task ConcurrentInstallAndUninstall_RestoresHostConsole()
+    {
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var originalAnsi = AnsiConsole.Console;
+        var coordinators = Enumerable.Range(0, 8)
+            .Select(_ => CreateCoordinator(Mock.Of<IOutputCoordinator>()))
+            .ToArray();
+
+        try
+        {
+            await Task.WhenAll(coordinators.Select(coordinator => Task.Run(coordinator.Install)));
+            await Task.WhenAll(coordinators.Select(coordinator => Task.Run(coordinator.Uninstall)));
+
+            await Assert.That(System.Console.Out).IsSameReferenceAs(originalOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(originalError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(originalAnsi);
+        }
+        finally
+        {
+            foreach (var coordinator in coordinators)
+            {
+                coordinator.Uninstall();
+            }
+        }
+    }
+
+    [Test]
+    public async Task OverlappingOutputCoordinator_FlushesToHostWriter()
+    {
+        var originalOut = System.Console.Out;
+        var first = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(output => output.ModuleType).Returns(typeof(void));
+        buffer.Setup(output => output.FlushToAsync(
+                originalOut, It.IsAny<IBuildSystemFormatter>(), It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(), OutputFlushKind.Complete,
+                It.IsAny<IReadOnlyList<ILogger>?>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        try
+        {
+            first.Install();
+            var output = new OutputCoordinator(
+                Mock.Of<IBuildSystemFormatterProvider>(),
+                NullLoggerFactory.Instance,
+                Mock.Of<IServiceProvider>(),
+                Mock.Of<ISpectreConsoleLoggerControl>(),
+                Mock.Of<INonSpectreLoggerFactory>());
+            first.Uninstall();
+
+            await output.EnqueueAndFlushAsync(buffer.Object, OutputFlushKind.Complete);
+
+            buffer.Verify(output => output.FlushToAsync(
+                originalOut, It.IsAny<IBuildSystemFormatter>(), It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(), OutputFlushKind.Complete,
+                It.IsAny<IReadOnlyList<ILogger>?>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+        finally
+        {
+            first.Uninstall();
+        }
+    }
+
+    [Test]
     public async Task DisabledProgress_CompletesWithoutWaitingForCancellation()
     {
         var outputCoordinator = new Mock<IOutputCoordinator>();
@@ -356,7 +612,9 @@ public class ConsoleCoordinatorTests
     private static ConsoleCoordinator CreateCoordinator(
         IOutputCoordinator outputCoordinator,
         PipelineOptions? options = null,
-        ILoggerFactory? loggerFactory = null)
+        ILoggerFactory? loggerFactory = null,
+        IAnsiConsole? ansiConsole = null,
+        IBuildSystemFormatterProvider? formatterProvider = null)
     {
         var secretProvider = new Mock<ISecretProvider>();
         secretProvider.SetupGet(provider => provider.Secrets).Returns([]);
@@ -380,7 +638,7 @@ public class ConsoleCoordinatorTests
             .Returns(new ValueTask<IDisposable?>(Mock.Of<IDisposable>()));
 
         return new ConsoleCoordinator(
-            Mock.Of<IBuildSystemFormatterProvider>(),
+            formatterProvider ?? Mock.Of<IBuildSystemFormatterProvider>(),
             Mock.Of<IResultsPrinter>(),
             secretObfuscator.Object,
             secretProvider.Object,
@@ -391,6 +649,10 @@ public class ConsoleCoordinatorTests
             outputCoordinator,
             loggerControl.Object,
             nonSpectreLoggerFactory.Object,
-            DelegatingAnsiConsole.Instance);
+            ansiConsole ?? DelegatingAnsiConsole.Instance);
     }
+
+    private static IAnsiConsole CreateAnsiConsole(bool scoped) => scoped
+        ? AnsiConsole.Create(new AnsiConsoleSettings { Out = new AnsiConsoleOutput(TextWriter.Null) })
+        : DelegatingAnsiConsole.Instance;
 }
