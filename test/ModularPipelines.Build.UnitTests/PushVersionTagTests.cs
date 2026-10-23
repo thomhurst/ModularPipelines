@@ -6,7 +6,7 @@ using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
-using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Testing;

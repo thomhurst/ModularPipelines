@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ModularPipelines.Git;
-using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -58,7 +57,7 @@ public class GitInformationTests : TestBase
         pipelineContext.SetupGet(context => context.Shell).Returns(shell.Object);
         var runner = new GitCommandRunner(
             pipelineContext.Object,
-            Mock.Of<ILogger<GitCommandRunner>>());
+            Microsoft.Extensions.Logging.Abstractions.NullLogger<GitCommandRunner>.Instance);
 
         _ = await runner.RunCommandsOrNullAsync(
             new CommandExecutionOptions { ThrowOnNonZeroExitCode = false },
@@ -467,7 +466,7 @@ public class GitInformationTests : TestBase
         pipelineContext.SetupGet(context => context.Shell).Returns(shell.Object);
         var runner = new GitCommandRunner(
             pipelineContext.Object,
-            Mock.Of<ILogger<GitCommandRunner>>());
+            Microsoft.Extensions.Logging.Abstractions.NullLogger<GitCommandRunner>.Instance);
 
         var output = await runner.RunCommandsAsync(
             new CommandExecutionOptions { MaxCapturedOutputLength = 0 },

@@ -1,9 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines;
-using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 
-namespace ModularPipelines.Git.Attributes;
+namespace ModularPipelines.Git;
 
 /// <summary>
 /// Runs a module when a path changed relative to a Git merge base.

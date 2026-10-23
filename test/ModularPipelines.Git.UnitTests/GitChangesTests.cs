@@ -1,8 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using ModularPipelines.Git.Attributes;
-using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git.UnitTests;

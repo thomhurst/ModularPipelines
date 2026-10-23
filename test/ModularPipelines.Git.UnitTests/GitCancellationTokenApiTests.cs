@@ -10,7 +10,7 @@ public class GitCancellationTokenApiTests
 
         await Assert.That(method).IsNotNull();
         await Assert.That(method!.ReturnType)
-            .IsEqualTo(typeof(Task<ModularPipelines.Git.Models.GitVersionInformation>));
+            .IsEqualTo(typeof(Task<ModularPipelines.Git.GitVersionInformation>));
         await Assert.That(method.GetParameters().Single().ParameterType)
             .IsEqualTo(typeof(CancellationToken));
     }

@@ -750,6 +750,23 @@ a mismatched major version throws `PluginVersionMismatchException`.
 
 ## Run Conditions and Requirements
 
+### Git package namespaces and implementation types
+
+Git repository models, branch attributes, and registration extensions now use
+`ModularPipelines.Git`. Replace imports of `ModularPipelines.Git.Models`,
+`ModularPipelines.Git.Attributes`, and `ModularPipelines.Git.Extensions` with that namespace.
+Command options remain in `ModularPipelines.Git.Options`.
+
+`GitCommands`, `GitCommandRunner`, `GitCommitMapper`, and `GitCommandService` are internal.
+Register the integration with `RegisterGitContext` and consume or replace its public interfaces
+(`IGitCommands`, `IGitCommandRunner`, and `IGitCommitMapper`) instead of constructing or
+subclassing implementation types.
+
+`RunIfBranch` and `RunIfBranchStartsWith` remain OR alternatives sharing one group.
+`RunOnlyOnBranch` and `RunOnlyIfBranchStartsWith` remain independent AND requirements;
+use them when a branch restriction must apply even if another run alternative matches.
+Branch prefixes now use case-sensitive ordinal matching instead of culture-sensitive matching.
+
 ### Run conditions and skip decisions
 
 Use the condition attribute that expresses the intended logic:

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 
-namespace ModularPipelines.Git.Attributes;
+namespace ModularPipelines.Git;
 
 /// <summary>
 /// Helper class for branch condition checking logic used by branch-related attributes.
@@ -14,12 +14,26 @@ internal static class BranchConditionHelper
     internal static async Task<bool> CheckBranchMatches(
         IPipelineContext pipelineContext,
         string expectedBranchName,
-        string logMessageFormat,
+        bool skip,
         CancellationToken cancellationToken = default)
     {
         var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false);
         var currentBranchName = repositoryInfo?.BranchName;
-        pipelineContext.Logger.LogDebug(logMessageFormat, GetDisplayBranchName(currentBranchName), expectedBranchName);
+        if (pipelineContext.Logger.IsEnabled(LogLevel.Debug))
+        {
+            if (skip)
+            {
+                pipelineContext.Logger.LogDebug(
+                    "Current Branch: {CurrentBranch} | Will skip on: {SkipBranch}",
+                    GetDisplayBranchName(currentBranchName), expectedBranchName);
+            }
+            else
+            {
+                pipelineContext.Logger.LogDebug(
+                    "Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}",
+                    GetDisplayBranchName(currentBranchName), expectedBranchName);
+            }
+        }
         return currentBranchName == expectedBranchName;
     }
 
@@ -29,13 +43,17 @@ internal static class BranchConditionHelper
     internal static async Task<bool> CheckBranchStartsWith(
         IPipelineContext pipelineContext,
         string expectedPrefix,
-        string logMessageFormat,
         CancellationToken cancellationToken = default)
     {
         var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false);
         var currentBranchName = repositoryInfo?.BranchName;
-        pipelineContext.Logger.LogDebug(logMessageFormat, GetDisplayBranchName(currentBranchName), expectedPrefix);
-        return currentBranchName?.StartsWith(expectedPrefix) ?? false;
+        if (pipelineContext.Logger.IsEnabled(LogLevel.Debug))
+        {
+            pipelineContext.Logger.LogDebug(
+                "Current Branch: {CurrentBranch} | Can run if starts with: {ExpectedPrefix}",
+                GetDisplayBranchName(currentBranchName), expectedPrefix);
+        }
+        return currentBranchName?.StartsWith(expectedPrefix, StringComparison.Ordinal) ?? false;
     }
 
     private static string GetDisplayBranchName(string? branchName)

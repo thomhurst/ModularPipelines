@@ -1,4 +1,3 @@
-using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 
 namespace ModularPipelines.Git;

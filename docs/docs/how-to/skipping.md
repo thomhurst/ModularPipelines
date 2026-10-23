@@ -134,7 +134,7 @@ For example, this module skips cleanup for either CI builds or non-main branches
 `RunIfBranch` attribute is not planning-safe, so its Git lookup waits until execution:
 
 ```csharp
-using ModularPipelines.Git.Attributes;
+using ModularPipelines.Git;
 
 [RunIfBranch("main")]
 public class CleanupModule : Module<CommandResult>

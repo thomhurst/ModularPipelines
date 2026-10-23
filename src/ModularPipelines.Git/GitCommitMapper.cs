@@ -1,9 +1,8 @@
 using System.Globalization;
-using ModularPipelines.Git.Models;
 
 namespace ModularPipelines.Git;
 
-public class GitCommitMapper : IGitCommitMapper
+internal sealed class GitCommitMapper : IGitCommitMapper
 {
     private const int ExpectedFieldCount = 10;
 
